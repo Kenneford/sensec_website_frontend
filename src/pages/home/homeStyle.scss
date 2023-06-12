@@ -1,0 +1,19 @@
+@use "../../utilities/colors";
+@use "../../utilities/sizes";
+
+.home {
+  width: sizes.$container_Width_fit;
+  background-color: colors.$backGroundColor;
+  min-height: 100vh;
+  color: #fff;
+  overflow: hidden;
+  // opacity: 0.95;
+  // @media screen and (max-width: 1024px) {
+  // }
+  // @media screen and (max-width: 768px) {
+  //   background-color: #ff7b00;
+  // }
+  // @media screen and (max-width: 460px) {
+  //   background-color: #4507bf;
+  // }
+}

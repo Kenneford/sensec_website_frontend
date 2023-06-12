@@ -1,0 +1,193 @@
+.h1 {
+  margin-bottom: 2rem;
+}
+.adminStudentsContent {
+  background-color: #fff;
+  .dashBoardContent {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #292929;
+    &:nth-child(1) {
+      button {
+        border-radius: 0.4rem;
+        font-size: 1.5rem;
+        transition: 0.4s ease;
+        border: 1px solid transparent;
+        cursor: pointer;
+        &:hover {
+          color: #383838;
+          background-color: #cccc;
+          border: 1px solid #02b202;
+        }
+      }
+    }
+    .students {
+      padding: 1.5rem 1rem;
+      border-radius: 0.4rem;
+      color: #fff;
+      cursor: pointer;
+      &:nth-child(1) {
+        background-color: #292929;
+      }
+      cursor: pointer;
+      &:nth-child(2) {
+        background-color: green;
+      }
+      &:nth-child(3) {
+        background-color: #005780;
+      }
+      &:nth-child(4) {
+        background-color: #7a0080;
+      }
+      &:nth-child(5) {
+        background-color: orange;
+        .titleFlex {
+          h3 {
+            padding-bottom: unset;
+          }
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 2rem;
+        }
+        .pending {
+          padding: 0.5rem;
+          border-radius: 0.3rem;
+          transition: 0.4s ease;
+          &:hover {
+            background-color: #fff;
+            color: #292929;
+          }
+        }
+      }
+      &:nth-child(6) {
+        background-color: #4f088d;
+      }
+      &:nth-child(7) {
+        background-color: #8d0818;
+      }
+      &:nth-child(8) {
+        background-color: #4e6802;
+      }
+      h3 {
+        padding-bottom: 2rem;
+      }
+      .studentsInfo {
+        display: flex;
+        justify-content: space-between;
+        .studentsInfoIcons {
+          padding-bottom: 1.5rem;
+          position: relative;
+          display: flex;
+          align-items: center;
+          .tvIcon {
+            position: absolute;
+            left: 0.8rem;
+            top: -0.6rem;
+            font-size: 2.5rem;
+          }
+        }
+        .totalStudents {
+          font-size: 1.5rem;
+        }
+      }
+      .pending {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+          font-weight: 400;
+        }
+        .pendingStudents {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+  .noticeBox {
+    padding: 2rem;
+    .noticeCont {
+      border-top: 1px solid #292929;
+      .h3Cont {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h3 {
+          position: absolute;
+          top: -0.8rem;
+          background-color: #fff;
+          padding: 0 1rem;
+          // transform: translate(-50%);
+        }
+      }
+      .inputFields {
+        form {
+          .imageUpload {
+            display: flex;
+            // margin-left: 16.2rem;
+            justify-content: center;
+            align-items: center;
+            padding-top: 2rem;
+            img {
+              width: 32.5rem;
+              height: 17rem;
+              border-radius: 0.4rem;
+            }
+          }
+          .content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .title {
+              position: relative;
+              width: 50%;
+              margin-top: 2rem;
+              span {
+                position: absolute;
+                top: -0.5rem;
+                left: 0.5rem;
+                background-color: #fff;
+                padding: 0 0.5rem;
+                font-weight: 500;
+              }
+              .titleText {
+                border: 1px solid #292929;
+                padding: 0.5rem;
+                width: 100%;
+                border-radius: 0.4rem;
+                font-size: 1.5rem;
+              }
+              .textArea {
+                width: 100%;
+                height: 20rem;
+                border: 1px solid #292929;
+                padding: 1rem;
+                resize: none;
+                border-radius: 0.4rem;
+                font-size: 1.5rem;
+                font-family: "Montserrat", "roboto", "poppins", "sans-serif";
+              }
+            }
+            .noticeBtn {
+              padding: 1rem;
+              font-size: 1.5rem;
+              border-radius: 0.4rem;
+              margin: 1.5rem 0;
+              background-color: green;
+              color: #fff;
+              transition: 0.4s ease;
+              &:hover {
+                background-color: rgb(6, 168, 6);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+.user {
+  position: absolute;
+  right: 2.5rem;
+  display: flex;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 1.2rem;
+  // padding-left: 10rem;
+  .userActions {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+    button {
+      font-size: 1.2rem;
+      background-color: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.5rem;
+      transition: 0.5s ease;
+      &:nth-child(1) {
+        color: #0aca0a;
+        // border: 2px solid #0aca0a;
+        &:hover {
+          // background-color: #0aca0a;
+          color: #079a07;
+        }
+      }
+      &:nth-child(2) {
+        color: red;
+        background-color: #fff;
+        height: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.8rem;
+        padding: 0.2rem 0.5rem;
+        // border: 2px solid red;
+        &:hover {
+          background-color: red;
+          color: #fff;
+        }
+      }
+    }
+    .loginOptions {
+      margin-top: 1rem;
+      position: fixed;
+      top: 9rem;
+      right: 2rem;
+      height: fit-content;
+      width: 13rem;
+      flex-direction: column;
+      gap: 0;
+      display: block;
+      border-radius: 0.4rem;
+      // position: absolute;
+      // width: 12rem;
+      // margin-top: 2rem;
+      // z-index: 1;
+      // background-color: #292929;
+      .loginWrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+        background-color: #292929;
+        color: #fff;
+        transition: 0.4s ease;
+        cursor: pointer;
+        animation: animateNavItems 400ms linear forwards;
+        transform-origin: top right;
+        opacity: 0;
+        padding: 1rem;
+        .loginIcon {
+          color: #0aca0a;
+        }
+        &:hover {
+          background-color: #323232;
+        }
+        &:nth-child(1) {
+          animation-delay: 200ms;
+          border-radius: 0.4rem 0.4rem 0 0;
+          border-bottom: 1px solid #ccc;
+        }
+        &:nth-child(2) {
+          animation-delay: 300ms;
+          border-bottom: 1px solid #ccc;
+        }
+        &:nth-child(3) {
+          animation-delay: 400ms;
+          border-radius: 0 0 0.4rem 0.4rem;
+        }
+        p {
+          // padding: 1rem;
+        }
+      }
+    }
+  }
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    .icon {
+      img {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}

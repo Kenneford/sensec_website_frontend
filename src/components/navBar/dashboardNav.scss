@@ -1,0 +1,741 @@
+@use "../../utilities/colors";
+@use "../../utilities/sizes";
+
+.dashboardNavCont {
+  background-color: colors.$primaryTextColor;
+  color: black;
+  position: fixed;
+  top: 0;
+  z-index: 11;
+  width: 100vw;
+  height: 5rem;
+  display: flex;
+  width: sizes.$container_Width_fit;
+  // background-color: aqua;
+  .logoFlex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: inherit;
+    #openMenuBtn {
+      display: none;
+      color: #fff;
+    }
+    .logoText {
+      padding: 1rem 0;
+      display: flex;
+      //   padding-left: 3rem;
+      //   flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+      p {
+        font-size: 2rem;
+        font-weight: 700;
+        color: colors.$primaryColor;
+        span {
+          color: colors.$secondaryColor;
+        }
+      }
+    }
+  }
+  .navWrap {
+    position: relative;
+    // width: sizes.$container_Width_lg;
+    // margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .navMenu {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    li {
+      position: relative;
+      &:hover {
+        .courseItems,
+        .aboutItems,
+        .contactItems {
+          display: block;
+        }
+      }
+    }
+    li a {
+      color: colors.$navBarColor;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding-bottom: 1rem;
+      transition: 0.3s ease-in;
+    }
+    .active {
+      color: colors.$secondaryColor;
+      border-bottom: 1px solid colors.$primaryColor;
+    }
+    li a:hover {
+      color: colors.$primaryColor;
+      font-weight: 400;
+      font-weight: 600;
+    }
+  }
+  .user {
+    display: flex;
+    gap: 0.5rem;
+    .userActions {
+      display: flex;
+      gap: 0.5rem;
+      button {
+        font-size: 1.2rem;
+        background-color: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        transition: 0.5s ease;
+        color: red;
+        &:hover {
+          background-color: red;
+          color: #fff;
+        }
+      }
+    }
+    .userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      .icon {
+        background-color: #cccc;
+        padding: 0.5rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    height: 100px;
+    position: relative;
+    margin-bottom: -10rem;
+    .logoFlex {
+      justify-content: space-between;
+      padding: 1% 5%;
+      .logoText {
+        flex-direction: row;
+        gap: 1rem;
+      }
+      #openMenuBtn {
+        display: block;
+        color: #000;
+        background-color: transparent;
+      }
+    }
+    .navWrap {
+      width: sizes.$container_Width_md;
+      .user {
+        display: none;
+      }
+    }
+    .navMenu {
+      position: fixed;
+      top: 5rem;
+      right: 5%;
+      height: fit-content;
+      width: 18rem;
+      flex-direction: column;
+      gap: 0;
+      display: none;
+      li {
+        width: 100%;
+        height: 5.8rem;
+        &:hover {
+          .courseItems,
+          .aboutItems,
+          .contactItems {
+            display: none;
+          }
+        }
+      }
+      li a {
+        background-color: #079a07;
+        box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        transition: 0.4s ease;
+        padding-top: 1rem;
+        color: yellow;
+      }
+      .active {
+        color: colors.$secondaryColor;
+        border-bottom: 1px solid colors.$primaryColor;
+      }
+      li a:hover {
+        color: colors.$primaryTextColor;
+        background-color: #034f03;
+        font-weight: 400;
+        font-weight: 600;
+      }
+    }
+
+    .navMenu1 {
+      margin-top: 1rem;
+      position: fixed;
+      top: 5.3rem;
+      right: 5%;
+      height: fit-content;
+      width: 18rem;
+      flex-direction: column;
+      gap: 0;
+      display: block;
+      li {
+        width: 100%;
+        height: 5.8rem;
+        animation: animateNavItems 400ms linear forwards;
+        transform-origin: top right;
+        opacity: 0;
+        &:hover {
+          .courseItems,
+          .aboutItems,
+          .contactItems {
+            display: none;
+          }
+        }
+        &:nth-child(2) {
+          animation-delay: 200ms;
+        }
+        &:nth-child(3) {
+          animation-delay: 300ms;
+        }
+        &:nth-child(4) {
+          animation-delay: 400ms;
+        }
+      }
+      li a {
+        background-color: #292929;
+        box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        transition: 0.4s ease;
+        padding-top: 1rem;
+        color: #fff;
+      }
+      .active {
+        color: colors.$secondaryColor;
+        border-bottom: 1px solid colors.$primaryColor;
+      }
+      li a:hover {
+        color: colors.$primaryTextColor;
+        background-color: #323232;
+        font-weight: 400;
+        font-weight: 600;
+      }
+    }
+  }
+  @keyframes animateNavItems {
+    0% {
+      transform: rotateZ(-90deg) rotateX(90deg) scale(0.1);
+    }
+    100% {
+      transform: rotateZ(0) rotateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+}
+.dashboardNavCont.active {
+  background-color: colors.$primaryTextColor;
+  color: black;
+  position: fixed;
+  top: 0;
+  z-index: 11;
+  width: 100vw;
+  height: 5rem;
+  display: flex;
+  width: sizes.$container_Width_fit;
+  background-color: colors.$navBarColor;
+  border-bottom: 2px solid colors.$secondaryColor;
+  .logoFlex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: inherit;
+    #openMenuBtn {
+      display: none;
+      color: #fff;
+    }
+    .logoText {
+      padding: 1rem 0;
+      display: flex;
+      //   padding-left: 3rem;
+      //   flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+      p {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0aca0a;
+        span {
+          color: yellow;
+        }
+      }
+    }
+  }
+  .navWrap {
+    position: relative;
+    // width: sizes.$container_Width_lg;
+    // margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .navMenu {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    li {
+      position: relative;
+      &:hover {
+        .courseItems,
+        .aboutItems,
+        .contactItems {
+          display: block;
+        }
+      }
+    }
+    li a {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding-bottom: 1rem;
+      transition: 0.3s ease-in;
+    }
+    .active {
+      color: colors.$secondaryColor;
+      border-bottom: 1px solid colors.$primaryColor;
+    }
+    li a:hover {
+      color: colors.$primaryColor;
+      font-weight: 400;
+      font-weight: 600;
+    }
+  }
+  .user {
+    display: flex;
+    gap: 0.5rem;
+    .userActions {
+      display: flex;
+      gap: 0.5rem;
+      button {
+        font-size: 1.2rem;
+        background-color: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        transition: 0.5s ease;
+        color: red;
+        &:hover {
+          background-color: red;
+          color: #fff;
+        }
+      }
+    }
+    .userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      .icon {
+        background-color: #cccc;
+        padding: 0.5rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    height: 100px;
+    position: relative;
+    margin-bottom: -10rem;
+    .logoFlex {
+      justify-content: space-between;
+      padding: 1% 5%;
+      .logoText {
+        flex-direction: row;
+        gap: 1rem;
+      }
+      #openMenuBtn {
+        display: block;
+        color: #000;
+        background-color: transparent;
+      }
+    }
+    .navWrap {
+      width: sizes.$container_Width_md;
+      .user {
+        display: none;
+      }
+    }
+    .navMenu {
+      position: fixed;
+      top: 5rem;
+      right: 5%;
+      height: fit-content;
+      width: 18rem;
+      flex-direction: column;
+      gap: 0;
+      display: none;
+      li {
+        width: 100%;
+        height: 5.8rem;
+        &:hover {
+          .courseItems,
+          .aboutItems,
+          .contactItems {
+            display: none;
+          }
+        }
+      }
+      li a {
+        background-color: #079a07;
+        box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        transition: 0.4s ease;
+        padding-top: 1rem;
+        color: yellow;
+      }
+      .active {
+        color: colors.$secondaryColor;
+        border-bottom: 1px solid colors.$primaryColor;
+      }
+      li a:hover {
+        color: colors.$primaryTextColor;
+        background-color: #034f03;
+        font-weight: 400;
+        font-weight: 600;
+      }
+    }
+
+    .navMenu1 {
+      margin-top: 1rem;
+      position: fixed;
+      top: 5.3rem;
+      right: 5%;
+      height: fit-content;
+      width: 18rem;
+      flex-direction: column;
+      gap: 0;
+      display: block;
+      li {
+        width: 100%;
+        height: 5.8rem;
+        animation: animateNavItems 400ms linear forwards;
+        transform-origin: top right;
+        opacity: 0;
+        &:hover {
+          .courseItems,
+          .aboutItems,
+          .contactItems {
+            display: none;
+          }
+        }
+        &:nth-child(2) {
+          animation-delay: 200ms;
+        }
+        &:nth-child(3) {
+          animation-delay: 300ms;
+        }
+        &:nth-child(4) {
+          animation-delay: 400ms;
+        }
+      }
+      li a {
+        background-color: #292929;
+        box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        transition: 0.4s ease;
+        padding-top: 1rem;
+        color: #fff;
+      }
+      .active {
+        color: colors.$secondaryColor;
+        border-bottom: 1px solid colors.$primaryColor;
+      }
+      li a:hover {
+        color: colors.$primaryTextColor;
+        background-color: #323232;
+        font-weight: 400;
+        font-weight: 600;
+      }
+    }
+  }
+  @keyframes animateNavItems {
+    0% {
+      transform: rotateZ(-90deg) rotateX(90deg) scale(0.1);
+    }
+    100% {
+      transform: rotateZ(0) rotateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+}
+// .dashboardNavCont.active {
+//   // background-color: transparent;
+//   position: fixed;
+//   top: 0;
+//   z-index: 11;
+//   width: 100vw;
+//   height: sizes.$header_height;
+//   background-color: colors.$navBarColor;
+//   border-bottom: 2px solid colors.$secondaryColor;
+//   .logoFlex {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     #openMenuBtn {
+//       display: none;
+//       color: #fff;
+//     }
+//     .logoText {
+//       padding-top: 1rem;
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       img {
+//         width: 3rem;
+//         height: 3rem;
+//       }
+//       p {
+//         font-size: 2rem;
+//         font-weight: 700;
+//         color: #0aca0a;
+//         span {
+//           color: yellow;
+//         }
+//       }
+//     }
+//   }
+//   .navWrap {
+//     width: sizes.$container_Width_lg;
+//     margin: auto;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     a {
+//       color: colors.$primaryTextColor;
+//       padding-bottom: 1rem;
+//       // font-size: 0.9rem;
+//       &:hover {
+//         color: #03b803;
+//       }
+//     }
+//     .user {
+//       position: absolute;
+//       right: 0;
+//       display: flex;
+//       gap: 0.5rem;
+//       padding-left: 10rem;
+//       .userActions {
+//         display: flex;
+//         gap: 0.5rem;
+//         button {
+//           font-size: 1.2rem;
+//           background-color: transparent;
+//           cursor: pointer;
+//           font-weight: 500;
+//           padding: 0.2rem 0.5rem;
+//           border-radius: 0.5rem;
+//           transition: 0.5s ease;
+//           &:nth-child(1) {
+//             color: #56e282;
+//             // border: 2px solid #0aca0a;
+//             &:hover {
+//               // background-color: #0aca0a;
+//               color: #09bb09;
+//             }
+//           }
+//           &:nth-child(2) {
+//             color: #ff3636;
+//             // border: 2px solid red;
+//             &:hover {
+//               // background-color: red;
+//               color: #d72323;
+//             }
+//           }
+//         }
+//       }
+//       .userInfo {
+//         display: flex;
+//         align-items: center;
+//         gap: 0.5rem;
+//         p {
+//           color: #fff;
+//         }
+//         .icon {
+//           background-color: #cccc;
+//           padding: 0.5rem;
+//           border-radius: 50%;
+//           display: flex;
+//           justify-content: center;
+//           align-items: center;
+//           color: #fff;
+//         }
+//       }
+//     }
+//   }
+//   .navMenu {
+//     display: flex;
+//     align-items: center;
+//     gap: 4rem;
+//   }
+//   @media screen and (max-width: 1024px) {
+//     height: 100px;
+//     .logoFlex {
+//       justify-content: space-between;
+//       padding: 1% 5%;
+//       .logoText {
+//         flex-direction: row;
+//         gap: 1rem;
+//       }
+//       #openMenuBtn {
+//         display: block;
+//         color: #fff;
+//         background-color: transparent;
+//       }
+//     }
+//     .navWrap {
+//       width: sizes.$container_Width_md;
+//       .user {
+//         display: none;
+//       }
+//     }
+//     .navMenu {
+//       position: fixed;
+//       top: 5rem;
+//       right: 5%;
+//       height: fit-content;
+//       width: 18rem;
+//       flex-direction: column;
+//       gap: 0;
+//       display: none;
+//       li {
+//         width: 100%;
+//         height: 5.8rem;
+//         &:hover {
+//           .courseItems,
+//           .aboutItems,
+//           .contactItems {
+//             display: none;
+//           }
+//         }
+//       }
+//       li a {
+//         background-color: #079a07;
+//         box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+//         display: grid;
+//         width: 100%;
+//         height: 100%;
+//         place-items: center;
+//         transition: 0.4s ease;
+//         padding-top: 1rem;
+//         color: yellow;
+//       }
+//       .active {
+//         color: colors.$secondaryColor;
+//         border-bottom: 1px solid colors.$primaryColor;
+//       }
+//       li a:hover {
+//         color: colors.$primaryTextColor;
+//         background-color: #034f03;
+//         font-weight: 400;
+//         font-weight: 600;
+//       }
+//     }
+
+//     .navMenu1 {
+//       margin-top: 1rem;
+//       position: fixed;
+//       top: 5rem;
+//       right: 5%;
+//       height: fit-content;
+//       width: 18rem;
+//       flex-direction: column;
+//       gap: 0;
+//       display: block;
+//       li {
+//         width: 100%;
+//         height: 5.8rem;
+//         animation: animateNavItems 400ms linear forwards;
+//         transform-origin: top right;
+//         opacity: 0;
+//         &:hover {
+//           .courseItems,
+//           .aboutItems,
+//           .contactItems {
+//             display: none;
+//           }
+//         }
+//         &:nth-child(2) {
+//           animation-delay: 200ms;
+//         }
+//         &:nth-child(3) {
+//           animation-delay: 300ms;
+//         }
+//         &:nth-child(4) {
+//           animation-delay: 400ms;
+//         }
+//       }
+//       li a {
+//         background-color: #292929;
+//         box-shadow: -4rem 6rem 10rem rgba(0, 0, 0, 0.6);
+//         display: grid;
+//         width: 100%;
+//         height: 100%;
+//         place-items: center;
+//         transition: 0.4s ease;
+//         padding-top: 1rem;
+//         color: #fff;
+//       }
+//       .active {
+//         color: colors.$secondaryColor;
+//         border-bottom: 1px solid colors.$primaryColor;
+//       }
+//       li a:hover {
+//         color: colors.$primaryTextColor;
+//         background-color: #323232;
+//         font-weight: 400;
+//         font-weight: 600;
+//       }
+//     }
+//   }
+//   @keyframes animateNavItems {
+//     0% {
+//       transform: rotateY(-90deg) rotateX(90deg) scale(0.1);
+//     }
+//     100% {
+//       transform: rotateY(0) rotateX(0) scale(1);
+//       opacity: 1;
+//     }
+//   }
+// }
