@@ -96,7 +96,17 @@
 }
 .homeNavCont.active {
   .navWrap {
-    background-color: #03aa03;
+    background-color: #292929;
+    border-bottom: 2px solid #03ce03;
+    .active {
+      color: #03ce03;
+      border-bottom: 2px solid #03ce03;
+    }
+    li a:hover {
+      color: #03ce03;
+      // font-weight: 400;
+      // font-weight: 600;
+    }
   }
   @keyframes animateNavItems {
     0% {

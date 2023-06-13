@@ -1,5 +1,38 @@
 .app {
   overflow: hidden;
+  .empty-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b601c80;
+    color: #fff;
+    img {
+      width: 15rem;
+      height: 15rem;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+    }
+    .page404 {
+      font-weight: 900;
+      font-size: 10rem;
+    }
+    .empty-page-btn {
+      margin-top: 1.5rem;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      border-radius: 0.4rem;
+      background-color: green;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.4s ease;
+      &:hover {
+        background-color: #05a605;
+      }
+    }
+  }
   .chatIcon {
     position: fixed;
     right: 2.5rem;

@@ -1,0 +1,282 @@
+@use "../../../utilities/sizes";
+@use "../../../utilities/colors";
+
+.coursesWrap {
+  background-color: #fff;
+  color: #838382;
+  .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #292929;
+    a {
+      margin: 1rem;
+      font-size: 1.2rem;
+      color: #fff;
+      transition: 0.4s ease;
+      &:hover {
+        color: #0fc80f;
+      }
+    }
+  }
+  .coursesCont {
+    width: sizes.$container_Width_lg;
+    margin: auto;
+    padding: 5rem 0 2rem;
+    display: flex;
+    gap: 3rem;
+    .coursesLeft {
+      .course:nth-child(1) {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ccc;
+        // h1 {
+        //   border-left: 4px solid green;
+        //   color: green;
+        // }
+        // p {
+        //   color: green;
+        // }
+        // a {
+        //   button {
+        //     margin: 1rem 5rem 2rem 1rem;
+        //     background-color: colors.$primaryColor;
+        //     padding: 10px 15px;
+        //     font-weight: 500;
+        //     transition: 0.4s ease;
+        //     color: #fff;
+        //     font-size: 1.5rem;
+        //     cursor: pointer;
+        //     border-radius: 5px;
+        //     &:hover {
+        //       background-color: #0fc80f;
+        //     }
+        //   }
+        // }
+      }
+      .course:nth-child(2) {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ccc;
+        // h1 {
+        //   border-left: 4px solid violet;
+        //   color: violet;
+        // }
+        // p {
+        //   color: violet;
+        // }
+        // a {
+        //   button {
+        //     margin: 1rem 5rem 2rem 1rem;
+        //     background-color: violet;
+        //     padding: 10px 15px;
+        //     font-weight: 500;
+        //     transition: 0.4s ease;
+        //     color: #fff;
+        //     font-size: 1.5rem;
+        //     cursor: pointer;
+        //     border-radius: 5px;
+        //     &:hover {
+        //       background-color: rgb(251, 84, 251);
+        //     }
+        //   }
+        // }
+      }
+      //   .course:nth-child(3) {
+      //     h1 {
+      //       border-left: 4px solid #1877f3;
+      //       color: #1877f3;
+      //     }
+      //     p {
+      //       color: #1877f3;
+      //     }
+      //     a {
+      //       button {
+      //         margin: 1rem 5rem 2rem 1rem;
+      //         background-color: #1877f3;
+      //         padding: 10px 15px;
+      //         font-weight: 500;
+      //         transition: 0.4s ease;
+      //         color: #fff;
+      //         font-size: 1.5rem;
+      //         cursor: pointer;
+      //         border-radius: 5px;
+      //         &:hover {
+      //           background-color: #448ff1;
+      //         }
+      //       }
+      //     }
+      //   }
+      .course {
+        h1 {
+          margin-bottom: 1rem;
+          border-left: 4px solid #838382;
+          display: flex;
+          align-items: center;
+          padding-left: 1rem;
+          //   font-size: 1.5rem;
+        }
+        img {
+          width: 25rem;
+          height: 15rem;
+          margin-left: 1rem;
+        }
+        p {
+          padding: 1rem 5rem 0 1rem;
+          font-size: 1.2rem;
+          line-height: sizes.$line_height;
+        }
+        a {
+          button {
+            margin: 1rem 5rem 2rem 1rem;
+            background-color: #0fc80f;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: 0.4s ease;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            &:hover {
+              background-color: colors.$primaryColor;
+            }
+          }
+        }
+      }
+    }
+    .coursesRight {
+      .course:nth-child(1) {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ccc;
+        // .img {
+        //   h1 {
+        //     border-left: 4px solid #d2930a;
+        //     color: #d2930a;
+        //   }
+        // }
+        // p {
+        //   color: #d2930a;
+        // }
+        // a {
+        //   button {
+        //     margin: 1rem 5rem 2rem 1rem;
+        //     background-color: #d2930a;
+        //     padding: 10px 15px;
+        //     font-weight: 500;
+        //     transition: 0.4s ease;
+        //     color: #fff;
+        //     font-size: 1.5rem;
+        //     cursor: pointer;
+        //     border-radius: 5px;
+        //     &:hover {
+        //       background-color: #f3a908;
+        //     }
+        //   }
+        // }
+      }
+      .course:nth-child(2) {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ccc;
+        // .img {
+        //   h1 {
+        //     border-left: 4px solid #e50808;
+        //     color: #e50808;
+        //   }
+        // }
+        // p {
+        //   color: #e50808;
+        // }
+        // a {
+        //   button {
+        //     margin: 1rem 5rem 2rem 1rem;
+        //     background-color: #e50808;
+        //     padding: 10px 15px;
+        //     font-weight: 500;
+        //     transition: 0.4s ease;
+        //     color: #fff;
+        //     font-size: 1.5rem;
+        //     cursor: pointer;
+        //     border-radius: 5px;
+        //     &:hover {
+        //       background-color: #f83d3d;
+        //     }
+        //   }
+        // }
+      }
+      //   .course:nth-child(3) {
+      //     .img {
+      //       h1 {
+      //         border-left: 4px solid #838382;
+      //         color: #838382;
+      //       }
+      //     }
+      //     p {
+      //       color: #838382;
+      //     }
+      //     a {
+      //       button {
+      //         margin: 1rem 5rem 2rem 1rem;
+      //         background-color: #838382;
+      //         padding: 10px 15px;
+      //         font-weight: 500;
+      //         transition: 0.4s ease;
+      //         color: #fff;
+      //         font-size: 1.5rem;
+      //         cursor: pointer;
+      //         border-radius: 5px;
+      //         &:hover {
+      //           background-color: #989898;
+      //         }
+      //       }
+      //     }
+      //   }
+      .course {
+        width: 100%;
+        padding: 5rem 0 2rem;
+        display: flex;
+        flex-direction: column;
+        // border-bottom: 1px solid #ccc;
+        .img {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h1 {
+            margin-bottom: 1rem;
+            border-left: 4px solid #838382;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding-left: 1rem;
+            //   font-size: 1.5rem;
+          }
+          img {
+            width: 25rem;
+            height: 15rem;
+            margin-left: 1rem;
+          }
+        }
+        p {
+          padding: 1rem 0 0 1rem;
+          font-size: 1.2rem;
+          line-height: sizes.$line_height;
+        }
+        a {
+          button {
+            margin: 1rem 5rem 0 1rem;
+            background-color: #0fc80f;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: 0.4s ease;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            &:hover {
+              background-color: colors.$primaryColor;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -82,7 +82,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
             </div>
           </div>
           <Outlet />
-          {/* <DashboardContent oenSidebar={openSidebar} /> */}
+          {/* <DashboardContent openSidebar={openSidebar} /> */}
         </div>
       </div>
     </div>

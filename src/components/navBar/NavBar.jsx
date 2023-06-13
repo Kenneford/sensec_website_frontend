@@ -20,7 +20,7 @@ import CurrentUser from "../currentUser/CurrentUser";
 // import { logoutStaff, logoutStudent } from "../../store/actions/authActions";
 // import LogoutBtn from "../logoutBtn/LogoutBtn";
 
-export default function NavBar() {
+export default function NavBar({ setOpenLogin, openLogin }) {
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ export default function NavBar() {
     <div className={navbar ? "homeNavCont active" : "homeNavCont"}>
       <div className="logoFlex">
         <NavHashLink
-          to={"/#home"}
+          to={"/sensec/homepage/#homepage"}
           smooth
           scroll={scrollWithOffset}
           className="logoText"
@@ -81,7 +81,7 @@ export default function NavBar() {
         <ul className={!menuVisible ? "navMenu" : "navMenu1"}>
           <li>
             <NavHashLink
-              to={"/sensec/homepage#homepage"}
+              to={"/sensec/homepage/#homepage"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -90,7 +90,7 @@ export default function NavBar() {
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/about#about"}
+              to={"/sensec/about/#about"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -100,7 +100,7 @@ export default function NavBar() {
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/courses#courses"}
+              to={"/sensec/courses/#courses"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -110,7 +110,7 @@ export default function NavBar() {
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/contact#contact"}
+              to={"/sensec/contact/#contact"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -129,7 +129,7 @@ export default function NavBar() {
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/teacher"}
+              to={"/sensec/teacher/#teacher"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -137,13 +137,17 @@ export default function NavBar() {
             </NavHashLink>
           </li>
           <li>
-            <NavHashLink to={"/sensec/staff"} smooth scroll={scrollWithOffset}>
+            <NavHashLink
+              to={"/sensec/staff/#staff"}
+              smooth
+              scroll={scrollWithOffset}
+            >
               Staff
             </NavHashLink>
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/student"}
+              to={"/sensec/student/#student"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -151,7 +155,7 @@ export default function NavBar() {
             </NavHashLink>
           </li>
         </ul>
-        <CurrentUser />
+        <CurrentUser setOpenLogin={setOpenLogin} openLogin={openLogin} />
       </div>
     </div>
   );

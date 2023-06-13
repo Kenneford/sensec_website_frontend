@@ -1,0 +1,13 @@
+@use "../../utilities/colors";
+@use "../../utilities/sizes";
+
+.courses {
+  width: sizes.$container_Width_fit;
+  background-color: colors.$backGroundColor;
+  min-height: 100vh;
+  color: #fff;
+  overflow: hidden;
+  .footer {
+    background-color: #292929;
+  }
+}

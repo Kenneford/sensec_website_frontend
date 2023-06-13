@@ -1,0 +1,53 @@
+@use "../../../utilities/sizes";
+@use "../../../utilities/colors";
+
+.historyWrap {
+  background-color: colors.$white_background;
+  padding-top: 5rem;
+  .historyCont {
+    width: sizes.$container_Width_lg;
+    margin: auto;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5rem;
+    .history {
+      display: flex;
+      //   grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      color: #696969;
+      justify-content: space-between;
+      align-items: center;
+      .historyLeft {
+        h2 {
+          padding-bottom: 1rem;
+        }
+        p {
+          line-height: sizes.$line_height;
+          padding-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+        a {
+          .historyBtn {
+            background-color: #0fc80f;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: 0.4s ease;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+          }
+          .historyBtn:hover {
+            background-color: colors.$primaryColor;
+          }
+        }
+      }
+      .historyRight {
+        img {
+          width: 40rem;
+          filter: saturate(0);
+          height: 28rem;
+        }
+      }
+    }
+  }
+}

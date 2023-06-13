@@ -1,0 +1,91 @@
+@use "../../../utilities/sizes";
+@use "../../../utilities/colors";
+
+.achieveWrap {
+  position: relative;
+  // top: 10rem;
+  overflow: hidden;
+  height: 70vh;
+  // margin-bottom: 5rem;
+  background-color: #fff;
+  color: colors.$secondaryTextColor;
+  .achieveCont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    // gap: 5rem;
+    height: 100%;
+    width: sizes.$container_Width_lg;
+    margin: auto;
+    .achieveLeft {
+      .achieveImg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .achieveRight {
+      h1 {
+        font-size: 2rem;
+      }
+      .achieveText {
+        margin: 1.6rem 0 2.5rem;
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+      .achieveCards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        .card {
+          padding: 1.6rem;
+          border-radius: 1rem;
+          text-align: center;
+          transition: 0.4s ease;
+          color: #fff;
+          //   background-color: #b4b109;
+          .cardIcon {
+            background-color: #fff;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            // font-size: 5rem;
+          }
+          p {
+            margin-top: 1rem;
+          }
+        }
+        .card:hover {
+          // background-color: ;
+          box-shadow: 0 3rem 3rem rgba(0, 0, 0, 0.3);
+        }
+        .cardCourse {
+          background-color: #65630c;
+          &:hover {
+            background-color: #89870f;
+          }
+        }
+        .cardStudents {
+          background-color: #0c3465;
+          &:hover {
+            background-color: #12519f;
+          }
+        }
+        .cardAlumni {
+          background-color: #0d650c;
+          &:hover {
+            background-color: #108e2d;
+          }
+        }
+        .cardAwards {
+          background-color: #65120c;
+          &:hover {
+            background-color: #8e1410;
+          }
+        }
+      }
+    }
+  }
+}

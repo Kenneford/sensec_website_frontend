@@ -6,20 +6,20 @@ import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 // import { useSelector } from "react-redux";
 
-export default function CurrentUser() {
+export default function CurrentUser({ openLogin, setOpenLogin }) {
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
   const [openAdmin, setOpenAdmin] = useState(false);
   const [openTeacher, setOpenTeacher] = useState(false);
   const [openStudent, setOpenStudent] = useState(false);
-  const [openLogin, setOpenLogin] = useState(false);
+  // const [openLogin, setOpenLogin] = useState(false);
   const navigate = useNavigate();
   const studentInfo = true;
   const staffInfo = true;
   return (
     <div className="user">
       <div className="userActions">
-        {!staffInfo && !studentInfo ? (
+        {staffInfo && studentInfo ? (
           <div className="login">
             <button onClick={() => setOpenLogin(!openLogin)}>Login</button>
             {openLogin && (
@@ -29,6 +29,13 @@ export default function CurrentUser() {
                   onClick={() => navigate("/sensec/admin/login")}
                 >
                   <p>Admins Login</p>
+                  <LoginIcon className="loginIcon" />
+                </div>
+                <div
+                  className="loginWrap"
+                  onClick={() => navigate("/sensec/staff/login")}
+                >
+                  <p>Staffs Login</p>
                   <LoginIcon className="loginIcon" />
                 </div>
                 <div
@@ -51,7 +58,7 @@ export default function CurrentUser() {
         ) : (
           <>
             <div className="userInfo">
-              {staffInfo ? (
+              {!staffInfo ? (
                 <p>Welcome, {staffInfo.firstName}</p>
               ) : (
                 <p>Welcome, {studentInfo.firstName}</p>
