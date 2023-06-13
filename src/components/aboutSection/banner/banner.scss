@@ -1,0 +1,45 @@
+@use "../../../utilities/sizes";
+@use "../../../utilities/colors";
+.bannerWrap {
+  margin-top: 5rem;
+  //   padding-bottom: 5rem;
+  //   border-top: 2px solid colors.$secondaryColor;
+  .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #292929;
+    a {
+      margin: 1rem;
+      font-size: 1.2rem;
+      color: #fff;
+      transition: 0.4s ease;
+      &:hover {
+        color: #0fc80f;
+      }
+    }
+  }
+  .bannerImg {
+    background-size: cover;
+    background-position: center;
+    .overlay {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 25rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      h1 {
+        font-size: 4rem;
+      }
+      span {
+        font-size: 2rem;
+      }
+      .slogan {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+    }
+  }
+}

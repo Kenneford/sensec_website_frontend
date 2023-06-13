@@ -1,0 +1,133 @@
+@use "../../../utilities/colors";
+@use "../../../utilities/sizes";
+#staff {
+  .adminsWrap {
+    .adminsCont {
+      padding-top: sizes.$header_height;
+      //   background-color: colors.$backGroundColor;
+      display: flex;
+      .adminLeft {
+        position: fixed;
+        width: sizes.$container_sideBar_Width;
+        background-color: #292929;
+        height: 100%;
+        left: 0;
+        top: 5rem;
+        z-index: 1;
+        color: #fff;
+        transition: 0.4s ease;
+        padding-top: 4.5rem;
+        .span {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          padding: 0.9rem 1rem;
+          transition: 0.4s ease;
+        }
+        .adminInfo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 0 2rem;
+          margin-left: -1rem;
+          margin-bottom: 2rem;
+          gap: 1rem;
+          border-bottom: 2px solid #02b202;
+          img {
+            width: 7rem;
+            height: 7rem;
+            object-fit: cover;
+            border-radius: 0.4rem;
+          }
+          .infoText {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            span {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.5rem;
+              font-weight: 500;
+            }
+            p {
+              padding-top: 0.5rem;
+            }
+          }
+        }
+        .contentLinks {
+          padding: 0 2rem;
+          a {
+            color: #fff;
+          }
+          .links {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem 1.5rem;
+            transition: 0.4s ease;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            position: relative;
+            align-items: center;
+            &:hover {
+              background-color: #383838;
+            }
+            &:nth-child(3) {
+              .teacherIcons {
+                position: relative;
+                display: flex;
+                align-items: center;
+                .tvIcon {
+                  position: absolute;
+                  left: 0.8rem;
+                  top: -0.4rem;
+                }
+              }
+            }
+            // &:nth-child(6) {
+            //   .feesCheck {
+            //     position: absolute;
+            //     display: flex;
+            //     align-items: center;
+            //     right: 1rem;
+            //     .tvIcon {
+            //       left: 0.8rem;
+            //       top: -0.4rem;
+            //     }
+            //   }
+            // }
+          }
+        }
+      }
+      .adminLeft.side {
+        width: 5%;
+        .adminInfo {
+          img {
+            width: 4rem;
+            height: 4rem;
+            margin-right: -0.5rem;
+            object-fit: cover;
+            border-radius: 0.4rem;
+          }
+          .infoText {
+            display: none;
+          }
+        }
+        .contentLinks {
+          margin-left: -1rem;
+          .links {
+            flex-direction: unset;
+            justify-content: center;
+            padding: 1rem 2rem;
+            margin: 1rem 0;
+          }
+          h4 {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

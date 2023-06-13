@@ -11,6 +11,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TvIcon from "@mui/icons-material/Tv";
 import { useNavigate, Outlet } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import DashBoardFooter from "../../footer/DashBoardFooter";
 // import { useSelector } from "react-redux";
 
 export default function DashboardContent({ openSidebar }) {
@@ -152,6 +153,7 @@ export default function DashboardContent({ openSidebar }) {
           </div>
         </div>
       </div>
+      <DashBoardFooter />
     </div>
   );
 }

@@ -1,0 +1,453 @@
+@use "../../utilities/sizes";
+@use "../../utilities/colors";
+.loginWrap {
+  background-color: #fff;
+  .login {
+    height: 100vh;
+    background-color: #0b601c80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card {
+      display: flex;
+      width: 50%;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+
+      .left {
+        flex: 1;
+        background: linear-gradient(#043e0caa, #0b601cd2),
+          url("https://plus.unsplash.com/premium_photo-1661730292317-eb780ab2c745?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
+            center;
+        background-size: cover;
+        min-height: 600px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        h1 {
+          font-size: 3.5rem;
+          line-height: 4rem;
+          color: #fff;
+        }
+        p {
+          font-size: 1.1em;
+          color: #fff;
+        }
+        span {
+          font-size: 1.1em;
+          color: #fff;
+        }
+        button {
+          width: 50%;
+          padding: 10px;
+          border: none;
+          background-color: #fff;
+          color: #05e105;
+          font-size: 1.1em;
+          font-weight: bold;
+          cursor: pointer;
+          border-radius: 3px;
+          &:hover {
+            color: #fff;
+            background-color: #a8a6a6;
+          }
+        }
+      }
+      .right {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 50px;
+        h1 {
+          color: #555;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+          .password {
+            display: flex;
+            align-items: center;
+            position: relative;
+            input {
+              width: 100%;
+            }
+          }
+          input {
+            border: none;
+            border-bottom: 1px solid lightgray;
+            padding: 20px 10px;
+            font-size: 1.1em;
+            border-radius: 3px;
+            &:focus {
+              outline: 1px solid #0b601c80;
+            }
+            &::placeholder {
+              color: #a8a6a6;
+            }
+          }
+          button {
+            width: 50%;
+            padding: 10px;
+            border: none;
+            background-color: #05e105;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.5s;
+            font-size: 1.1em;
+            border-radius: 3px;
+            &:hover {
+              background-color: #04bb04;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+// .adminsWrap {
+//   .adminsCont {
+//     padding-top: 5rem;
+//     // width: sizes.$container_Width_lg;
+//     background-color: colors.$backGroundColor;
+//     display: flex;
+//     .adminLeft {
+//       position: fixed;
+//       width: 20%;
+//       background-color: #292929;
+//       height: calc(100% - 5rem);
+//       left: 0;
+//       top: 5rem;
+//       z-index: 1;
+//       color: #fff;
+//       flex: 2;
+//       transition: 0.4s ease;
+//       .span {
+//         width: 100%;
+//         display: flex;
+//         justify-content: flex-end;
+//         align-items: center;
+//         padding: 0.9rem 1rem 0;
+//         transition: 0.4s ease;
+//         .sideBarIcon {
+//           // position: absolute;
+//           // top: 1rem;
+//           // left: 1rem;
+//         }
+//       }
+//       .span.icon {
+//         position: relative;
+//         .sideBarIcon {
+//           position: absolute;
+//           top: 0.7rem;
+//           // font-size: 2rem;
+//           // left: 1rem;
+//         }
+//       }
+//       .adminInfo {
+//         display: flex;
+//         // flex-direction: column;
+//         align-items: center;
+//         // justify-content: center;
+//         padding: 0 0 2rem;
+//         padding-left: 3rem;
+//         margin-bottom: 3rem;
+//         gap: 1rem;
+//         border-bottom: 1px solid yellow;
+//         img {
+//           width: 7rem;
+//           height: 7rem;
+//           object-fit: cover;
+//           border-radius: 50%;
+//         }
+//         .infoText {
+//           span {
+//             font-size: 1.5rem;
+//             font-weight: 500;
+//           }
+//           p {
+//             padding-top: 0.5rem;
+//           }
+//         }
+//       }
+//       .contentLinks {
+//         padding: 0 2rem;
+//         a {
+//           color: #fff;
+//         }
+//         .links {
+//           display: flex;
+//           gap: 1.5rem;
+//           padding: 1.5rem 1.5rem;
+//           transition: 0.4s ease;
+//           border-radius: 0.3rem;
+//           cursor: pointer;
+//           position: relative;
+//           align-items: center;
+//           &:hover {
+//             background-color: #383838;
+//           }
+//           &:nth-child(2) {
+//             .teacherIcons {
+//               position: relative;
+//               display: flex;
+//               align-items: center;
+//               .tvIcon {
+//                 position: absolute;
+//                 left: 0.8rem;
+//                 top: -0.4rem;
+//               }
+//             }
+//           }
+//           &:nth-child(6) {
+//             .feesCheck {
+//               position: absolute;
+//               display: flex;
+//               align-items: center;
+//               right: 1rem;
+//               .tvIcon {
+//                 left: 0.8rem;
+//                 top: -0.4rem;
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//     .adminLeft.side {
+//       width: 5%;
+//       .adminInfo {
+//         img,
+//         .infoText {
+//           display: none;
+//         }
+//       }
+//       .contentLinks {
+//         margin-left: -1rem;
+//         .links {
+//           flex-direction: unset;
+//           justify-content: center;
+//           padding: 1rem 2rem;
+//           margin: 1rem 0;
+//         }
+//         h4 {
+//           display: none;
+//         }
+//       }
+//     }
+//     .adminRight {
+//       margin-left: 20%;
+//       width: 100%;
+//       transition: 0.4s ease;
+//       h1 {
+//         padding: 2rem;
+//         color: #fff;
+//       }
+//       .content {
+//         background-color: #fff;
+//         .dashBoardContent {
+//           display: grid;
+//           grid-template-columns: repeat(4, 1fr);
+//           gap: 1.5rem;
+//           padding: 2rem;
+//           &:nth-child(1) {
+//             button {
+//               border-radius: 0.4rem;
+//               font-size: 1.5rem;
+//               transition: 0.4s ease;
+//               border: 1px solid transparent;
+//               cursor: pointer;
+//               &:hover {
+//                 color: #383838;
+//                 background-color: #cccc;
+//                 border: 1px solid rgb(0, 149, 255);
+//               }
+//             }
+//           }
+//           .teachers {
+//             padding: 1.5rem 1rem;
+//             border-radius: 0.4rem;
+//             color: #fff;
+//             cursor: pointer;
+//             &:nth-child(1) {
+//               background-color: #292929;
+//             }
+//             cursor: pointer;
+//             &:nth-child(2) {
+//               background-color: green;
+//             }
+//             &:nth-child(3) {
+//               background-color: #005780;
+//             }
+//             &:nth-child(4) {
+//               background-color: #7a0080;
+//             }
+//             &:nth-child(5) {
+//               background-color: #292929;
+//               .titleFlex {
+//                 h3 {
+//                   padding-bottom: unset;
+//                 }
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//                 padding-bottom: 2rem;
+//               }
+//               .pending {
+//                 padding: 0.5rem;
+//                 border-radius: 0.3rem;
+//                 transition: 0.4s ease;
+//                 &:hover {
+//                   background-color: #fff;
+//                   color: #292929;
+//                 }
+//               }
+//             }
+//             &:nth-child(6) {
+//               background-color: #4f088d;
+//             }
+//             &:nth-child(7) {
+//               background-color: #8d0818;
+//             }
+//             &:nth-child(8) {
+//               background-color: #4e6802;
+//             }
+//             h3 {
+//               padding-bottom: 2rem;
+//             }
+//             .teachersInfo {
+//               display: flex;
+//               justify-content: space-between;
+//               .teachersInfoIcons {
+//                 padding-bottom: 1.5rem;
+//                 position: relative;
+//                 display: flex;
+//                 align-items: center;
+//                 .tvIcon {
+//                   position: absolute;
+//                   left: 0.8rem;
+//                   top: -0.6rem;
+//                   font-size: 2.5rem;
+//                 }
+//               }
+//               .totalTeachers {
+//                 font-size: 1.5rem;
+//               }
+//             }
+//             .pending {
+//               display: flex;
+//               justify-content: space-between;
+//               align-items: center;
+//               h4 {
+//                 font-weight: 400;
+//               }
+//               .pendingTeachers {
+//                 font-size: 1.5rem;
+//               }
+//             }
+//           }
+//         }
+//         .noticeBox {
+//           padding: 2rem;
+//           .noticeCont {
+//             border-top: 1px solid #292929;
+//             .h3Cont {
+//               position: relative;
+//               display: flex;
+//               justify-content: center;
+//               align-items: center;
+//               h3 {
+//                 position: absolute;
+//                 top: -0.8rem;
+//                 background-color: #fff;
+//                 padding: 0 1rem;
+//                 // transform: translate(-50%);
+//               }
+//             }
+//             .inputFields {
+//               form {
+//                 .imageUpload {
+//                   display: flex;
+//                   // margin-left: 16.2rem;
+//                   justify-content: center;
+//                   align-items: center;
+//                   padding-top: 2rem;
+//                   img {
+//                     width: 32.5rem;
+//                     height: 17rem;
+//                     border-radius: 0.4rem;
+//                   }
+//                 }
+//                 .content {
+//                   position: relative;
+//                   display: flex;
+//                   flex-direction: column;
+//                   justify-content: center;
+//                   align-items: center;
+//                   .title {
+//                     position: relative;
+//                     width: 50%;
+//                     margin-top: 2rem;
+//                     span {
+//                       position: absolute;
+//                       top: -0.5rem;
+//                       left: 0.5rem;
+//                       background-color: #fff;
+//                       padding: 0 0.5rem;
+//                       font-weight: 500;
+//                     }
+//                     .titleText {
+//                       border: 1px solid #292929;
+//                       padding: 0.5rem;
+//                       width: 100%;
+//                       border-radius: 0.4rem;
+//                       font-size: 1.5rem;
+//                     }
+//                     .textArea {
+//                       width: 100%;
+//                       height: 20rem;
+//                       border: 1px solid #292929;
+//                       padding: 1rem;
+//                       resize: none;
+//                       border-radius: 0.4rem;
+//                       font-size: 1.5rem;
+//                       font-family: "Montserrat", "roboto", "poppins",
+//                         "sans-serif";
+//                     }
+//                   }
+//                   .noticeBtn {
+//                     padding: 1rem;
+//                     font-size: 1.5rem;
+//                     border-radius: 0.4rem;
+//                     margin: 1.5rem 0;
+//                     background-color: green;
+//                     color: #fff;
+//                     transition: 0.4s ease;
+//                     &:hover {
+//                       background-color: rgb(6, 168, 6);
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//     .adminRight.side {
+//       margin-left: 5%;
+//       width: 100%;
+//     }
+//   }
+//   .footer {
+//     // background-color: #292929;
+//     color: #fff;
+//   }
+// }

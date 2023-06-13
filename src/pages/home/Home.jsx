@@ -3,6 +3,10 @@ import ImageSlider from "../../components/homeSection/imageSlider/ImageSlider";
 import FirstViewSection from "../../components/homeSection/firstViewSection/FirstViewSection";
 import CategorySection from "../../components/homeSection/categorySection/categorySection";
 import CoursesSection from "../../components/homeSection/coursesSection/CoursesSection";
+import Facilities from "../../components/homeSection/facilitiesSection/Facilities";
+import Kadet from "../../components/homeSection/kadet/Kadet";
+import QuestionsSection from "../../components/homeSection/questionsSection/QuestionsSection";
+import TestimonialSection from "../../components/homeSection/testimonialSection/TestimonialSection";
 
 export default function Home() {
   return (
@@ -11,6 +15,10 @@ export default function Home() {
       <FirstViewSection />
       <CategorySection />
       <CoursesSection />
+      <Facilities />
+      <Kadet />
+      <QuestionsSection />
+      <TestimonialSection />
     </div>
   );
 }
