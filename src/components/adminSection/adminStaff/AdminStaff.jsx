@@ -30,7 +30,7 @@ export default function AdminStaff({ openSidebar }) {
   // }, []);
 
   return (
-    <div className={openSidebar ? "adminRight side" : "adminRight"}>
+    <div>
       <div className="staffTotal">
         <h1 style={{ backgroundColor: "#383838" }}>All Staff Members Data</h1>
         {/* <div className="searchWrap"> */}

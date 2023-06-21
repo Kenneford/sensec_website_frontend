@@ -100,6 +100,19 @@
       margin: 0 5px;
     }
   }
+  .adminRight.side {
+    // width: 95%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: #fff;
+    // border-top: 1px solid #ffff00;
+    p {
+      margin: 0 5px;
+    }
+  }
 
   @media screen and (max-width: 1024px) {
     .footerWrap {

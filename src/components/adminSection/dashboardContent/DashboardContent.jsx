@@ -19,7 +19,7 @@ export default function DashboardContent({ openSidebar }) {
   //   const { staffInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   return (
-    <div className={openSidebar ? "adminRight side" : "adminRight"}>
+    <div>
       <h1>Admins Dashboard</h1>
       <div className="content">
         <div className="dashBoardContent">
@@ -153,7 +153,7 @@ export default function DashboardContent({ openSidebar }) {
           </div>
         </div>
       </div>
-      <DashBoardFooter />
+      {/* <DashBoardFooter /> */}
     </div>
   );
 }

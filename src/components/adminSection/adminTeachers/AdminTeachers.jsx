@@ -46,7 +46,7 @@ export default function AdminTeachers({ openSidebar }) {
   };
 
   return (
-    <div className={openSidebar ? "adminRight side" : "adminRight"}>
+    <div>
       <div className="teacherTotal">
         <h1 style={{ backgroundColor: "#383838" }}>All Teachers Data</h1>
         <div className="searchWrap">

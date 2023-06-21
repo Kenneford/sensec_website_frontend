@@ -15,6 +15,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CurrentUser from "../currentUser/CurrentUser";
+import { useSelector } from "react-redux";
+import { getStudentInfo } from "../../features/student/studentsSlice";
+import { getStaffInfo } from "../../features/staff/staffSlice";
 // import LoginIcon from "@mui/icons-material/Login";
 // import { useDispatch, useSelector } from "react-redux";
 // import { logoutStaff, logoutStudent } from "../../store/actions/authActions";
@@ -23,6 +26,8 @@ import CurrentUser from "../currentUser/CurrentUser";
 export default function NavBar({ setOpenLogin, openLogin }) {
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
+  const studentInfo = useSelector(getStudentInfo);
+  const staffInfo = useSelector(getStaffInfo);
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
   const [openAdmin, setOpenAdmin] = useState(false);
@@ -118,44 +123,62 @@ export default function NavBar({ setOpenLogin, openLogin }) {
             </NavHashLink>
             {/* <ContactNavBar /> */}
           </li>
-          <li>
-            <NavHashLink
-              to={"/sensec/admin/#admin"}
-              smooth
-              scroll={scrollWithOffset}
-            >
-              Admin
-            </NavHashLink>
-          </li>
-          <li>
-            <NavHashLink
-              to={"/sensec/teacher/#teacher"}
-              smooth
-              scroll={scrollWithOffset}
-            >
-              Teacher
-            </NavHashLink>
-          </li>
-          <li>
-            <NavHashLink
-              to={"/sensec/staff/#staff"}
-              smooth
-              scroll={scrollWithOffset}
-            >
-              Staff
-            </NavHashLink>
-          </li>
-          <li>
-            <NavHashLink
-              to={"/sensec/student/#student"}
-              smooth
-              scroll={scrollWithOffset}
-            >
-              Student
-            </NavHashLink>
-          </li>
+          {(staffInfo && staffInfo.staffRole === "Admin") ||
+          (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+            <li>
+              <NavHashLink
+                to={"/sensec/admin/#admin"}
+                smooth
+                scroll={scrollWithOffset}
+              >
+                Admin
+              </NavHashLink>
+            </li>
+          ) : (
+            ""
+          )}
+          {(staffInfo && staffInfo.staffRole === "Teacher") ||
+          (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+            <li>
+              <NavHashLink
+                to={"/sensec/teacher/#teacher"}
+                smooth
+                scroll={scrollWithOffset}
+              >
+                Teacher
+              </NavHashLink>
+            </li>
+          ) : (
+            ""
+          )}
+          {staffInfo && (
+            <li>
+              <NavHashLink
+                to={"/sensec/staff/#staff"}
+                smooth
+                scroll={scrollWithOffset}
+              >
+                Staff
+              </NavHashLink>
+            </li>
+          )}
+          {studentInfo && (
+            <li>
+              <NavHashLink
+                to={"/sensec/student/#student"}
+                smooth
+                scroll={scrollWithOffset}
+              >
+                Student
+              </NavHashLink>
+            </li>
+          )}
         </ul>
-        <CurrentUser setOpenLogin={setOpenLogin} openLogin={openLogin} />
+        <CurrentUser
+          setOpenLogin={setOpenLogin}
+          openLogin={openLogin}
+          studentInfo={studentInfo}
+        />
       </div>
     </div>
   );

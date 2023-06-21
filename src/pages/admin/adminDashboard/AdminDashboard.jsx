@@ -14,6 +14,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TvIcon from "@mui/icons-material/Tv";
 import DashboardContent from "../../../components/adminSection/dashboardContent/DashboardContent";
 import { Outlet } from "react-router-dom";
+import DashBoardFooter from "../../../components/footer/DashBoardFooter";
+import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 
 export default function AdminDashboard({ openSidebar, toggleSidebar }) {
   const staffInfo = true;
@@ -80,8 +82,12 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Notice</h4>
               </HashLink>
             </div>
+            <LogoutBtn />
           </div>
-          <Outlet />
+          <div className={openSidebar ? "adminRight side" : "adminRight"}>
+            <Outlet />
+            <DashBoardFooter openSidebar={openSidebar} />
+          </div>
           {/* <DashboardContent openSidebar={openSidebar} /> */}
         </div>
       </div>

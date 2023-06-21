@@ -17,7 +17,7 @@ import { HashLink } from "react-router-hash-link";
 export default function AdminStudents({ openSidebar }) {
   const navigate = useNavigate();
   return (
-    <div className={openSidebar ? "adminRight side" : "adminRight"}>
+    <div>
       <h1 className="h1">Admins Dashboard</h1>
       <div className="adminStudentsContent">
         <div className="dashBoardContent">
@@ -179,50 +179,7 @@ export default function AdminStudents({ openSidebar }) {
           </div>
         </div>
         <div>Next Content</div>
-        {/* <div className="noticeBox">
-            <div className="noticeCont">
-              <div className="h3Cont">
-                <h3>POST A NOTICE</h3>
-              </div>
-              <div className="inputFields">
-                <form action="#">
-                  <div className="imageUpload">
-                    <img
-                      src="https://images.unsplash.com/photo-1609566193600-63a2c3e503df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div className="content">
-                    <div className="title">
-                      <span>Title</span>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder=""
-                        className="titleText"
-                      />
-                    </div>
-                    <div className="title">
-                      <span>Message</span>
-                      <textarea
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder=""
-                        className="textArea"
-                      />
-                    </div>
-                    <button className="noticeBtn">Post Notice</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div> */}
       </div>
-      {/* <div className="footer">
-              <DashBoardFooter />
-            </div> */}
     </div>
   );
 }

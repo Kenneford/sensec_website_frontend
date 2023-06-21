@@ -14,7 +14,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -24,9 +24,13 @@ import DashBoardNav from "../../../components/navBar/DashBoardNav";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 
-export default function StudentDashBoard({ openSidebar, toggleSidebar }) {
+export default function StudentDashBoard({
+  openSidebar,
+  toggleSidebar,
+  studentInfo,
+}) {
   const navigate = useNavigate();
-  const studentInfo = true;
+  // const studentInfo = true;
   const owing = false;
 
   return (
@@ -58,7 +62,7 @@ export default function StudentDashBoard({ openSidebar, toggleSidebar }) {
                 <span>
                   {studentInfo.isMale ? "Bro." : "Sis."} {studentInfo.lastName}
                 </span>
-                <p>( {studentInfo.staffRole} )</p>
+                <p>( {studentInfo.courseStudy} Student )</p>
               </div>
             </div>
             {/* <div className="adminInfo">
@@ -82,11 +86,11 @@ export default function StudentDashBoard({ openSidebar, toggleSidebar }) {
               </div>
             </div> */}
             <div className="contentLinks">
-              <div className="links">
+              <div className="links" title={openSidebar ? "Dashboard" : ""}>
                 <TvIcon />
                 <h4>Dashboard</h4>
               </div>
-              <div className="links">
+              <div className="links" title={openSidebar ? "Teachers" : ""}>
                 <div className="teacherIcons">
                   <PanoramaOutlinedIcon className="tvIcon" />
                   <PersonIcon
@@ -98,23 +102,24 @@ export default function StudentDashBoard({ openSidebar, toggleSidebar }) {
               <HashLink
                 to={"/sensec/student/weekly_lectures"}
                 className="links"
+                title={openSidebar ? "Weekly Lectures" : ""}
               >
                 <NoteAltIcon />
                 <h4>Weekly Lectures</h4>
               </HashLink>
-              <div className="links">
+              <div className="links" title={openSidebar ? "Coursemates" : ""}>
                 <SchoolOutlinedIcon />
                 <h4>Coursemates</h4>
               </div>
-              <div className="links">
+              <div className="links" title={openSidebar ? "My Attendance" : ""}>
                 <ListAltOutlinedIcon />
                 <h4>My Attendance</h4>
               </div>
-              <div className="links">
+              <div className="links" title={openSidebar ? "Public Notice" : ""}>
                 <CampaignOutlinedIcon />
                 <h4>Public Notice</h4>
               </div>
-              <div className="links">
+              <div className="links" title={openSidebar ? "Fees Status" : ""}>
                 <MoneyOutlinedIcon />
                 <h4>My Fees</h4>
                 <div className="feesCheck">
@@ -141,88 +146,8 @@ export default function StudentDashBoard({ openSidebar, toggleSidebar }) {
             <LogoutBtn />
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
-            <h1>Students Dashboard</h1>
-            <div className="content">
-              <div className="dashBoardContent">
-                <div className="teachers">
-                  <h3>Total Teachers</h3>
-                  <div className="teachersInfo">
-                    <div className="teachersInfoIcons">
-                      <PanoramaOutlinedIcon className="tvIcon" />
-                      <PersonIcon
-                        style={{
-                          backgroundColor: "green",
-                          zIndex: 1,
-                          fontSize: "2rem",
-                        }}
-                      />
-                    </div>
-                    <div className="totalTeachers">34</div>
-                  </div>
-                  <div className="pending">
-                    <h4>Pending Teacher(s)</h4>
-                    <div className="pendingTeachers">2</div>
-                  </div>
-                </div>
-                <div className="teachers">
-                  <h3>Total Students</h3>
-                  <div className="teachersInfo">
-                    <div className="teachersInfoIcons">
-                      <SchoolOutlinedIcon
-                        style={{
-                          fontSize: "2rem",
-                        }}
-                      />
-                    </div>
-                    <div className="totalTeachers">9,544</div>
-                  </div>
-                  <div className="pending">
-                    <h4>Pending Student(s)</h4>
-                    <div className="pendingTeachers">201</div>
-                  </div>
-                </div>
-                <div className="teachers">
-                  <h3>Total Fees</h3>
-                  <div className="teachersInfo">
-                    <div className="teachersInfoIcons">
-                      <MoneyOutlinedIcon
-                        style={{
-                          fontSize: "2rem",
-                        }}
-                      />
-                    </div>
-                    <div className="totalTeachers">GH₵ 34,857.72</div>
-                  </div>
-                  <div className="pending">
-                    <h4>Pending Fees</h4>
-                    <div className="pendingTeachers">GH₵ 17,273.93</div>
-                  </div>
-                </div>
-                <div className="teachers">
-                  <div className="titleFlex">
-                    <h3>General Notice</h3>
-                    <p>Year 2023</p>
-                  </div>
-                  <div className="teachersInfo">
-                    <div className="teachersInfoIcons">
-                      <CampaignOutlinedIcon
-                        style={{
-                          fontSize: "2rem",
-                        }}
-                      />
-                    </div>
-                    <div className="totalTeachers">34</div>
-                  </div>
-                  <div className="pending">
-                    <h4>Old Notice</h4>
-                    <div className="pendingTeachers">/ 2023</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="dashFooter">
-              <DashBoardFooter />
-            </div>
+            <Outlet />
+            <DashBoardFooter openSidebar={openSidebar} />
           </div>
         </div>
       </div>

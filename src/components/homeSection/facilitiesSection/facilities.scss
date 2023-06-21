@@ -4,7 +4,7 @@
 .facilitiesWrap {
   margin-top: 10rem;
   padding-bottom: 5rem;
-  background-color: #cccc;
+  background-color: #282828;
   .facilitiesCont {
     width: sizes.$container_Width_lg;
     margin: auto;
@@ -17,14 +17,15 @@
     .facilitiesLeft {
       padding-right: 8rem;
       h2 {
-        color: #696969;
+        color: #fff;
         font-size: 2rem;
       }
       p {
         margin: 1rem 0 2.4rem;
         line-height: sizes.$line_height;
-        color: #000;
+        color: #fff;
         font-size: 1.2rem;
+        font-weight: 300;
       }
       a {
         color: #fff;
@@ -53,6 +54,7 @@
         .facilityCard {
           background-size: cover;
           border-radius: 10px;
+          color: #fff;
           .colorOverlay {
             display: flex;
             flex-direction: column;

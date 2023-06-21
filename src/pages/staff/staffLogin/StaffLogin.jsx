@@ -1,30 +1,38 @@
-import React, { useState } from "react";
-// import "./staffLogin.scss";
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Navigate, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { staffLogin } from "../../../store/actions/authActions";
+import { getStaffInfo, staffLogin } from "../../../features/staff/staffSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from "@mui/material";
 
-export default function StaffLogin({ staffInfo }) {
-  const [inputToggle, setInputToggle] = useState(false);
-  // const dispatch = useDispatch();
-  // const alert = useAlert();
-  //   const { loading, authenticated, error, successMessage, userInfo } =
-  //     useSelector((state) => state.auth);
-  console.log(staffInfo);
+export default function StaffLogin({ toast, toastOptions }) {
+  const dispatch = useDispatch();
+  const [passLengthError, setPassLengthError] = useState("");
+  const [idLengthError, setIdLengthError] = useState("");
+  const { loginStatus, error, successMessage } = useSelector(
+    (state) => state.staffs
+  );
+
   const [staff, setStaff] = useState({
     staffId: "",
     password: "",
   });
+
+  //PASSWORD INPUT CONTROLL
+  const pass = staff.password.length > 0;
+  const passCheck = staff.password.length < 6;
+
+  //STUDENT-ID INPUT CONTROLL
+  const id = staff.staffId.length > 0;
+  const idCheck = staff.staffId.length < 16;
+
   const handleInputValues = (e) => {
     setStaff({
       ...staff,
       [e.target.name]: e.target.value,
     });
   };
-
-  const handleInputToggle = () => setInputToggle(!inputToggle);
 
   const [showpass, setShowPass] = useState(false);
 
@@ -34,17 +42,38 @@ export default function StaffLogin({ staffInfo }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (staff.staffId || staff.password) {
-      // dispatch(staffLogin(staff));
-      console.log(staff);
+    if (!staff.staffId && !staff.password) {
+      toast.error(
+        "Authentication failed! Fields can't be empty!",
+        toastOptions
+      );
+      return;
     } else {
-      console.log("Invalid credentials!");
+      dispatch(staffLogin(staff));
+      console.log(staff);
     }
   };
 
-  if (staffInfo) {
-    return <Navigate to="/sensec/staff" />;
-  }
+  useEffect(() => {
+    if (loginStatus === "rejected") {
+      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
+      return;
+    }
+    if (loginStatus === "success") {
+      navigate("/sensec/staff/#staff");
+      toast.success(successMessage, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+  }, [error, successMessage, loginStatus, toast, toastOptions, navigate]);
+
+  useEffect(() => {
+    setPassLengthError("Password must be at least 6 characters long!");
+    setIdLengthError("Your ID length is too short!");
+  }, []);
+
   return (
     <div className="loginWrap">
       <div className="login">
@@ -55,10 +84,6 @@ export default function StaffLogin({ staffInfo }) {
               The Great Sensec is glad to have you here. Kindly login to access
               your dashboard.
             </p>
-            {/* <span>Don't have an account?</span>
-              <Link to="/sensosa_chat/register">
-                <button>Register</button>
-              </Link> */}
           </div>
           <div className="right">
             <h1>Login</h1>
@@ -70,6 +95,17 @@ export default function StaffLogin({ staffInfo }) {
                 name="staffId"
                 value={staff.staffId}
               />
+              {id && idCheck && (
+                <p
+                  style={{
+                    color: "red",
+                    position: "relative",
+                    marginTop: "-1.5rem",
+                  }}
+                >
+                  {idLengthError}
+                </p>
+              )}
               <div className="staffId">
                 <input
                   type={showpass ? "text" : "password"}
@@ -93,7 +129,24 @@ export default function StaffLogin({ staffInfo }) {
                   )}
                 </div>
               </div>
-              <button type="submit">Login</button>
+              {pass && passCheck && (
+                <p
+                  style={{
+                    color: "red",
+                    position: "relative",
+                    marginTop: "-1.5rem",
+                  }}
+                >
+                  {passLengthError}
+                </p>
+              )}
+              <button type="submit">
+                {loginStatus === "pending" ? (
+                  <CircularProgress style={{ color: "white", size: "20px" }} />
+                ) : (
+                  "Login"
+                )}
+              </button>
             </form>
           </div>
         </div>
