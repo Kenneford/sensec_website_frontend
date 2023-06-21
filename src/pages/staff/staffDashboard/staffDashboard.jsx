@@ -19,6 +19,7 @@ import axios from "axios";
 
 import { format } from "timeago.js";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
+import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 
 const API_ENDPOINT = "http://localhost:5000/api";
 
@@ -87,12 +88,13 @@ export default function StaffDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Notice</h4>
               </HashLink>
             </div>
+            <LogoutBtn />
           </div>
-          <Outlet />
+          <div className={openSidebar ? "adminRight side" : "adminRight"}>
+            <Outlet />
+            <DashBoardFooter openSidebar={openSidebar} />
+          </div>
         </div>
-      </div>
-      <div className="dashFooter">
-        <DashBoardFooter />
       </div>
     </div>
   );

@@ -4,22 +4,24 @@ import LogoutBtn from "../logoutBtn/LogoutBtn";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
-// import { useSelector } from "react-redux";
+import { getStaffInfo } from "../../features/staff/staffSlice";
+import { useSelector } from "react-redux";
 
-export default function CurrentUser({ openLogin, setOpenLogin }) {
+export default function CurrentUser({ openLogin, setOpenLogin, studentInfo }) {
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
+  const staffInfo = useSelector(getStaffInfo);
   const [openAdmin, setOpenAdmin] = useState(false);
   const [openTeacher, setOpenTeacher] = useState(false);
   const [openStudent, setOpenStudent] = useState(false);
   // const [openLogin, setOpenLogin] = useState(false);
   const navigate = useNavigate();
-  const studentInfo = true;
-  const staffInfo = true;
+  // const studentInfo = true;
+  // const staffInfo = false;
   return (
     <div className="user">
       <div className="userActions">
-        {staffInfo && studentInfo ? (
+        {!staffInfo && !studentInfo ? (
           <div className="login">
             <button onClick={() => setOpenLogin(!openLogin)}>Login</button>
             {openLogin && (
@@ -58,7 +60,7 @@ export default function CurrentUser({ openLogin, setOpenLogin }) {
         ) : (
           <>
             <div className="userInfo">
-              {!staffInfo ? (
+              {staffInfo ? (
                 <p>Welcome, {staffInfo.firstName}</p>
               ) : (
                 <p>Welcome, {studentInfo.firstName}</p>
@@ -66,12 +68,20 @@ export default function CurrentUser({ openLogin, setOpenLogin }) {
               <div className="icon">
                 {staffInfo ? (
                   <img
-                    src="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                    src={
+                      staffInfo.profilePicture
+                        ? staffInfo.profilePicture
+                        : "/assets/maleAvatar.png"
+                    }
                     alt=""
                   />
                 ) : studentInfo ? (
                   <img
-                    src="https://images.unsplash.com/photo-1573497491765-dccce02b29df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                    src={
+                      studentInfo.profilePicture
+                        ? studentInfo.profilePicture
+                        : "/assets/maleAvatar.png"
+                    }
                     alt=""
                   />
                 ) : (
@@ -84,7 +94,7 @@ export default function CurrentUser({ openLogin, setOpenLogin }) {
                 {/* <PersonIcon /> */}
               </div>
             </div>
-            {<LogoutBtn />}
+            {/* {<LogoutBtn />} */}
           </>
         )}
       </div>

@@ -28,6 +28,16 @@ import TeacherLoginPage from "./pages/teacher/teacherLogin/TeacherLoginPage";
 import StaffDashboard from "./pages/staff/staffDashboard/staffDashboard";
 import StudentDashBoard from "./pages/student/studentDashBoard/StudentDashBoard";
 import TeacherDashBoard from "./pages/teacher/teacherDashboard/TeacherDashboard";
+import StudentDashBoardContent from "./components/studentSection/studentDashBoard/StudentDashBoardContent";
+import TeacherDashBoardContent from "./components/teacherSection/teacherDashBoard/TeacherDashBoardContent";
+import StaffDashBoardContent from "./components/staffSection/staffDashBoard/StaffDashBoardContent";
+import AdminStudentAdd from "./components/adminSection/adminStudents/addStudent/AdminStudentAdd";
+import TotalStudents from "./components/adminSection/adminStudents/totalStudents/TotalStudents";
+import { useSelector } from "react-redux";
+import { getStudentInfo } from "./features/student/studentsSlice";
+import { getStaffInfo } from "./features/staff/staffSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [openLogin, setOpenLogin] = useState(false);
@@ -35,6 +45,9 @@ export default function App() {
   const [openChatBox, setOpenChatBox] = useState(false);
   const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
   const authUser = true;
+  const studentInfo = useSelector(getStudentInfo);
+  const staffInfo = useSelector(getStaffInfo);
+  console.log(staffInfo);
 
   const navigate = useNavigate();
   const clearLogOptions = () => {
@@ -44,6 +57,13 @@ export default function App() {
   };
 
   const openChat = () => setOpenChatBox(!openChatBox);
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 5000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "light",
+  };
 
   return (
     <div className="app" onClick={clearLogOptions}>
@@ -55,18 +75,41 @@ export default function App() {
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/contact" element={<Contact />} />
         <Route path="/sensec/student_enrollment" element={<Enrollments />} />
-        <Route path="/sensec/admin/login" element={<AdminLoginPage />} />
-        <Route path="/sensec/staff/login" element={<StaffLogin />} />
-        <Route path="/sensec/teacher/login" element={<TeacherLoginPage />} />
-        <Route path="/sensec/student/login" element={<StudentLoginPage />} />
+        <Route
+          path="/sensec/admin/login"
+          element={<AdminLoginPage toastOptions={toastOptions} toast={toast} />}
+        />
+        <Route
+          path="/sensec/staff/login"
+          element={<StaffLogin toastOptions={toastOptions} toast={toast} />}
+        />
+        <Route
+          path="/sensec/teacher/login"
+          element={
+            <TeacherLoginPage toastOptions={toastOptions} toast={toast} />
+          }
+        />
+        <Route
+          path="/sensec/student/login"
+          element={
+            <StudentLoginPage toastOptions={toastOptions} toast={toast} />
+          }
+        />
         <Route
           exact
           path="/sensec/admin"
           element={
-            <AdminDashboard
-              toggleSidebar={toggleSidebar}
-              openSidebar={openSidebar}
-            />
+            (staffInfo && staffInfo.staffRole === "Admin") ||
+            (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+              <AdminDashboard
+                toggleSidebar={toggleSidebar}
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            ) : (
+              <Navigate to={"/sensec/admin/login"} />
+            )
           }
         >
           <Route
@@ -87,44 +130,90 @@ export default function App() {
             path="/sensec/admin/students"
             element={<AdminStudents openSidebar={openSidebar} />}
           />
+          <Route
+            path="/sensec/admin/students_enrollment"
+            element={<AdminStudentAdd />}
+          />
+          <Route
+            path="/sensec/admin/all_students"
+            element={<TotalStudents />}
+          />
         </Route>
         <Route
           path="/sensec/staff"
           element={
-            <StaffDashboard
-              toggleSidebar={toggleSidebar}
-              openSidebar={openSidebar}
-            />
+            staffInfo ? (
+              <StaffDashboard
+                toggleSidebar={toggleSidebar}
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            ) : (
+              <Navigate to={"/sensec/staff/login"} />
+            )
           }
-        />
+        >
+          <Route
+            index
+            element={<StaffDashBoardContent openSidebar={openSidebar} />}
+          />
+        </Route>
         <Route
           path="/sensec/teacher"
           element={
-            <TeacherDashBoard
-              toggleSidebar={toggleSidebar}
-              openSidebar={openSidebar}
-            />
+            (staffInfo && staffInfo.staffRole === "Teacher") ||
+            (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+              <TeacherDashBoard
+                toggleSidebar={toggleSidebar}
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            ) : (
+              <Navigate to={"/sensec/teacher/login"} />
+            )
           }
-        />
+        >
+          <Route
+            index
+            element={<TeacherDashBoardContent openSidebar={openSidebar} />}
+          />
+        </Route>
         <Route
           path="/sensec/student"
           element={
-            <StudentDashBoard
-              toggleSidebar={toggleSidebar}
-              openSidebar={openSidebar}
-            />
+            studentInfo && studentInfo.isStudent ? (
+              <StudentDashBoard
+                toggleSidebar={toggleSidebar}
+                openSidebar={openSidebar}
+                studentInfo={studentInfo}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            ) : (
+              <Navigate to={"/sensec/student/login"} />
+            )
           }
-        />
+        >
+          <Route
+            index
+            element={<StudentDashBoardContent openSidebar={openSidebar} />}
+          />
+        </Route>
         <Route
           path="*"
           element={
             <div className="empty-page">
-              <h1 className="page404">404</h1>
-              <img src="/assets/sad-dog1.jpg" alt="sad dog" />
-              <h1>Ooops! There is nothing in here...</h1>
-              <button className="empty-page-btn" onClick={() => navigate(-1)}>
-                Go back
-              </button>
+              <h2>Page Not Found!</h2>
+              <div className="emptyWrap">
+                <h1 className="page404">404</h1>
+                <img src="/assets/sad-dog1.jpg" alt="sad dog" />
+                <h1>Ooops! There is nothing in here...</h1>
+                <button className="empty-page-btn" onClick={() => navigate(-1)}>
+                  Go back
+                </button>
+              </div>
             </div>
           }
         />
@@ -149,6 +238,7 @@ export default function App() {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

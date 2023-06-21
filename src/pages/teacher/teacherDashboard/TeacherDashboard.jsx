@@ -14,6 +14,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TvIcon from "@mui/icons-material/Tv";
 import { HashLink } from "react-router-hash-link";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
+import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 
 export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
   const staffInfo = true;
@@ -49,7 +50,7 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/teacher?dashboard"} className="links">
+              <HashLink to={"/sensec/teacher"} className="links">
                 <TvIcon />
                 <h4>Dashboard</h4>
               </HashLink>
@@ -68,23 +69,24 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
               </HashLink>
               <HashLink to={"#"} className="links">
                 <SchoolOutlinedIcon />
-                <h4>Students</h4>
+                <h4> Course Students</h4>
               </HashLink>
               <HashLink to={"#"} className="links">
                 <ListAltOutlinedIcon />
-                <h4>Attendance</h4>
+                <h4>Students Attendance</h4>
               </HashLink>
               <HashLink to={"#"} className="links">
                 <CampaignOutlinedIcon />
-                <h4>Notice</h4>
+                <h4>Public Notice</h4>
               </HashLink>
             </div>
+            <LogoutBtn />
           </div>
-          <Outlet />
+          <div className={openSidebar ? "adminRight side" : "adminRight"}>
+            <Outlet />
+            <DashBoardFooter openSidebar={openSidebar} />
+          </div>
         </div>
-      </div>
-      <div className="dashFooter">
-        <DashBoardFooter />
       </div>
     </div>
   );
