@@ -16,9 +16,12 @@ import DashboardContent from "../../../components/adminSection/dashboardContent/
 import { Outlet } from "react-router-dom";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
+import { getStaffInfo } from "../../../features/staff/staffSlice";
+import { useSelector } from "react-redux";
 
 export default function AdminDashboard({ openSidebar, toggleSidebar }) {
-  const staffInfo = true;
+  // const staffInfo = true;
+  const staffInfo = useSelector(getStaffInfo);
   return (
     <div id="admin">
       <div className="adminWrap">
@@ -44,7 +47,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <span>
                   {staffInfo.isMale ? "Mr." : "Mrs."} {staffInfo.lastName}
                 </span>
-                <p>( {staffInfo.role} )</p>
+                <p>( {staffInfo.staffRole} )</p>
               </div>
             </div>
             <div className="contentLinks">

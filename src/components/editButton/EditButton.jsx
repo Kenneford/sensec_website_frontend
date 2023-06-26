@@ -9,9 +9,9 @@ export default function EditButton({
   staff,
   studentId,
   student,
+  setNewStudent,
 }) {
   const navigate = useNavigate();
-  const {} = useParams();
   const EditStaffBtn = () => {
     return (
       <button
@@ -32,7 +32,10 @@ export default function EditButton({
     return (
       <button
         className="editBtn"
-        onClick={() => navigate(`/sensec/admin/edit_student/${firstName}`)}
+        onClick={() => {
+          setNewStudent(student);
+          navigate(`/sensec/admin/edit_student/${studentId}`);
+        }}
       >
         Edit
       </button>

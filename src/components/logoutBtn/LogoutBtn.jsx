@@ -7,7 +7,11 @@ import {
   getStudentInfo,
   studentLogout,
 } from "../../features/student/studentsSlice";
-import { getStaffInfo, staffLogout } from "../../features/staff/staffSlice";
+import {
+  getStaffInfo,
+  logoutStaff,
+  staffLogout,
+} from "../../features/staff/staffSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,14 +27,14 @@ export default function LogoutBtn() {
     if (studentInfo) {
       dispatch(studentLogout());
       navigate("/sensec/homepage");
-      toast.success("Logout Successful...", {
+      toast.success("You logged out Successfully...", {
         position: "top-right",
         theme: "dark",
       });
     } else {
       dispatch(staffLogout());
       navigate("/sensec/homepage");
-      toast.success("Logout Successful...", {
+      toast.success("You logged out Successfully...", {
         position: "top-right",
         theme: "dark",
       });

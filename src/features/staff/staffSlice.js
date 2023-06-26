@@ -5,10 +5,12 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 
 const initialState = {
   staffInfo: "",
+  authStaffInfo: "",
   successMessage: "",
   error: "",
   registerStatus: "",
   loginStatus: "",
+  logoutStatus: "",
   fetchingStatus: "",
   // loginError: "",
   allStaffs: [
@@ -23,7 +25,6 @@ const initialState = {
     //   course: "E-Maths",
     // },
   ],
-  loading: true,
   authenticated: false,
 };
 
@@ -40,7 +41,7 @@ const getStaffToken = localStorage.getItem("staffToken");
 if (getStaffToken) {
   const getStaffInfo = tokenDecoded(getStaffToken);
   if (getStaffInfo) {
-    initialState.staffInfo = getStaffInfo;
+    initialState.authStaffInfo = getStaffInfo;
     initialState.authenticated = true;
     initialState.loading = false;
   }
@@ -50,7 +51,9 @@ export const staffRegistory = createAsyncThunk(
   "staffs/staffRegistory",
   async (data, { rejectWithValue }) => {
     try {
-      await axios.post(`${API_ENDPOINT}/authusers/add_staff`, data);
+      const res = await axios.post(`${API_ENDPOINT}/authusers/add_staff`, data);
+      console.log(res.data);
+      return res.data;
     } catch (error) {
       console.log(error.response.data);
       return rejectWithValue(error.response.data);
@@ -69,7 +72,7 @@ export const staffLogin = createAsyncThunk(
       console.log("Staff", res.data);
       //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
-      return res.data.token;
+      return res.data;
     } catch (error) {
       console.log(error.response);
       return rejectWithValue(error.response.data);
@@ -87,7 +90,7 @@ export const adminLogin = createAsyncThunk(
       console.log("Admin", res.data);
       //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
-      return res.data.token;
+      return res.data;
     } catch (error) {
       console.log(error.response);
       return rejectWithValue(error.response.data);
@@ -105,7 +108,7 @@ export const teacherLogin = createAsyncThunk(
       console.log("Teacher", res.data);
       //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
-      return res.data.token;
+      return res.data;
     } catch (error) {
       console.log(error.response);
       return rejectWithValue(error.response.data);
@@ -113,8 +116,23 @@ export const teacherLogin = createAsyncThunk(
   }
 );
 
+export const logoutStaff = createAsyncThunk(
+  "staffs/logoutStaff",
+  async ({ rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${API_ENDPOINT}/staffs/staff_logout`);
+      console.log(res.data);
+      if (res.data.success) {
+        localStorage.removeItem("staffToken");
+      }
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 const staffsSlice = createSlice({
-  name: "staffs",
+  name: "staff",
   initialState,
   reducers: {
     // loadUser(state, action) {
@@ -137,24 +155,13 @@ const staffsSlice = createSlice({
       return {
         ...state,
         staffInfo: "",
+        authStaffInfo: "",
         successMessage: "",
         error: "",
         registerStatus: "",
         loginStatus: "",
-        // loginError: "",
-        allStaffs: [
-          // {
-          //   id: 1,
-          //   name: "Patrick Annan",
-          //   course: "Science",
-          // },
-          // {
-          //   id: 2,
-          //   name: "Robert Afful",
-          //   course: "E-Maths",
-          // },
-        ],
-        loading: true,
+        fetchingStatus: "",
+        allStaffs: [],
         authenticated: false,
       };
     },
@@ -167,12 +174,11 @@ const staffsSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          staffInfo: action.payload,
-          successMessage: "Staff Registered Successfully...",
+          staffInfo: action.payload.staff,
+          successMessage: action.payload.successMessage,
           registerStatus: "success",
           error: "",
           authenticated: false,
-          loading: false,
         };
       } else return state;
     });
@@ -180,7 +186,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         registerStatus: "rejected",
-        error: action.payload,
+        error: action.payload.errorMessage,
       };
     });
     builder.addCase(staffLogin.pending, (state, action) => {
@@ -188,14 +194,13 @@ const staffsSlice = createSlice({
     });
     builder.addCase(staffLogin.fulfilled, (state, action) => {
       if (action.payload) {
-        const staff = tokenDecoded(action.payload);
+        const staff = tokenDecoded(action.payload.token);
         return {
           ...state,
-          staffInfo: staff,
-          successMessage: "Login Successful...",
+          authStaffInfo: staff,
+          successMessage: action.payload.successMessage,
           loginStatus: "success",
           authenticated: true,
-          loading: false,
         };
       } else return state;
     });
@@ -203,7 +208,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         loginStatus: "rejected",
-        error: action.payload,
+        error: action.payload.errorMessage,
       };
     });
     builder.addCase(adminLogin.pending, (state, action) => {
@@ -211,14 +216,13 @@ const staffsSlice = createSlice({
     });
     builder.addCase(adminLogin.fulfilled, (state, action) => {
       if (action.payload) {
-        const admin = tokenDecoded(action.payload);
+        const admin = tokenDecoded(action.payload.token);
         return {
           ...state,
-          staffInfo: admin,
-          successMessage: "Login Successful...",
+          authStaffInfo: admin,
+          successMessage: action.payload.successMessage,
           loginStatus: "success",
           authenticated: true,
-          loading: false,
         };
       } else return state;
     });
@@ -226,7 +230,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         loginStatus: "rejected",
-        error: action.payload,
+        error: action.payload.errorMessage,
       };
     });
     builder.addCase(teacherLogin.pending, (state, action) => {
@@ -234,14 +238,13 @@ const staffsSlice = createSlice({
     });
     builder.addCase(teacherLogin.fulfilled, (state, action) => {
       if (action.payload) {
-        const teacher = tokenDecoded(action.payload);
+        const teacher = tokenDecoded(action.payload.token);
         return {
           ...state,
-          staffInfo: teacher,
-          successMessage: "Login Successful...",
+          authStaffInfo: teacher,
+          successMessage: action.payload.successMessage,
           loginStatus: "success",
           authenticated: true,
-          loading: false,
         };
       } else return state;
     });
@@ -249,7 +252,33 @@ const staffsSlice = createSlice({
       return {
         ...state,
         loginStatus: "rejected",
-        error: action.payload,
+        error: action.payload.errorMessage,
+      };
+    });
+    builder.addCase(logoutStaff.pending, (state, action) => {
+      return { ...state, logoutStatus: "pending" };
+    });
+    builder.addCase(logoutStaff.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          staffInfo: "",
+          authStaffInfo: "",
+          successMessage: "",
+          error: "",
+          registerStatus: "",
+          loginStatus: "",
+          fetchingStatus: "",
+          allStaffs: [],
+          authenticated: false,
+        };
+      } else return state;
+    });
+    builder.addCase(logoutStaff.rejected, (state, action) => {
+      return {
+        ...state,
+        logoutStatus: "rejected",
+        error: "Logout failed!",
       };
     });
     // builder.addCase(fetchAllStaffs.pending, (state, action) => {
@@ -276,8 +305,8 @@ const staffsSlice = createSlice({
   },
 });
 
-export const getAllStaffs = (state) => state.staffs.allStaffs;
-export const getStaffInfo = (state) => state.staffs.staffInfo;
+export const getAllStaffs = (state) => state.staff.allStaffs;
+export const getStaffInfo = (state) => state.staff.authStaffInfo;
 export const { staffLogout } = staffsSlice.actions;
 
 export default staffsSlice.reducer;

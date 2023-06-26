@@ -344,11 +344,11 @@
             }
           }
         }
-        .addStudentBtn {
+        .addStudentBtnWrap {
           display: flex;
           justify-content: right;
           padding-right: 5rem;
-          button {
+          .addStudentBtn {
             padding: 1rem;
             font-size: 1.5rem;
             border-radius: 0.4rem;
@@ -356,27 +356,29 @@
             background-color: green;
             color: #fff;
             transition: 0.4s ease;
+            cursor: pointer;
             &:hover {
               background-color: rgb(6, 168, 6);
             }
           }
           // float: right;
         }
-        .addStudentBtnDisabled {
+        .addStudentBtnWrap {
           display: flex;
           justify-content: right;
           padding-right: 5rem;
-          button {
+          .addStudentBtn:disabled {
             padding: 1rem;
             font-size: 1.5rem;
             border-radius: 0.4rem;
             margin: 1.5rem 0;
-            background-color: #cccc;
+            background-color: #cccccc;
             color: #fff;
             transition: 0.4s ease;
-            &:hover {
-              background-color: #e2e1e1cc;
-            }
+            cursor: not-allowed;
+            // &:hover {
+            //   background-color: #e2e1e1cc;
+            // }
           }
           // float: right;
         }

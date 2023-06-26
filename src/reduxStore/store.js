@@ -7,7 +7,7 @@ import StudentsReducer from "../features/allStudents/allStudents";
 export const store = configureStore({
   reducer: {
     student: studentReducer,
-    staffs: staffsReducer,
+    staff: staffsReducer,
     students: StudentsReducer,
   },
   //   middleware: getDefaultMiddleware({
