@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./adminStudentAdd.scss";
+// import "./adminStudentAdd.scss";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { CircularProgress } from "@mui/material";
-import { HashLink } from "react-router-hash-link";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
 import set from "lodash/set";
-import {
-  registerStudent,
-  registeredStudents,
-  studentRegistory,
-} from "../../../../features/student/studentsSlice";
-import { useNavigate } from "react-router-dom";
-import { getStaffInfo } from "../../../../features/staff/staffSlice";
-import { allRegisteredStudents } from "../../../../features/allStudents/allStudents";
-// import { studentRegister } from "../../../store/actions/authActions";
-// import LogoutBtn from "../../logoutBtn/LogoutBtn";
+import { staffRegistory } from "../../../../features/staff/staffSlice";
+// import { staffRegister } from "../../../../store/actions/authActions";
 
 const religionOptions = [
   { value: "None", label: "None" },
@@ -25,6 +16,10 @@ const religionOptions = [
   { value: "Islamic", label: "Islamic" },
   { value: "Traditional", label: "Traditional" },
   { value: "Others", label: "Others" },
+];
+const teacherRoleOptions = [
+  { value: "Admin", label: "Admin" },
+  { value: "Teacher", label: "Teacher" },
 ];
 const otherTongueOptions = [
   { value: "English", label: "English" },
@@ -61,18 +56,10 @@ const complexionOptions = [
   { value: "Brown", label: "Brown" },
   { value: "Black", label: "Black" },
 ];
-export default function AdminStudentAdd({
-  newStudent,
-  setNewStudent,
-  toastOptions,
-  toast,
-}) {
+export default function AddStaffMember({ toast, toastOptions }) {
   const { registerStatus, error, successMessage } = useSelector(
-    (state) => state.student
+    (state) => state.staff
   );
-  const { staffInfo } = useSelector((state) => state.staff);
-  // const staffInfo = useSelector(getStaffInfo);
-  console.log(staffInfo);
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
   const [date] = useState(
     // new Date().toLocaleString("en-US", {
@@ -83,86 +70,94 @@ export default function AdminStudentAdd({
     new Date().toDateString()
   );
   const [selectedRegion, setSelectedRegion] = useState("None");
-  const [isAStudent, setIsAStudent] = useState(false);
+  // const [staffRole, setStaffRole] = useState(false);
   const [father, setFather] = useState(false);
   const [mother, setMother] = useState(false);
   const [guardian, setGuardian] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const toggleSidebar = () => setOpenSidebar(!openSidebar);
+  const checkTrue = () => setCheck(!check);
+  console.log(openSidebar);
+  console.log(check);
   console.log(num);
   console.log(date);
 
-  const [loadProfileImage, setLoadProfileImage] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
   const currentYear = new Date().getFullYear();
-  // const [newStudent, setNewStudent] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   dateOfBirth: "",
-  //   placeOfBirth: "",
-  //   nationality: "",
-  //   password: `${currentYear}-${num}`,
-  //   confirmPassword: `${currentYear}-${num}`,
-  //   email: "",
-  //   studentId: `STDSSHS-${num}-${currentYear}`,
-  //   courseStudy: "",
-  //   studentRegistrar: {
-  //     registrarFirstName: `${staffInfo.firstName}`,
-  //     registrarlastName: `${staffInfo.lastName}`,
-  //     registrarRole: `${staffInfo.staffRole}`,
-  //     registrarId: `${staffInfo.staffId}`,
-  //   },
-  //   level: "",
-  //   // isStudent: "",
-  //   isMale: "",
-  //   studentImage: "",
-  //   profilePicture: "",
-  //   address: "",
-  //   currentCity: "",
-  //   homeTown: "",
-  //   region: "",
-  //   religion: "",
-  //   height: "",
-  //   weight: "",
-  //   mother: {
-  //     motherName: "",
-  //     motherOccupation: "",
-  //     motherPhoneNumber: "",
-  //     motherEmail: "",
-  //   },
-  //   father: {
-  //     fatherName: "",
-  //     fatherOccupation: "",
-  //     fatherPhoneNumber: "",
-  //     fatherEmail: "",
-  //   },
-  //   guardian: {
-  //     guardianName: "",
-  //     guardianOccupation: "",
-  //     guardianPhoneNumber: "",
-  //     guardianEmail: "",
-  //   },
-  //   motherTongue: "",
-  //   otherTongue: "",
-  //   complexion: "",
-  //   registedDate: date,
-  // });
-  console.log(newStudent.studentId);
+  const [newStaff, setNewStaff] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    nationality: "",
+    adminSecret: "",
+    teacherSecret: "",
+    password: `${currentYear}-${num}`,
+    confirmPassword: `${currentYear}-${num}`,
+    email: "",
+    role: "",
+    staffId: `STF-${num}-${currentYear}`,
+    teachingCourse: "",
+    staffRole: "None",
+    isMale: "",
+    staffImage: "",
+    profilePicture: "",
+    address: "",
+    currentCity: "",
+    homeTown: "",
+    region: "",
+    religion: "",
+    height: "",
+    weight: "",
+    motherTongue: "",
+    otherTongue: "",
+    complexion: "",
+    registedDate: date,
+  });
+  console.log(newStaff.staffRole);
+  console.log(selectedRegion);
+  console.log(newStaff.region);
+  console.log(newStaff.staffId);
+
+  const [loadProfileImage, setLoadProfileImage] = useState("");
+
   const [showpass, setShowPass] = useState(false);
   const [showConfirmpass, setShowConfirmPass] = useState(false);
 
-  const showPassword = () => setShowPass(!showpass);
+  console.log(showConfirmpass);
+
+  const showPassword = () => setShowPass((show) => !show);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
+  const handleInputValues = (e) => {
+    setNewStaff({
+      ...newStaff,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleGuardianValues = (e) => {
-    const userInfoCopy = JSON.parse(JSON.stringify(newStudent));
+    const userInfoCopy = JSON.parse(JSON.stringify(newStaff));
     set(userInfoCopy, e.target.name, e.target.value);
-    setNewStudent(userInfoCopy);
+    setNewStaff(userInfoCopy);
+  };
+  const handleTeacherRoleInput = (roleSelected) => {
+    console.log(roleSelected);
+    const role = roleSelected.map((lang) => {
+      return lang.value;
+    });
+    setNewStaff({
+      ...newStaff,
+      role: role,
+    });
+    // console.log(e);
+    // setSelectedRole(regionOptions.value);
   };
   const handleRegionInput = (regionSelected) => {
     const region = regionSelected.value;
-    setNewStudent({
-      ...newStudent,
+    setNewStaff({
+      ...newStaff,
       region: region,
     });
     // console.log(e);
@@ -170,15 +165,15 @@ export default function AdminStudentAdd({
   };
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
-    setNewStudent({
-      ...newStudent,
+    setNewStaff({
+      ...newStaff,
       religion: religion,
     });
   };
   const handleComplexionInput = (complexionSelected) => {
     const complexion = complexionSelected.value;
-    setNewStudent({
-      ...newStudent,
+    setNewStaff({
+      ...newStaff,
       complexion: complexion,
     });
   };
@@ -187,15 +182,90 @@ export default function AdminStudentAdd({
     const otherTongue = otherTongueSelected.map((lang) => {
       return lang.value;
     });
-    setNewStudent({
-      ...newStudent,
+    setNewStaff({
+      ...newStaff,
       otherTongue: otherTongue,
     });
   };
-  // console.log(loadProfileImage);
-  const stdFather = (e) => setFather(!father);
-  const stdMother = (e) => setMother(!mother);
-  const stdGuardian = (e) => setGuardian(!guardian);
+
+  const handleImageFileUpload = (e) => {
+    if (e.target.files.length !== 0) {
+      setNewStaff({ ...newStaff, [e.target.name]: e.target.files[0] });
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setLoadProfileImage(reader.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const {
+      firstName,
+      lastName,
+      dateOfBirth,
+      placeOfBirth,
+      nationality,
+      password,
+      confirmPassword,
+      email,
+      staffId,
+      adminSecret,
+      teacherSecret,
+      teachingCourse,
+      staffRole,
+      isMale,
+      staffImage,
+      profilePicture,
+      address,
+      currentCity,
+      homeTown,
+      region,
+      religion,
+      height,
+      weight,
+      motherTongue,
+      otherTongue,
+      complexion,
+      registedDate,
+    } = newStaff;
+    console.log(newStaff);
+    console.log(newStaff.region);
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("dateOfBirth", dateOfBirth);
+    formData.append("placeOfBirth", placeOfBirth);
+    formData.append("nationality", nationality);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    formData.append("email", email);
+    formData.append("staffId", staffId);
+    formData.append("staffRole", staffRole);
+    formData.append("adminSecret", adminSecret);
+    formData.append("teacherSecret", teacherSecret);
+    formData.append("teachingCourse", teachingCourse);
+    formData.append("isMale", isMale);
+    formData.append("staffImage", staffImage);
+    formData.append("profilePicture", profilePicture);
+    formData.append("address", address);
+    formData.append("currentCity", currentCity);
+    formData.append("homeTown", homeTown);
+    formData.append("region", region);
+    formData.append("religion", religion);
+    formData.append("height", height);
+    formData.append("weight", weight);
+    formData.append("motherTongue", motherTongue);
+    formData.append("otherTongue", otherTongue);
+    formData.append("complexion", complexion);
+    formData.append("registedDate", registedDate);
+    dispatch(staffRegistory(formData));
+  };
+
+  const stdFather = () => setFather(!father);
+  const stdMother = () => setMother(!mother);
+  const stdGuardian = () => setGuardian(!guardian);
 
   const selectorStyles = {
     control: (baseStyles, state) => ({
@@ -218,182 +288,7 @@ export default function AdminStudentAdd({
     }),
   };
 
-  const handleInputValues = (e) => {
-    setNewStudent({
-      ...newStudent,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleImageFileUpload = (e) => {
-    if (e.target.files.length !== 0) {
-      setNewStudent({ ...newStudent, [e.target.name]: e.target.files[0] });
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setLoadProfileImage(reader.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      dateOfBirth,
-      placeOfBirth,
-      nationality,
-      password,
-      confirmPassword,
-      email,
-      studentId,
-      courseStudy,
-      studentRegistrar,
-      level,
-      isMale,
-      studentImage,
-      profilePicture,
-      address,
-      currentCity,
-      homeTown,
-      region,
-      religion,
-      height,
-      weight,
-      mother,
-      father,
-      guardian,
-      motherTongue,
-      otherTongue,
-      complexion,
-      registedDate,
-    } = newStudent;
-    console.log(newStudent);
-    const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("dateOfBirth", dateOfBirth);
-    formData.append("placeOfBirth", placeOfBirth);
-    formData.append("nationality", nationality);
-    formData.append("password", password);
-    formData.append("confirmPassword", confirmPassword);
-    formData.append("email", email);
-    formData.append("studentId", studentId);
-    formData.append("courseStudy", courseStudy);
-    formData.append(
-      "studentRegistrar[registrarFirstName]",
-      studentRegistrar.registrarFirstName
-    );
-    formData.append(
-      "studentRegistrar[registrarlastName]",
-      studentRegistrar.registrarlastName
-    );
-    formData.append(
-      "studentRegistrar[registrarRole]",
-      studentRegistrar.registrarRole
-    );
-    formData.append(
-      "studentRegistrar[registrarId]",
-      studentRegistrar.registrarId
-    );
-    formData.append("level", level);
-    // formData.append("isStudent", isStudent);
-    formData.append("isMale", isMale);
-    formData.append("studentImage", studentImage);
-    formData.append("profilePicture", profilePicture);
-    // formData.append("image", profilePicture);
-    formData.append("address", address);
-    formData.append("currentCity", currentCity);
-    formData.append("homeTown", homeTown);
-    formData.append("region", region);
-    formData.append("religion", religion);
-    formData.append("height", height);
-    formData.append("weight", weight);
-    formData.append("mother[motherName]", mother.motherName);
-    formData.append("mother[motherOccupation]", mother.motherOccupation);
-    formData.append("mother[motherPhoneNumber]", mother.motherPhoneNumber);
-    formData.append("mother[motherEmail]", mother.motherEmail);
-    formData.append("father[fatherName]", father.fatherName);
-    formData.append("father[fatherOccupation]", father.fatherOccupation);
-    formData.append("father[fatherPhoneNumber]", father.fatherPhoneNumber);
-    formData.append("father[fatherEmail]", father.fatherEmail);
-    formData.append("guardian[guardianName]", guardian.guardianName);
-    formData.append(
-      "guardian[guardianOccupation]",
-      guardian.guardianOccupation
-    );
-    formData.append(
-      "guardian[guardianPhoneNumber]",
-      guardian.guardianPhoneNumber
-    );
-    formData.append("guardian[guardianEmail]", guardian.guardianEmail);
-    formData.append("motherTongue", motherTongue);
-    formData.append("otherTongue", otherTongue);
-    formData.append("complexion", complexion);
-    formData.append("registedDate", registedDate);
-    // dispatch(allRegisteredStudents(formData));
-    // dispatch(registeredStudents(formData));
-    dispatch(studentRegistory(formData));
-    setNewStudent({
-      firstName: "",
-      lastName: "",
-      dateOfBirth: "",
-      placeOfBirth: "",
-      nationality: "",
-      password: "",
-      confirmPassword: "",
-      email: "",
-      studentId: "",
-      courseStudy: "",
-      studentRegistrar: {
-        registrarFirstName: "",
-        registrarlastName: "",
-        registrarRole: "",
-        registrarId: "",
-      },
-      level: "",
-      // isStudent: "",
-      isMale: "",
-      studentImage: "",
-      profilePicture: "",
-      address: "",
-      currentCity: "",
-      homeTown: "",
-      region: "",
-      religion: "",
-      height: "",
-      weight: "",
-      mother: {
-        motherName: "",
-        motherOccupation: "",
-        motherPhoneNumber: "",
-        motherEmail: "",
-      },
-      father: {
-        fatherName: "",
-        fatherOccupation: "",
-        fatherPhoneNumber: "",
-        fatherEmail: "",
-      },
-      guardian: {
-        guardianName: "",
-        guardianOccupation: "",
-        guardianPhoneNumber: "",
-        guardianEmail: "",
-      },
-      motherTongue: "",
-      otherTongue: "",
-      complexion: "",
-      registedDate: date,
-    });
-    setFather(false);
-    setMother(false);
-    setGuardian(false);
-    // navigate("/sensec/admin/all_students");
-    // navigate("/sensec/admin/all_students");
-  };
-  const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
+  const canSave = Boolean(newStaff.firstName) && Boolean(newStaff.lastName);
   console.log(canSave);
 
   useEffect(() => {
@@ -415,12 +310,12 @@ export default function AdminStudentAdd({
         // toastId: successId,
       });
     }
-  }, [error, successMessage, registerStatus, toast, toastOptions, navigate]);
+  }, [error, successMessage, registerStatus, toast, toastOptions]);
 
   return (
-    <div className="registerWrap" id="studentReg">
+    <div className="registerWrap">
       <div className="register">
-        <h1>NEW STUDENT REGISTRATION</h1>
+        <h1>NEW STAFF MEMBER REGISTRATION</h1>
         <div className="registerCont">
           <form onSubmit={handleRegister}>
             <div className="studentProfile">
@@ -458,20 +353,153 @@ export default function AdminStudentAdd({
                   </div>
                   <div className="studentId">
                     {/* <label htmlFor="studentId">Student ID</label> */}
-                    <h3>Student ID</h3>
+                    <h3>New Staff Member ID</h3>
                     <input
                       className="idInput"
                       type="text"
                       name="studentId"
                       onChange={handleInputValues}
                       // value={newStudent.studentId}
-                      value={newStudent.studentId}
+                      value={newStaff.staffId}
                     />
+                    <div className="staffMember">
+                      <span className="staffQuestion">Staff Role:</span>
+                      <div className="staffAnswer">
+                        <div className="radioGap">
+                          <label
+                            htmlFor="none"
+                            style={{
+                              color: "#696969",
+                              marginRight: "5px",
+                            }}
+                          >
+                            None
+                          </label>
+                          <input
+                            type="radio"
+                            onChange={handleInputValues}
+                            name="staffRole"
+                            value={"None"}
+                            style={{ outline: "none" }}
+                            checked={newStaff.staffRole === "None"}
+                          />
+                        </div>
+                        <div className="radioGap">
+                          <label
+                            htmlFor="admin"
+                            style={{
+                              color: "#696969",
+                              outline: "none",
+                              marginRight: "5px",
+                            }}
+                          >
+                            Admin
+                          </label>
+                          <input
+                            type="radio"
+                            onChange={handleInputValues}
+                            name="staffRole"
+                            value={"Admin"}
+                            style={{ outline: "none" }}
+                            checked={newStaff.staffRole === "Admin"}
+                          />
+                        </div>
+                        <div className="radioGap">
+                          <label
+                            htmlFor="admin/teacher"
+                            style={{
+                              color: "#696969",
+                              outline: "none",
+                              marginRight: "5px",
+                            }}
+                          >
+                            Admin/Teacher
+                          </label>
+                          <input
+                            type="radio"
+                            onChange={handleInputValues}
+                            name="staffRole"
+                            value={"Admin/Teacher"}
+                            style={{ outline: "none" }}
+                            checked={newStaff.staffRole === "Admin/Teacher"}
+                          />
+                        </div>
+                        <div className="radioGap">
+                          <label
+                            htmlFor="teacher"
+                            style={{
+                              color: "#696969",
+                              outline: "none",
+                              marginRight: "5px",
+                            }}
+                          >
+                            Teacher
+                          </label>
+                          <input
+                            type="radio"
+                            onChange={handleInputValues}
+                            name="staffRole"
+                            value={"Teacher"}
+                            style={{ outline: "none" }}
+                            checked={newStaff.staffRole === "Teacher"}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="keysDiv">
+                      {newStaff.staffRole === "Admin" ||
+                      newStaff.staffRole === "Admin/Teacher" ? (
+                        <div className="studentId">
+                          <h3 htmlFor="adminSecret">Admin Secret Key</h3>
+                          <input
+                            type="text"
+                            className="idInput"
+                            onChange={handleInputValues}
+                            name="adminSecret"
+                            value={newStaff.adminSecret}
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {newStaff.staffRole === "Teacher" ||
+                      newStaff.staffRole === "Admin/Teacher" ? (
+                        <div className="studentId">
+                          <h3 htmlFor="teacherSecret">Teacher Secret Key</h3>
+                          <input
+                            type="text"
+                            className="idInput"
+                            onChange={handleInputValues}
+                            name="teacherSecret"
+                            value={newStaff.teacherSecret}
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
+                  {/* <div className="profilePicture">
+                            <img
+                              src="https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
+                              alt=""
+                            />
+                          </div>
+                          <div className="imageFileUpload">
+                            <label htmlFor="profilePicture">Select Image</label>
+                            <input
+                              type="file"
+                              onChange={handleImageFileUpload}
+                              name="profilePicture"
+                              value={newStaff.profilePicture}
+                              style={{ display: "none" }}
+                              accept=".png,.jpeg,.jpg"
+                            />
+                          </div> */}
                 </div>
               </div>
               <div className="profileDateWrap">
-                <h3>Student's Profile</h3>
+                <h3>Staff Member Profile</h3>
                 <div className="date">
                   <h3>Date:</h3>
                   <input
@@ -491,7 +519,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="firstName"
-                      value={newStudent.firstName}
+                      value={newStaff.firstName}
                     />
                   </div>
                   <div className="inputField">
@@ -500,7 +528,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="lastName"
-                      value={newStudent.lastName}
+                      value={newStaff.lastName}
                     />
                   </div>
                   <div className="inputField">
@@ -509,7 +537,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="dateOfBirth"
-                      value={newStudent.dateOfBirth}
+                      value={newStaff.dateOfBirth}
                     />
                   </div>
                   <div className="inputField">
@@ -518,7 +546,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="placeOfBirth"
-                      value={newStudent.placeOfBirth}
+                      value={newStaff.placeOfBirth}
                     />
                   </div>
                   <div className="inputField">
@@ -527,7 +555,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="homeTown"
-                      value={newStudent.homeTown}
+                      value={newStaff.homeTown}
                     />
                   </div>
                   <div className="region">
@@ -549,44 +577,6 @@ export default function AdminStudentAdd({
                         },
                       })}
                     />
-                    {/* <select
-                              name="region"
-                              id="region"
-                              value={selectedRegion}
-                              onChange={(e) => {
-                                const regionSelected = e.target.value;
-                                setSelectedRegion(regionSelected);
-                              }}
-                            >
-                              <option value="None">None</option>
-                              <option value="Greater Accra">
-                                Greater Accra
-                              </option>
-                              <option value="Ashanti">Ashanti</option>
-                              <option value="Volta">Volta</option>
-                              <option value="Eastern">Eastern</option>
-                            </select> */}
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="level">Form (Level)</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="level"
-                      value={newStudent.level}
-                    />
-                  </div>
-                  {/* <p>{selectedRegion} Region</p> */}
-                </div>
-                <div className="middle">
-                  <div className="inputField">
-                    <label htmlFor="courseStudy">Course Study</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="courseStudy"
-                      value={newStudent.courseStudy}
-                    />
                   </div>
                   <div className="inputField">
                     <label htmlFor="currentCity">Current City</label>
@@ -594,16 +584,51 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="currentCity"
-                      value={newStudent.currentCity}
+                      value={newStaff.currentCity}
                     />
                   </div>
+                </div>
+                <div className="middle">
+                  {/* <div className="religion">
+                      <label htmlFor="role">Member Role(s)</label>
+                      <CreatableSelect
+                        name="role"
+                        id="selector"
+                        isMulti={true}
+                        // defaultValue={teacherRoleOptions[0]}
+                        options={teacherRoleOptions}
+                        onChange={handleTeacherRoleInput}
+                        styles={selectorStyles}
+                        theme={(theme) => ({
+                          ...theme,
+                          borderRadius: 0,
+                          colors: {
+                            ...theme.colors,
+                            primary25: "#696969",
+                            primary: "#696969",
+                          },
+                        })}
+                      />
+                    </div> */}
+                  {newStaff.staffRole === "Admin" ||
+                  newStaff.staffRole === "None" ? null : (
+                    <div className="inputField">
+                      <label htmlFor="teachingCourse">Teaching Course</label>
+                      <input
+                        type="text"
+                        onChange={handleInputValues}
+                        name="teachingCourse"
+                        value={newStaff.teachingCourse}
+                      />
+                    </div>
+                  )}
                   <div className="inputField">
                     <label htmlFor="nationality">Nationality</label>
                     <input
                       type="text"
                       onChange={handleInputValues}
                       name="nationality"
-                      value={newStudent.nationality}
+                      value={newStaff.nationality}
                     />
                   </div>
                   <div className="sexField">
@@ -626,7 +651,7 @@ export default function AdminStudentAdd({
                             name="isMale"
                             value={true}
                             style={{ outline: "none" }}
-                            checked={newStudent.isMale === "true"}
+                            checked={newStaff.isMale === "true"}
                           />
                         </div>
                         <div className="radioGap">
@@ -646,7 +671,7 @@ export default function AdminStudentAdd({
                             name="isMale"
                             value={false}
                             style={{ outline: "none" }}
-                            checked={newStudent.isMale === "false"}
+                            checked={newStaff.isMale === "false"}
                           />
                         </div>
                       </div>
@@ -658,7 +683,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="address"
-                      value={newStudent.address}
+                      value={newStaff.address}
                     />
                   </div>
                   <div className="religion">
@@ -687,7 +712,7 @@ export default function AdminStudentAdd({
                       type={showpass ? "text" : "password"}
                       onChange={handleInputValues}
                       name="password"
-                      value={newStudent.password}
+                      value={newStaff.password}
                     />
                     <div
                       style={{
@@ -712,7 +737,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="motherTongue"
-                      value={newStudent.motherTongue}
+                      value={newStaff.motherTongue}
                     />
                   </div>
                   <div className="otherTongue">
@@ -762,7 +787,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="height"
-                      value={newStudent.height}
+                      value={newStaff.height}
                     />
                   </div>
                   <div className="inputField">
@@ -771,7 +796,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="weight"
-                      value={newStudent.weight}
+                      value={newStaff.weight}
                     />
                   </div>
                   <div className="inputField">
@@ -780,7 +805,7 @@ export default function AdminStudentAdd({
                       type="text"
                       onChange={handleInputValues}
                       name="email"
-                      value={newStudent.email}
+                      value={newStaff.email}
                     />
                   </div>
                   <div className="inputField">
@@ -789,7 +814,7 @@ export default function AdminStudentAdd({
                       type={showConfirmpass ? "text" : "password"}
                       onChange={handleInputValues}
                       name="confirmPassword"
-                      value={newStudent.confirmPassword}
+                      value={newStaff.confirmPassword}
                     />
                     <div
                       style={{
@@ -809,172 +834,15 @@ export default function AdminStudentAdd({
                 </div>
               </div>
             </div>
-            <div className="guardianProfile">
-              <h3>Parents/Guardian Profile</h3>
-              <div className="guadianCont">
-                <div className="left">
-                  <div className="guardianImage" onClick={stdFather}>
-                    <img
-                      src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Father</h3>
-                  </div>
-                  {father && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="fatherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherName"
-                          // value={newStudent.father.fatherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherOccupation"
-                          value={newStudent.father.fatherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherPhoneNumber"
-                          // value={newStudent.father.fatherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="father.fatherEmail"
-                          // value={newStudent.father.fatherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="middle">
-                  <div className="guardianImage" onClick={stdMother}>
-                    <img
-                      src="https://images.unsplash.com/photo-1581464907815-29bdb6343d3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Mother</h3>
-                  </div>
-                  {mother && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="motherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherName"
-                          // value={newStudent.mother.motherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherOccupation"
-                          // value={newStudent.mother.motherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherPhoneNumber"
-                          // value={newStudent.mother.motherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="mother.motherEmail"
-                          // value={newStudent.mother.motherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="right">
-                  <div className="guardianImage" onClick={stdGuardian}>
-                    <img
-                      src="https://images.unsplash.com/photo-1619380061814-58f03707f082?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Guardian</h3>
-                  </div>
-                  {guardian && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="guardianName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianName"
-                          // value={newStudent.guardian.guardianName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianOccupation"
-                          // value={newStudent.guardian.guardianOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianPhoneNumber">
-                          Mobile Number
-                        </label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianPhoneNumber"
-                          // value={
-                          //   newStudent.guardian.guardianPhoneNumber
-                          // }
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianEmail"
-                          // value={newStudent.guardian.guardianEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="addStudentBtnWrap">
+            <div className="addStudentBtn">
               <button
-                className="addStudentBtn"
                 type="submit"
                 disabled={!canSave || registerStatus === "pending"}
               >
                 {registerStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
                 ) : (
-                  "Add Student"
+                  "Add Member"
                 )}
               </button>
             </div>

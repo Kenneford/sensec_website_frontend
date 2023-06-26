@@ -138,19 +138,17 @@ export default function NavBar({ setOpenLogin, openLogin }) {
             ""
           )}
           {(staffInfo && staffInfo.staffRole === "Teacher") ||
-          (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
-            <li>
-              <NavHashLink
-                to={"/sensec/teacher/#teacher"}
-                smooth
-                scroll={scrollWithOffset}
-              >
-                Teacher
-              </NavHashLink>
-            </li>
-          ) : (
-            ""
-          )}
+            (staffInfo && staffInfo.staffRole === "Admin/Teacher" && (
+              <li>
+                <NavHashLink
+                  to={"/sensec/teacher/#teacher"}
+                  smooth
+                  scroll={scrollWithOffset}
+                >
+                  Teacher
+                </NavHashLink>
+              </li>
+            ))}
           {staffInfo && (
             <li>
               <NavHashLink

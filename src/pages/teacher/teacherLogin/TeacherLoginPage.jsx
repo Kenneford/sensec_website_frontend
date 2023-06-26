@@ -13,7 +13,7 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
   const [idLengthError, setIdLengthError] = useState("");
   const [keyLengthError, setKeyLengthError] = useState("");
   const { loginStatus, error, successMessage } = useSelector(
-    (state) => state.staffs
+    (state) => state.staff
   );
 
   const [staff, setStaff] = useState({
@@ -62,7 +62,7 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
 
   useEffect(() => {
     if (loginStatus === "rejected") {
-      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
+      error.message.map((err) => toast.error(err, toastOptions));
       return;
     }
     if (loginStatus === "success") {
@@ -96,6 +96,7 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
             <h1>Login</h1>
             <form onSubmit={handleLogin}>
               <input
+                className="loginInput"
                 type="text"
                 placeholder="Your ID"
                 onChange={handleInputValues}
@@ -108,12 +109,16 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
                     color: "red",
                     position: "relative",
                     marginTop: "-1.5rem",
+                    fontSize: ".8rem",
+                    fontWeight: "400",
+                    fontStyle: "italic",
                   }}
                 >
                   {idLengthError}
                 </p>
               )}
               <input
+                className="loginInput"
                 type="text"
                 placeholder="Your Teacher Key"
                 onChange={handleInputValues}
@@ -126,6 +131,9 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
                     color: "red",
                     position: "relative",
                     marginTop: "-1.5rem",
+                    fontSize: ".8rem",
+                    fontWeight: "400",
+                    fontStyle: "italic",
                   }}
                 >
                   {keyLengthError}
@@ -133,6 +141,7 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
               )}
               <div className="staffId">
                 <input
+                  className="loginInput"
                   type={showpass ? "text" : "password"}
                   placeholder="Password"
                   onChange={handleInputValues}
@@ -160,6 +169,9 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
                     color: "red",
                     position: "relative",
                     marginTop: "-1.5rem",
+                    fontSize: ".8rem",
+                    fontWeight: "400",
+                    fontStyle: "italic",
                   }}
                 >
                   {passLengthError}

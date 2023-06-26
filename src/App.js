@@ -16,7 +16,6 @@ import NavBar from "./components/navBar/NavBar";
 import AdminTeachers from "./components/adminSection/adminTeachers/AdminTeachers";
 import DashboardContent from "./components/adminSection/dashboardContent/DashboardContent";
 import AdminStudents from "./components/adminSection/adminStudents/AdminStudents";
-import AdminStaff from "./components/adminSection/adminStaff/AdminStaff";
 import About from "./pages/about/About";
 import Courses from "./pages/courses/Courses";
 import Contact from "./pages/contact/Contact";
@@ -38,16 +37,78 @@ import { getStudentInfo } from "./features/student/studentsSlice";
 import { getStaffInfo } from "./features/staff/staffSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AllStaffMembers from "./components/adminSection/adminStaff/allStaffMembers/AllStaffMembers";
+import AddStaffMember from "./components/adminSection/adminStaff/addStaffMember/AddStaffMember";
+import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/UpdateStudent";
+import SearchStudent from "./components/adminSection/adminStudents/searchStudent/SearchStudent";
 
 export default function App() {
   const [openLogin, setOpenLogin] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
+  const currentYear = new Date().getFullYear();
+  // const { staffInfo } = useSelector((state) => state.staff);
+  const staffInfo = useSelector(getStaffInfo);
+  console.log(staffInfo);
+  const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
+  const [date] = useState(new Date().toDateString());
+  const [newStudent, setNewStudent] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    nationality: "",
+    password: `${currentYear}-${num}`,
+    confirmPassword: `${currentYear}-${num}`,
+    email: "",
+    studentId: `STDSSHS-${num}-${currentYear}`,
+    courseStudy: "",
+    studentRegistrar: {
+      registrarFirstName: `${staffInfo.firstName}`,
+      registrarlastName: `${staffInfo.lastName}`,
+      registrarRole: `${staffInfo.staffRole}`,
+      registrarId: `${staffInfo.staffId}`,
+    },
+    level: "",
+    // isStudent: "",
+    isMale: "",
+    studentImage: "",
+    profilePicture: "",
+    address: "",
+    currentCity: "",
+    homeTown: "",
+    region: "",
+    religion: "",
+    height: "",
+    weight: "",
+    mother: {
+      motherName: "",
+      motherOccupation: "",
+      motherPhoneNumber: "",
+      motherEmail: "",
+    },
+    father: {
+      fatherName: "",
+      fatherOccupation: "",
+      fatherPhoneNumber: "",
+      fatherEmail: "",
+    },
+    guardian: {
+      guardianName: "",
+      guardianOccupation: "",
+      guardianPhoneNumber: "",
+      guardianEmail: "",
+    },
+    motherTongue: "",
+    otherTongue: "",
+    complexion: "",
+    registedDate: date,
+  });
   const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
   const authUser = true;
   const studentInfo = useSelector(getStudentInfo);
-  const staffInfo = useSelector(getStaffInfo);
-  console.log(staffInfo);
+  const authStaffInfo = useSelector(getStaffInfo);
+  console.log(authStaffInfo);
 
   const navigate = useNavigate();
   const clearLogOptions = () => {
@@ -99,8 +160,8 @@ export default function App() {
           exact
           path="/sensec/admin"
           element={
-            (staffInfo && staffInfo.staffRole === "Admin") ||
-            (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+            (authStaffInfo && authStaffInfo.staffRole === "Admin") ||
+            (authStaffInfo && authStaffInfo.staffRole === "Admin/Teacher") ? (
               <AdminDashboard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -118,8 +179,19 @@ export default function App() {
           />
           <Route
             exact
+            path="/sensec/admin/add_staff_member"
+            element={
+              <AddStaffMember
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            exact
             path="/sensec/admin/staff_members"
-            element={<AdminStaff openSidebar={openSidebar} />}
+            element={<AllStaffMembers openSidebar={openSidebar} />}
           />
           <Route
             exact
@@ -132,17 +204,49 @@ export default function App() {
           />
           <Route
             path="/sensec/admin/students_enrollment"
-            element={<AdminStudentAdd />}
+            element={
+              <AdminStudentAdd
+                newStudent={newStudent}
+                setNewStudent={setNewStudent}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            path="/sensec/admin/edit_student/:id"
+            element={
+              <UpdateStudent
+                newStudent={newStudent}
+                setNewStudent={setNewStudent}
+              />
+            }
           />
           <Route
             path="/sensec/admin/all_students"
-            element={<TotalStudents />}
+            element={
+              <TotalStudents
+                setNewStudent={setNewStudent}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            path="/sensec/admin/search_student"
+            element={
+              <TotalStudents
+                setNewStudent={setNewStudent}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
           />
         </Route>
         <Route
           path="/sensec/staff"
           element={
-            staffInfo ? (
+            authStaffInfo ? (
               <StaffDashboard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -162,8 +266,8 @@ export default function App() {
         <Route
           path="/sensec/teacher"
           element={
-            (staffInfo && staffInfo.staffRole === "Teacher") ||
-            (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+            (authStaffInfo && authStaffInfo.staffRole === "Teacher") ||
+            (authStaffInfo && authStaffInfo.staffRole === "Admin/Teacher") ? (
               <TeacherDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}

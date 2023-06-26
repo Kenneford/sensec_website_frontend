@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./adminStaff.scss";
+import "./allStaffMembers.scss";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import SearchIcon from "@mui/icons-material/Search";
@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 // const API_ENDPOINT = "http://localhost:5000/api";
 
-export default function AdminStaff({ openSidebar }) {
+export default function AllStaffMembers({ openSidebar }) {
   const [open, setOpen] = useState(false);
   const [allStaffs, setAllStaffs] = useState([]);
   const navigate = useNavigate();

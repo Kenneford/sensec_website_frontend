@@ -1,5 +1,5 @@
 import axios from "axios";
-import "./totalStudents.scss";
+// import "./totalStudents.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -16,8 +16,8 @@ import { getAllStaffs } from "../../../../features/staff/staffSlice";
 
 const API_ENDPOINT = "http://localhost:7000/api";
 
-export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
-  const { fetchingStatus, searchStatus, error, successMessage } = useSelector(
+export default function SearchStudent({ setNewStudent, toast, toastOptions }) {
+  const { searchStatus, error, successMessage } = useSelector(
     (state) => state.student
   );
   const [searchStudent, setSearchStudent] = useState("");
@@ -45,16 +45,15 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
-
   const query = useQuery();
-  const student_name = query.get("student_name");
+  const searchQuery = query.get("searchQuery");
   const location = useLocation();
 
   const handleStudentSearch = (e) => {
     e.preventDefault();
     if (searchStudent) {
       dispatch(studentSearch(searchStudent));
-      navigate(`/sensec/admin/search_student?student_name=${searchStudent}`);
+      navigate(`/sensec/admin/search_student?searchQuery=${searchStudent}`);
     }
   };
 
@@ -86,16 +85,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   }, [dispatch]);
   // console.log(renderStudents);
   useEffect(() => {
-    if (fetchingStatus === "rejected") {
-      error.message.map((err) =>
-        toast.error(err, {
-          position: "top-right",
-          theme: "light",
-          // toastId: successId,
-        })
-      );
-      return;
-    }
     if (searchStatus === "rejected") {
       error.message.map((err) =>
         toast.error(err, {
@@ -105,26 +94,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
         })
       );
       return;
-    } // if (fetchingStatus === "success") {
-    //   // navigate("/sensec/admin/all_students");
-    //   toast.success(successMessage, {
-    //     position: "top-right",
-    //     theme: "dark",
-    //     // toastId: successId,
-    //   });
-    // }
-  }, [
-    error,
-    successMessage,
-    searchStatus,
-    fetchingStatus,
-    toast,
-    toastOptions,
-  ]);
-
-  useEffect(() => {
-    // window.location.reload(false);
-  }, []);
+    }
+  }, [error, successMessage, searchStatus, toast, toastOptions]);
 
   return (
     <div className="studentTotal" id="allStudents">
@@ -141,37 +112,20 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           <SearchIcon className="searchIcon" />
         </button>
       </form>
-      {/* <button onClick={() => dispatch(fetchStudents())}>Students</button> */}
-      {!searchStatus && (
-        <p className="searchInfo">
-          All enrolled Students total is "{allStudents.length}"
-        </p>
-      )}
-      {allStudents?.length === 0 &&
-        location.pathname === "/sensec/admin/all_students" && (
-          <p className="searchInfo">No Student Found</p>
-        )}
-      {allStudents?.length === 0 &&
-        location.pathname !== "/sensec/admin/all_students" && (
-          <p className="searchInfo">
-            We couldn't find any matches for "{student_name}"
-          </p>
-        )}
+      <button onClick={() => dispatch(fetchStudents())}>Students</button>
+      {/* <p>Total Student is {allStudents.length}</p> */}
       {/* <div>{renderStudents}</div> */}
       <div className="totalStudentsWrap">
-        {searchStatus && (
-          <button
-            className="goBack-btn"
-            onClick={() => {
-              navigate("/sensec/admin/all_students");
-              window.location.reload();
-            }}
-          >
-            Go back
-          </button>
-        )}
         <div className="totalStudentsCont">
           <div className="studentWrapper">
+            {allStudents.length === 0 &&
+              location.pathname === "/sensec/admin/search_student" && (
+                <p>No Student Found</p>
+              )}
+            {allStudents.length === 0 &&
+              location.pathname !== "/sensec/admin/search_student" && (
+                <p>We couldn't find any matches for "{searchQuery}"</p>
+              )}
             {allStudents &&
               allStudents.map((student) => (
                 <div key={student._id}>

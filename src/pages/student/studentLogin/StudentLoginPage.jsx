@@ -9,9 +9,14 @@ import { studentLogin } from "../../../features/student/studentsSlice";
 
 export default function StudentLoginPage({ toastOptions, toast }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [showpass, setShowPass] = useState(false);
   const [passLengthError, setPassLengthError] = useState("");
   const [idLengthError, setIdLengthError] = useState("");
   console.log(passLengthError);
+
+  const showPassword = () => setShowPass((show) => !show);
 
   const errorId = "error";
   const successId = "success";
@@ -42,12 +47,6 @@ export default function StudentLoginPage({ toastOptions, toast }) {
     });
   };
 
-  const [showpass, setShowPass] = useState(false);
-
-  const navigate = useNavigate();
-
-  const showPassword = () => setShowPass((show) => !show);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!student.studentId && !student.password) {
@@ -64,7 +63,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
 
   useEffect(() => {
     if (loginStatus === "rejected") {
-      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
+      error.message.map((err) => toast.error(err, toastOptions));
       return;
     }
     if (loginStatus === "success") {
@@ -97,6 +96,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
             <h1>Login</h1>
             <form onSubmit={handleLogin}>
               <input
+                className="loginInput"
                 type="text"
                 placeholder="Your ID"
                 onChange={handleInputValues}
@@ -109,6 +109,9 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                     color: "red",
                     position: "relative",
                     marginTop: "-1.5rem",
+                    fontSize: ".8rem",
+                    fontWeight: "400",
+                    fontStyle: "italic",
                   }}
                 >
                   {idLengthError}
@@ -116,6 +119,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
               )}
               <div className="studentId">
                 <input
+                  className="loginInput"
                   type={showpass ? "text" : "password"}
                   placeholder="Password"
                   onChange={handleInputValues}
@@ -143,6 +147,9 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                     color: "red",
                     position: "relative",
                     marginTop: "-1.5rem",
+                    fontSize: ".8rem",
+                    fontWeight: "400",
+                    fontStyle: "italic",
                   }}
                 >
                   {passLengthError}

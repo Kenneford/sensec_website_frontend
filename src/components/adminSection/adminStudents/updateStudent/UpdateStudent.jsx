@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./adminStudentAdd.scss";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { CircularProgress } from "@mui/material";
 import { HashLink } from "react-router-hash-link";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
 import set from "lodash/set";
-import {
-  registerStudent,
-  registeredStudents,
-  studentRegistory,
-} from "../../../../features/student/studentsSlice";
-import { useNavigate } from "react-router-dom";
-import { getStaffInfo } from "../../../../features/staff/staffSlice";
-import { allRegisteredStudents } from "../../../../features/allStudents/allStudents";
-// import { studentRegister } from "../../../store/actions/authActions";
-// import LogoutBtn from "../../logoutBtn/LogoutBtn";
+import { useNavigate, useParams } from "react-router-dom";
+import { API_ENDPOINT } from "../../../../apiEndPoint/api";
+import axios from "axios";
+import { studentUpdate } from "../../../../features/student/studentsSlice";
 
 const religionOptions = [
   { value: "None", label: "None" },
@@ -61,98 +53,75 @@ const complexionOptions = [
   { value: "Brown", label: "Brown" },
   { value: "Black", label: "Black" },
 ];
-export default function AdminStudentAdd({
-  newStudent,
-  setNewStudent,
-  toastOptions,
-  toast,
-}) {
-  const { registerStatus, error, successMessage } = useSelector(
-    (state) => state.student
-  );
-  const { staffInfo } = useSelector((state) => state.staff);
-  // const staffInfo = useSelector(getStaffInfo);
-  console.log(staffInfo);
+export default function UpdateStudent({ newStudent, setNewStudent }) {
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
-  const [date] = useState(
-    // new Date().toLocaleString("en-US", {
-    //   day: "2-digit",
-    //   year: "numeric",
-    //   month: "2-digit",
-    // })
-    new Date().toDateString()
-  );
-  const [selectedRegion, setSelectedRegion] = useState("None");
-  const [isAStudent, setIsAStudent] = useState(false);
+  const [date] = useState(new Date().toDateString());
   const [father, setFather] = useState(false);
   const [mother, setMother] = useState(false);
   const [guardian, setGuardian] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
   console.log(num);
   console.log(date);
 
-  const [loadProfileImage, setLoadProfileImage] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
-  const currentYear = new Date().getFullYear();
-  // const [newStudent, setNewStudent] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   dateOfBirth: "",
-  //   placeOfBirth: "",
-  //   nationality: "",
-  //   password: `${currentYear}-${num}`,
-  //   confirmPassword: `${currentYear}-${num}`,
-  //   email: "",
-  //   studentId: `STDSSHS-${num}-${currentYear}`,
-  //   courseStudy: "",
-  //   studentRegistrar: {
-  //     registrarFirstName: `${staffInfo.firstName}`,
-  //     registrarlastName: `${staffInfo.lastName}`,
-  //     registrarRole: `${staffInfo.staffRole}`,
-  //     registrarId: `${staffInfo.staffId}`,
-  //   },
-  //   level: "",
-  //   // isStudent: "",
-  //   isMale: "",
-  //   studentImage: "",
-  //   profilePicture: "",
-  //   address: "",
-  //   currentCity: "",
-  //   homeTown: "",
-  //   region: "",
-  //   religion: "",
-  //   height: "",
-  //   weight: "",
-  //   mother: {
-  //     motherName: "",
-  //     motherOccupation: "",
-  //     motherPhoneNumber: "",
-  //     motherEmail: "",
-  //   },
-  //   father: {
-  //     fatherName: "",
-  //     fatherOccupation: "",
-  //     fatherPhoneNumber: "",
-  //     fatherEmail: "",
-  //   },
-  //   guardian: {
-  //     guardianName: "",
-  //     guardianOccupation: "",
-  //     guardianPhoneNumber: "",
-  //     guardianEmail: "",
-  //   },
-  //   motherTongue: "",
-  //   otherTongue: "",
-  //   complexion: "",
-  //   registedDate: date,
-  // });
-  console.log(newStudent.studentId);
-  const [showpass, setShowPass] = useState(false);
-  const [showConfirmpass, setShowConfirmPass] = useState(false);
+  const { staffInfo } = useSelector((state) => state.staff);
+  const { allStudents } = useSelector((state) => state.student);
+  const selectedStudent = allStudents.find((std) => std._id === id);
+  console.log(JSON.stringify(selectedStudent));
 
-  const showPassword = () => setShowPass(!showpass);
-  const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
+  const [loadProfileImage, setLoadProfileImage] = useState("");
+
+  //   const [newStudent, setNewStudent] = useState({
+  //     id: selectedStudent._id,
+  //     firstName: selectedStudent.firstName,
+  //     lastName: selectedStudent.lastName,
+  //     dateOfBirth: selectedStudent.dateOfBirth,
+  //     placeOfBirth: selectedStudent.placeOfBirth,
+  //     nationality: selectedStudent.nationality,
+  //     // password: `${currentYear}-${num}`,
+  //     // confirmPassword: `${currentYear}-${num}`,
+  //     email: selectedStudent.email,
+  //     studentId: selectedStudent.studentId,
+  //     courseStudy: selectedStudent.courseStudy,
+  //     level: selectedStudent.level,
+  //     // isStudent: selectedStudent&&selectedStudent.,
+  //     isMale: selectedStudent.isMale,
+  //     studentImage: selectedStudent.studentImage,
+  //     profilePicture: selectedStudent.profilePicture,
+  //     address: selectedStudent.address,
+  //     currentCity: selectedStudent.currentCity,
+  //     homeTown: selectedStudent.homeTown,
+  //     region: selectedStudent.region,
+  //     religion: selectedStudent.religion,
+  //     height: selectedStudent.height,
+  //     weight: selectedStudent.weight,
+  //     mother: {
+  //       motherName: selectedStudent.mother.motherName,
+  //       motherOccupation: selectedStudent.mother.motherOccupation,
+  //       motherPhoneNumber: selectedStudent.mother.motherPhoneNumber,
+  //       motherEmail: selectedStudent.mother.motherEmail,
+  //     },
+  //     father: {
+  //       fatherName: selectedStudent.father.fatherName,
+  //       fatherOccupation: selectedStudent.father.fatherOccupation,
+  //       fatherPhoneNumber: selectedStudent.father.fatherPhoneNumber,
+  //       fatherEmail: selectedStudent.father.fatherEmail,
+  //     },
+  //     guardian: {
+  //       guardianName: selectedStudent.guardian.guardianName,
+  //       guardianOccupation: selectedStudent.guardian.guardianOccupation,
+  //       guardianPhoneNumber: selectedStudent.guardian.guardianPhoneNumber,
+  //       guardianEmail: selectedStudent.guardian.guardianEmail,
+  //     },
+  //     motherTongue: selectedStudent.motherTongue,
+  //     otherTongue: selectedStudent.otherTongue,
+  //     complexion: selectedStudent.complexion,
+  //     registedDate: selectedStudent.registedDate,
+  //   });
+
+  console.log(newStudent.studentId);
 
   const handleGuardianValues = (e) => {
     const userInfoCopy = JSON.parse(JSON.stringify(newStudent));
@@ -165,9 +134,8 @@ export default function AdminStudentAdd({
       ...newStudent,
       region: region,
     });
-    // console.log(e);
-    // setSelectedRegion(regionOptions.value);
   };
+  console.log(newStudent.currentCity);
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
     setNewStudent({
@@ -192,7 +160,6 @@ export default function AdminStudentAdd({
       otherTongue: otherTongue,
     });
   };
-  // console.log(loadProfileImage);
   const stdFather = (e) => setFather(!father);
   const stdMother = (e) => setMother(!mother);
   const stdGuardian = (e) => setGuardian(!guardian);
@@ -239,6 +206,7 @@ export default function AdminStudentAdd({
   const handleRegister = (e) => {
     e.preventDefault();
     const {
+      _id,
       firstName,
       lastName,
       dateOfBirth,
@@ -249,7 +217,7 @@ export default function AdminStudentAdd({
       email,
       studentId,
       courseStudy,
-      studentRegistrar,
+      //   studentRegistrar,
       level,
       isMale,
       studentImage,
@@ -271,6 +239,7 @@ export default function AdminStudentAdd({
     } = newStudent;
     console.log(newStudent);
     const formData = new FormData();
+    formData.append("_id", _id);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("dateOfBirth", dateOfBirth);
@@ -281,28 +250,26 @@ export default function AdminStudentAdd({
     formData.append("email", email);
     formData.append("studentId", studentId);
     formData.append("courseStudy", courseStudy);
-    formData.append(
-      "studentRegistrar[registrarFirstName]",
-      studentRegistrar.registrarFirstName
-    );
-    formData.append(
-      "studentRegistrar[registrarlastName]",
-      studentRegistrar.registrarlastName
-    );
-    formData.append(
-      "studentRegistrar[registrarRole]",
-      studentRegistrar.registrarRole
-    );
-    formData.append(
-      "studentRegistrar[registrarId]",
-      studentRegistrar.registrarId
-    );
+    // formData.append(
+    //   "studentRegistrar[registrarFirstName]",
+    //   studentRegistrar.registrarFirstName
+    // );
+    // formData.append(
+    //   "studentRegistrar[registrarlastName]",
+    //   studentRegistrar.registrarlastName
+    // );
+    // formData.append(
+    //   "studentRegistrar[registrarRole]",
+    //   studentRegistrar.registrarRole
+    // );
+    // formData.append(
+    //   "studentRegistrar[registrarId]",
+    //   studentRegistrar.registrarId
+    // );
     formData.append("level", level);
-    // formData.append("isStudent", isStudent);
     formData.append("isMale", isMale);
     formData.append("studentImage", studentImage);
     formData.append("profilePicture", profilePicture);
-    // formData.append("image", profilePicture);
     formData.append("address", address);
     formData.append("currentCity", currentCity);
     formData.append("homeTown", homeTown);
@@ -332,107 +299,22 @@ export default function AdminStudentAdd({
     formData.append("otherTongue", otherTongue);
     formData.append("complexion", complexion);
     formData.append("registedDate", registedDate);
-    // dispatch(allRegisteredStudents(formData));
-    // dispatch(registeredStudents(formData));
-    dispatch(studentRegistory(formData));
-    setNewStudent({
-      firstName: "",
-      lastName: "",
-      dateOfBirth: "",
-      placeOfBirth: "",
-      nationality: "",
-      password: "",
-      confirmPassword: "",
-      email: "",
-      studentId: "",
-      courseStudy: "",
-      studentRegistrar: {
-        registrarFirstName: "",
-        registrarlastName: "",
-        registrarRole: "",
-        registrarId: "",
-      },
-      level: "",
-      // isStudent: "",
-      isMale: "",
-      studentImage: "",
-      profilePicture: "",
-      address: "",
-      currentCity: "",
-      homeTown: "",
-      region: "",
-      religion: "",
-      height: "",
-      weight: "",
-      mother: {
-        motherName: "",
-        motherOccupation: "",
-        motherPhoneNumber: "",
-        motherEmail: "",
-      },
-      father: {
-        fatherName: "",
-        fatherOccupation: "",
-        fatherPhoneNumber: "",
-        fatherEmail: "",
-      },
-      guardian: {
-        guardianName: "",
-        guardianOccupation: "",
-        guardianPhoneNumber: "",
-        guardianEmail: "",
-      },
-      motherTongue: "",
-      otherTongue: "",
-      complexion: "",
-      registedDate: date,
-    });
-    setFather(false);
-    setMother(false);
-    setGuardian(false);
-    // navigate("/sensec/admin/all_students");
-    // navigate("/sensec/admin/all_students");
+    if (newStudent._id) {
+      dispatch(studentUpdate(newStudent));
+    }
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
-  console.log(canSave);
-
-  useEffect(() => {
-    if (registerStatus === "rejected") {
-      error.message.map((err) =>
-        toast.error(err, {
-          position: "top-right",
-          theme: "light",
-          // toastId: successId,
-        })
-      );
-      return;
-    }
-    if (registerStatus === "success") {
-      // navigate("/sensec/admin/all_students");
-      toast.success(successMessage, {
-        position: "top-right",
-        theme: "dark",
-        // toastId: successId,
-      });
-    }
-  }, [error, successMessage, registerStatus, toast, toastOptions, navigate]);
 
   return (
-    <div className="registerWrap" id="studentReg">
+    <div className="registerWrap">
       <div className="register">
-        <h1>NEW STUDENT REGISTRATION</h1>
+        <h1>EDIT STUDENT</h1>
         <div className="registerCont">
           <form onSubmit={handleRegister}>
             <div className="studentProfile">
               <div className="title">
                 <div className="studentImageWrap">
                   <div className="file">
-                    {/* <label
-                              htmlFor="profilePicture"
-                              className="imageUpload text"
-                            >
-                              Student Image
-                            </label> */}
                     <label
                       htmlFor="profilePicture"
                       className="profileImageUpload"
@@ -440,8 +322,8 @@ export default function AdminStudentAdd({
                       <img
                         className="profileImg"
                         src={
-                          loadProfileImage
-                            ? loadProfileImage
+                          newStudent.profilePicture
+                            ? newStudent.profilePicture || loadProfileImage
                             : "/assets/maleAvatar.png"
                         }
                         alt=""
@@ -457,15 +339,15 @@ export default function AdminStudentAdd({
                     />
                   </div>
                   <div className="studentId">
-                    {/* <label htmlFor="studentId">Student ID</label> */}
                     <h3>Student ID</h3>
                     <input
                       className="idInput"
                       type="text"
                       name="studentId"
+                      placeholder={newStudent.studentId}
                       onChange={handleInputValues}
-                      // value={newStudent.studentId}
                       value={newStudent.studentId}
+                      disabled="disabled"
                     />
                   </div>
                 </div>
@@ -478,8 +360,9 @@ export default function AdminStudentAdd({
                     className="dateInput"
                     type="text"
                     name="registedDate"
+                    disabled="disabled"
                     onChange={handleInputValues}
-                    value={date}
+                    value={newStudent.registedDate}
                   />
                 </div>
               </div>
@@ -549,23 +432,6 @@ export default function AdminStudentAdd({
                         },
                       })}
                     />
-                    {/* <select
-                              name="region"
-                              id="region"
-                              value={selectedRegion}
-                              onChange={(e) => {
-                                const regionSelected = e.target.value;
-                                setSelectedRegion(regionSelected);
-                              }}
-                            >
-                              <option value="None">None</option>
-                              <option value="Greater Accra">
-                                Greater Accra
-                              </option>
-                              <option value="Ashanti">Ashanti</option>
-                              <option value="Volta">Volta</option>
-                              <option value="Eastern">Eastern</option>
-                            </select> */}
                   </div>
                   <div className="inputField">
                     <label htmlFor="level">Form (Level)</label>
@@ -576,7 +442,6 @@ export default function AdminStudentAdd({
                       value={newStudent.level}
                     />
                   </div>
-                  {/* <p>{selectedRegion} Region</p> */}
                 </div>
                 <div className="middle">
                   <div className="inputField">
@@ -681,29 +546,6 @@ export default function AdminStudentAdd({
                       })}
                     />
                   </div>
-                  <div className="inputField">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type={showpass ? "text" : "password"}
-                      onChange={handleInputValues}
-                      name="password"
-                      value={newStudent.password}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        width: "30px",
-                      }}
-                      onClick={showPassword}
-                    >
-                      {showpass ? (
-                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
-                      ) : (
-                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
-                      )}
-                    </div>
-                  </div>
                 </div>
                 <div className="right">
                   <div className="inputField">
@@ -721,7 +563,6 @@ export default function AdminStudentAdd({
                       name="otherTongue"
                       id="selector"
                       isMulti={true}
-                      // defaultValue={regionOptions[0]}
                       options={otherTongueOptions}
                       onChange={handleotherTongueInput}
                       styles={selectorStyles}
@@ -741,7 +582,6 @@ export default function AdminStudentAdd({
                     <Select
                       name="complexion"
                       id="selector"
-                      // defaultValue={regionOptions[0]}
                       options={complexionOptions}
                       onChange={handleComplexionInput}
                       styles={selectorStyles}
@@ -783,29 +623,6 @@ export default function AdminStudentAdd({
                       value={newStudent.email}
                     />
                   </div>
-                  <div className="inputField">
-                    <label htmlFor="password">Confirm Password</label>
-                    <input
-                      type={showConfirmpass ? "text" : "password"}
-                      onChange={handleInputValues}
-                      name="confirmPassword"
-                      value={newStudent.confirmPassword}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        width: "30px",
-                      }}
-                      onClick={showConfirmPassword}
-                    >
-                      {showConfirmpass ? (
-                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
-                      ) : (
-                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
-                      )}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -828,7 +645,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="father.fatherName"
-                          // value={newStudent.father.fatherName}
+                          value={newStudent.father.fatherName}
                         />
                       </div>
                       <div className="inputField">
@@ -846,7 +663,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="father.fatherPhoneNumber"
-                          // value={newStudent.father.fatherPhoneNumber}
+                          value={newStudent.father.fatherPhoneNumber}
                         />
                       </div>
                       <div className="inputField">
@@ -855,7 +672,7 @@ export default function AdminStudentAdd({
                           type="email"
                           onChange={handleGuardianValues}
                           name="father.fatherEmail"
-                          // value={newStudent.father.fatherEmail}
+                          value={newStudent.father.fatherEmail}
                         />
                       </div>
                     </div>
@@ -877,7 +694,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="mother.motherName"
-                          // value={newStudent.mother.motherName}
+                          value={newStudent.mother.motherName}
                         />
                       </div>
                       <div className="inputField">
@@ -886,7 +703,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="mother.motherOccupation"
-                          // value={newStudent.mother.motherOccupation}
+                          value={newStudent.mother.motherOccupation}
                         />
                       </div>
                       <div className="inputField">
@@ -895,7 +712,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="mother.motherPhoneNumber"
-                          // value={newStudent.mother.motherPhoneNumber}
+                          value={newStudent.mother.motherPhoneNumber}
                         />
                       </div>
                       <div className="inputField">
@@ -904,7 +721,7 @@ export default function AdminStudentAdd({
                           type="email"
                           onChange={handleGuardianValues}
                           name="mother.motherEmail"
-                          // value={newStudent.mother.motherEmail}
+                          value={newStudent.mother.motherEmail}
                         />
                       </div>
                     </div>
@@ -926,7 +743,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="guardian.guardianName"
-                          // value={newStudent.guardian.guardianName}
+                          value={newStudent.guardian.guardianName}
                         />
                       </div>
                       <div className="inputField">
@@ -935,7 +752,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="guardian.guardianOccupation"
-                          // value={newStudent.guardian.guardianOccupation}
+                          value={newStudent.guardian.guardianOccupation}
                         />
                       </div>
                       <div className="inputField">
@@ -946,9 +763,7 @@ export default function AdminStudentAdd({
                           type="text"
                           onChange={handleGuardianValues}
                           name="guardian.guardianPhoneNumber"
-                          // value={
-                          //   newStudent.guardian.guardianPhoneNumber
-                          // }
+                          value={newStudent.guardian.guardianPhoneNumber}
                         />
                       </div>
                       <div className="inputField">
@@ -957,7 +772,7 @@ export default function AdminStudentAdd({
                           type="email"
                           onChange={handleGuardianValues}
                           name="guardian.guardianEmail"
-                          // value={newStudent.guardian.guardianEmail}
+                          value={newStudent.guardian.guardianEmail}
                         />
                       </div>
                     </div>
@@ -969,16 +784,19 @@ export default function AdminStudentAdd({
               <button
                 className="addStudentBtn"
                 type="submit"
-                disabled={!canSave || registerStatus === "pending"}
+                disabled={!canSave}
               >
-                {registerStatus === "pending" ? (
-                  <CircularProgress style={{ color: "white", size: "20px" }} />
-                ) : (
-                  "Add Student"
-                )}
+                Update Student
               </button>
             </div>
           </form>
+          <button
+            style={{ backgroundColor: "red", padding: "1rem" }}
+            type="submit"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

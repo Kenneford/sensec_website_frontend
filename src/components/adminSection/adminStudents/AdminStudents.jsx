@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./adminStudents.scss";
 import TvIcon from "@mui/icons-material/Tv";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
@@ -13,9 +13,13 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchStudents } from "../../../features/student/studentsSlice";
 
-export default function AdminStudents({ openSidebar }) {
+export default function AdminStudents({ toast, toastOptions }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <div>
       <h1 className="h1">Admins Dashboard</h1>
@@ -31,6 +35,7 @@ export default function AdminStudents({ openSidebar }) {
           <div
             className="students"
             onClick={() => {
+              // dispatch(fetchStudents());
               navigate("/sensec/admin/all_students");
             }}
           >

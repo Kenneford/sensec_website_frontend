@@ -4,7 +4,7 @@
   position: relative;
   h1 {
     color: #fff;
-    padding-bottom: 2rem;
+    padding-bottom: 3rem;
   }
   .studentSearch {
     position: fixed;
@@ -36,6 +36,25 @@
       top: 0.5rem;
       color: #fff;
       cursor: pointer;
+    }
+  }
+  .searchInfo {
+    padding: 1rem;
+    padding-left: 2rem;
+    font-size: 1.2rem;
+  }
+  .goBack-btn {
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.4rem;
+    background-color: green;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.4s ease;
+    &:hover {
+      background-color: #05a605;
     }
   }
   .totalStudentsWrap {
