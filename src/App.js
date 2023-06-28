@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import "./app.scss";
-import {
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-  redirect,
-} from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import ChatIcon from "@mui/icons-material/Chat";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import CloseIcon from "@mui/icons-material/Close";
@@ -40,7 +34,6 @@ import "react-toastify/dist/ReactToastify.css";
 import AllStaffMembers from "./components/adminSection/adminStaff/allStaffMembers/AllStaffMembers";
 import AddStaffMember from "./components/adminSection/adminStaff/addStaffMember/AddStaffMember";
 import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/UpdateStudent";
-import SearchStudent from "./components/adminSection/adminStudents/searchStudent/SearchStudent";
 
 export default function App() {
   const [openLogin, setOpenLogin] = useState(false);
@@ -105,7 +98,6 @@ export default function App() {
     registedDate: date,
   });
   const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
-  const authUser = true;
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   console.log(authStaffInfo);
@@ -175,7 +167,13 @@ export default function App() {
         >
           <Route
             index
-            element={<DashboardContent openSidebar={openSidebar} />}
+            element={
+              <DashboardContent
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
           />
           <Route
             exact

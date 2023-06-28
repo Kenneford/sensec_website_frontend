@@ -38,11 +38,6 @@
       cursor: pointer;
     }
   }
-  .searchInfo {
-    padding: 1rem;
-    padding-left: 2rem;
-    font-size: 1.2rem;
-  }
   .goBack-btn {
     margin-left: 1.5rem;
     margin-top: 1.5rem;
@@ -60,6 +55,19 @@
   .totalStudentsWrap {
     background-color: #383838;
     font-family: "roboto";
+    .searchDetails {
+      display: flex;
+      justify-content: flex-end;
+      width: 96%;
+      padding-right: 2rem;
+      margin: auto;
+      background-color: #fff;
+      .searchInfo {
+        padding: 0.3rem;
+        padding-left: 2rem;
+        font-size: 1.2rem;
+      }
+    }
     .addTeacherBtn {
       margin-left: 2rem;
       margin-bottom: 3rem;
@@ -86,6 +94,33 @@
       // background-color: aqua;
       margin: auto;
       padding: 1rem 0;
+      .studentImg {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.4rem;
+        object-fit: cover;
+      }
+      .headCells {
+        border: 0.2rem solid green;
+      }
+      .firstYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: rgb(208, 6, 93);
+        border-radius: 50%;
+      }
+      .secondYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: rgb(205, 205, 6);
+        border-radius: 50%;
+      }
+      .thirdYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: rgb(6, 205, 72);
+        border-radius: 50%;
+      }
       .studentWrapper {
         position: relative;
         display: grid;

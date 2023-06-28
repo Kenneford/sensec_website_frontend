@@ -2,6 +2,7 @@ import axios from "axios";
 import "./totalStudents.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { format } from "timeago.js";
 import EditButton from "../../../editButton/EditButton";
@@ -38,8 +39,37 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   console.log(studentInfo);
   console.log(allStudents);
 
-  const handleModalClose = () => {
-    setOpen(false);
+  const customStyle = {
+    headRow: {
+      style: {
+        backgroundColor: "#555",
+        color: "#fff",
+      },
+    },
+    headColumn: {
+      style: {
+        border: "1rem solid red",
+        // color: "#fff",
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: "1.2rem",
+        // borderLeft: ".2rem solid red",
+        // backgroundColor: "blue",
+        // color: "#fff",
+      },
+    },
+    cells: {
+      style: {
+        // backgroundColor: "#cccc",
+        // color: "#fff",
+        paddingTop: ".5rem",
+        paddingBottom: ".5rem",
+        // marginTop: ".5rem",
+        // marginBottom: ".5rem",
+      },
+    },
   };
 
   function useQuery() {
@@ -57,29 +87,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       navigate(`/sensec/admin/search_student?student_name=${searchStudent}`);
     }
   };
-
-  // useEffect(() => {
-  //   const getStudents = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         `${API_ENDPOINT}/students/get_all_students`
-  //       );
-  //       // const data = await res.json();
-  //       console.log(res.data.students);
-  //       setAllStudents(res.data.students);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getStudents();
-  // }, []);
-
-  // const renderStudents = students.map((std) => (
-  //   <div key={std.studentId}>
-  //     <h3>{std.lastName}</h3>
-  //     <p>{std.courseStudy}</p>
-  //   </div>
-  // ));
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -122,9 +129,58 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     toastOptions,
   ]);
 
-  useEffect(() => {
-    // window.location.reload(false);
-  }, []);
+  const column = [
+    {
+      name: "Image",
+      selector: (row) =>
+        row.profilePicture ? (
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        ) : (
+          "none"
+        ),
+    },
+    {
+      name: "First Name",
+      selector: (row) => row.firstName,
+      sortable: true,
+    },
+    { name: "Surname", selector: (row) => row.lastName },
+    {
+      name: "Date Of Birth",
+      selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+    },
+    {
+      name: "Course",
+      selector: (row) => (row.courseStudy ? row.courseStudy : "Unknown"),
+    },
+    { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+    { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+    { name: "Enrolled Date", selector: (row) => row.registedDate },
+    {
+      name: "Level",
+      selector: (row) =>
+        row.level ? (
+          <div
+            className={
+              row.level === "1"
+                ? "firstYearTag"
+                : row.level === "2"
+                ? "secondYearTag"
+                : "thirdYearTag"
+            }
+            title={
+              row.level === "1"
+                ? "1st Year"
+                : row.level === "2"
+                ? "2nd Year"
+                : "3rd Year"
+            }
+          ></div>
+        ) : (
+          "Unknown"
+        ),
+    },
+  ];
 
   return (
     <div className="studentTotal" id="allStudents">
@@ -135,6 +191,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           value={searchStudent}
           onChange={(e) => setSearchStudent(e.target.value)}
           placeholder="Search for a student..."
+          autoComplete="off"
           id="search"
         />
         <button type="submit">
@@ -142,23 +199,23 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
         </button>
       </form>
       {/* <button onClick={() => dispatch(fetchStudents())}>Students</button> */}
-      {!searchStatus && (
-        <p className="searchInfo">
-          All enrolled Students total is "{allStudents.length}"
-        </p>
-      )}
-      {allStudents?.length === 0 &&
-        location.pathname === "/sensec/admin/all_students" && (
-          <p className="searchInfo">No Student Found</p>
-        )}
-      {allStudents?.length === 0 &&
-        location.pathname !== "/sensec/admin/all_students" && (
-          <p className="searchInfo">
-            We couldn't find any matches for "{student_name}"
-          </p>
-        )}
       {/* <div>{renderStudents}</div> */}
       <div className="totalStudentsWrap">
+        <div className="searchDetails">
+          {!searchStatus && (
+            <p className="searchInfo">Total Students = {allStudents.length}</p>
+          )}
+          {allStudents?.length === 0 &&
+            location.pathname === "/sensec/admin/all_students" && (
+              <p className="searchInfo">No Student Found</p>
+            )}
+          {allStudents?.length === 0 &&
+            location.pathname !== "/sensec/admin/all_students" && (
+              <p className="searchInfo">
+                We couldn't find any matches for "{student_name}"
+              </p>
+            )}
+        </div>
         {searchStatus && (
           <button
             className="goBack-btn"
@@ -171,7 +228,13 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           </button>
         )}
         <div className="totalStudentsCont">
-          <div className="studentWrapper">
+          <DataTable
+            columns={column}
+            data={allStudents}
+            customStyles={customStyle}
+            pagination
+          ></DataTable>
+          {/* <div className="studentWrapper">
             {allStudents &&
               allStudents.map((student) => (
                 <div key={student._id}>
@@ -302,7 +365,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                   )}
                 </div>
               ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

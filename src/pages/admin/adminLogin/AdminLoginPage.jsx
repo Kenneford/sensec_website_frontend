@@ -61,6 +61,9 @@ export default function AdminLoginPage({ toast, toastOptions }) {
   };
 
   useEffect(() => {
+    setPassLengthError("Password must be at least 6 characters long!");
+    setIdLengthError("Your ID length is too short!");
+    setKeyLengthError("Your Key length is too short!");
     if (loginStatus === "rejected") {
       error.errorMessage.message.map((err) => toast.error(err, toastOptions));
       return;
@@ -75,11 +78,8 @@ export default function AdminLoginPage({ toast, toastOptions }) {
     }
   }, [error, successMessage, loginStatus, toast, toastOptions, navigate]);
 
-  useEffect(() => {
-    setPassLengthError("Password must be at least 6 characters long!");
-    setIdLengthError("Your ID length is too short!");
-    setKeyLengthError("Your Key length is too short!");
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   return (
     <div className="loginWrap">
