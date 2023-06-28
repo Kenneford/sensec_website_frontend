@@ -6,25 +6,16 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 const initialState = {
   staffInfo: "",
   authStaffInfo: "",
+  allStaffs: [],
+  post: "",
+  posts: [],
   successMessage: "",
   error: "",
   registerStatus: "",
+  postStatus: "",
   loginStatus: "",
   logoutStatus: "",
   fetchingStatus: "",
-  // loginError: "",
-  allStaffs: [
-    // {
-    //   id: 1,
-    //   name: "Patrick Annan",
-    //   course: "Science",
-    // },
-    // {
-    //   id: 2,
-    //   name: "Robert Afful",
-    //   course: "E-Maths",
-    // },
-  ],
   authenticated: false,
 };
 
@@ -52,6 +43,22 @@ export const staffRegistory = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${API_ENDPOINT}/authusers/add_staff`, data);
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const adminPost = createAsyncThunk(
+  "staffs/adminPost",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/admins/posts/add_post`,
+        data
+      );
       console.log(res.data);
       return res.data;
     } catch (error) {
@@ -186,7 +193,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         registerStatus: "rejected",
-        error: action.payload.errorMessage,
+        error: action.payload,
       };
     });
     builder.addCase(staffLogin.pending, (state, action) => {
@@ -208,7 +215,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         loginStatus: "rejected",
-        error: action.payload.errorMessage,
+        error: action.payload,
       };
     });
     builder.addCase(adminLogin.pending, (state, action) => {
@@ -230,7 +237,7 @@ const staffsSlice = createSlice({
       return {
         ...state,
         loginStatus: "rejected",
-        error: action.payload.errorMessage,
+        error: action.payload,
       };
     });
     builder.addCase(teacherLogin.pending, (state, action) => {
@@ -302,6 +309,28 @@ const staffsSlice = createSlice({
     //     errorMessage: action.payload,
     //   };
     // });
+    builder.addCase(adminPost.pending, (state, action) => {
+      return { ...state, postStatus: "pending" };
+    });
+    builder.addCase(adminPost.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          post: action.payload.post,
+          posts: [...state.posts, action.payload.post],
+          successMessage: action.payload.successMessage,
+          postStatus: "success",
+          error: "",
+        };
+      } else return state;
+    });
+    builder.addCase(adminPost.rejected, (state, action) => {
+      return {
+        ...state,
+        postStatus: "rejected",
+        error: action.payload,
+      };
+    });
   },
 });
 

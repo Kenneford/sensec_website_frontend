@@ -12,22 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function AllStaffMembers({ openSidebar }) {
   const [open, setOpen] = useState(false);
-  const [allStaffs, setAllStaffs] = useState([]);
   const navigate = useNavigate();
-  const handleModalClose = () => setOpen(!open);
-  // const getStaffs = async () => {
-  //   try {
-  //     const res = await axios.get(`${API_ENDPOINT}/authusers/get_all_staffs`);
-  //     // const data = await res.json();
-  //     console.log(res.data);
-  //     setAllStaffs(res.data.staffs);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getStaffs();
-  // }, []);
 
   return (
     <div>

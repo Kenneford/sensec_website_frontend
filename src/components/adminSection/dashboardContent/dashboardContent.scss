@@ -132,7 +132,7 @@
         }
         .inputFields {
           form {
-            .imageUpload {
+            .postImageFileUpload {
               display: flex;
               // margin-left: 16.2rem;
               justify-content: center;
@@ -141,7 +141,26 @@
               img {
                 width: 32.5rem;
                 height: 17rem;
+                object-fit: cover;
                 border-radius: 0.4rem;
+                border: 0.2rem solid #292929;
+              }
+              .postImgIcon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 32.5rem;
+                height: 17rem;
+                border-radius: 0.4rem;
+                border: 0.2rem solid #292929;
+                .postImgIconWrap {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 0.5rem;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                }
               }
             }
             .content {

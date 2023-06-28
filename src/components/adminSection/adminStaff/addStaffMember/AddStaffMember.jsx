@@ -17,10 +17,6 @@ const religionOptions = [
   { value: "Traditional", label: "Traditional" },
   { value: "Others", label: "Others" },
 ];
-const teacherRoleOptions = [
-  { value: "Admin", label: "Admin" },
-  { value: "Teacher", label: "Teacher" },
-];
 const otherTongueOptions = [
   { value: "English", label: "English" },
   // { value: "Hausa", label: "Hausa" },
@@ -77,14 +73,11 @@ export default function AddStaffMember({ toast, toastOptions }) {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
-  const toggleSidebar = () => setOpenSidebar(!openSidebar);
-  const checkTrue = () => setCheck(!check);
   console.log(openSidebar);
   console.log(check);
   console.log(num);
   console.log(date);
 
-  const [selectedOption, setSelectedOption] = useState(null);
   const currentYear = new Date().getFullYear();
   const [newStaff, setNewStaff] = useState({
     firstName: "",
@@ -117,7 +110,6 @@ export default function AddStaffMember({ toast, toastOptions }) {
     registedDate: date,
   });
   console.log(newStaff.staffRole);
-  console.log(selectedRegion);
   console.log(newStaff.region);
   console.log(newStaff.staffId);
 
@@ -137,31 +129,12 @@ export default function AddStaffMember({ toast, toastOptions }) {
       [e.target.name]: e.target.value,
     });
   };
-  const handleGuardianValues = (e) => {
-    const userInfoCopy = JSON.parse(JSON.stringify(newStaff));
-    set(userInfoCopy, e.target.name, e.target.value);
-    setNewStaff(userInfoCopy);
-  };
-  const handleTeacherRoleInput = (roleSelected) => {
-    console.log(roleSelected);
-    const role = roleSelected.map((lang) => {
-      return lang.value;
-    });
-    setNewStaff({
-      ...newStaff,
-      role: role,
-    });
-    // console.log(e);
-    // setSelectedRole(regionOptions.value);
-  };
   const handleRegionInput = (regionSelected) => {
     const region = regionSelected.value;
     setNewStaff({
       ...newStaff,
       region: region,
     });
-    // console.log(e);
-    // setSelectedRegion(regionOptions.value);
   };
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
@@ -262,10 +235,6 @@ export default function AddStaffMember({ toast, toastOptions }) {
     formData.append("registedDate", registedDate);
     dispatch(staffRegistory(formData));
   };
-
-  const stdFather = () => setFather(!father);
-  const stdMother = () => setMother(!mother);
-  const stdGuardian = () => setGuardian(!guardian);
 
   const selectorStyles = {
     control: (baseStyles, state) => ({
