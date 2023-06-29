@@ -8,59 +8,16 @@ import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
 import set from "lodash/set";
-import {
-  registerStudent,
-  registeredStudents,
-  studentRegistory,
-} from "../../../../features/student/studentsSlice";
+import { studentRegistory } from "../../../../features/student/studentsSlice";
 import { useNavigate } from "react-router-dom";
 import { getStaffInfo } from "../../../../features/staff/staffSlice";
-import { allRegisteredStudents } from "../../../../features/allStudents/allStudents";
-// import { studentRegister } from "../../../store/actions/authActions";
-// import LogoutBtn from "../../logoutBtn/LogoutBtn";
+import {
+  complexionOptions,
+  otherTongueOptions,
+  regionOptions,
+  religionOptions,
+} from "../../../../options/options";
 
-const religionOptions = [
-  { value: "None", label: "None" },
-  { value: "Christian", label: "Christian" },
-  { value: "Islamic", label: "Islamic" },
-  { value: "Traditional", label: "Traditional" },
-  { value: "Others", label: "Others" },
-];
-const otherTongueOptions = [
-  { value: "English", label: "English" },
-  // { value: "Hausa", label: "Hausa" },
-  // { value: "French", label: "French" },
-  // { value: "Spanish", label: "Spanish" },
-  // { value: "Deutsch", label: "Deutsch" },
-];
-const regionOptions = [
-  { value: "None", label: "None" },
-  { value: "Greater Accra", label: "Greater Accra" },
-  { value: "Ashanti", label: "Ashanti" },
-  { value: "Volta", label: "Volta" },
-  { value: "Northern", label: "Northern" },
-  { value: "Central", label: "Central" },
-  { value: "Eastern", label: "Eastern" },
-  { value: "Western", label: "Western" },
-  { value: "Oti", label: "Oti" },
-  { value: "Bono East", label: "Bono East" },
-  { value: "Western North", label: "Western North" },
-  { value: "Bono", label: "Bono" },
-  { value: "Brong Ahafo", label: "Brong Ahafo" },
-  { value: "Ahafo", label: "Ahafo" },
-  { value: "Upper West", label: "Upper West" },
-  { value: "Upper East", label: "Upper East" },
-  { value: "North East", label: "North East" },
-];
-const complexionOptions = [
-  { value: "None", label: "None" },
-  { value: "Very Fair/Ivory", label: "Very Fair/Ivory" },
-  { value: "Fair", label: "Fair" },
-  { value: "Medium/Normal", label: "Medium/Normal" },
-  { value: "Olive", label: "Olive" },
-  { value: "Brown", label: "Brown" },
-  { value: "Black", label: "Black" },
-];
 export default function AdminStudentAdd({
   newStudent,
   setNewStudent,
@@ -332,8 +289,6 @@ export default function AdminStudentAdd({
     formData.append("otherTongue", otherTongue);
     formData.append("complexion", complexion);
     formData.append("registedDate", registedDate);
-    // dispatch(allRegisteredStudents(formData));
-    // dispatch(registeredStudents(formData));
     dispatch(studentRegistory(formData));
     // setNewStudent({
     //   firstName: "",
@@ -391,8 +346,6 @@ export default function AdminStudentAdd({
     setFather(false);
     setMother(false);
     setGuardian(false);
-    // navigate("/sensec/admin/all_students");
-    // navigate("/sensec/admin/all_students");
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
   console.log(canSave);
@@ -550,23 +503,6 @@ export default function AdminStudentAdd({
                         },
                       })}
                     />
-                    {/* <select
-                              name="region"
-                              id="region"
-                              value={selectedRegion}
-                              onChange={(e) => {
-                                const regionSelected = e.target.value;
-                                setSelectedRegion(regionSelected);
-                              }}
-                            >
-                              <option value="None">None</option>
-                              <option value="Greater Accra">
-                                Greater Accra
-                              </option>
-                              <option value="Ashanti">Ashanti</option>
-                              <option value="Volta">Volta</option>
-                              <option value="Eastern">Eastern</option>
-                            </select> */}
                   </div>
                   <div className="inputField">
                     <label htmlFor="level">Form (Level)</label>
@@ -667,7 +603,7 @@ export default function AdminStudentAdd({
                     <Select
                       name="religion"
                       id="selector"
-                      defaultValue={regionOptions[0]}
+                      // defaultValue={regionOptions[0]}
                       options={religionOptions}
                       onChange={handleReligionInput}
                       styles={selectorStyles}

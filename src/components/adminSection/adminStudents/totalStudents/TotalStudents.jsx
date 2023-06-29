@@ -14,6 +14,7 @@ import {
 } from "../../../../features/student/studentsSlice";
 import { getAllStudents } from "../../../../features/student/studentsSlice";
 import { getAllStaffs } from "../../../../features/staff/staffSlice";
+import { column } from "../../../../options/options";
 
 const API_ENDPOINT = "http://localhost:7000/api";
 
@@ -112,7 +113,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
         })
       );
       return;
-    } // if (fetchingStatus === "success") {
+    }
+    // if (fetchingStatus === "success") {
     //   // navigate("/sensec/admin/all_students");
     //   toast.success(successMessage, {
     //     position: "top-right",
@@ -128,59 +130,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     toast,
     toastOptions,
   ]);
-
-  const column = [
-    {
-      name: "Image",
-      selector: (row) =>
-        row.profilePicture ? (
-          <img className="studentImg" src={row.profilePicture} alt="" />
-        ) : (
-          "none"
-        ),
-    },
-    {
-      name: "First Name",
-      selector: (row) => row.firstName,
-      sortable: true,
-    },
-    { name: "Surname", selector: (row) => row.lastName },
-    {
-      name: "Date Of Birth",
-      selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
-    },
-    {
-      name: "Course",
-      selector: (row) => (row.courseStudy ? row.courseStudy : "Unknown"),
-    },
-    { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
-    { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
-    { name: "Enrolled Date", selector: (row) => row.registedDate },
-    {
-      name: "Level",
-      selector: (row) =>
-        row.level ? (
-          <div
-            className={
-              row.level === "1"
-                ? "firstYearTag"
-                : row.level === "2"
-                ? "secondYearTag"
-                : "thirdYearTag"
-            }
-            title={
-              row.level === "1"
-                ? "1st Year"
-                : row.level === "2"
-                ? "2nd Year"
-                : "3rd Year"
-            }
-          ></div>
-        ) : (
-          "Unknown"
-        ),
-    },
-  ];
 
   return (
     <div className="studentTotal" id="allStudents">

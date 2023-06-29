@@ -35,7 +35,7 @@ export default function NavBar({ setOpenLogin, openLogin }) {
   const [openStudent, setOpenStudent] = useState(false);
   const [openAlert, setopenAlert] = useState(false);
 
-  console.log("Menu Is Visible: ", menuVisible);
+  // console.log("Menu Is Visible: ", menuVisible);
   const [navbar, setNavbar] = useState(false);
 
   //THIS REMOVES THE HASHLINK TAG FROM THE URL
@@ -120,6 +120,16 @@ export default function NavBar({ setOpenLogin, openLogin }) {
               scroll={scrollWithOffset}
             >
               Contact
+            </NavHashLink>
+            {/* <ContactNavBar /> */}
+          </li>
+          <li>
+            <NavHashLink
+              to={"/sensec/general_announcement/#notice"}
+              smooth
+              scroll={scrollWithOffset}
+            >
+              General Notice
             </NavHashLink>
             {/* <ContactNavBar /> */}
           </li>
