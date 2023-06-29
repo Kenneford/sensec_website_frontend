@@ -34,6 +34,9 @@ import "react-toastify/dist/ReactToastify.css";
 import AllStaffMembers from "./components/adminSection/adminStaff/allStaffMembers/AllStaffMembers";
 import AddStaffMember from "./components/adminSection/adminStaff/addStaffMember/AddStaffMember";
 import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/UpdateStudent";
+import GeneralNotice from "./pages/notice/GeneralNotice";
+import AllNotices from "./components/noticeSection/AllNotices";
+import SingleNotice from "./pages/notice/SingleNotice";
 
 export default function App() {
   const [openLogin, setOpenLogin] = useState(false);
@@ -144,10 +147,40 @@ export default function App() {
         />
         <Route
           path="/sensec/student/login"
-          element={
-            <StudentLoginPage toastOptions={toastOptions} toast={toast} />
-          }
+          element={<StudentLoginPage toastOptions={toastOptions} c />}
         />
+        <Route
+          exact
+          path="/sensec/general_announcement"
+          element={
+            <GeneralNotice
+              openSidebar={openSidebar}
+              toggleSidebar={toggleSidebar}
+            />
+          }
+        >
+          <Route
+            index
+            element={
+              <AllNotices
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            exact
+            path="/sensec/general_announcement/:title"
+            element={
+              <SingleNotice
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+        </Route>
         <Route
           exact
           path="/sensec/admin"

@@ -10,26 +10,46 @@ import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TvIcon from "@mui/icons-material/Tv";
+import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import DashBoardFooter from "../../footer/DashBoardFooter";
 import { useDispatch, useSelector } from "react-redux";
-import { adminPost } from "../../../features/staff/staffSlice";
-// import { useSelector } from "react-redux";
+import { adminPost } from "../../../features/posts/postSlice";
+import { getStaffInfo } from "../../../features/staff/staffSlice";
 
 export default function DashboardContent({ toast }) {
-  const { postStatus, error, successMessage } = useSelector(
-    (state) => state.staff
-  );
+  const authStaffInfo = useSelector(getStaffInfo);
+  const { postStatus } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const name = `${authStaffInfo.firstName} ${authStaffInfo.lastName}`;
   const [post, setPost] = useState({
+    adminKey: authStaffInfo.adminSecret,
     postImage: "",
+    postedBy: `${name}`,
     title: "",
     text: "",
   });
+  const [adminKey, setAdminKey] = useState(authStaffInfo.adminSecret);
   const [loadPostImage, setLoadPostImage] = useState("");
+  const [postedBy, setPostedBy] = useState(name);
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  console.log(name);
+
+  const fileTransform = (file) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setLoadPostImage(reader.result);
+      };
+    } else {
+      setLoadPostImage("");
+    }
+  };
 
   const handleImageFileUpload = (e) => {
     if (e.target.files.length !== 0) {
@@ -51,44 +71,29 @@ export default function DashboardContent({ toast }) {
 
   const handleSendPost = (e) => {
     e.preventDefault();
+    const { adminKey, title, text, postedBy } = post;
     console.log(post);
     const formData = new FormData();
-    formData.append("postImage", post.postImage);
-    formData.append("title", post.title);
-    formData.append("text", post.text);
-    dispatch(adminPost(formData));
-  };
-
-  // useEffect(() => {
-  //   if (postStatus === "rejected") {
-  //     error.errorMessage.message.map((err) =>
-  //       toast.error(err, {
-  //         position: "top-right",
-  //         theme: "light",
-  //         // toastId: successId,
-  //       })
-  //     );
-  //     return;
-  //   }
-  //   if (postStatus === "success") {
-  //     // navigate("/sensec/admin/all_students");
-  //     toast.success(successMessage, {
-  //       position: "top-right",
-  //       theme: "dark",
-  //       // toastId: successId,
-  //     });
-  //   }
-  // }, [error, successMessage, postStatus, toast]);
-
-  const ImageIcon = () => {
-    return (
-      <div className="postImgIcon">
-        <div className="postImgIconWrap">
-          <AddAPhotoIcon />
-          <p>Add an image</p>
-        </div>
-      </div>
+    formData.append("adminKey", adminKey);
+    formData.append("postImage", loadPostImage);
+    formData.append("title", title);
+    formData.append("text", text);
+    formData.append("postedBy", postedBy);
+    dispatch(
+      adminPost(formData)
+      // adminPost({
+      //   adminKey,
+      //   postImage: loadPostImage,
+      //   title,
+      //   text,
+      //   postedBy,
+      // })
     );
+    setLoadPostImage("");
+    setTitle("");
+    setText("");
+
+    // window.location.reload();
   };
 
   return (
@@ -198,7 +203,12 @@ export default function DashboardContent({ toast }) {
                       {loadPostImage ? (
                         <img className="postImg" src={loadPostImage} alt="" />
                       ) : (
-                        <ImageIcon />
+                        <div className="postImgIcon">
+                          <div className="postImgIconWrap">
+                            <AddAPhotoIcon />
+                            <p>Add an image</p>
+                          </div>
+                        </div>
                       )}
                     </label>
                     <input
@@ -225,7 +235,8 @@ export default function DashboardContent({ toast }) {
                       placeholder=""
                       className="titleText"
                       onChange={handleInputValues}
-                      value={post.title}
+                      // onChange={(e) => setTitle(e.target.value)}
+                      // value={title}
                     />
                   </div>
                   <div className="title">
@@ -237,10 +248,19 @@ export default function DashboardContent({ toast }) {
                       placeholder=""
                       className="textArea"
                       onChange={handleInputValues}
-                      value={post.text}
+                      // onChange={(e) => setText(e.target.value)}
+                      // value={text}
                     />
                   </div>
-                  <button className="noticeBtn">Post Notice</button>
+                  <button className="noticeBtn">
+                    {postStatus === "pending" ? (
+                      <CircularProgress
+                        style={{ color: "white", size: "20px" }}
+                      />
+                    ) : (
+                      "Post Notice"
+                    )}
+                  </button>
                 </div>
               </form>
             </div>

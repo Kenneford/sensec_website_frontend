@@ -52,7 +52,7 @@ if (getStudentToken) {
 }
 
 export const studentRegistory = createAsyncThunk(
-  "students/studentRegistory",
+  "student/studentRegistory",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -68,7 +68,7 @@ export const studentRegistory = createAsyncThunk(
   }
 );
 export const studentUpdate = createAsyncThunk(
-  "students/studentUpdate",
+  "student/studentUpdate",
   async (student, { rejectWithValue }) => {
     try {
       const {
@@ -147,7 +147,7 @@ export const studentUpdate = createAsyncThunk(
 );
 
 export const studentLogin = createAsyncThunk(
-  "students/studentLogin",
+  "student/studentLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -166,8 +166,8 @@ export const studentLogin = createAsyncThunk(
 );
 
 export const fetchStudents = createAsyncThunk(
-  "students/fetchStudents",
-  async (id = null, { rejectWithValue }) => {
+  "student/fetchStudents",
+  async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_all_students`
     );
@@ -178,7 +178,7 @@ export const fetchStudents = createAsyncThunk(
 );
 
 export const studentSearch = createAsyncThunk(
-  "students/studentSearch",
+  "student/studentSearch",
   async (student_name, { rejectWithValue }) => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/search_student?student_name=${student_name}`

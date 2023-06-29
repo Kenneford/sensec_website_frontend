@@ -7,12 +7,9 @@ const initialState = {
   staffInfo: "",
   authStaffInfo: "",
   allStaffs: [],
-  post: "",
-  posts: [],
   successMessage: "",
   error: "",
   registerStatus: "",
-  postStatus: "",
   loginStatus: "",
   logoutStatus: "",
   fetchingStatus: "",
@@ -39,7 +36,7 @@ if (getStaffToken) {
 }
 
 export const staffRegistory = createAsyncThunk(
-  "staffs/staffRegistory",
+  "staff/staffRegistory",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${API_ENDPOINT}/authusers/add_staff`, data);
@@ -51,25 +48,9 @@ export const staffRegistory = createAsyncThunk(
     }
   }
 );
-export const adminPost = createAsyncThunk(
-  "staffs/adminPost",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await axios.post(
-        `${API_ENDPOINT}/admins/posts/add_post`,
-        data
-      );
-      console.log(res.data);
-      return res.data;
-    } catch (error) {
-      console.log(error.response.data);
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
 
 export const staffLogin = createAsyncThunk(
-  "staffs/staffLogin",
+  "staff/staffLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -87,7 +68,7 @@ export const staffLogin = createAsyncThunk(
   }
 );
 export const adminLogin = createAsyncThunk(
-  "admins/adminLogin",
+  "staff/adminLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -105,7 +86,7 @@ export const adminLogin = createAsyncThunk(
   }
 );
 export const teacherLogin = createAsyncThunk(
-  "teachers/teacherLogin",
+  "staff/teacherLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -124,7 +105,7 @@ export const teacherLogin = createAsyncThunk(
 );
 
 export const logoutStaff = createAsyncThunk(
-  "staffs/logoutStaff",
+  "staff/logoutStaff",
   async ({ rejectWithValue }) => {
     try {
       const res = await axios.post(`${API_ENDPOINT}/staffs/staff_logout`);
@@ -309,28 +290,6 @@ const staffsSlice = createSlice({
     //     errorMessage: action.payload,
     //   };
     // });
-    builder.addCase(adminPost.pending, (state, action) => {
-      return { ...state, postStatus: "pending" };
-    });
-    builder.addCase(adminPost.fulfilled, (state, action) => {
-      if (action.payload) {
-        return {
-          ...state,
-          post: action.payload.post,
-          posts: [...state.posts, action.payload.post],
-          successMessage: action.payload.successMessage,
-          postStatus: "success",
-          error: "",
-        };
-      } else return state;
-    });
-    builder.addCase(adminPost.rejected, (state, action) => {
-      return {
-        ...state,
-        postStatus: "rejected",
-        error: action.payload,
-      };
-    });
   },
 });
 
