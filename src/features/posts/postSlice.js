@@ -5,10 +5,13 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 const initialState = {
   postDetails: "",
   posts: [],
+  postLikes: [],
   success: "",
   error: "",
   postStatus: "",
   postFetchingStatus: "",
+  singlePostFetchingStatus: "",
+  deletePostStatus: "",
 };
 
 export const adminPost = createAsyncThunk(
@@ -37,6 +40,48 @@ export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
   return response.data;
 });
 
+export const fetchSinglePost = createAsyncThunk(
+  "post/fetchSinglePost",
+  async (title, { rejectWithValue }) => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/admins/posts/single_post/${title}`
+    );
+    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
+
+export const likePost = createAsyncThunk(
+  "post/likePost",
+  async ({ id, post }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${API_ENDPOINT}/admins/posts/like_post/${post}`,
+        id
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "post/deletePost",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `${API_ENDPOINT}/admins/posts/delete_post/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
 const postSlice = createSlice({
   name: "post",
   initialState,
@@ -85,9 +130,77 @@ const postSlice = createSlice({
         error: action.payload,
       };
     });
+    builder.addCase(fetchSinglePost.pending, (state) => {
+      return { ...state, singlePostFetchingStatus: "pending" };
+    });
+    builder.addCase(fetchSinglePost.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          postDetails: action.payload.singlePost,
+          success: action.payload.successMessage,
+          singlePostFetchingStatus: "success",
+        };
+      }
+    });
+    builder.addCase(fetchSinglePost.rejected, (state, action) => {
+      return {
+        ...state,
+        singlePostFetchingStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
+    builder.addCase(likePost.pending, (state) => {
+      return { ...state, likePostStatus: "pending" };
+    });
+    builder.addCase(likePost.fulfilled, (state, action) => {
+      if (action.payload) {
+        const currentPosts = state.posts.findIndex(
+          (post) => post._id === action.payload.likedPost._id
+        );
+        return {
+          ...state,
+          posts: [...state.posts, currentPosts],
+          success: action.payload.successMessage,
+          likePostStatus: "success",
+        };
+      }
+    });
+    builder.addCase(likePost.rejected, (state, action) => {
+      return {
+        ...state,
+        likePostStatus: "rejected",
+        error: action.payload,
+      };
+    });
+    builder.addCase(deletePost.pending, (state) => {
+      return { ...state, deletePostStatus: "pending" };
+    });
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      if (action.payload) {
+        const currentPosts = state.posts.filter(
+          (post) => post._id !== action.payload.postDeleted._id
+        );
+        return {
+          ...state,
+          posts: currentPosts,
+          success: action.payload.successMessage,
+          deletePostStatus: "success",
+        };
+      }
+    });
+    builder.addCase(deletePost.rejected, (state, action) => {
+      return {
+        ...state,
+        deletePostStatus: "rejected",
+        error: action.payload,
+      };
+    });
   },
 });
 
 export const getAllPosts = (state) => state.post.posts;
+export const getSinglePost = (state) => state.post.postDetails;
 
 export default postSlice.reducer;

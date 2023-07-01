@@ -1,6 +1,5 @@
 import React from "react";
-// import "./staffDashboard.scss";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
@@ -44,15 +43,31 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
             </span>
             <div className="adminInfo">
               <img
-                src="https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80"
+                src={
+                  authStaffInfo
+                    ? authStaffInfo.profilePicture
+                    : studentInfo
+                    ? studentInfo.profilePicture
+                    : authStaffInfo && authStaffInfo.isMale
+                    ? "/asstes/maleAvatar"
+                    : studentInfo && studentInfo.isMale
+                    ? "/asstes/maleAvatar"
+                    : "/assets/noAvatar"
+                }
                 alt=""
               />
               <div className="infoText">
                 <span>
-                  {authStaffInfo.isMale ? "Mr." : "Mrs."}{" "}
-                  {authStaffInfo.lastName}
+                  {authStaffInfo && authStaffInfo.isMale && "Mr."}
+                  {!authStaffInfo && authStaffInfo.isMale && "Mrs."}
+                  {authStaffInfo && authStaffInfo.lastName}
+                  {studentInfo && studentInfo.isMale ? "Bro. " : "Sis. "}
+                  {studentInfo && studentInfo.lastName}
                 </span>
-                <p>( {authStaffInfo.staffRole} )</p>
+                <p>
+                  ( {authStaffInfo && authStaffInfo.staffRole}{" "}
+                  {studentInfo && studentInfo.courseStudy} Student )
+                </p>
               </div>
             </div>
             {authStaffInfo ? (
@@ -157,7 +172,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                 </div>
               </div>
             )}
-            <LogoutBtn />
+            <LogoutBtn openSidebar={openSidebar} />
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />

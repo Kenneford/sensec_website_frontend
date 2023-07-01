@@ -37,15 +37,18 @@ import UpdateStudent from "./components/adminSection/adminStudents/updateStudent
 import GeneralNotice from "./pages/notice/GeneralNotice";
 import AllNotices from "./components/noticeSection/AllNotices";
 import SingleNotice from "./pages/notice/SingleNotice";
+import EmailTemplate from "./components/emailTemplate/EmailTemplate";
 
 export default function App() {
+  const studentInfo = useSelector(getStudentInfo);
+  const authStaffInfo = useSelector(getStaffInfo);
+  console.log(authStaffInfo);
   const [openLogin, setOpenLogin] = useState(false);
+  const [postOptions, setPostOptions] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
   const currentYear = new Date().getFullYear();
   // const { staffInfo } = useSelector((state) => state.staff);
-  const staffInfo = useSelector(getStaffInfo);
-  console.log(staffInfo);
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
   const [date] = useState(new Date().toDateString());
   const [newStudent, setNewStudent] = useState({
@@ -60,10 +63,10 @@ export default function App() {
     studentId: `STDSSHS-${num}-${currentYear}`,
     courseStudy: "",
     studentRegistrar: {
-      registrarFirstName: `${staffInfo.firstName}`,
-      registrarlastName: `${staffInfo.lastName}`,
-      registrarRole: `${staffInfo.staffRole}`,
-      registrarId: `${staffInfo.staffId}`,
+      registrarFirstName: `${authStaffInfo.firstName}`,
+      registrarlastName: `${authStaffInfo.lastName}`,
+      registrarRole: `${authStaffInfo.staffRole}`,
+      registrarId: `${authStaffInfo.staffId}`,
     },
     level: "",
     // isStudent: "",
@@ -101,14 +104,21 @@ export default function App() {
     registedDate: date,
   });
   const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
-  const studentInfo = useSelector(getStudentInfo);
-  const authStaffInfo = useSelector(getStaffInfo);
-  console.log(authStaffInfo);
 
   const navigate = useNavigate();
+
   const clearLogOptions = () => {
     if (openLogin) {
       setOpenLogin(false);
+    }
+    if (postOptions) {
+      setPostOptions(false);
+    }
+  };
+  const [open, setOpen] = useState(false);
+  const clearOptions = () => {
+    if (open) {
+      setOpen(false);
     }
   };
 
@@ -127,6 +137,7 @@ export default function App() {
       <Routes>
         <Route exact path="/" element={<Navigate to="/sensec/homepage" />} />
         <Route exact path="/sensec/homepage" element={<Home />} />
+        <Route path="/sensec/email" element={<EmailTemplate />} />
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/contact" element={<Contact />} />
@@ -147,7 +158,9 @@ export default function App() {
         />
         <Route
           path="/sensec/student/login"
-          element={<StudentLoginPage toastOptions={toastOptions} c />}
+          element={
+            <StudentLoginPage toastOptions={toastOptions} toast={toast} />
+          }
         />
         <Route
           exact
@@ -156,6 +169,9 @@ export default function App() {
             <GeneralNotice
               openSidebar={openSidebar}
               toggleSidebar={toggleSidebar}
+              open={open}
+              setOpen={setOpen}
+              clearOptions={clearOptions}
             />
           }
         >
@@ -166,6 +182,11 @@ export default function App() {
                 openSidebar={openSidebar}
                 toastOptions={toastOptions}
                 toast={toast}
+                setPostOptions={setPostOptions}
+                postOptions={postOptions}
+                open={open}
+                setOpen={setOpen}
+                clearOptions={clearOptions}
               />
             }
           />

@@ -82,7 +82,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Notice</h4>
               </HashLink>
             </div>
-            <LogoutBtn />
+            <LogoutBtn openSidebar={openSidebar} />
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />

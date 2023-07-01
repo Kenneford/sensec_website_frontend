@@ -3,17 +3,11 @@ import "./dashboardContent.scss";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import PersonIcon from "@mui/icons-material/Person";
 import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
-import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import TvIcon from "@mui/icons-material/Tv";
 import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
-import DashBoardFooter from "../../footer/DashBoardFooter";
 import { useDispatch, useSelector } from "react-redux";
 import { adminPost } from "../../../features/posts/postSlice";
 import { getStaffInfo } from "../../../features/staff/staffSlice";
@@ -32,12 +26,15 @@ export default function DashboardContent({ toast }) {
     title: "",
     text: "",
   });
+  const [newpost, setNewPost] = useState(new FormData());
   const [adminKey, setAdminKey] = useState(authStaffInfo.adminSecret);
   const [loadPostImage, setLoadPostImage] = useState("");
   const [postedBy, setPostedBy] = useState(name);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   console.log(name);
+
+  // console.log(loadPostImage);
 
   const fileTransform = (file) => {
     const reader = new FileReader();
@@ -56,7 +53,7 @@ export default function DashboardContent({ toast }) {
       setPost({ ...post, [e.target.name]: e.target.files[0] });
     }
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onloadend = () => {
       setLoadPostImage(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -71,30 +68,39 @@ export default function DashboardContent({ toast }) {
 
   const handleSendPost = (e) => {
     e.preventDefault();
-    const { adminKey, title, text, postedBy } = post;
+    // const { adminKey, title, text, postedBy } = post;
     console.log(post);
     const formData = new FormData();
-    formData.append("adminKey", adminKey);
-    formData.append("postImage", loadPostImage);
-    formData.append("title", title);
-    formData.append("text", text);
-    formData.append("postedBy", postedBy);
-    dispatch(
-      adminPost(formData)
-      // adminPost({
-      //   adminKey,
-      //   postImage: loadPostImage,
-      //   title,
-      //   text,
-      //   postedBy,
-      // })
-    );
+    formData.append("adminKey", post.adminKey);
+    formData.append("postImage", post.postImage);
+    // formData.append("senderImage", senderImage);
+    formData.append("title", post.title);
+    formData.append("text", post.text);
+    formData.append("postedBy", post.postedBy);
+    dispatch(adminPost(formData));
     setLoadPostImage("");
-    setTitle("");
-    setText("");
+    setPost({
+      title: "",
+      text: "",
+    });
 
     // window.location.reload();
   };
+
+  // const handleSendPost = (e) => {
+  //   e.preventDefault();
+  //   const postData = new FormData(e.target);
+  //   setNewPost(postData);
+  //   dispatch(adminPost(postData));
+  // axios
+  //   .post(`${API_ENDPOINT}/admins/posts/add_post`, postData)
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+  // };
 
   return (
     <div>

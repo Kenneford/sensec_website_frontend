@@ -804,16 +804,21 @@ export default function AddStaffMember({ toast, toastOptions }) {
               </div>
             </div>
             <div className="addStudentBtn">
-              <button
-                type="submit"
-                disabled={!canSave || registerStatus === "pending"}
-              >
-                {registerStatus === "pending" ? (
-                  <CircularProgress style={{ color: "white", size: "20px" }} />
-                ) : (
-                  "Add Member"
-                )}
-              </button>
+              <div className="addStudentBtnWrap">
+                <button
+                  className="addStudentBtn"
+                  type="submit"
+                  disabled={!canSave || registerStatus === "pending"}
+                >
+                  {registerStatus === "pending" ? (
+                    <CircularProgress
+                      style={{ color: "white", size: "20px" }}
+                    />
+                  ) : (
+                    "Add Member"
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>

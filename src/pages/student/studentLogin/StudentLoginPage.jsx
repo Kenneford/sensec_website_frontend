@@ -63,7 +63,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
 
   useEffect(() => {
     if (loginStatus === "rejected") {
-      error.message.map((err) => toast.error(err, toastOptions));
+      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
       return;
     }
     if (loginStatus === "success") {

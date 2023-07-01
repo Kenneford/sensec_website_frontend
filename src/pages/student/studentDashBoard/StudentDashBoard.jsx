@@ -29,9 +29,11 @@ export default function StudentDashBoard({
   toggleSidebar,
   studentInfo,
 }) {
+  // const studentInfo = useSelector(getStudentInfo);
   const navigate = useNavigate();
   // const studentInfo = true;
   const owing = false;
+  console.log(studentInfo);
 
   return (
     <div id="student">
@@ -143,7 +145,7 @@ export default function StudentDashBoard({
                 </div>
               </div>
             </div>
-            <LogoutBtn />
+            <LogoutBtn openSidebar={openSidebar} />
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />

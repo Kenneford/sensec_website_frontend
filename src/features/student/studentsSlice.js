@@ -231,7 +231,7 @@ const studentSlice = createSlice({
       return {
         ...state,
         registerStatus: "rejected",
-        error: action.payload.errorMessage,
+        error: action.payload,
         // error: "Failed To Register New Student!",
       };
     });
@@ -319,7 +319,7 @@ const studentSlice = createSlice({
         ...state,
         loginStatus: "rejected",
         // error: "Authentication failed! Please check your input values!",
-        error: action.payload.errorMessage,
+        error: action.payload,
       };
     });
     builder.addCase(fetchStudents.pending, (state, action) => {

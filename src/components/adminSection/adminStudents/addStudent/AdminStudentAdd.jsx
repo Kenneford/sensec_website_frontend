@@ -351,16 +351,16 @@ export default function AdminStudentAdd({
   console.log(canSave);
 
   useEffect(() => {
-    if (registerStatus === "rejected") {
-      error.message.map((err) =>
-        toast.error(err, {
-          position: "top-right",
-          theme: "light",
-          // toastId: successId,
-        })
-      );
-      return;
-    }
+    // if (registerStatus === "rejected") {
+    //   error.errorMessage.message.map((err) =>
+    //     toast.error(err, {
+    //       position: "top-right",
+    //       theme: "light",
+    //       // toastId: successId,
+    //     })
+    //   );
+    //   return;
+    // }
     if (registerStatus === "success") {
       // navigate("/sensec/admin/all_students");
       toast.success(successMessage, {
