@@ -1,19 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./allNotices.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, getAllPosts } from "../../features/posts/postSlice";
+import {
+  fetchPosts,
+  fetchSinglePost,
+  getAllPosts,
+} from "../../features/posts/postSlice";
 import { MoreVert } from "@mui/icons-material";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
 import { getStaffInfo } from "../../features/staff/staffSlice";
-export default function AllNotices({ toast }) {
-  const { postFetchingStatus, error, success, posts } = useSelector(
+import { getStudentInfo } from "../../features/student/studentsSlice";
+import PostOptions from "../postOptions/PostOptions";
+import NoticeItem from "./noticeItem/NoticeItem";
+
+export default function AllNotices({
+  toast,
+  openSidebar,
+  setPostOptions,
+  postOptions,
+}) {
+  const { postFetchingStatus, error, success } = useSelector(
     (state) => state.post
   );
   const authStaffInfo = useSelector(getStaffInfo);
+  const studentInfo = useSelector(getStudentInfo);
   const dispatch = useDispatch();
   const allPosts = useSelector(getAllPosts);
   console.log(allPosts);
 
+  const userInfo = authStaffInfo || studentInfo;
+  // const [postOptions, setPostOptions] = useState(false);
+  console.log(postOptions);
   const user = true;
   const post = true;
   const likeHandler = () => {
@@ -24,6 +45,13 @@ export default function AllNotices({ toast }) {
     // } catch (err) {}
     // setLike(isLiked ? like - 1 : like + 1);
     // setIsLiked(!isLiked);
+  };
+  const [open, setOpen] = useState(false);
+
+  const clearOptions = () => {
+    if (open) {
+      setOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -39,85 +67,27 @@ export default function AllNotices({ toast }) {
           // toastId: successId,
         })
       );
-      return;
     }
-    if (postFetchingStatus === "success") {
-      toast.success(success, {
-        position: "top-right",
-        theme: "dark",
-        // toastId: successId,
-      });
-    }
+    // if (postFetchingStatus === "success") {
+    //   toast.success(success, {
+    //     position: "top-right",
+    //     theme: "dark",
+    //     // toastId: successId,
+    //   });
+    // }
   }, [error, success, postFetchingStatus, toast]);
   return (
-    <div className="postGrid">
+    <div className="postGrid" onClick={clearOptions}>
       {allPosts.map((post) => (
-        <div className="post" key={post._id}>
-          <div className="postWrapper">
-            <div className="postTop">
-              <div className="postTopLeft">
-                <p>Posted by:</p>
-                <Link to="#" className="postBy">
-                  <span className="postUsername">{post.postedBy}</span>
-                  <img
-                    className="postProfileImg"
-                    src={authStaffInfo.profilePicture}
-                    // src={Users.filter((u) => u.id === post?.userId)[0].profilePicture}
-                    alt=""
-                  />
-                </Link>
-                {/* <span className="postDate">12 mins ago</span> */}
-                <span className="postDate">{post.createdAt}</span>
-                {/* <span className="postDate">{post.date}</span> */}
-              </div>
-              {!authStaffInfo && (
-                <div className="postTopRight">
-                  <MoreVert />
-                </div>
-              )}
-            </div>
-            <div className="postCenter">
-              {/* <span className="postText">It's me</span> */}
-              <span className="postText">{post.title}</span>
-              {/* <img
-            className="postImg"
-            src="/assets/profileImg/prfImg1.jpg"
-            alt=""
-          /> */}
-              {/* <img className="postImg" src={post.photo} alt="" /> */}
-              <img className="postImg" src={post.postImage} alt="" />
-              <p>{post.text}</p>
-            </div>
-            <div className="postBottom">
-              <div className="postBottomLeft">
-                <img
-                  className="likeIcon"
-                  src="/assets/like.png"
-                  // src={`like.png`}
-                  //   onClick=""
-                  onClick={likeHandler}
-                  alt=""
-                />
-                <img
-                  className="likeIcon"
-                  src="/assets/heart.png"
-                  // src={`heart.png`}
-                  //   onClick=""
-                  onClick={likeHandler}
-                  alt=""
-                />
-                {/* <span className="postLikeCounter">5 people like it</span> */}
-                <span className="postLikeCounter">
-                  {post.like} people like it
-                </span>
-              </div>
-              <div className="postBottomRight">
-                {/* <span className="postCommentText">6 comments</span> */}
-                <span className="postCommentText">{post.comment} comments</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <NoticeItem
+          key={post._id}
+          post={post}
+          openSidebar={openSidebar}
+          setPostOptions={setPostOptions}
+          postOptions={postOptions}
+          open={open}
+          setOpen={setOpen}
+        />
       ))}
     </div>
   );

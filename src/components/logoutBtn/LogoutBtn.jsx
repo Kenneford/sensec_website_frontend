@@ -15,7 +15,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function LogoutBtn() {
+export default function LogoutBtn({ openSidebar }) {
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
   const staffInfo = useSelector(getStaffInfo);
@@ -44,7 +44,7 @@ export default function LogoutBtn() {
   return (
     <button
       //   style={{ color: "red" }}
-      className="lgtBtn"
+      className={!openSidebar ? "lgtBtn" : "lgtBtnClosedSideBar"}
       onClick={handleLogout}
     >
       Logout

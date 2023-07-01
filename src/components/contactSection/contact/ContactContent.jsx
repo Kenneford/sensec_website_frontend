@@ -13,79 +13,47 @@ import Footer from "../../footer/Footer";
 import emailjs from "@emailjs/browser";
 import axios from "axios";
 // import { receiveMail, sendMail } from "../../../store/actions/authActions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { render as EmailRender } from "@react-email/render";
+import { getStudentInfo } from "../../../features/student/studentsSlice";
+import { getStaffInfo } from "../../../features/staff/staffSlice";
+import { receiveEmail } from "../../../features/email/emailSlice";
 // import EmailTemplate from "../../emailTemplate/EmailTemplate";
 
 export default function ContactContent() {
-  // const { studentInfo } = useSelector((state) => state.auth);
-  // const { staffInfo } = useSelector((state) => state.auth);
-  // const form = useRef();
+  const studentInfo = useSelector(getStudentInfo);
+  const authStaffInfo = useSelector(getStaffInfo);
+  const dispatch = useDispatch();
 
-  // const sendEmail = (e) => {
-  //   e.preventDefault();
-
-  //   emailjs
-  //     .sendForm(
-  //       "service_34zp5wo",
-  //       "template_e9o8cj6",
-  //       form.current,
-  //       `${process.env.REACT_APP_EMAILJS_ACCESS_KEY}`
-  //     )
-  //     .then(
-  //       (result) => {
-  //         console.log(result.text);
-  //         console.log("Message Sent");
-  //       },
-  //       (error) => {
-  //         console.log(error.text);
-  //       }
-  //     );
-  // };
-
-  // const [email, setEmail] = useState({
-  //   user_name: `${
-  //     "" && staffInfo
-  //       ? staffInfo.lastName
-  //       : studentInfo
-  //       ? studentInfo.lastName
-  //       : "Guest"
-  //   }`,
-  //   user_email: "",
-  //   message_subject: "",
-  //   message: "",
-  //   //   EmailRender(<EmailTemplate />, {
-  //   //   pretty: true,
-  //   // }),
-  // });
+  const [email, setEmail] = useState({
+    user_name: "",
+    user_email: "",
+    message_subject: "",
+    message: "",
+    //   EmailRender(<EmailTemplate />, {
+    //   pretty: true,
+    // }),
+  });
 
   function handleStateChange(e) {
-    // setEmail((prevState) => ({
-    //   ...prevState,
-    //   [e.target.name]: e.target.value,
-    // }));
+    setEmail((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   }
 
   const sendEmail = (e) => {
     e.preventDefault();
-    // const { user_name, user_email, message_subject, message } = email;
-    // console.log({ email });
-    // receiveMail({
-    //   user_name,
-    //   user_email,
-    //   message,
-    //   message_subject,
-    // })
-    //   .then((data) => {
-    //     if (data.error) {
-    //       console.log("Error: ", data.error);
-    //     } else {
-    //       setEmail({ ...email });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    const { user_name, user_email, message_subject, message } = email;
+    console.log({ email });
+    dispatch(
+      receiveEmail({
+        user_name,
+        user_email,
+        message,
+        message_subject,
+      })
+    );
   };
 
   return (
@@ -171,7 +139,7 @@ export default function ContactContent() {
                     name="user_name"
                     className="input"
                     onChange={handleStateChange}
-                    // value={email.user_name}
+                    value={email.user_name}
                     // placeholder="Enter your name here..."
                   />
                 </div>

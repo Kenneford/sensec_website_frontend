@@ -80,7 +80,7 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
                 <h4>Public Notice</h4>
               </HashLink>
             </div>
-            <LogoutBtn />
+            <LogoutBtn openSidebar={openSidebar} />
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />
