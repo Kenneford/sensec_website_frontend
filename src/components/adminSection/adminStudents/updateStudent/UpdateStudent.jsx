@@ -9,7 +9,10 @@ import set from "lodash/set";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_ENDPOINT } from "../../../../apiEndPoint/api";
 import axios from "axios";
-import { studentUpdate } from "../../../../features/student/studentsSlice";
+import {
+  fetchSingleStudent,
+  studentUpdate,
+} from "../../../../features/student/studentsSlice";
 
 const religionOptions = [
   { value: "None", label: "None" },
@@ -53,7 +56,7 @@ const complexionOptions = [
   { value: "Brown", label: "Brown" },
   { value: "Black", label: "Black" },
 ];
-export default function UpdateStudent({ newStudent, setNewStudent }) {
+export default function UpdateStudent() {
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
   const [date] = useState(new Date().toDateString());
   const [father, setFather] = useState(false);
@@ -61,65 +64,66 @@ export default function UpdateStudent({ newStudent, setNewStudent }) {
   const [guardian, setGuardian] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log(id);
+  const { studentId } = useParams();
+  console.log(studentId);
   console.log(num);
   console.log(date);
 
   const { staffInfo } = useSelector((state) => state.staff);
   const { allStudents } = useSelector((state) => state.student);
-  const selectedStudent = allStudents.find((std) => std._id === id);
+  const selectedStudent = allStudents?.find(
+    (std) => std.studentId === studentId
+  );
   console.log(JSON.stringify(selectedStudent));
 
   const [loadProfileImage, setLoadProfileImage] = useState("");
 
-  //   const [newStudent, setNewStudent] = useState({
-  //     id: selectedStudent._id,
-  //     firstName: selectedStudent.firstName,
-  //     lastName: selectedStudent.lastName,
-  //     dateOfBirth: selectedStudent.dateOfBirth,
-  //     placeOfBirth: selectedStudent.placeOfBirth,
-  //     nationality: selectedStudent.nationality,
-  //     // password: `${currentYear}-${num}`,
-  //     // confirmPassword: `${currentYear}-${num}`,
-  //     email: selectedStudent.email,
-  //     studentId: selectedStudent.studentId,
-  //     courseStudy: selectedStudent.courseStudy,
-  //     level: selectedStudent.level,
-  //     // isStudent: selectedStudent&&selectedStudent.,
-  //     isMale: selectedStudent.isMale,
-  //     studentImage: selectedStudent.studentImage,
-  //     profilePicture: selectedStudent.profilePicture,
-  //     address: selectedStudent.address,
-  //     currentCity: selectedStudent.currentCity,
-  //     homeTown: selectedStudent.homeTown,
-  //     region: selectedStudent.region,
-  //     religion: selectedStudent.religion,
-  //     height: selectedStudent.height,
-  //     weight: selectedStudent.weight,
-  //     mother: {
-  //       motherName: selectedStudent.mother.motherName,
-  //       motherOccupation: selectedStudent.mother.motherOccupation,
-  //       motherPhoneNumber: selectedStudent.mother.motherPhoneNumber,
-  //       motherEmail: selectedStudent.mother.motherEmail,
-  //     },
-  //     father: {
-  //       fatherName: selectedStudent.father.fatherName,
-  //       fatherOccupation: selectedStudent.father.fatherOccupation,
-  //       fatherPhoneNumber: selectedStudent.father.fatherPhoneNumber,
-  //       fatherEmail: selectedStudent.father.fatherEmail,
-  //     },
-  //     guardian: {
-  //       guardianName: selectedStudent.guardian.guardianName,
-  //       guardianOccupation: selectedStudent.guardian.guardianOccupation,
-  //       guardianPhoneNumber: selectedStudent.guardian.guardianPhoneNumber,
-  //       guardianEmail: selectedStudent.guardian.guardianEmail,
-  //     },
-  //     motherTongue: selectedStudent.motherTongue,
-  //     otherTongue: selectedStudent.otherTongue,
-  //     complexion: selectedStudent.complexion,
-  //     registedDate: selectedStudent.registedDate,
-  //   });
+  const [newStudent, setNewStudent] = useState({
+    firstName: selectedStudent?.firstName,
+    lastName: selectedStudent?.lastName,
+    dateOfBirth: selectedStudent?.dateOfBirth,
+    placeOfBirth: selectedStudent?.placeOfBirth,
+    nationality: selectedStudent?.nationality,
+    // password: `${currentYear}-${num}`,
+    // confirmPassword: `${currentYear}-${num}`,
+    email: selectedStudent?.email,
+    studentId: selectedStudent?.studentId,
+    courseStudy: selectedStudent?.courseStudy,
+    level: selectedStudent?.level,
+    // isStudent: selectedStudent?&&selectedStudent?.,
+    isMale: selectedStudent?.isMale,
+    studentImage: selectedStudent?.studentImage,
+    profilePicture: selectedStudent?.profilePicture,
+    address: selectedStudent?.address,
+    currentCity: selectedStudent?.currentCity,
+    homeTown: selectedStudent?.homeTown,
+    region: selectedStudent?.region,
+    religion: selectedStudent?.religion,
+    height: selectedStudent?.height,
+    weight: selectedStudent?.weight,
+    mother: {
+      motherName: selectedStudent?.mother.motherName,
+      motherOccupation: selectedStudent?.mother.motherOccupation,
+      motherPhoneNumber: selectedStudent?.mother.motherPhoneNumber,
+      motherEmail: selectedStudent?.mother.motherEmail,
+    },
+    father: {
+      fatherName: selectedStudent?.father.fatherName,
+      fatherOccupation: selectedStudent?.father.fatherOccupation,
+      fatherPhoneNumber: selectedStudent?.father.fatherPhoneNumber,
+      fatherEmail: selectedStudent?.father.fatherEmail,
+    },
+    guardian: {
+      guardianName: selectedStudent?.guardian.guardianName,
+      guardianOccupation: selectedStudent?.guardian.guardianOccupation,
+      guardianPhoneNumber: selectedStudent?.guardian.guardianPhoneNumber,
+      guardianEmail: selectedStudent?.guardian.guardianEmail,
+    },
+    motherTongue: selectedStudent?.motherTongue,
+    otherTongue: selectedStudent?.otherTongue,
+    complexion: selectedStudent?.complexion,
+    registedDate: selectedStudent?.registedDate,
+  });
 
   console.log(newStudent.studentId);
 
@@ -206,7 +210,7 @@ export default function UpdateStudent({ newStudent, setNewStudent }) {
   const handleRegister = (e) => {
     e.preventDefault();
     const {
-      _id,
+      id,
       firstName,
       lastName,
       dateOfBirth,
@@ -239,7 +243,6 @@ export default function UpdateStudent({ newStudent, setNewStudent }) {
     } = newStudent;
     console.log(newStudent);
     const formData = new FormData();
-    formData.append("_id", _id);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("dateOfBirth", dateOfBirth);
@@ -299,11 +302,15 @@ export default function UpdateStudent({ newStudent, setNewStudent }) {
     formData.append("otherTongue", otherTongue);
     formData.append("complexion", complexion);
     formData.append("registedDate", registedDate);
-    if (newStudent._id) {
+    if (newStudent.id) {
       dispatch(studentUpdate(newStudent));
     }
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
+
+  useEffect(() => {
+    dispatch(fetchSingleStudent(newStudent));
+  }, [dispatch, studentId, newStudent]);
 
   return (
     <div className="registerWrap">

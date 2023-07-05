@@ -28,7 +28,7 @@ export default function SingleNotice() {
     dispatch(fetchSinglePost(title));
   }, [dispatch, allPosts, title]);
   return (
-    <div>
+    <div className="singlePostWrap">
       <div
         className="singlePostBgImg"
         style={{
@@ -36,6 +36,10 @@ export default function SingleNotice() {
         }}
       >
         <h1 className="colorOverlay">{singlePost.title}</h1>
+      </div>
+      <div className="sendername">
+        <p>By: {singlePost.postedBy}</p>
+        <img src={singlePost.senderImage} alt="" />
       </div>
       {/* <img src={singlePostpostImage} alt="" /> */}
       <p className="singlePostText">{singlePost.text}</p>

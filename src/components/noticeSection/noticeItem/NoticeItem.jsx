@@ -11,6 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 import PostOptions from "../../postOptions/PostOptions";
 import { getAllPosts, likePost } from "../../../features/posts/postSlice";
 import { compareAsc, format, formatDistance, subDays } from "date-fns";
+import { API_ENDPOINT } from "../../../apiEndPoint/api";
+import axios from "axios";
 
 export default function NoticeItem({
   post,
@@ -20,13 +22,13 @@ export default function NoticeItem({
 }) {
   const authStaffInfo = useSelector(getStaffInfo);
   const studentInfo = useSelector(getStudentInfo);
+  const userInfo = authStaffInfo || studentInfo;
   const allPosts = useSelector(getAllPosts);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [love, setLove] = useState(post.likes.length);
   const [isLoved, setIsLoved] = useState(false);
 
-  const userInfo = authStaffInfo || studentInfo;
   console.log(userInfo);
 
   const [open, setOpen] = useState(false);
@@ -35,13 +37,18 @@ export default function NoticeItem({
   const dispatch = useDispatch();
   //   console.log(post);
 
-  const handlePostLike = (id) => {
-    dispatch(likePost(id, post._id));
+  const handlePostLike = async (id) => {
+    try {
+      await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
+        userId: userInfo.id,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    // dispatch(likePost({ userId: userInfo.id, postId: post._id }));
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
-  //   const like = true;
-  //   const love = true;
   useEffect(() => {
     setIsLiked(post.likes.includes(userInfo.id));
   }, [userInfo.id, post.likes]);
@@ -55,7 +62,7 @@ export default function NoticeItem({
               <span className="postUsername">{post.postedBy}</span>
               <img
                 className="postProfileImg"
-                src={authStaffInfo.profilePicture}
+                src={post.senderImage}
                 // src={Users.filter((u) => u.id === post?.userId)[0].profilePicture}
                 alt=""
               />

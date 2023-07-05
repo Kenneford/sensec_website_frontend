@@ -11,41 +11,65 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { adminPost } from "../../../features/posts/postSlice";
 import { getStaffInfo } from "../../../features/staff/staffSlice";
+import { EditorState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import { convertToHTML } from "draft-convert";
+import DOMPurify from "dompurify";
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import draftToHtml from "draft-js-to-html";
+
+import ReactQuill, { reactQuillRef } from "react-quill";
+import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.bubble.css";
+import { modules } from "../../../options/options";
 
 export default function DashboardContent({ toast }) {
   const authStaffInfo = useSelector(getStaffInfo);
   const { postStatus } = useSelector((state) => state.post);
+
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
+  const [convertedContent, setConvertedContent] = useState(null);
+
+  useEffect(() => {
+    let html = convertToHTML(editorState.getCurrentContent());
+    setConvertedContent(html);
+  }, [editorState]);
+  console.log(convertedContent);
+
+  function createMarkup(html) {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = `${authStaffInfo.firstName} ${authStaffInfo.lastName}`;
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
   const [post, setPost] = useState({
     adminKey: authStaffInfo.adminSecret,
+    senderImage: authStaffInfo.profilePicture,
     postImage: "",
     postedBy: `${name}`,
     title: "",
     text: "",
   });
-  const [newpost, setNewPost] = useState(new FormData());
-  const [adminKey, setAdminKey] = useState(authStaffInfo.adminSecret);
   const [loadPostImage, setLoadPostImage] = useState("");
-  const [postedBy, setPostedBy] = useState(name);
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  console.log(name);
+  // console.log(name);
+  console.log(text);
 
-  // console.log(loadPostImage);
-
-  const fileTransform = (file) => {
-    const reader = new FileReader();
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setLoadPostImage(reader.result);
-      };
-    } else {
-      setLoadPostImage("");
-    }
+  const handleEditorText = () => {
+    const editor = reactQuillRef.getEditor();
+    const unprivilegedEditor = reactQuillRef.makeUnprivilegedEditor(editor);
+    // You may now use the unprivilegedEditor proxy methods
+    const inpText = unprivilegedEditor.getText();
+    console.log("unprivilegedEditor.getText()", unprivilegedEditor.getText());
+    setText(inpText);
   };
 
   const handleImageFileUpload = (e) => {
@@ -68,39 +92,23 @@ export default function DashboardContent({ toast }) {
 
   const handleSendPost = (e) => {
     e.preventDefault();
-    // const { adminKey, title, text, postedBy } = post;
     console.log(post);
     const formData = new FormData();
     formData.append("adminKey", post.adminKey);
     formData.append("postImage", post.postImage);
-    // formData.append("senderImage", senderImage);
-    formData.append("title", post.title);
-    formData.append("text", post.text);
+    formData.append("senderImage", post.senderImage);
+    formData.append("title", title);
+    formData.append("text", text);
     formData.append("postedBy", post.postedBy);
     dispatch(adminPost(formData));
     setLoadPostImage("");
-    setPost({
-      title: "",
-      text: "",
-    });
-
-    // window.location.reload();
+    setText("");
+    setTitle("");
+    // setPost({
+    //   title: "",
+    //   text: "",
+    // });
   };
-
-  // const handleSendPost = (e) => {
-  //   e.preventDefault();
-  //   const postData = new FormData(e.target);
-  //   setNewPost(postData);
-  //   dispatch(adminPost(postData));
-  // axios
-  //   .post(`${API_ENDPOINT}/admins/posts/add_post`, postData)
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // };
 
   return (
     <div>
@@ -236,28 +244,31 @@ export default function DashboardContent({ toast }) {
                     <span>Title</span>
                     <input
                       type="text"
-                      name="title"
                       id="title"
                       placeholder=""
                       className="titleText"
-                      onChange={handleInputValues}
-                      // onChange={(e) => setTitle(e.target.value)}
-                      // value={title}
+                      name="title"
+                      // onChange={handleInputValues}
+                      onChange={(e) => setTitle(e.target.value)}
+                      value={title}
                     />
                   </div>
-                  <div className="title">
-                    <span>Message</span>
-                    <textarea
-                      type="text"
-                      name="text"
-                      id="text"
-                      placeholder=""
-                      className="textArea"
-                      onChange={handleInputValues}
-                      // onChange={(e) => setText(e.target.value)}
+                  <div className="editor">
+                    <span className="editorTitle">Message</span>
+                    <ReactQuill
+                      theme="snow"
                       // value={text}
+                      onChange={handleEditorText}
+                      // onChange={setText}
+                      className="textArea"
+                      modules={modules}
+                      ref={(el) => {
+                        reactQuillRef = el;
+                      }}
+                      // readOnly={true}
                     />
                   </div>
+                  <div dangerouslySetInnerHTML={{ __html: text }} />
                   <button className="noticeBtn">
                     {postStatus === "pending" ? (
                       <CircularProgress

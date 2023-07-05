@@ -26,7 +26,11 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
     <div id="admin">
       <div className="adminWrap">
         <div className="adminCont">
-          <div className={openSidebar ? "adminLeft side" : "adminLeft"}>
+          <div
+            className={
+              openSidebar && staffInfo ? "adminLeft side" : "adminLeft"
+            }
+          >
             <span
               className="span"
               onClick={(e) => toggleSidebar(e)}

@@ -29,151 +29,311 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
     <div id="staff">
       <div className="adminsWrap">
         <div className="adminsCont">
-          <div className={openSidebar ? "adminLeft side" : "adminLeft"}>
-            <span
-              className="span"
-              onClick={(e) => toggleSidebar(e)}
-              style={{ cursor: "pointer", position: "relative" }}
-            >
-              {!openSidebar ? (
-                <ArrowBackIosIcon className="sideBarIcon" />
-              ) : (
-                <ArrowForwardIosIcon className="sideBarIcon" />
-              )}
-            </span>
-            <div className="adminInfo">
-              <img
-                src={
-                  authStaffInfo
-                    ? authStaffInfo.profilePicture
-                    : studentInfo
-                    ? studentInfo.profilePicture
-                    : authStaffInfo && authStaffInfo.isMale
-                    ? "/asstes/maleAvatar"
-                    : studentInfo && studentInfo.isMale
-                    ? "/asstes/maleAvatar"
-                    : "/assets/noAvatar"
-                }
-                alt=""
-              />
-              <div className="infoText">
-                <span>
-                  {authStaffInfo && authStaffInfo.isMale && "Mr."}
-                  {!authStaffInfo && authStaffInfo.isMale && "Mrs."}
-                  {authStaffInfo && authStaffInfo.lastName}
-                  {studentInfo && studentInfo.isMale ? "Bro. " : "Sis. "}
-                  {studentInfo && studentInfo.lastName}
+          {studentInfo ||
+            (authStaffInfo && (
+              <div className={openSidebar ? "adminLeft side" : "adminLeft"}>
+                <span
+                  className="span"
+                  onClick={(e) => toggleSidebar(e)}
+                  style={{ cursor: "pointer", position: "relative" }}
+                >
+                  {!openSidebar ? (
+                    <ArrowBackIosIcon className="sideBarIcon" />
+                  ) : (
+                    <ArrowForwardIosIcon className="sideBarIcon" />
+                  )}
                 </span>
-                <p>
-                  ( {authStaffInfo && authStaffInfo.staffRole}{" "}
-                  {studentInfo && studentInfo.courseStudy} Student )
-                </p>
-              </div>
-            </div>
-            {authStaffInfo ? (
-              <div className="contentLinks">
-                <HashLink to={"/sensec/admin"} className="links">
-                  <TvIcon />
-                  <h4>Dashboard</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/all_teachers"} className="links">
-                  <div className="teacherIcons">
-                    <PanoramaOutlinedIcon className="tvIcon" />
-                    <PersonIcon
-                      style={{ backgroundColor: "#292929", zIndex: 1 }}
-                    />
-                  </div>
-                  <h4>Teachers</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/school_staff"} className="links">
-                  <Diversity3Icon />
-                  <h4>Staff Members</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/students"} className="links">
-                  <SchoolOutlinedIcon />
-                  <h4>Students</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/students"} className="links">
-                  <HistoryEduIcon />
-                  <h4>Courses</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/attendance"} className="links">
-                  <ListAltOutlinedIcon />
-                  <h4>Attendance</h4>
-                </HashLink>
-                <HashLink to={"/sensec/admin/public_notice"} className="links">
-                  <CampaignOutlinedIcon />
-                  <h4>Notice</h4>
-                </HashLink>
-              </div>
-            ) : (
-              <div className="contentLinks">
-                <div className="links" title={openSidebar ? "Dashboard" : ""}>
-                  <TvIcon />
-                  <h4>Dashboard</h4>
-                </div>
-                <div className="links" title={openSidebar ? "Teachers" : ""}>
-                  <div className="teacherIcons">
-                    <PanoramaOutlinedIcon className="tvIcon" />
-                    <PersonIcon
-                      style={{ backgroundColor: "#292929", zIndex: 1 }}
-                    />
-                  </div>
-                  <h4>Teachers</h4>
-                </div>
-                <HashLink
-                  to={"/sensec/student/weekly_lectures"}
-                  className="links"
-                  title={openSidebar ? "Weekly Lectures" : ""}
-                >
-                  <NoteAltIcon />
-                  <h4>Weekly Lectures</h4>
-                </HashLink>
-                <div className="links" title={openSidebar ? "Coursemates" : ""}>
-                  <SchoolOutlinedIcon />
-                  <h4>Coursemates</h4>
-                </div>
-                <div
-                  className="links"
-                  title={openSidebar ? "My Attendance" : ""}
-                >
-                  <ListAltOutlinedIcon />
-                  <h4>My Attendance</h4>
-                </div>
-                <div
-                  className="links"
-                  title={openSidebar ? "Public Notice" : ""}
-                >
-                  <CampaignOutlinedIcon />
-                  <h4>Public Notice</h4>
-                </div>
-                <div className="links" title={openSidebar ? "Fees Status" : ""}>
-                  <MoneyOutlinedIcon />
-                  <h4>My Fees</h4>
-                  <div className="feesCheck">
-                    {owing ? (
-                      <QuestionMarkOutlinedIcon
-                        titleAccess="Your are owing"
-                        style={{
-                          backgroundColor: "red",
-                          borderRadius: ".4rem",
-                        }}
-                      />
-                    ) : (
-                      <CheckOutlinedIcon
-                        titleAccess="All fees paid"
-                        style={{
-                          backgroundColor: "green",
-                          borderRadius: ".4rem",
-                        }}
-                      />
+                <div className="adminInfo">
+                  <img
+                    src={
+                      authStaffInfo
+                        ? authStaffInfo.profilePicture
+                        : studentInfo
+                        ? studentInfo.profilePicture
+                        : authStaffInfo && authStaffInfo.isMale
+                        ? "/asstes/maleAvatar.png"
+                        : studentInfo && studentInfo.isMale
+                        ? "/asstes/maleAvatar.png"
+                        : "/assets/noAvatar.png"
+                    }
+                    alt=""
+                  />
+                  <div className="infoText">
+                    <span>
+                      {authStaffInfo && authStaffInfo.isMale && "Mr. "}
+                      {authStaffInfo && !authStaffInfo.isMale && "Mrs. "}
+                      {authStaffInfo && authStaffInfo.lastName}
+                      {studentInfo && studentInfo.isMale && "Bro. "}
+                      {studentInfo && !studentInfo.isMale && "Sis. "}
+                      {studentInfo && studentInfo.lastName}
+                    </span>
+                    {authStaffInfo && (
+                      <p>( {authStaffInfo && authStaffInfo.staffRole} )</p>
                     )}
+                    {/* {studentInfo && (
+                  <p>({studentInfo && studentInfo.courseStudy} Student )</p>
+                )} */}
                   </div>
                 </div>
+                {authStaffInfo ? (
+                  <div className="contentLinks">
+                    <HashLink to={"/sensec/admin"} className="links">
+                      <TvIcon />
+                      <h4>Dashboard</h4>
+                    </HashLink>
+                    <HashLink
+                      to={"/sensec/admin/all_teachers"}
+                      className="links"
+                    >
+                      <div className="teacherIcons">
+                        <PanoramaOutlinedIcon className="tvIcon" />
+                        <PersonIcon
+                          style={{ backgroundColor: "#292929", zIndex: 1 }}
+                        />
+                      </div>
+                      <h4>Teachers</h4>
+                    </HashLink>
+                    <HashLink
+                      to={"/sensec/admin/school_staff"}
+                      className="links"
+                    >
+                      <Diversity3Icon />
+                      <h4>Staff Members</h4>
+                    </HashLink>
+                    <HashLink to={"/sensec/admin/students"} className="links">
+                      <SchoolOutlinedIcon />
+                      <h4>Students</h4>
+                    </HashLink>
+                    <HashLink to={"/sensec/admin/students"} className="links">
+                      <HistoryEduIcon />
+                      <h4>Courses</h4>
+                    </HashLink>
+                    <HashLink to={"/sensec/admin/attendance"} className="links">
+                      <ListAltOutlinedIcon />
+                      <h4>Attendance</h4>
+                    </HashLink>
+                    <HashLink
+                      to={"/sensec/admin/public_notice"}
+                      className="links"
+                    >
+                      <CampaignOutlinedIcon />
+                      <h4>Notice</h4>
+                    </HashLink>
+                  </div>
+                ) : (
+                  <div className="contentLinks">
+                    <div
+                      className="links"
+                      title={openSidebar ? "Dashboard" : ""}
+                    >
+                      <TvIcon />
+                      <h4>Dashboard</h4>
+                    </div>
+                    <div
+                      className="links"
+                      title={openSidebar ? "Teachers" : ""}
+                    >
+                      <div className="teacherIcons">
+                        <PanoramaOutlinedIcon className="tvIcon" />
+                        <PersonIcon
+                          style={{ backgroundColor: "#292929", zIndex: 1 }}
+                        />
+                      </div>
+                      <h4>Teachers</h4>
+                    </div>
+                    <HashLink
+                      to={"/sensec/student/weekly_lectures"}
+                      className="links"
+                      title={openSidebar ? "Weekly Lectures" : ""}
+                    >
+                      <NoteAltIcon />
+                      <h4>Weekly Lectures</h4>
+                    </HashLink>
+                    <div
+                      className="links"
+                      title={openSidebar ? "Coursemates" : ""}
+                    >
+                      <SchoolOutlinedIcon />
+                      <h4>Coursemates</h4>
+                    </div>
+                    <div
+                      className="links"
+                      title={openSidebar ? "My Attendance" : ""}
+                    >
+                      <ListAltOutlinedIcon />
+                      <h4>My Attendance</h4>
+                    </div>
+                    <div
+                      className="links"
+                      title={openSidebar ? "Public Notice" : ""}
+                    >
+                      <CampaignOutlinedIcon />
+                      <h4>Public Notice</h4>
+                    </div>
+                    <div
+                      className="links"
+                      title={openSidebar ? "Fees Status" : ""}
+                    >
+                      <MoneyOutlinedIcon />
+                      <h4>My Fees</h4>
+                      <div className="feesCheck">
+                        {owing ? (
+                          <QuestionMarkOutlinedIcon
+                            titleAccess="Your are owing"
+                            style={{
+                              backgroundColor: "red",
+                              borderRadius: ".4rem",
+                            }}
+                          />
+                        ) : (
+                          <CheckOutlinedIcon
+                            titleAccess="All fees paid"
+                            style={{
+                              backgroundColor: "green",
+                              borderRadius: ".4rem",
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <LogoutBtn openSidebar={openSidebar} />
               </div>
-            )}
-            <LogoutBtn openSidebar={openSidebar} />
-          </div>
+            ))}
+          {!studentInfo && !authStaffInfo && (
+            <div className={openSidebar ? "adminLeft side" : "adminLeft"}>
+              <span
+                className="span"
+                onClick={(e) => toggleSidebar(e)}
+                style={{ cursor: "pointer", position: "relative" }}
+              >
+                {!openSidebar ? (
+                  <ArrowBackIosIcon className="sideBarIcon" />
+                ) : (
+                  <ArrowForwardIosIcon className="sideBarIcon" />
+                )}
+              </span>
+              <div className="adminInfo">
+                <img src="/assets/noAvatar.png" alt="" />
+                <div className="infoText">
+                  <span>Guest</span>
+                </div>
+              </div>
+              {authStaffInfo ? (
+                <div className="contentLinks">
+                  <HashLink to={"/sensec/admin"} className="links">
+                    <TvIcon />
+                    <h4>Dashboard</h4>
+                  </HashLink>
+                  <HashLink to={"/sensec/admin/all_teachers"} className="links">
+                    <div className="teacherIcons">
+                      <PanoramaOutlinedIcon className="tvIcon" />
+                      <PersonIcon
+                        style={{ backgroundColor: "#292929", zIndex: 1 }}
+                      />
+                    </div>
+                    <h4>Teachers</h4>
+                  </HashLink>
+                  <HashLink to={"/sensec/admin/school_staff"} className="links">
+                    <Diversity3Icon />
+                    <h4>Staff Members</h4>
+                  </HashLink>
+                  <HashLink to={"/sensec/admin/students"} className="links">
+                    <SchoolOutlinedIcon />
+                    <h4>Students</h4>
+                  </HashLink>
+                  <HashLink to={"/sensec/admin/students"} className="links">
+                    <HistoryEduIcon />
+                    <h4>Courses</h4>
+                  </HashLink>
+                  <HashLink to={"/sensec/admin/attendance"} className="links">
+                    <ListAltOutlinedIcon />
+                    <h4>Attendance</h4>
+                  </HashLink>
+                  <HashLink
+                    to={"/sensec/admin/public_notice"}
+                    className="links"
+                  >
+                    <CampaignOutlinedIcon />
+                    <h4>Notice</h4>
+                  </HashLink>
+                </div>
+              ) : (
+                <div className="contentLinks">
+                  <div className="links" title={openSidebar ? "Dashboard" : ""}>
+                    <TvIcon />
+                    <h4>Dashboard</h4>
+                  </div>
+                  <div className="links" title={openSidebar ? "Teachers" : ""}>
+                    <div className="teacherIcons">
+                      <PanoramaOutlinedIcon className="tvIcon" />
+                      <PersonIcon
+                        style={{ backgroundColor: "#292929", zIndex: 1 }}
+                      />
+                    </div>
+                    <h4>Teachers</h4>
+                  </div>
+                  <HashLink
+                    to={"/sensec/student/weekly_lectures"}
+                    className="links"
+                    title={openSidebar ? "Weekly Lectures" : ""}
+                  >
+                    <NoteAltIcon />
+                    <h4>Weekly Lectures</h4>
+                  </HashLink>
+                  <div
+                    className="links"
+                    title={openSidebar ? "Coursemates" : ""}
+                  >
+                    <SchoolOutlinedIcon />
+                    <h4>Coursemates</h4>
+                  </div>
+                  <div
+                    className="links"
+                    title={openSidebar ? "My Attendance" : ""}
+                  >
+                    <ListAltOutlinedIcon />
+                    <h4>My Attendance</h4>
+                  </div>
+                  <div
+                    className="links"
+                    title={openSidebar ? "Public Notice" : ""}
+                  >
+                    <CampaignOutlinedIcon />
+                    <h4>Public Notice</h4>
+                  </div>
+                  <div
+                    className="links"
+                    title={openSidebar ? "Fees Status" : ""}
+                  >
+                    <MoneyOutlinedIcon />
+                    <h4>My Fees</h4>
+                    <div className="feesCheck">
+                      {owing ? (
+                        <QuestionMarkOutlinedIcon
+                          titleAccess="Your are owing"
+                          style={{
+                            backgroundColor: "red",
+                            borderRadius: ".4rem",
+                          }}
+                        />
+                      ) : (
+                        <CheckOutlinedIcon
+                          titleAccess="All fees paid"
+                          style={{
+                            backgroundColor: "green",
+                            borderRadius: ".4rem",
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <LogoutBtn openSidebar={openSidebar} />
+            </div>
+          )}
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />
             <DashBoardFooter openSidebar={openSidebar} />
