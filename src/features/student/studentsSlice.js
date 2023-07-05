@@ -176,6 +176,21 @@ export const fetchStudents = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchSingleStudent = createAsyncThunk(
+  "student/fetchSingleStudent",
+  async (studentId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_ENDPOINT}/students/single_student/${studentId}`
+      );
+      // const students = response.data;
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const studentSearch = createAsyncThunk(
   "student/studentSearch",
@@ -322,6 +337,7 @@ const studentSlice = createSlice({
         error: action.payload,
       };
     });
+
     builder.addCase(fetchStudents.pending, (state, action) => {
       return { ...state, fetchingStatus: "pending" };
     });
@@ -344,6 +360,29 @@ const studentSlice = createSlice({
         error: action.payload.errorMessage,
       };
     });
+
+    builder.addCase(fetchSingleStudent.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchSingleStudent.fulfilled, (state, action) => {
+      if (action.payload) {
+        // const student = tokenDecoded(action.payload);
+        return {
+          ...state,
+          studentInfo: action.payload.student,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchSingleStudent.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        error: action.payload.errorMessage,
+      };
+    });
+
     builder.addCase(studentSearch.pending, (state, action) => {
       return { ...state, searchStatus: "pending" };
     });

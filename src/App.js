@@ -38,6 +38,7 @@ import GeneralNotice from "./pages/notice/GeneralNotice";
 import AllNotices from "./components/noticeSection/AllNotices";
 import SingleNotice from "./pages/notice/SingleNotice";
 import EmailTemplate from "./components/emailTemplate/EmailTemplate";
+import StudentInfos from "./components/adminSection/adminStudents/studentInfos/StudentInfos";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -266,7 +267,7 @@ export default function App() {
             }
           />
           <Route
-            path="/sensec/admin/edit_student/:id"
+            path="/sensec/admin/edit_student/:studentId"
             element={
               <UpdateStudent
                 newStudent={newStudent}
@@ -288,6 +289,16 @@ export default function App() {
             path="/sensec/admin/search_student"
             element={
               <TotalStudents
+                setNewStudent={setNewStudent}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            path="/sensec/admin/student_info/:studentId"
+            element={
+              <StudentInfos
                 setNewStudent={setNewStudent}
                 toastOptions={toastOptions}
                 toast={toast}

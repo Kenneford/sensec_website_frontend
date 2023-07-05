@@ -1,3 +1,5 @@
+import { Link, useParams } from "react-router-dom";
+
 export const religionOptions = [
   { value: "None", label: "None" },
   { value: "Christian", label: "Christian" },
@@ -44,14 +46,24 @@ export const complexionOptions = [
 export const gender = [
   { male: "male", female: "female", transgender: "transgender" },
 ];
-const levelsColors = {};
-const levelsTitles = {};
+
+// const {studentId}=useParams()
+
+const clickHandler = (state) => {
+  console.log("ID ", state.id);
+};
+
 export const column = [
   {
     name: "Image",
     selector: (row) =>
       row.profilePicture ? (
-        <img className="studentImg" src={row.profilePicture} alt="" />
+        <Link
+          to={`/sensec/admin/student_info/${row.studentId}`}
+          title="View Student Info"
+        >
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        </Link>
       ) : (
         "none"
       ),
@@ -97,4 +109,45 @@ export const column = [
         "Unknown"
       ),
   },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_student/${row.studentId}`}
+      >
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
 ];
+
+export const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: ["Roboto", "Poppins"] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["link", "image", "video", "file"],
+    ["code-block"],
+    ["clean"],
+  ],
+};

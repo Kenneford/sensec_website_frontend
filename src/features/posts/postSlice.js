@@ -54,11 +54,11 @@ export const fetchSinglePost = createAsyncThunk(
 
 export const likePost = createAsyncThunk(
   "post/likePost",
-  async ({ id, post }, { rejectWithValue }) => {
+  async ({ userId, postId }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `${API_ENDPOINT}/admins/posts/like_post/${post}`,
-        id
+        `${API_ENDPOINT}/admins/posts/like_post/${postId}`,
+        userId
       );
       return response.data;
     } catch (error) {
@@ -157,7 +157,7 @@ const postSlice = createSlice({
     builder.addCase(likePost.fulfilled, (state, action) => {
       if (action.payload) {
         const currentPosts = state.posts.findIndex(
-          (post) => post._id === action.payload.likedPost._id
+          (post) => post._id === action.payload.likedPost
         );
         return {
           ...state,

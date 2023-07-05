@@ -195,100 +195,115 @@ export default function AdminStudentAdd({
 
   const handleRegister = (e) => {
     e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      dateOfBirth,
-      placeOfBirth,
-      nationality,
-      password,
-      confirmPassword,
-      email,
-      studentId,
-      courseStudy,
-      studentRegistrar,
-      level,
-      isMale,
-      studentImage,
-      profilePicture,
-      address,
-      currentCity,
-      homeTown,
-      region,
-      religion,
-      height,
-      weight,
-      mother,
-      father,
-      guardian,
-      motherTongue,
-      otherTongue,
-      complexion,
-      registedDate,
-    } = newStudent;
+    // const {
+    //   firstName,
+    //   lastName,
+    //   dateOfBirth,
+    //   placeOfBirth,
+    //   nationality,
+    //   password,
+    //   confirmPassword,
+    //   email,
+    //   studentId,
+    //   courseStudy,
+    //   studentRegistrar,
+    //   level,
+    //   isMale,
+    //   studentImage,
+    //   profilePicture,
+    //   address,
+    //   currentCity,
+    //   homeTown,
+    //   region,
+    //   religion,
+    //   height,
+    //   weight,
+    //   mother,
+    //   father,
+    //   guardian,
+    //   motherTongue,
+    //   otherTongue,
+    //   complexion,
+    //   registedDate,
+    // } = newStudent;
     console.log(newStudent);
     const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("dateOfBirth", dateOfBirth);
-    formData.append("placeOfBirth", placeOfBirth);
-    formData.append("nationality", nationality);
-    formData.append("password", password);
-    formData.append("confirmPassword", confirmPassword);
-    formData.append("email", email);
-    formData.append("studentId", studentId);
-    formData.append("courseStudy", courseStudy);
+    formData.append("firstName", newStudent.firstName);
+    formData.append("lastName", newStudent.lastName);
+    formData.append("dateOfBirth", newStudent.dateOfBirth);
+    formData.append("placeOfBirth", newStudent.placeOfBirth);
+    formData.append("nationality", newStudent.nationality);
+    formData.append("password", newStudent.password);
+    formData.append("confirmPassword", newStudent.confirmPassword);
+    formData.append("email", newStudent.email);
+    formData.append("studentId", newStudent.studentId);
+    formData.append("courseStudy", newStudent.courseStudy);
     formData.append(
       "studentRegistrar[registrarFirstName]",
-      studentRegistrar.registrarFirstName
+      newStudent.studentRegistrar.registrarFirstName
     );
     formData.append(
       "studentRegistrar[registrarlastName]",
-      studentRegistrar.registrarlastName
+      newStudent.studentRegistrar.registrarlastName
     );
     formData.append(
       "studentRegistrar[registrarRole]",
-      studentRegistrar.registrarRole
+      newStudent.studentRegistrar.registrarRole
     );
     formData.append(
       "studentRegistrar[registrarId]",
-      studentRegistrar.registrarId
+      newStudent.studentRegistrar.registrarId
     );
-    formData.append("level", level);
+    formData.append("level", newStudent.level);
     // formData.append("isStudent", isStudent);
-    formData.append("isMale", isMale);
-    formData.append("studentImage", studentImage);
-    formData.append("profilePicture", profilePicture);
+    formData.append("isMale", newStudent.isMale);
+    formData.append("studentImage", newStudent.studentImage);
+    formData.append("profilePicture", newStudent.profilePicture);
     // formData.append("image", profilePicture);
-    formData.append("address", address);
-    formData.append("currentCity", currentCity);
-    formData.append("homeTown", homeTown);
-    formData.append("region", region);
-    formData.append("religion", religion);
-    formData.append("height", height);
-    formData.append("weight", weight);
-    formData.append("mother[motherName]", mother.motherName);
-    formData.append("mother[motherOccupation]", mother.motherOccupation);
-    formData.append("mother[motherPhoneNumber]", mother.motherPhoneNumber);
-    formData.append("mother[motherEmail]", mother.motherEmail);
-    formData.append("father[fatherName]", father.fatherName);
-    formData.append("father[fatherOccupation]", father.fatherOccupation);
-    formData.append("father[fatherPhoneNumber]", father.fatherPhoneNumber);
-    formData.append("father[fatherEmail]", father.fatherEmail);
-    formData.append("guardian[guardianName]", guardian.guardianName);
+    formData.append("address", newStudent.address);
+    formData.append("currentCity", newStudent.currentCity);
+    formData.append("homeTown", newStudent.homeTown);
+    formData.append("region", newStudent.region);
+    formData.append("religion", newStudent.religion);
+    formData.append("height", newStudent.height);
+    formData.append("weight", newStudent.weight);
+    formData.append("mother[motherName]", newStudent.mother.motherName);
+    formData.append(
+      "mother[motherOccupation]",
+      newStudent.mother.motherOccupation
+    );
+    formData.append(
+      "mother[motherPhoneNumber]",
+      newStudent.mother.motherPhoneNumber
+    );
+    formData.append("mother[motherEmail]", newStudent.mother.motherEmail);
+    formData.append("father[fatherName]", newStudent.father.fatherName);
+    formData.append(
+      "father[fatherOccupation]",
+      newStudent.father.fatherOccupation
+    );
+    formData.append(
+      "father[fatherPhoneNumber]",
+      newStudent.father.fatherPhoneNumber
+    );
+    formData.append("father[fatherEmail]", newStudent.father.fatherEmail);
+    formData.append("guardian[guardianName]", newStudent.guardian.guardianName);
     formData.append(
       "guardian[guardianOccupation]",
-      guardian.guardianOccupation
+      newStudent.guardian.guardianOccupation
     );
     formData.append(
       "guardian[guardianPhoneNumber]",
-      guardian.guardianPhoneNumber
+      newStudent.guardian.guardianPhoneNumber
     );
-    formData.append("guardian[guardianEmail]", guardian.guardianEmail);
-    formData.append("motherTongue", motherTongue);
-    formData.append("otherTongue", otherTongue);
-    formData.append("complexion", complexion);
-    formData.append("registedDate", registedDate);
+    formData.append(
+      "guardian[guardianEmail]",
+      newStudent.guardian.guardianEmail
+    );
+    formData.append("motherTongue", newStudent.motherTongue);
+    formData.append("otherTongue", newStudent.otherTongue);
+    formData.append("complexion", newStudent.complexion);
+    formData.append("registedDate", newStudent.registedDate);
     dispatch(studentRegistory(formData));
     // setNewStudent({
     //   firstName: "",
