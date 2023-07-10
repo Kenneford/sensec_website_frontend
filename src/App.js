@@ -39,11 +39,17 @@ import AllNotices from "./components/noticeSection/AllNotices";
 import SingleNotice from "./pages/notice/SingleNotice";
 import EmailTemplate from "./components/emailTemplate/EmailTemplate";
 import StudentInfos from "./components/adminSection/adminStudents/studentInfos/StudentInfos";
+import UpdatePost from "./components/adminSection/updatePost/UpdatePost";
+import { getAdminInfo } from "./features/admin/adminsSlice";
+import { getTeacherInfo } from "./features/teacher/teachersSlice";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
+  const authAdminInfo = useSelector(getAdminInfo);
+  const authTeacherInfo = useSelector(getTeacherInfo);
   console.log(authStaffInfo);
+  console.log(authAdminInfo);
   const [openLogin, setOpenLogin] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -61,7 +67,7 @@ export default function App() {
     password: `${currentYear}-${num}`,
     confirmPassword: `${currentYear}-${num}`,
     email: "",
-    studentId: `STDSSHS-${num}-${currentYear}`,
+    // studentId: `STDSSHS-${num}-${currentYear}`,
     courseStudy: "",
     studentRegistrar: {
       registrarFirstName: `${authStaffInfo.firstName}`,
@@ -136,6 +142,7 @@ export default function App() {
     <div className="app" onClick={clearLogOptions}>
       <NavBar setOpenLogin={setOpenLogin} openLogin={openLogin} />
       <Routes>
+        {/* NORMAL ROUTES */}
         <Route exact path="/" element={<Navigate to="/sensec/homepage" />} />
         <Route exact path="/sensec/homepage" element={<Home />} />
         <Route path="/sensec/email" element={<EmailTemplate />} />
@@ -163,6 +170,7 @@ export default function App() {
             <StudentLoginPage toastOptions={toastOptions} toast={toast} />
           }
         />
+        {/* ANNOUNCEMENT ROUTES */}
         <Route
           exact
           path="/sensec/general_announcement"
@@ -193,7 +201,7 @@ export default function App() {
           />
           <Route
             exact
-            path="/sensec/general_announcement/:title"
+            path="/sensec/general_announcement/:postId"
             element={
               <SingleNotice
                 openSidebar={openSidebar}
@@ -203,12 +211,12 @@ export default function App() {
             }
           />
         </Route>
+        {/* ADMIN ROUTES */}
         <Route
           exact
           path="/sensec/admin"
           element={
-            (authStaffInfo && authStaffInfo.staffRole === "Admin") ||
-            (authStaffInfo && authStaffInfo.staffRole === "Admin/Teacher") ? (
+            authAdminInfo && authAdminInfo.role === "Admin" ? (
               <AdminDashboard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -216,7 +224,7 @@ export default function App() {
                 toast={toast}
               />
             ) : (
-              <Navigate to={"/sensec/admin/login"} />
+              <Navigate to={"/sensec/admins/login"} />
             )
           }
         >
@@ -248,7 +256,7 @@ export default function App() {
           />
           <Route
             exact
-            path="/sensec/admin/teachers"
+            path="/sensec/admin/all_teachers"
             element={<AdminTeachers openSidebar={openSidebar} />}
           />
           <Route
@@ -305,7 +313,18 @@ export default function App() {
               />
             }
           />
+          <Route
+            path="/sensec/admin/general_announcement/update/:postId"
+            element={
+              <UpdatePost
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
         </Route>
+        {/* STAFFS ROUTES */}
         <Route
           path="/sensec/staff"
           element={
@@ -326,11 +345,11 @@ export default function App() {
             element={<StaffDashBoardContent openSidebar={openSidebar} />}
           />
         </Route>
+        {/* TEACHERS ROUTES */}
         <Route
           path="/sensec/teacher"
           element={
-            (authStaffInfo && authStaffInfo.staffRole === "Teacher") ||
-            (authStaffInfo && authStaffInfo.staffRole === "Admin/Teacher") ? (
+            authTeacherInfo && authTeacherInfo.role === "Teacher" ? (
               <TeacherDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -347,6 +366,7 @@ export default function App() {
             element={<TeacherDashBoardContent openSidebar={openSidebar} />}
           />
         </Route>
+        {/* STUDENTS ROUTES */}
         <Route
           path="/sensec/student"
           element={
@@ -368,6 +388,7 @@ export default function App() {
             element={<StudentDashBoardContent openSidebar={openSidebar} />}
           />
         </Route>
+        {/* 404 PAGE NOT FOUND ROUTE */}
         <Route
           path="*"
           element={

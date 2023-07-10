@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const religionOptions = [
   { value: "None", label: "None" },
@@ -116,6 +116,110 @@ export const column = [
         className="editLink"
         to={`/sensec/admin/edit_student/${row.studentId}`}
       >
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
+];
+
+export const staffColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/staff_info/${row.staffId}`}
+          title="View Staff Info"
+        >
+          <img className="staffImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Teaching Course",
+    selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
+  },
+  { name: "Staff-ID", selector: (row) => row.staffId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Date Employed", selector: (row) => row.registedDate },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link className="editLink" to={`/sensec/admin/edit_staff/${row.staffId}`}>
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
+];
+
+export const teachersColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/staff_info/${row.staffId}`}
+          title="View Staff Info"
+        >
+          <img className="staffImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Teaching Course",
+    selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
+  },
+  { name: "Staff-ID", selector: (row) => row.staffId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Date Employed", selector: (row) => row.registedDate },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link className="editLink" to={`/sensec/admin/edit_staff/${row.staffId}`}>
         Edit
       </Link>
     ),

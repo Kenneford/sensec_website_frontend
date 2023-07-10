@@ -176,6 +176,7 @@ export const fetchStudents = createAsyncThunk(
     return response.data;
   }
 );
+
 export const fetchSingleStudent = createAsyncThunk(
   "student/fetchSingleStudent",
   async (studentId, { rejectWithValue }) => {

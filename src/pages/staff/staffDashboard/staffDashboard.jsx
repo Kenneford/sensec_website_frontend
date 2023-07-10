@@ -20,11 +20,12 @@ import axios from "axios";
 import { format } from "timeago.js";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
+import { getStaffInfo } from "../../../features/staff/staffSlice";
 
 const API_ENDPOINT = "http://localhost:5000/api";
 
 export default function StaffDashboard({ openSidebar, toggleSidebar }) {
-  const staffInfo = true;
+  const authStaffInfo = useSelector(getStaffInfo);
   return (
     <div id="staff">
       <div className="adminsWrap">
@@ -42,23 +43,35 @@ export default function StaffDashboard({ openSidebar, toggleSidebar }) {
               )}
             </span>
             <div className="adminInfo">
-              <img
-                src="https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80"
-                alt=""
-              />
+              {authStaffInfo.profilePicture ? (
+                <img
+                  src={authStaffInfo.profilePicture}
+                  alt="Staff Member's Profile"
+                />
+              ) : (
+                <img
+                  src={
+                    authStaffInfo.isMale
+                      ? "/assets/maleAvatar.png"
+                      : "/assets/femaleAvatar.png"
+                  }
+                  alt=""
+                />
+              )}
               <div className="infoText">
                 <span>
-                  {staffInfo.isMale ? "Mr." : "Mrs."} {staffInfo.lastName}
+                  {authStaffInfo.isMale ? "Mr." : "Mrs."}{" "}
+                  {authStaffInfo.lastName}
                 </span>
-                <p>( {staffInfo.staffRole} )</p>
+                <p>( {authStaffInfo.role} )</p>
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/admin"} className="links">
+              <HashLink to={"/sensec/staff/#staff"} className="links">
                 <TvIcon />
                 <h4>Dashboard</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/all_teachers"} className="links">
+              <HashLink to={"/sensec/all_teachers"} className="links">
                 <div className="teacherIcons">
                   <PanoramaOutlinedIcon className="tvIcon" />
                   <PersonIcon
@@ -67,23 +80,23 @@ export default function StaffDashboard({ openSidebar, toggleSidebar }) {
                 </div>
                 <h4>Teachers</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/school_staff"} className="links">
+              <HashLink to={"/sensec/school_staff"} className="links">
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/students"} className="links">
+              <HashLink to={"/sensec/students"} className="links">
                 <SchoolOutlinedIcon />
                 <h4>Students</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/students"} className="links">
+              <HashLink to={"/sensec/students"} className="links">
                 <HistoryEduIcon />
                 <h4>Courses</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/attendance"} className="links">
+              <HashLink to={"/sensec/attendance"} className="links">
                 <ListAltOutlinedIcon />
                 <h4>Attendance</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/public_notice"} className="links">
+              <HashLink to={"/sensec/general_announcement"} className="links">
                 <CampaignOutlinedIcon />
                 <h4>Notice</h4>
               </HashLink>

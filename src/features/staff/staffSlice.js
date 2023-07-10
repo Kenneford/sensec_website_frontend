@@ -36,10 +36,13 @@ if (getStaffToken) {
 }
 
 export const staffRegistory = createAsyncThunk(
-  "staff/staffRegistory",
+  "Staff/staffRegistory",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`${API_ENDPOINT}/authusers/add_staff`, data);
+      const res = await axios.post(
+        `${API_ENDPOINT}/staffs/add_staff/admin`,
+        data
+      );
       console.log(res.data);
       return res.data;
     } catch (error) {
@@ -49,16 +52,27 @@ export const staffRegistory = createAsyncThunk(
   }
 );
 
+export const fetchStaffs = createAsyncThunk("staff/fetchStaffs", async () => {
+  const response = await axios.get(`${API_ENDPOINT}/staffs/get_all_staffs`);
+  console.log(response.data);
+  return response.data;
+});
+
+export const fetchTeachers = createAsyncThunk(
+  "Staff/fetchTeachers",
+  async () => {
+    const response = await axios.get(`${API_ENDPOINT}/staffs/get_all_teachers`);
+    console.log(response.data);
+    return response.data;
+  }
+);
+
 export const staffLogin = createAsyncThunk(
-  "staff/staffLogin",
+  "Staff/staffLogin",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post(
-        `${API_ENDPOINT}/authusers/staff_login`,
-        data
-      );
+      const res = await axios.post(`${API_ENDPOINT}/staffs/login`, data);
       console.log("Staff", res.data);
-      //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
       return res.data;
     } catch (error) {
@@ -68,7 +82,7 @@ export const staffLogin = createAsyncThunk(
   }
 );
 export const adminLogin = createAsyncThunk(
-  "staff/adminLogin",
+  "Staff/adminLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -76,7 +90,6 @@ export const adminLogin = createAsyncThunk(
         data
       );
       console.log("Admin", res.data);
-      //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
       return res.data;
     } catch (error) {
@@ -86,7 +99,7 @@ export const adminLogin = createAsyncThunk(
   }
 );
 export const teacherLogin = createAsyncThunk(
-  "staff/teacherLogin",
+  "Staff/teacherLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -94,7 +107,6 @@ export const teacherLogin = createAsyncThunk(
         data
       );
       console.log("Teacher", res.data);
-      //   localStorage.setItem("user", res.data);
       localStorage.setItem("staffToken", res.data.token);
       return res.data;
     } catch (error) {
@@ -105,7 +117,7 @@ export const teacherLogin = createAsyncThunk(
 );
 
 export const logoutStaff = createAsyncThunk(
-  "staff/logoutStaff",
+  "Staff/logoutStaff",
   async ({ rejectWithValue }) => {
     try {
       const res = await axios.post(`${API_ENDPOINT}/staffs/staff_logout`);
@@ -120,7 +132,7 @@ export const logoutStaff = createAsyncThunk(
   }
 );
 const staffsSlice = createSlice({
-  name: "staff",
+  name: "Staff",
   initialState,
   reducers: {
     // loadUser(state, action) {
@@ -149,7 +161,6 @@ const staffsSlice = createSlice({
         registerStatus: "",
         loginStatus: "",
         fetchingStatus: "",
-        allStaffs: [],
         authenticated: false,
       };
     },
@@ -269,31 +280,53 @@ const staffsSlice = createSlice({
         error: "Logout failed!",
       };
     });
-    // builder.addCase(fetchAllStaffs.pending, (state, action) => {
-    //   return { ...state, fetchingStatus: "pending" };
-    // });
-    // builder.addCase(fetchAllStaffs.fulfilled, (state, action) => {
-    //   if (action.payload) {
-    //     // const staff = tokenDecoded(action.payload);
-    //     return {
-    //       ...state,
-    //       allStaffs: action.payload,
-    //       successMessage: "All staffs data fetch successful!",
-    //       loading: false,
-    //     };
-    //   } else return state;
-    // });
-    // builder.addCase(fetchAllStaffs.rejected, (state, action) => {
-    //   return {
-    //     ...state,
-    //     fetchingStatus: "rejected",
-    //     errorMessage: action.payload,
-    //   };
-    // });
+
+    builder.addCase(fetchStaffs.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchStaffs.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allStaffs: action.payload.staffs,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchStaffs.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
+    builder.addCase(fetchTeachers.pending, (state) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchTeachers.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allTeachers: action.payload.teachers,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchTeachers.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        error: action.payload,
+      };
+    });
   },
 });
 
 export const getAllStaffs = (state) => state.staff.allStaffs;
+export const getAllTeachers = (state) => state.staff.allTeachers;
 export const getStaffInfo = (state) => state.staff.authStaffInfo;
 export const { staffLogout } = staffsSlice.actions;
 

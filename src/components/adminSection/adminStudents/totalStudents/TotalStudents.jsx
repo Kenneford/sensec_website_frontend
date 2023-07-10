@@ -182,7 +182,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
             data={allStudents}
             customStyles={customStyle}
             pagination
-          ></DataTable>
+          />
           {/* <div className="studentWrapper">
             {allStudents &&
               allStudents.map((student) => (

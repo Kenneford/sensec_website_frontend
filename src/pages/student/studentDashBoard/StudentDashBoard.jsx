@@ -117,10 +117,14 @@ export default function StudentDashBoard({
                 <ListAltOutlinedIcon />
                 <h4>My Attendance</h4>
               </div>
-              <div className="links" title={openSidebar ? "Public Notice" : ""}>
+              <HashLink
+                to={"/sensec/general_announcement/#notice"}
+                className="links"
+                title={openSidebar ? "Public Notice" : ""}
+              >
                 <CampaignOutlinedIcon />
                 <h4>Public Notice</h4>
-              </div>
+              </HashLink>
               <div className="links" title={openSidebar ? "Fees Status" : ""}>
                 <MoneyOutlinedIcon />
                 <h4>My Fees</h4>

@@ -1,42 +1,26 @@
 import React, { useState } from "react";
 import "./navbar.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { HashLink, NavHashLink } from "react-router-hash-link";
+import { useNavigate } from "react-router-dom";
+import { NavHashLink } from "react-router-hash-link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-// import PersonIcon from "@mui/icons-material/Person";
-// import CoursesNavBar from "../SubNavBar/coursesNavBar/CoursesNavBar";
-// import AboutNavBar from "../SubNavBar/aboutNavBar/AboutNavBar";
-// import ContactNavBar from "../SubNavBar/contactNavBar/ContactNavBar";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import CurrentUser from "../currentUser/CurrentUser";
 import { useSelector } from "react-redux";
 import { getStudentInfo } from "../../features/student/studentsSlice";
 import { getStaffInfo } from "../../features/staff/staffSlice";
-// import LoginIcon from "@mui/icons-material/Login";
-// import { useDispatch, useSelector } from "react-redux";
-// import { logoutStaff, logoutStudent } from "../../store/actions/authActions";
-// import LogoutBtn from "../logoutBtn/LogoutBtn";
+import { getAdminInfo } from "../../features/admin/adminsSlice";
+import { getTeacherInfo } from "../../features/teacher/teachersSlice";
 
 export default function NavBar({ setOpenLogin, openLogin }) {
-  // const { studentInfo } = useSelector((state) => state.auth);
-  // const { staffInfo } = useSelector((state) => state.auth);
+  const authAdminInfo = useSelector(getAdminInfo);
   const studentInfo = useSelector(getStudentInfo);
-  const staffInfo = useSelector(getStaffInfo);
-  const navigate = useNavigate();
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [openAdmin, setOpenAdmin] = useState(false);
-  const [openTeacher, setOpenTeacher] = useState(false);
-  const [openStudent, setOpenStudent] = useState(false);
-  const [openAlert, setopenAlert] = useState(false);
+  const authStaffInfo = useSelector(getStaffInfo);
+  const authTeacherInfo = useSelector(getTeacherInfo);
 
-  // console.log("Menu Is Visible: ", menuVisible);
+  const [menuVisible, setMenuVisible] = useState(false);
   const [navbar, setNavbar] = useState(false);
+
+  const navigate = useNavigate();
 
   //THIS REMOVES THE HASHLINK TAG FROM THE URL
   if (window.location.hash) {
@@ -51,7 +35,6 @@ export default function NavBar({ setOpenLogin, openLogin }) {
 
   //FUNCTION TO CHANGE THE NAVBAR BACKGROUND COLOR ON SCROLL
   const changeBackground = () => {
-    // console.log(window.scrollY);
     if (window.scrollY >= 80) {
       setNavbar(true);
     } else {
@@ -123,18 +106,22 @@ export default function NavBar({ setOpenLogin, openLogin }) {
             </NavHashLink>
             {/* <ContactNavBar /> */}
           </li>
-          <li>
-            <NavHashLink
-              to={"/sensec/general_announcement/#notice"}
-              smooth
-              scroll={scrollWithOffset}
-            >
-              General Notice
-            </NavHashLink>
-            {/* <ContactNavBar /> */}
-          </li>
-          {(staffInfo && staffInfo.staffRole === "Admin") ||
-          (staffInfo && staffInfo.staffRole === "Admin/Teacher") ? (
+          {!authAdminInfo &&
+            !studentInfo &&
+            !authTeacherInfo &&
+            !authStaffInfo && (
+              <li>
+                <NavHashLink
+                  to={"/sensec/general_announcement/#notice"}
+                  smooth
+                  scroll={scrollWithOffset}
+                >
+                  General Notice
+                </NavHashLink>
+                {/* <ContactNavBar /> */}
+              </li>
+            )}
+          {authAdminInfo && (
             <li>
               <NavHashLink
                 to={"/sensec/admin/#admin"}
@@ -144,22 +131,19 @@ export default function NavBar({ setOpenLogin, openLogin }) {
                 Admin
               </NavHashLink>
             </li>
-          ) : (
-            ""
           )}
-          {(staffInfo && staffInfo.staffRole === "Teacher") ||
-            (staffInfo && staffInfo.staffRole === "Admin/Teacher" && (
-              <li>
-                <NavHashLink
-                  to={"/sensec/teacher/#teacher"}
-                  smooth
-                  scroll={scrollWithOffset}
-                >
-                  Teacher
-                </NavHashLink>
-              </li>
-            ))}
-          {staffInfo && (
+          {authTeacherInfo && (
+            <li>
+              <NavHashLink
+                to={"/sensec/teacher/#teacher"}
+                smooth
+                scroll={scrollWithOffset}
+              >
+                Teacher
+              </NavHashLink>
+            </li>
+          )}
+          {authStaffInfo && (
             <li>
               <NavHashLink
                 to={"/sensec/staff/#staff"}
