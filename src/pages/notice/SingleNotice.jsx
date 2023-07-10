@@ -14,19 +14,18 @@ export default function SingleNotice() {
   const allPosts = useSelector(getAllPosts);
   const singlePost = useSelector(getSinglePost);
   const [postSelected, setPostSelected] = useState("");
-  const { title } = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(title);
+  console.log(postId);
   console.log(singlePost);
 
   // console.log(getSelectedPost);
 
   useEffect(() => {
-    // const getSelectedPost = allPosts.find((post) => post.title === title);
-    // setPostSelected(getSelectedPost);
-    dispatch(fetchSinglePost(title));
-  }, [dispatch, allPosts, title]);
+    dispatch(fetchSinglePost(postId));
+  }, [dispatch, allPosts, postId]);
+
   return (
     <div className="singlePostWrap">
       <div

@@ -15,9 +15,11 @@ import TvIcon from "@mui/icons-material/Tv";
 import { HashLink } from "react-router-hash-link";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
+import { getTeacherInfo } from "../../../features/teacher/teachersSlice";
 
 export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
   const staffInfo = true;
+  const authTeacherInfo = useSelector(getTeacherInfo);
   return (
     <div id="teacher">
       <div className="adminsWrap">
@@ -35,17 +37,15 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
               )}
             </span>
             <div className="adminInfo">
-              <img
-                src="https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80"
-                alt=""
-              />
+              <img src={authTeacherInfo.profilePicture} alt="" />
               <div className="infoText">
                 <span>
-                  {staffInfo.isMale ? "Mr." : "Mrs."} {staffInfo.lastName}
+                  {authTeacherInfo.isMale ? "Mr." : "Mrs."}{" "}
+                  {authTeacherInfo.lastName}
                 </span>
                 <p>
-                  ( {staffInfo.teachingCourse}
-                  {staffInfo.staffRole} )
+                  ( {authTeacherInfo.teachingCourse}
+                  {authTeacherInfo.role} )
                 </p>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
                 <ListAltOutlinedIcon />
                 <h4>Students Attendance</h4>
               </HashLink>
-              <HashLink to={"#"} className="links">
+              <HashLink to={"/sensec/general_announcement"} className="links">
                 <CampaignOutlinedIcon />
                 <h4>Public Notice</h4>
               </HashLink>

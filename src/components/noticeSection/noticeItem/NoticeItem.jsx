@@ -13,6 +13,8 @@ import { getAllPosts, likePost } from "../../../features/posts/postSlice";
 import { compareAsc, format, formatDistance, subDays } from "date-fns";
 import { API_ENDPOINT } from "../../../apiEndPoint/api";
 import axios from "axios";
+import { getAdminInfo } from "../../../features/admin/adminsSlice";
+import { getTeacherInfo } from "../../../features/teacher/teachersSlice";
 
 export default function NoticeItem({
   post,
@@ -22,7 +24,10 @@ export default function NoticeItem({
 }) {
   const authStaffInfo = useSelector(getStaffInfo);
   const studentInfo = useSelector(getStudentInfo);
-  const userInfo = authStaffInfo || studentInfo;
+  const authAdminInfo = useSelector(getAdminInfo);
+  const authTeacherInfo = useSelector(getTeacherInfo);
+  const userInfo =
+    authStaffInfo || studentInfo || authAdminInfo || authTeacherInfo;
   const allPosts = useSelector(getAllPosts);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
@@ -38,16 +43,20 @@ export default function NoticeItem({
   //   console.log(post);
 
   const handlePostLike = async (id) => {
-    try {
-      await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
-        userId: userInfo.id,
-      });
-    } catch (error) {
-      console.error(error);
+    if (userInfo) {
+      try {
+        await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
+          userId: userInfo.id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      // dispatch(likePost({ userId: userInfo.id, postId: post._id }));
+      setLike(isLiked ? like - 1 : like + 1);
+      setIsLiked(!isLiked);
+    } else {
+      return;
     }
-    // dispatch(likePost({ userId: userInfo.id, postId: post._id }));
-    setLike(isLiked ? like - 1 : like + 1);
-    setIsLiked(!isLiked);
   };
   useEffect(() => {
     setIsLiked(post.likes.includes(userInfo.id));

@@ -236,7 +236,7 @@ export default function AdminStudentAdd({
     formData.append("password", newStudent.password);
     formData.append("confirmPassword", newStudent.confirmPassword);
     formData.append("email", newStudent.email);
-    formData.append("studentId", newStudent.studentId);
+    // formData.append("studentId", newStudent.studentId);
     formData.append("courseStudy", newStudent.courseStudy);
     formData.append(
       "studentRegistrar[registrarFirstName]",
@@ -366,16 +366,16 @@ export default function AdminStudentAdd({
   console.log(canSave);
 
   useEffect(() => {
-    // if (registerStatus === "rejected") {
-    //   error.errorMessage.message.map((err) =>
-    //     toast.error(err, {
-    //       position: "top-right",
-    //       theme: "light",
-    //       // toastId: successId,
-    //     })
-    //   );
-    //   return;
-    // }
+    if (registerStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
     if (registerStatus === "success") {
       // navigate("/sensec/admin/all_students");
       toast.success(successMessage, {
@@ -411,7 +411,7 @@ export default function AdminStudentAdd({
                         src={
                           loadProfileImage
                             ? loadProfileImage
-                            : "/assets/maleAvatar.png"
+                            : "/assets/noAvatar.png"
                         }
                         alt=""
                       />
@@ -425,8 +425,7 @@ export default function AdminStudentAdd({
                       accept=".png,.jpeg,.jpg"
                     />
                   </div>
-                  <div className="studentId">
-                    {/* <label htmlFor="studentId">Student ID</label> */}
+                  {/* <div className="studentId">
                     <h3>Student ID</h3>
                     <input
                       className="idInput"
@@ -436,7 +435,7 @@ export default function AdminStudentAdd({
                       // value={newStudent.studentId}
                       value={newStudent.studentId}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="profileDateWrap">

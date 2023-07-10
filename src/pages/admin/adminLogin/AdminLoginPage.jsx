@@ -4,19 +4,19 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { adminLogin, getStaffInfo } from "../../../features/staff/staffSlice";
 import { CircularProgress } from "@mui/material";
+import { adminLogin } from "../../../features/admin/adminsSlice";
 
 export default function AdminLoginPage({ toast, toastOptions }) {
   const dispatch = useDispatch();
   const [passLengthError, setPassLengthError] = useState("");
   const [idLengthError, setIdLengthError] = useState("");
   const [keyLengthError, setKeyLengthError] = useState("");
-  const { loginStatus, error, successMessage } = useSelector(
-    (state) => state.staff
+  const { loginStatus, adminError, adminSuccessMessage } = useSelector(
+    (state) => state.admin
   );
   const [staff, setStaff] = useState({
-    staffId: "",
+    adminId: "",
     adminSecret: "",
     password: "",
   });
@@ -26,8 +26,8 @@ export default function AdminLoginPage({ toast, toastOptions }) {
   const passCheck = staff.password.length < 6;
 
   //STAFF-ID INPUT CONTROLL
-  const id = staff.staffId.length > 0;
-  const idCheck = staff.staffId.length < 16;
+  const id = staff.adminId.length > 0;
+  const idCheck = staff.adminId.length < 16;
 
   //ADMIN KEY INPUT CONTROLL
   const key = staff.adminSecret.length > 0;
@@ -48,7 +48,7 @@ export default function AdminLoginPage({ toast, toastOptions }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!staff.staffId && !staff.adminSecret && !staff.password) {
+    if (!staff.adminId && !staff.adminSecret && !staff.password) {
       toast.error(
         "Authentication failed! Fields can't be empty!",
         toastOptions
@@ -65,18 +65,27 @@ export default function AdminLoginPage({ toast, toastOptions }) {
     setIdLengthError("Your ID length is too short!");
     setKeyLengthError("Your Key length is too short!");
     if (loginStatus === "rejected") {
-      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
+      adminError.errorMessage.message.map((err) =>
+        toast.error(err, toastOptions)
+      );
       return;
     }
     if (loginStatus === "success") {
       navigate("/sensec/admin/#admin");
-      toast.success(successMessage, {
+      toast.success(adminSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
     }
-  }, [error, successMessage, loginStatus, toast, toastOptions, navigate]);
+  }, [
+    adminError,
+    adminSuccessMessage,
+    loginStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
   // useEffect(() => {
   // }, []);
@@ -100,8 +109,8 @@ export default function AdminLoginPage({ toast, toastOptions }) {
                 type="text"
                 placeholder="Your ID"
                 onChange={handleInputValues}
-                name="staffId"
-                value={staff.staffId}
+                name="adminId"
+                value={staff.adminId}
               />
               {id && idCheck && (
                 <p

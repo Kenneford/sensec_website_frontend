@@ -3,6 +3,13 @@ import "./adminTeachers.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import SearchIcon from "@mui/icons-material/Search";
+import DataTable from "react-data-table-component";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTeachers,
+  getAllTeachers,
+} from "../../../features/staff/staffSlice";
+import { teachersColumn } from "../../../options/options";
 // import axios from "axios";
 
 // import { format } from "timeago.js";
@@ -12,8 +19,10 @@ const API_ENDPOINT = "http://localhost:5000/api";
 
 export default function AdminTeachers({ openSidebar }) {
   const [open, setOpen] = React.useState(false);
-  const [allTeachers, setAllTeachers] = useState([]);
+  // const [allTeachers, setAllTeachers] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const allTeachers = useSelector(getAllTeachers);
   const { member_name } = useParams();
   console.log(member_name);
   const handleModalClose = () => {
@@ -45,6 +54,43 @@ export default function AdminTeachers({ openSidebar }) {
     },
   };
 
+  const customStyle = {
+    headRow: {
+      style: {
+        backgroundColor: "#555",
+        color: "#fff",
+      },
+    },
+    headColumn: {
+      style: {
+        border: "1rem solid red",
+        // color: "#fff",
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: "1.2rem",
+        // borderLeft: ".2rem solid red",
+        // backgroundColor: "blue",
+        // color: "#fff",
+      },
+    },
+    cells: {
+      style: {
+        // backgroundColor: "#cccc",
+        // color: "#fff",
+        paddingTop: ".5rem",
+        paddingBottom: ".5rem",
+        // marginTop: ".5rem",
+        // marginBottom: ".5rem",
+      },
+    },
+  };
+
+  useEffect(() => {
+    dispatch(fetchTeachers());
+  }, [dispatch]);
+
   return (
     <div>
       <div className="teacherTotal">
@@ -61,8 +107,13 @@ export default function AdminTeachers({ openSidebar }) {
         </div>
         <div className="totalTeachersWrap">
           <div className="totalTeachersCont">
+            <DataTable
+              columns={teachersColumn}
+              data={allTeachers}
+              customStyles={customStyle}
+              pagination
+            />
             <div className="teacherWrapper">
-              <p>All Teachers</p>
               {/* {allTeachers.map((teacher) => (
                 <div key={teacher._id}>
                   <div

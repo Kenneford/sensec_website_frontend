@@ -11,7 +11,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getStudentInfo } from "../../features/student/studentsSlice";
 import PostOptions from "../postOptions/PostOptions";
@@ -23,7 +23,7 @@ export default function AllNotices({
   setPostOptions,
   postOptions,
 }) {
-  const { postFetchingStatus, error, success } = useSelector(
+  const { postFetchingStatus, deletePostStatus, error, success } = useSelector(
     (state) => state.post
   );
   const authStaffInfo = useSelector(getStaffInfo);
@@ -54,9 +54,11 @@ export default function AllNotices({
     }
   };
 
+  const location = useLocation();
+
   useEffect(() => {
     dispatch(fetchPosts());
-  }, [dispatch]);
+  }, [dispatch, location.key]);
 
   useEffect(() => {
     if (postFetchingStatus === "rejected") {
@@ -75,7 +77,15 @@ export default function AllNotices({
     //     // toastId: successId,
     //   });
     // }
-  }, [error, success, postFetchingStatus, toast]);
+    if (deletePostStatus === "success") {
+      toast.success(success, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+  }, [error, success, postFetchingStatus, deletePostStatus, toast]);
+
   return (
     <div className="postGrid" onClick={clearOptions}>
       {allPosts.map((post) => (

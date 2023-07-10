@@ -3,21 +3,21 @@ import "./teacherLogin.scss";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Navigate, useNavigate } from "react-router-dom";
-import { getStaffInfo, teacherLogin } from "../../../features/staff/staffSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
+import { teacherLogin } from "../../../features/teacher/teachersSlice";
 
 export default function TeacherLoginPage({ toast, toastOptions }) {
   const dispatch = useDispatch();
   const [passLengthError, setPassLengthError] = useState("");
   const [idLengthError, setIdLengthError] = useState("");
   const [keyLengthError, setKeyLengthError] = useState("");
-  const { loginStatus, error, successMessage } = useSelector(
-    (state) => state.staff
+  const { loginStatus, teacherError, teacherSuccessMessage } = useSelector(
+    (state) => state.teacher
   );
 
   const [staff, setStaff] = useState({
-    staffId: "",
+    teacherId: "",
     teacherSecret: "",
     password: "",
   });
@@ -27,8 +27,8 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
   const passCheck = staff.password.length < 6;
 
   //STAFF-ID INPUT CONTROLL
-  const id = staff.staffId.length > 0;
-  const idCheck = staff.staffId.length < 16;
+  const id = staff.teacherId.length > 0;
+  const idCheck = staff.teacherId.length < 16;
 
   //ADMIN KEY INPUT CONTROLL
   const key = staff.teacherSecret.length > 0;
@@ -48,7 +48,7 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!staff.staffId && !staff.password && !staff.teacherSecret) {
+    if (!staff.teacherId && !staff.password && !staff.teacherSecret) {
       toast.error(
         "Authentication failed! Fields can't be empty!",
         toastOptions
@@ -62,18 +62,27 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
 
   useEffect(() => {
     if (loginStatus === "rejected") {
-      error.message.map((err) => toast.error(err, toastOptions));
+      teacherError.errorMessage.message.map((err) =>
+        toast.error(err, toastOptions)
+      );
       return;
     }
     if (loginStatus === "success") {
       navigate("/sensec/teacher/#teacher");
-      toast.success(successMessage, {
+      toast.success(teacherSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
     }
-  }, [error, successMessage, loginStatus, toast, toastOptions, navigate]);
+  }, [
+    teacherError,
+    teacherSuccessMessage,
+    loginStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
   useEffect(() => {
     setPassLengthError("Password must be at least 6 characters long!");
@@ -100,8 +109,8 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
                 type="text"
                 placeholder="Your ID"
                 onChange={handleInputValues}
-                name="staffId"
-                value={staff.staffId}
+                name="teacherId"
+                value={staff.teacherId}
               />
               {id && idCheck && (
                 <p

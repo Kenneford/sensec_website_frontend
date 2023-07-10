@@ -26,24 +26,24 @@ import { modules } from "../../../options/options";
 
 export default function DashboardContent({ toast }) {
   const authStaffInfo = useSelector(getStaffInfo);
-  const { postStatus } = useSelector((state) => state.post);
+  const { postStatus, success, error } = useSelector((state) => state.post);
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [convertedContent, setConvertedContent] = useState(null);
+  // const [editorState, setEditorState] = useState(() =>
+  //   EditorState.createEmpty()
+  // );
+  // const [convertedContent, setConvertedContent] = useState(null);
 
-  useEffect(() => {
-    let html = convertToHTML(editorState.getCurrentContent());
-    setConvertedContent(html);
-  }, [editorState]);
-  console.log(convertedContent);
+  // useEffect(() => {
+  //   let html = convertToHTML(editorState.getCurrentContent());
+  //   setConvertedContent(html);
+  // }, [editorState]);
+  // console.log(convertedContent);
 
-  function createMarkup(html) {
-    return {
-      __html: DOMPurify.sanitize(html),
-    };
-  }
+  // function createMarkup(html) {
+  //   return {
+  //     __html: DOMPurify.sanitize(html),
+  //   };
+  // }
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,8 +60,9 @@ export default function DashboardContent({ toast }) {
     text: "",
   });
   const [loadPostImage, setLoadPostImage] = useState("");
+
   // console.log(name);
-  console.log(text);
+  // console.log(text);
 
   const handleEditorText = () => {
     const editor = reactQuillRef.getEditor();
@@ -83,12 +84,12 @@ export default function DashboardContent({ toast }) {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const handleInputValues = (e) => {
-    setPost({
-      ...post,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleInputValues = (e) => {
+  //   setPost({
+  //     ...post,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   const handleSendPost = (e) => {
     e.preventDefault();
@@ -101,14 +102,35 @@ export default function DashboardContent({ toast }) {
     formData.append("text", text);
     formData.append("postedBy", post.postedBy);
     dispatch(adminPost(formData));
-    setLoadPostImage("");
-    setText("");
-    setTitle("");
-    // setPost({
-    //   title: "",
-    //   text: "",
-    // });
+    if (text && post && title) {
+      setLoadPostImage("");
+      setText("");
+      setTitle("");
+    }
+    setTimeout(() => {
+      navigate("/sensec/general_announcement");
+    }, 2000);
   };
+
+  useEffect(() => {
+    if (postStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+    }
+
+    if (postStatus === "success") {
+      toast.success(success, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+  }, [error, success, postStatus, toast]);
 
   return (
     <div>
@@ -162,9 +184,9 @@ export default function DashboardContent({ toast }) {
           </div>
           <div
             className="teachers"
-            onClick={() => navigate("/sensec/admin/students_fees")}
+            onClick={() => navigate("/sensec/admin/staff_members")}
           >
-            <h3>Total Fees</h3>
+            <h3>Total Staff</h3>
             <div className="teachersInfo">
               <div className="teachersInfoIcons">
                 <MoneyOutlinedIcon
@@ -182,7 +204,7 @@ export default function DashboardContent({ toast }) {
           </div>
           <div
             className="teachers"
-            onClick={() => navigate("/sensec/admin/public_notice")}
+            onClick={() => navigate("/sensec/general_announcement")}
           >
             <div className="titleFlex">
               <h3>Public Notice</h3>
@@ -257,7 +279,7 @@ export default function DashboardContent({ toast }) {
                     <span className="editorTitle">Message</span>
                     <ReactQuill
                       theme="snow"
-                      // value={text}
+                      value={text}
                       onChange={handleEditorText}
                       // onChange={setText}
                       className="textArea"

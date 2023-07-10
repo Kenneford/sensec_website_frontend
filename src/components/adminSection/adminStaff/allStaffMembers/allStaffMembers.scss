@@ -8,8 +8,8 @@
   .staffTotal {
     position: relative;
     h1 {
-      padding: 2rem 2rem 0rem;
-      color: #292929;
+      padding: 2rem 2rem;
+      color: #fff;
     }
     .staffSearch {
       position: fixed;
@@ -72,10 +72,22 @@
         // background-color: aqua;
         margin: auto;
         padding: 1rem 0;
+        .editLink {
+          text-decoration: none;
+          color: orange;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+        .staffImg {
+          width: 3rem;
+          height: 3rem;
+          border-radius: 0.4rem;
+          object-fit: cover;
+        }
         .staffWrapper {
           position: relative;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          // display: grid;
+          // grid-template-columns: repeat(3, 1fr);
           .staff {
             position: relative;
             display: flex;

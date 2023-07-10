@@ -3,6 +3,13 @@ import "./allStaffMembers.scss";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchStaffs,
+  getAllStaffs,
+} from "../../../../features/staff/staffSlice";
+import DataTable from "react-data-table-component";
+import { column, staffColumn } from "../../../../options/options";
 // import axios from "axios";
 
 // import { format } from "timeago.js";
@@ -13,6 +20,46 @@ import SearchIcon from "@mui/icons-material/Search";
 export default function AllStaffMembers({ openSidebar }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const allStaffs = useSelector(getAllStaffs);
+  console.log(allStaffs);
+
+  const customStyle = {
+    headRow: {
+      style: {
+        backgroundColor: "#555",
+        color: "#fff",
+      },
+    },
+    headColumn: {
+      style: {
+        border: "1rem solid red",
+        // color: "#fff",
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: "1.2rem",
+        // borderLeft: ".2rem solid red",
+        // backgroundColor: "blue",
+        // color: "#fff",
+      },
+    },
+    cells: {
+      style: {
+        // backgroundColor: "#cccc",
+        // color: "#fff",
+        paddingTop: ".5rem",
+        paddingBottom: ".5rem",
+        // marginTop: ".5rem",
+        // marginBottom: ".5rem",
+      },
+    },
+  };
+
+  useEffect(() => {
+    dispatch(fetchStaffs());
+  }, [dispatch]);
 
   return (
     <div>
@@ -35,17 +82,22 @@ export default function AllStaffMembers({ openSidebar }) {
             </button>
           </div>
           <div className="totalStaffsCont">
-            Staff Members
-            {/* <div className="staffWrapper">
-              {allStaffs.map((staff) => (
+            <DataTable
+              columns={staffColumn}
+              data={allStaffs}
+              customStyles={customStyle}
+              pagination
+            />
+            <div className="staffWrapper">
+              {/* {allStaffs.map((staff) => (
                 <div>
                   <div
                     className="staff"
                     onClick={() => {
                       setOpen(true);
-                      // navigate(
-                      //   `/sensec/admin/all_staffs/${staff.firstName}`
-                      // );
+                      navigate(
+                        `/sensec/admin/all_staffs/${staff.firstName}`
+                      );
                     }}
                     key={staff.staffId}
                   >
@@ -89,7 +141,7 @@ export default function AllStaffMembers({ openSidebar }) {
                     </div>
                   </div>
                   {open && staff.staffId ? (
-                    <div className="modal" onClick={handleModalClose}>
+                    <div className="modal">
                       <div
                         className="modalContent"
                         onClick={() => {
@@ -150,8 +202,8 @@ export default function AllStaffMembers({ openSidebar }) {
                     ""
                   )}
                 </div>
-              ))}
-            </div> */}
+              ))} */}
+            </div>
           </div>
         </div>
         {/* <div className="footer" style={{ backgroundColor: "#000" }}>

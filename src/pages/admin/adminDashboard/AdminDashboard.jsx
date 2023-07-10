@@ -18,9 +18,11 @@ import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 import { getStaffInfo } from "../../../features/staff/staffSlice";
 import { useSelector } from "react-redux";
+import { getAdminInfo } from "../../../features/admin/adminsSlice";
 
 export default function AdminDashboard({ openSidebar, toggleSidebar }) {
   // const staffInfo = true;
+  const authAdminInfo = useSelector(getAdminInfo);
   const staffInfo = useSelector(getStaffInfo);
   return (
     <div id="admin">
@@ -28,7 +30,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
         <div className="adminCont">
           <div
             className={
-              openSidebar && staffInfo ? "adminLeft side" : "adminLeft"
+              openSidebar && authAdminInfo ? "adminLeft side" : "adminLeft"
             }
           >
             <span
@@ -43,12 +45,13 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               )}
             </span>
             <div className="adminInfo">
-              <img src={staffInfo.profilePicture} alt="" />
+              <img src={authAdminInfo.profilePicture} alt="" />
               <div className="infoText">
                 <span>
-                  {staffInfo.isMale ? "Mr." : "Mrs."} {staffInfo.lastName}
+                  {authAdminInfo.isMale ? "Mr." : "Mrs."}{" "}
+                  {authAdminInfo.lastName}
                 </span>
-                <p>( {staffInfo.staffRole} )</p>
+                <p>( {authAdminInfo.role} )</p>
               </div>
             </div>
             <div className="contentLinks">
@@ -60,7 +63,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/teachers"} className="links">
+              <HashLink to={"/sensec/admin/all_teachers"} className="links">
                 <div className="teacherIcons">
                   <PanoramaOutlinedIcon className="tvIcon" />
                   <PersonIcon
@@ -81,7 +84,10 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <ListAltOutlinedIcon />
                 <h4>Attendance</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/public_notice"} className="links">
+              <HashLink
+                to={"/sensec/general_announcement/#notice"}
+                className="links"
+              >
                 <CampaignOutlinedIcon />
                 <h4>Notice</h4>
               </HashLink>

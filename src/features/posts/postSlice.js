@@ -9,6 +9,7 @@ const initialState = {
   success: "",
   error: "",
   postStatus: "",
+  updatePostStatus: "",
   postFetchingStatus: "",
   singlePostFetchingStatus: "",
   deletePostStatus: "",
@@ -42,9 +43,9 @@ export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
 
 export const fetchSinglePost = createAsyncThunk(
   "post/fetchSinglePost",
-  async (title, { rejectWithValue }) => {
+  async (postId, { rejectWithValue }) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/admins/posts/single_post/${title}`
+      `${API_ENDPOINT}/admins/posts/single_post/${postId}`
     );
     // const students = response.data;
     console.log(response.data);
@@ -59,6 +60,22 @@ export const likePost = createAsyncThunk(
       const response = await axios.put(
         `${API_ENDPOINT}/admins/posts/like_post/${postId}`,
         userId
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  "post/updatePost",
+  async ({ adminKey, postId }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${API_ENDPOINT}/admins/posts/update_post/${postId}`,
+        adminKey
       );
       return response.data;
     } catch (error) {
@@ -174,6 +191,7 @@ const postSlice = createSlice({
         error: action.payload,
       };
     });
+
     builder.addCase(deletePost.pending, (state) => {
       return { ...state, deletePostStatus: "pending" };
     });
@@ -194,6 +212,30 @@ const postSlice = createSlice({
       return {
         ...state,
         deletePostStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
+    builder.addCase(updatePost.pending, (state) => {
+      return { ...state, updatePostStatus: "pending" };
+    });
+    builder.addCase(updatePost.fulfilled, (state, action) => {
+      if (action.payload) {
+        const currentPosts = state.posts.filter(
+          (post) => post._id === action.payload.updatedPost._id
+        );
+        return {
+          ...state,
+          posts: currentPosts,
+          success: action.payload.successMessage,
+          updatePostStatus: "success",
+        };
+      }
+    });
+    builder.addCase(updatePost.rejected, (state, action) => {
+      return {
+        ...state,
+        updatePostStatus: "rejected",
         error: action.payload,
       };
     });
