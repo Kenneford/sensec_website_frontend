@@ -183,10 +183,10 @@ const teachersSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          TeacherInfo: "",
+          teacherInfo: "",
           authTeacherInfo: "",
-          TeacherSuccessMessage: "",
-          TeacherError: "",
+          teacherSuccessMessage: "",
+          teacherError: "",
           registerTeacherStatus: "",
           loginStatus: "",
           fetchingStatus: "",
@@ -199,7 +199,7 @@ const teachersSlice = createSlice({
       return {
         ...state,
         logoutStatus: "rejected",
-        TeacherError: "Logout failed!",
+        teacherError: "Logout failed!",
       };
     });
 
@@ -210,8 +210,8 @@ const teachersSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          allTeachers: action.payload.Teachers,
-          TeacherSuccessMessage: action.payload.successMessage,
+          allTeachers: action.payload.teachers,
+          teacherSuccessMessage: action.payload.successMessage,
           fetchingStatus: "success",
         };
       } else return state;
@@ -220,7 +220,7 @@ const teachersSlice = createSlice({
       return {
         ...state,
         fetchingStatus: "rejected",
-        TeacherError: action.payload,
+        teacherError: action.payload,
       };
     });
 

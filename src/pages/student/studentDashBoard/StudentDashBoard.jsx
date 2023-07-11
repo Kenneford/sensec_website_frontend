@@ -123,7 +123,7 @@ export default function StudentDashBoard({
                 title={openSidebar ? "Public Notice" : ""}
               >
                 <CampaignOutlinedIcon />
-                <h4>Public Notice</h4>
+                <h4>Notice</h4>
               </HashLink>
               <div className="links" title={openSidebar ? "Fees Status" : ""}>
                 <MoneyOutlinedIcon />

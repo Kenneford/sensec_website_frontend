@@ -59,6 +59,10 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <TvIcon />
                 <h4>Dashboard</h4>
               </HashLink>
+              {/* <HashLink to={"/sensec/admin/all_admins"} className="links">
+                <TvIcon />
+                <h4>Admins</h4>
+              </HashLink> */}
               <HashLink to={"/sensec/admin/staff_members"} className="links">
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
