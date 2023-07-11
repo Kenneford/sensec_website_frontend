@@ -47,12 +47,6 @@ export const gender = [
   { male: "male", female: "female", transgender: "transgender" },
 ];
 
-// const {studentId}=useParams()
-
-const clickHandler = (state) => {
-  console.log("ID ", state.id);
-};
-
 export const column = [
   {
     name: "Image",
@@ -89,22 +83,17 @@ export const column = [
     name: "Level",
     selector: (row) =>
       row.level ? (
-        <div
-          className={
-            row.level === "1"
-              ? "firstYearTag"
-              : row.level === "2"
-              ? "secondYearTag"
-              : "thirdYearTag"
-          }
-          title={
-            row.level === "1"
-              ? "1st Year"
-              : row.level === "2"
-              ? "2nd Year"
-              : "3rd Year"
-          }
-        ></div>
+        <>
+          {row.level === "1" && (
+            <div className="firstYearTag" title="1st Year"></div>
+          )}
+          {row.level === "2" && (
+            <div className="secondYearTag" title="2nd Year"></div>
+          )}
+          {row.level === "3" && (
+            <div className="thirdYearTag" title="3rd Year"></div>
+          )}
+        </>
       ) : (
         "Unknown"
       ),
@@ -190,8 +179,8 @@ export const teachersColumn = [
     selector: (row) =>
       row.profilePicture ? (
         <Link
-          to={`/sensec/admin/staff_info/${row.staffId}`}
-          title="View Staff Info"
+          to={`/sensec/admin/teacher_info/${row.teacherId}`}
+          title="View Teacher Info"
         >
           <img className="staffImg" src={row.profilePicture} alt="" />
         </Link>
@@ -213,13 +202,16 @@ export const teachersColumn = [
     name: "Teaching Course",
     selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
   },
-  { name: "Staff-ID", selector: (row) => row.staffId, sortable: true },
+  { name: "Teacher-ID", selector: (row) => row.teacherId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
-  { name: "Date Employed", selector: (row) => row.registedDate },
+  { name: "Date Employed", selector: (row) => row.dateEmployed },
   {
     name: "Edit",
     selector: (row) => (
-      <Link className="editLink" to={`/sensec/admin/edit_staff/${row.staffId}`}>
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_teacher/${row.staffId}`}
+      >
         Edit
       </Link>
     ),
