@@ -23,9 +23,10 @@ import ReactQuill, { reactQuillRef } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // import "react-quill/dist/quill.bubble.css";
 import { modules } from "../../../options/options";
+import { getAdminInfo } from "../../../features/admin/adminsSlice";
 
 export default function DashboardContent({ toast }) {
-  const authStaffInfo = useSelector(getStaffInfo);
+  const authAdminInfo = useSelector(getAdminInfo);
   const { postStatus, success, error } = useSelector((state) => state.post);
 
   // const [editorState, setEditorState] = useState(() =>
@@ -48,12 +49,12 @@ export default function DashboardContent({ toast }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const name = `${authStaffInfo.firstName} ${authStaffInfo.lastName}`;
+  const name = `${authAdminInfo.firstName} ${authAdminInfo.lastName}`;
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [post, setPost] = useState({
-    adminKey: authStaffInfo.adminSecret,
-    senderImage: authStaffInfo.profilePicture,
+    adminKey: authAdminInfo.adminSecret,
+    senderImage: authAdminInfo.profilePicture,
     postImage: "",
     postedBy: `${name}`,
     title: "",

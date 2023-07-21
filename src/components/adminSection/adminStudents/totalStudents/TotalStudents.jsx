@@ -11,10 +11,10 @@ import {
   fetchStudents,
   getStudentInfo,
   studentSearch,
+  getAllStudents,
 } from "../../../../features/student/studentsSlice";
-import { getAllStudents } from "../../../../features/student/studentsSlice";
 import { getAllStaffs } from "../../../../features/staff/staffSlice";
-import { column } from "../../../../options/options";
+import { studentColumn } from "../../../../options/options";
 
 const API_ENDPOINT = "http://localhost:7000/api";
 
@@ -92,7 +92,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   useEffect(() => {
     dispatch(fetchStudents());
   }, [dispatch]);
-  // console.log(renderStudents);
+
   useEffect(() => {
     if (fetchingStatus === "rejected") {
       error.message.map((err) =>
@@ -178,7 +178,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
         )}
         <div className="totalStudentsCont">
           <DataTable
-            columns={column}
+            columns={studentColumn}
             data={allStudents}
             customStyles={customStyle}
             pagination

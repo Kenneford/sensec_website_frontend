@@ -11,8 +11,9 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { all } from "axios";
 
-export default function PostOptions({ openSidebar, post }) {
+export default function PostOptions({ openSidebar, post, postOptions }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,6 +21,10 @@ export default function PostOptions({ openSidebar, post }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(post);
+  console.log(allPosts);
+
+  const selectedPost = allPosts.find((pst) => pst._id === post._id);
+  console.log(selectedPost);
 
   const style = {
     position: "absolute",

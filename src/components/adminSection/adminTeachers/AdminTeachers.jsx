@@ -110,6 +110,11 @@ export default function AdminTeachers({ openSidebar }) {
           </div>
         </div>
         <div className="totalTeachersWrap">
+          <div className="addTeacherBtn">
+            <button onClick={() => navigate("/sensec/admin/add_staff_member")}>
+              Add New Member +
+            </button>
+          </div>
           <div className="totalTeachersCont">
             <DataTable
               columns={teachersColumn}

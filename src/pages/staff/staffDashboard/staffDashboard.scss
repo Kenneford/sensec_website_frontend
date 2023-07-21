@@ -16,7 +16,7 @@
         z-index: 1;
         color: #fff;
         transition: 0.4s ease;
-        padding-top: 4.5rem;
+        padding-top: 4rem;
         .span {
           width: 100%;
           display: flex;
@@ -29,14 +29,14 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0 0 2rem;
+          padding: 0 0 1rem;
           margin-left: -1rem;
           margin-bottom: 2rem;
           gap: 1rem;
           border-bottom: 2px solid #02b202;
           img {
-            width: 7rem;
-            height: 7rem;
+            width: 5rem;
+            height: 5rem;
             object-fit: cover;
             border-radius: 0.4rem;
           }
@@ -49,7 +49,7 @@
               flex-wrap: wrap;
               justify-content: center;
               align-items: center;
-              font-size: 1.5rem;
+              font-size: 1rem;
               font-weight: 500;
             }
             p {
@@ -65,16 +65,19 @@
           .links {
             display: flex;
             gap: 1.5rem;
-            padding: 1.5rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             transition: 0.4s ease;
             border-radius: 0.3rem;
             cursor: pointer;
             position: relative;
             align-items: center;
+            h4 {
+              font-weight: 300;
+            }
             &:hover {
               background-color: #383838;
             }
-            &:nth-child(2) {
+            &:nth-child(3) {
               .teacherIcons {
                 position: relative;
                 display: flex;
@@ -120,8 +123,11 @@
           .links {
             flex-direction: unset;
             justify-content: center;
-            padding: 1rem 2rem;
-            margin: 1rem 0;
+            padding: 0.7rem 1.5rem;
+            // margin: 1rem 0;
+            .icon {
+              font-size: 1.2rem;
+            }
           }
           h4 {
             display: none;

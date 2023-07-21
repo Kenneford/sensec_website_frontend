@@ -82,14 +82,19 @@ export default function NoticeItem({
             </span>
             {/* <span className="postDate">{post.date}</span> */}
           </div>
-          {authStaffInfo && (
+          {userInfo.role === "Admin" && (
             <div>
-              <div className="postTopRight" onClick={() => setOpen(!open)}>
+              <div
+                className="postTopRight"
+                onClick={() => setPostOptions(!postOptions)}
+              >
                 <MoreVert className="moreVert" />
               </div>
-              {open && (
+              {postOptions && (
                 <PostOptions
+                  key={post._id}
                   openSidebar={openSidebar}
+                  postOptions={postOptions}
                   post={post}
                   userInfo={userInfo.id}
                 />

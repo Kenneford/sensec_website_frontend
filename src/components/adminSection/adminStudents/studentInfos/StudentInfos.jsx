@@ -9,6 +9,8 @@ import {
 
 export default function StudentInfos() {
   const studentInfo = useSelector(getStudentInfo);
+  const guardian = studentInfo && studentInfo?.guardian[0];
+  const parents = studentInfo && studentInfo?.parents[0];
   const dispatch = useDispatch();
   const { studentId } = useParams();
   console.log(studentId);
@@ -137,101 +139,84 @@ export default function StudentInfos() {
       </div>
       <div className="studentParentsProfileWrap">
         <h2>Parents/Guardian Profile</h2>
-        <div className="studentParentsProfile">
-          <div className="parentLeft">
-            <div className="image">
-              <img
-                src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                alt=""
-              />
-              <h3>Father</h3>
+        {parents ? (
+          <>
+            <div className="studentParentsProfile">
+              <div className="parentLeft">
+                <div className="image">
+                  <img
+                    src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                    alt=""
+                  />
+                  <h3>Parents Info</h3>
+                </div>
+                <div className="profileLine1">
+                  <div className="subInfo">
+                    <h3>Father's Name:</h3>
+                    <p>{parents.fatherName}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Mother's Name:</h3>
+                    <p>{parents.motherName}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Address:</h3>
+                    <p>{parents?.address}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Mobile:</h3>
+                    <p>{parents?.phoneNumber}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Email:</h3>
+                    <p>{parents?.email}</p>
+                  </div>
+                  <hr />
+                </div>
+              </div>
             </div>
-            <div className="profileLine1">
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.father?.fatherName}</p>
+          </>
+        ) : (
+          <>
+            <div className="studentParentsProfile">
+              <div className="parentRight">
+                <div className="image">
+                  <img
+                    src="https://images.unsplash.com/photo-1619380061814-58f03707f082?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                    alt=""
+                  />
+                  <h3>Guardian</h3>
+                </div>
+                <div className="profileLine1">
+                  <div className="subInfo">
+                    <h3>Name:</h3>
+                    <p>{guardian?.guardianName}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Address:</h3>
+                    <p>{guardian?.address}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Mobile:</h3>
+                    <p>{guardian?.phoneNumber}</p>
+                  </div>
+                  <hr />
+                  <div className="subInfo">
+                    <h3>Email:</h3>
+                    <p>{guardian?.email}</p>
+                  </div>
+                  <hr />
+                </div>
               </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.father?.fatherOccupation}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.father?.fatherPhoneNumber}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.father?.fatherEmail}</p>
-              </div>
-              <hr />
             </div>
-          </div>
-          <div className="parentMiddle">
-            <div className="image">
-              <img
-                src="https://images.unsplash.com/photo-1581464907815-29bdb6343d3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                alt=""
-              />
-              <h3>Mother</h3>
-            </div>
-            <div className="profileLine1">
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.mother?.motherName}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.mother?.motherOccupation}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.mother?.motherPhoneNumber}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.mother?.motherEmail}</p>
-              </div>
-              <hr />
-            </div>
-          </div>
-          <div className="parentRight">
-            <div className="image">
-              <img
-                src="https://images.unsplash.com/photo-1619380061814-58f03707f082?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                alt=""
-              />
-              <h3>Guardian</h3>
-            </div>
-            <div className="profileLine1">
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.guardian?.guardianName}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.guardian?.guardianOccupation}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.guardian?.guardianPhoneNumber}</p>
-              </div>
-              <hr />
-              <div className="subInfo">
-                <h3>Enrolled Date:</h3>
-                <p>{studentInfo?.guardian?.guardianEmail}</p>
-              </div>
-              <hr />
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

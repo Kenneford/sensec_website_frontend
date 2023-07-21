@@ -183,7 +183,6 @@ export default function AdminStudents({ toast, toastOptions }) {
             </div>
           </div>
         </div>
-        <div>Next Content</div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import studentReducer from "../features/student/studentsSlice";
 import staffsReducer from "../features/staff/staffSlice";
-import StudentsReducer from "../features/allStudents/allStudents";
+import AcademicsReducer from "../features/academics/academics";
 import postSlice from "../features/posts/postSlice";
 import emailSlice from "../features/email/emailSlice";
 import adminsReducer from "../features/admin/adminsSlice";
@@ -14,7 +14,7 @@ export const store = configureStore({
     teacher: teachersReducer,
     student: studentReducer,
     staff: staffsReducer,
-    students: StudentsReducer,
+    academics: AcademicsReducer,
     post: postSlice,
     email: emailSlice,
   },

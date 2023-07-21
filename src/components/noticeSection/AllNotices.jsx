@@ -46,13 +46,7 @@ export default function AllNotices({
     // setLike(isLiked ? like - 1 : like + 1);
     // setIsLiked(!isLiked);
   };
-  const [open, setOpen] = useState(false);
-
-  const clearOptions = () => {
-    if (open) {
-      setOpen(false);
-    }
-  };
+  // const [open, setOpen] = useState(false);
 
   const location = useLocation();
 
@@ -87,7 +81,7 @@ export default function AllNotices({
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 
   return (
-    <div className="postGrid" onClick={clearOptions}>
+    <div className="postGrid">
       {allPosts.map((post) => (
         <NoticeItem
           key={post._id}
@@ -95,8 +89,6 @@ export default function AllNotices({
           openSidebar={openSidebar}
           setPostOptions={setPostOptions}
           postOptions={postOptions}
-          open={open}
-          setOpen={setOpen}
         />
       ))}
     </div>

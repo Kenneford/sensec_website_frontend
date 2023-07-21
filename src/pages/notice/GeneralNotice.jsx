@@ -1,4 +1,5 @@
 import React from "react";
+import "./generalNotice.scss";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
@@ -31,7 +32,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
 
   const owing = false;
   return (
-    <div id="staff">
+    <div id="generalNotice">
       <div className="adminsWrap">
         <div className="adminsCont">
           {authAdminInfo && (
@@ -78,6 +79,14 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Dashboard</h4>
                 </HashLink>
                 <HashLink
+                  to={"/sensec/admin/school_staff"}
+                  className="links"
+                  title={openSidebar ? "Staff Members" : ""}
+                >
+                  <Diversity3Icon />
+                  <h4>Staff Members</h4>
+                </HashLink>
+                <HashLink
                   to={"/sensec/admin/all_teachers"}
                   className="links"
                   title={openSidebar ? "Teachers" : ""}
@@ -89,14 +98,6 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                     />
                   </div>
                   <h4>Teachers</h4>
-                </HashLink>
-                <HashLink
-                  to={"/sensec/admin/school_staff"}
-                  className="links"
-                  title={openSidebar ? "Staff Members" : ""}
-                >
-                  <Diversity3Icon />
-                  <h4>Staff Members</h4>
                 </HashLink>
                 <HashLink
                   to={"/sensec/admin/students"}
@@ -365,7 +366,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                 )}
                 <div className="infoText">
                   <span>
-                    {studentInfo.isMale ? "Mr. " : "Mrs. "}{" "}
+                    {studentInfo.isMale ? "Bro. " : "Sis. "}{" "}
                     {studentInfo.lastName}
                   </span>
                   <p>( {studentInfo.courseStudy} Student )</p>
@@ -381,6 +382,14 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Dashboard</h4>
                 </HashLink>
                 <HashLink
+                  to={"/sensec/student/weekly_lectures"}
+                  className="links"
+                  title={openSidebar ? "Weekly Lectures" : ""}
+                >
+                  <NoteAltIcon />
+                  <h4>Weekly Lectures</h4>
+                </HashLink>
+                <HashLink
                   className="links"
                   title={openSidebar ? "Teachers" : ""}
                 >
@@ -391,14 +400,6 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                     />
                   </div>
                   <h4>Teachers</h4>
-                </HashLink>
-                <HashLink
-                  to={"/sensec/student/weekly_lectures"}
-                  className="links"
-                  title={openSidebar ? "Weekly Lectures" : ""}
-                >
-                  <NoteAltIcon />
-                  <h4>Weekly Lectures</h4>
                 </HashLink>
                 <div className="links" title={openSidebar ? "Coursemates" : ""}>
                   <SchoolOutlinedIcon />

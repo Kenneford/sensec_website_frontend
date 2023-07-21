@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { HashLink } from "react-router-hash-link";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +8,7 @@ import { API_ENDPOINT } from "../../../../apiEndPoint/api";
 import axios from "axios";
 import {
   fetchSingleStudent,
+  getAllStudents,
   studentUpdate,
 } from "../../../../features/student/studentsSlice";
 
@@ -56,82 +54,71 @@ const complexionOptions = [
   { value: "Brown", label: "Brown" },
   { value: "Black", label: "Black" },
 ];
-export default function UpdateStudent() {
+export default function UpdateStudent({
+  // newStudent,
+  // setNewStudent,
+  toastOptions,
+  toast,
+}) {
+  const { updateStatus, studentError, studentSuccessMessage } = useSelector(
+    (state) => state.student
+  );
+  const allStudents = useSelector(getAllStudents);
+  console.log(allStudents);
+
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
   const [date] = useState(new Date().toDateString());
-  const [father, setFather] = useState(false);
-  const [mother, setMother] = useState(false);
-  const [guardian, setGuardian] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { studentId } = useParams();
+  const studentId = useParams();
   console.log(studentId);
+  const student_name = useParams();
   console.log(num);
   console.log(date);
 
-  const { staffInfo } = useSelector((state) => state.staff);
-  const { allStudents } = useSelector((state) => state.student);
-  const selectedStudent = allStudents?.find(
-    (std) => std.studentId === studentId
-  );
-  console.log(JSON.stringify(selectedStudent));
-
   const [loadProfileImage, setLoadProfileImage] = useState("");
+  const [showpass, setShowPass] = useState(false);
+  const [showConfirmpass, setShowConfirmPass] = useState(false);
+
+  const showPassword = () => setShowPass(!showpass);
+  const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
+
+  const selectedStudent = allStudents.find(
+    (std) => std.studentId === studentId.studentId
+  );
+  console.log(selectedStudent);
+  // const [student] = useState(selectedStudent);
+  // console.log(student);
 
   const [newStudent, setNewStudent] = useState({
-    firstName: selectedStudent?.firstName,
-    lastName: selectedStudent?.lastName,
-    dateOfBirth: selectedStudent?.dateOfBirth,
-    placeOfBirth: selectedStudent?.placeOfBirth,
-    nationality: selectedStudent?.nationality,
-    // password: `${currentYear}-${num}`,
-    // confirmPassword: `${currentYear}-${num}`,
-    email: selectedStudent?.email,
-    studentId: selectedStudent?.studentId,
-    courseStudy: selectedStudent?.courseStudy,
-    level: selectedStudent?.level,
-    // isStudent: selectedStudent?&&selectedStudent?.,
-    isMale: selectedStudent?.isMale,
-    studentImage: selectedStudent?.studentImage,
-    profilePicture: selectedStudent?.profilePicture,
-    address: selectedStudent?.address,
-    currentCity: selectedStudent?.currentCity,
-    homeTown: selectedStudent?.homeTown,
-    region: selectedStudent?.region,
-    religion: selectedStudent?.religion,
-    height: selectedStudent?.height,
-    weight: selectedStudent?.weight,
-    mother: {
-      motherName: selectedStudent?.mother.motherName,
-      motherOccupation: selectedStudent?.mother.motherOccupation,
-      motherPhoneNumber: selectedStudent?.mother.motherPhoneNumber,
-      motherEmail: selectedStudent?.mother.motherEmail,
-    },
-    father: {
-      fatherName: selectedStudent?.father.fatherName,
-      fatherOccupation: selectedStudent?.father.fatherOccupation,
-      fatherPhoneNumber: selectedStudent?.father.fatherPhoneNumber,
-      fatherEmail: selectedStudent?.father.fatherEmail,
-    },
-    guardian: {
-      guardianName: selectedStudent?.guardian.guardianName,
-      guardianOccupation: selectedStudent?.guardian.guardianOccupation,
-      guardianPhoneNumber: selectedStudent?.guardian.guardianPhoneNumber,
-      guardianEmail: selectedStudent?.guardian.guardianEmail,
-    },
-    motherTongue: selectedStudent?.motherTongue,
-    otherTongue: selectedStudent?.otherTongue,
-    complexion: selectedStudent?.complexion,
-    registedDate: selectedStudent?.registedDate,
+    firstName: selectedStudent.firstName,
+    lastName: selectedStudent.lastName,
+    dateOfBirth: selectedStudent.dateOfBirth,
+    placeOfBirth: selectedStudent.placeOfBirth,
+    nationality: selectedStudent.nationality,
+    // password: selectedStudent.,
+    // confirmPassword: selectedStudent.,
+    email: selectedStudent.email,
+    studentId: selectedStudent.studentId,
+    courseStudy: selectedStudent.courseStudy,
+    studentRegistrar: selectedStudent.studentRegistrar,
+    studentRegistrarId: selectedStudent.studentRegistrarId,
+    classLevel: selectedStudent.classLevel,
+    isMale: selectedStudent.isMale,
+    profilePicture: selectedStudent.profilePicture,
+    address: selectedStudent.address,
+    currentCity: selectedStudent.currentCity,
+    homeTown: selectedStudent.homeTown,
+    region: selectedStudent.region,
+    religion: selectedStudent.religion,
+    height: selectedStudent.height,
+    weight: selectedStudent.weight,
+    motherTongue: selectedStudent.motherTongue,
+    otherTongue: selectedStudent.otherTongue,
+    complexion: selectedStudent.complexion,
+    registedDate: date,
   });
 
-  console.log(newStudent.studentId);
-
-  const handleGuardianValues = (e) => {
-    const userInfoCopy = JSON.parse(JSON.stringify(newStudent));
-    set(userInfoCopy, e.target.name, e.target.value);
-    setNewStudent(userInfoCopy);
-  };
   const handleRegionInput = (regionSelected) => {
     const region = regionSelected.value;
     setNewStudent({
@@ -139,7 +126,6 @@ export default function UpdateStudent() {
       region: region,
     });
   };
-  console.log(newStudent.currentCity);
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
     setNewStudent({
@@ -164,9 +150,6 @@ export default function UpdateStudent() {
       otherTongue: otherTongue,
     });
   };
-  const stdFather = (e) => setFather(!father);
-  const stdMother = (e) => setMother(!mother);
-  const stdGuardian = (e) => setGuardian(!guardian);
 
   const selectorStyles = {
     control: (baseStyles, state) => ({
@@ -207,40 +190,8 @@ export default function UpdateStudent() {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const handleRegister = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    // const {
-    //   id,
-    //   firstName,
-    //   lastName,
-    //   dateOfBirth,
-    //   placeOfBirth,
-    //   nationality,
-    //   password,
-    //   confirmPassword,
-    //   email,
-    //   studentId,
-    //   courseStudy,
-    //   //   studentRegistrar,
-    //   level,
-    //   isMale,
-    //   studentImage,
-    //   profilePicture,
-    //   address,
-    //   currentCity,
-    //   homeTown,
-    //   region,
-    //   religion,
-    //   height,
-    //   weight,
-    //   mother,
-    //   father,
-    //   guardian,
-    //   motherTongue,
-    //   otherTongue,
-    //   complexion,
-    //   registedDate,
-    // } = newStudent;
     console.log(newStudent);
     const formData = new FormData();
     formData.append("firstName", newStudent.firstName);
@@ -253,9 +204,10 @@ export default function UpdateStudent() {
     formData.append("email", newStudent.email);
     formData.append("studentId", newStudent.studentId);
     formData.append("courseStudy", newStudent.courseStudy);
+    formData.append("studentRegistrar", newStudent.studentRegistrar);
+    formData.append("studentRegistrarId", newStudent.studentRegistrarId);
     formData.append("level", newStudent.level);
     formData.append("isMale", newStudent.isMale);
-    formData.append("studentImage", newStudent.studentImage);
     formData.append("profilePicture", newStudent.profilePicture);
     formData.append("address", newStudent.address);
     formData.append("currentCity", newStudent.currentCity);
@@ -264,59 +216,50 @@ export default function UpdateStudent() {
     formData.append("religion", newStudent.religion);
     formData.append("height", newStudent.height);
     formData.append("weight", newStudent.weight);
-    formData.append("mother[motherName]", newStudent.mother.motherName);
-    formData.append(
-      "mother[motherOccupation]",
-      newStudent.mother.motherOccupation
-    );
-    formData.append(
-      "mother[motherPhoneNumber]",
-      newStudent.mother.motherPhoneNumber
-    );
-    formData.append("mother[motherEmail]", newStudent.mother.motherEmail);
-    formData.append("father[fatherName]", newStudent.father.fatherName);
-    formData.append(
-      "father[fatherOccupation]",
-      newStudent.father.fatherOccupation
-    );
-    formData.append(
-      "father[fatherPhoneNumber]",
-      newStudent.father.fatherPhoneNumber
-    );
-    formData.append("father[fatherEmail]", newStudent.father.fatherEmail);
-    formData.append("guardian[guardianName]", newStudent.guardian.guardianName);
-    formData.append(
-      "guardian[guardianOccupation]",
-      newStudent.guardian.guardianOccupation
-    );
-    formData.append(
-      "guardian[guardianPhoneNumber]",
-      newStudent.guardian.guardianPhoneNumber
-    );
-    formData.append(
-      "guardian[guardianEmail]",
-      newStudent.guardian.guardianEmail
-    );
     formData.append("motherTongue", newStudent.motherTongue);
     formData.append("otherTongue", newStudent.otherTongue);
     formData.append("complexion", newStudent.complexion);
     formData.append("registedDate", newStudent.registedDate);
-    if (newStudent.id) {
-      dispatch(studentUpdate(newStudent));
-    }
+    dispatch(studentUpdate({ formData, id: newStudent.studentId }));
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
+  console.log(canSave);
 
   useEffect(() => {
-    dispatch(fetchSingleStudent(newStudent));
-  }, [dispatch, studentId, newStudent]);
+    if (updateStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
+    if (updateStatus === "success") {
+      // navigate("/sensec/admin/all_students");
+      toast.success(studentSuccessMessage, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+      navigate("/sensec/admin/students/add_parents_guardian");
+    }
+  }, [
+    studentError,
+    studentSuccessMessage,
+    updateStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
   return (
     <div className="registerWrap">
       <div className="register">
         <h1>EDIT STUDENT</h1>
         <div className="registerCont">
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleUpdate}>
             <div className="studentProfile">
               <div className="title">
                 <div className="studentImageWrap">
@@ -440,12 +383,12 @@ export default function UpdateStudent() {
                     />
                   </div>
                   <div className="inputField">
-                    <label htmlFor="level">Form (Level)</label>
+                    <label htmlFor="classLevel">Form (Class Level)</label>
                     <input
                       type="text"
                       onChange={handleInputValues}
-                      name="level"
-                      value={newStudent.level}
+                      name="classLevel"
+                      value={newStudent.classLevel}
                     />
                   </div>
                 </div>
@@ -629,160 +572,6 @@ export default function UpdateStudent() {
                       value={newStudent.email}
                     />
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="guardianProfile">
-              <h3>Parents/Guardian Profile</h3>
-              <div className="guadianCont">
-                <div className="left">
-                  <div className="guardianImage" onClick={stdFather}>
-                    <img
-                      src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Father</h3>
-                  </div>
-                  {father && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="fatherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherName"
-                          value={newStudent.father.fatherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherOccupation"
-                          value={newStudent.father.fatherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherPhoneNumber"
-                          value={newStudent.father.fatherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="father.fatherEmail"
-                          value={newStudent.father.fatherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="middle">
-                  <div className="guardianImage" onClick={stdMother}>
-                    <img
-                      src="https://images.unsplash.com/photo-1581464907815-29bdb6343d3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Mother</h3>
-                  </div>
-                  {mother && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="motherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherName"
-                          value={newStudent.mother.motherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherOccupation"
-                          value={newStudent.mother.motherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherPhoneNumber"
-                          value={newStudent.mother.motherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="mother.motherEmail"
-                          value={newStudent.mother.motherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="right">
-                  <div className="guardianImage" onClick={stdGuardian}>
-                    <img
-                      src="https://images.unsplash.com/photo-1619380061814-58f03707f082?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Guardian</h3>
-                  </div>
-                  {guardian && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="guardianName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianName"
-                          value={newStudent.guardian.guardianName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianOccupation"
-                          value={newStudent.guardian.guardianOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianPhoneNumber">
-                          Mobile Number
-                        </label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianPhoneNumber"
-                          value={newStudent.guardian.guardianPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianEmail"
-                          value={newStudent.guardian.guardianEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

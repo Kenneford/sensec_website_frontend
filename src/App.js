@@ -42,6 +42,10 @@ import StudentInfos from "./components/adminSection/adminStudents/studentInfos/S
 import UpdatePost from "./components/adminSection/updatePost/UpdatePost";
 import { getAdminInfo } from "./features/admin/adminsSlice";
 import { getTeacherInfo } from "./features/teacher/teachersSlice";
+import StudentParentGuardian from "./components/adminSection/adminStudents/studentParentGuardian/StudentParentGuardian";
+import StudentGuardian from "./components/adminSection/adminStudents/studentGuardian/StudentGuardian";
+import AdminProgramesSubjects from "./components/adminSection/adminProgrames_Subjects/AdminProgramesSubjects";
+import AllAdmins from "./components/adminSection/allAdmins/AllAdmins";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -54,62 +58,11 @@ export default function App() {
   const [postOptions, setPostOptions] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
-  const currentYear = new Date().getFullYear();
-  // const { staffInfo } = useSelector((state) => state.staff);
-  const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
-  const [date] = useState(new Date().toDateString());
-  const [newStudent, setNewStudent] = useState({
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    placeOfBirth: "",
-    nationality: "",
-    password: `${currentYear}-${num}`,
-    confirmPassword: `${currentYear}-${num}`,
-    email: "",
-    // studentId: `STDSSHS-${num}-${currentYear}`,
-    courseStudy: "",
-    studentRegistrar: {
-      registrarFirstName: `${authStaffInfo.firstName}`,
-      registrarlastName: `${authStaffInfo.lastName}`,
-      registrarRole: `${authStaffInfo.staffRole}`,
-      registrarId: `${authStaffInfo.staffId}`,
-    },
-    level: "",
-    // isStudent: "",
-    isMale: "",
-    studentImage: "",
-    profilePicture: "",
-    address: "",
-    currentCity: "",
-    homeTown: "",
-    region: "",
-    religion: "",
-    height: "",
-    weight: "",
-    mother: {
-      motherName: "",
-      motherOccupation: "",
-      motherPhoneNumber: "",
-      motherEmail: "",
-    },
-    father: {
-      fatherName: "",
-      fatherOccupation: "",
-      fatherPhoneNumber: "",
-      fatherEmail: "",
-    },
-    guardian: {
-      guardianName: "",
-      guardianOccupation: "",
-      guardianPhoneNumber: "",
-      guardianEmail: "",
-    },
-    motherTongue: "",
-    otherTongue: "",
-    complexion: "",
-    registedDate: date,
-  });
+  const [showOptions, setShowOptions] = useState(false);
+  const [currentNewStudent] = useState(
+    localStorage.getItem("newStudentRegisteredId")
+  );
+  console.log(currentNewStudent);
   const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
 
   const navigate = useNavigate();
@@ -121,13 +74,11 @@ export default function App() {
     if (postOptions) {
       setPostOptions(false);
     }
-  };
-  const [open, setOpen] = useState(false);
-  const clearOptions = () => {
-    if (open) {
-      setOpen(false);
+    if (showOptions) {
+      setShowOptions(false);
     }
   };
+  const clearOptions = () => {};
 
   const openChat = () => setOpenChatBox(!openChatBox);
   const toastOptions = {
@@ -140,10 +91,26 @@ export default function App() {
 
   return (
     <div className="app" onClick={clearLogOptions}>
-      <NavBar setOpenLogin={setOpenLogin} openLogin={openLogin} />
+      <NavBar
+        setOpenLogin={setOpenLogin}
+        openLogin={openLogin}
+        showOptions={showOptions}
+        setShowOptions={setShowOptions}
+      />
       <Routes>
         {/* NORMAL ROUTES */}
-        <Route exact path="/" element={<Navigate to="/sensec/homepage" />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <Navigate
+              to="/sensec/homepage"
+              toast={toast}
+              showOptions={showOptions}
+              setShowOptions={setShowOptions}
+            />
+          }
+        />
         <Route exact path="/sensec/homepage" element={<Home />} />
         <Route path="/sensec/email" element={<EmailTemplate />} />
         <Route exact path="/sensec/about" element={<About />} />
@@ -178,8 +145,6 @@ export default function App() {
             <GeneralNotice
               openSidebar={openSidebar}
               toggleSidebar={toggleSidebar}
-              open={open}
-              setOpen={setOpen}
               clearOptions={clearOptions}
             />
           }
@@ -193,9 +158,6 @@ export default function App() {
                 toast={toast}
                 setPostOptions={setPostOptions}
                 postOptions={postOptions}
-                open={open}
-                setOpen={setOpen}
-                clearOptions={clearOptions}
               />
             }
           />
@@ -240,6 +202,17 @@ export default function App() {
           />
           <Route
             exact
+            path="/sensec/admin/all_admins"
+            element={
+              <AllAdmins
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            exact
             path="/sensec/admin/add_staff_member"
             element={
               <AddStaffMember
@@ -266,52 +239,46 @@ export default function App() {
           <Route
             path="/sensec/admin/students_enrollment"
             element={
-              <AdminStudentAdd
-                newStudent={newStudent}
-                setNewStudent={setNewStudent}
+              <AdminStudentAdd toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
+            path="/sensec/admin/programes&subjects"
+            element={
+              <AdminProgramesSubjects
                 toastOptions={toastOptions}
                 toast={toast}
               />
             }
           />
           <Route
-            path="/sensec/admin/edit_student/:studentId"
+            path="/sensec/admin/students/add_parents_guardian"
             element={
-              <UpdateStudent
-                newStudent={newStudent}
-                setNewStudent={setNewStudent}
+              <StudentParentGuardian
+                toastOptions={toastOptions}
+                toast={toast}
               />
             }
+          />
+          <Route
+            path="/sensec/admin/edit_student/:student_name/:studentId"
+            element={<UpdateStudent />}
           />
           <Route
             path="/sensec/admin/all_students"
             element={
-              <TotalStudents
-                setNewStudent={setNewStudent}
-                toastOptions={toastOptions}
-                toast={toast}
-              />
+              <TotalStudents toastOptions={toastOptions} toast={toast} />
             }
           />
           <Route
             path="/sensec/admin/search_student"
             element={
-              <TotalStudents
-                setNewStudent={setNewStudent}
-                toastOptions={toastOptions}
-                toast={toast}
-              />
+              <TotalStudents toastOptions={toastOptions} toast={toast} />
             }
           />
           <Route
             path="/sensec/admin/student_info/:studentId"
-            element={
-              <StudentInfos
-                setNewStudent={setNewStudent}
-                toastOptions={toastOptions}
-                toast={toast}
-              />
-            }
+            element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
           />
           <Route
             path="/sensec/admin/general_announcement/update/:postId"

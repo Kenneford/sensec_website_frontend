@@ -11,11 +11,21 @@ import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { getTeacherInfo } from "../../features/teacher/teachersSlice";
 
-export default function NavBar({ setOpenLogin, openLogin }) {
+export default function NavBar({
+  setOpenLogin,
+  openLogin,
+  showOptions,
+  setShowOptions,
+  toast,
+}) {
   const authAdminInfo = useSelector(getAdminInfo);
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
+  // const [showOptions, setShowOptions] = useState(false);
+
+  const currentUser =
+    authAdminInfo || authStaffInfo || authTeacherInfo || studentInfo;
 
   const [menuVisible, setMenuVisible] = useState(false);
   const [navbar, setNavbar] = useState(false);
@@ -44,9 +54,17 @@ export default function NavBar({ setOpenLogin, openLogin }) {
   window.addEventListener("scroll", changeBackground);
 
   const showMenu = () => setMenuVisible((menu) => !menu);
+  // const clear = () => {
+  //   if (showOptions) {
+  //     setShowOptions(false);
+  //   }
+  // };
 
   return (
-    <div className={navbar ? "homeNavCont active" : "homeNavCont"}>
+    <div
+      className={navbar ? "homeNavCont active" : "homeNavCont"}
+      // onClick={clear}
+    >
       <div className="logoFlex">
         <NavHashLink
           to={"/sensec/homepage/#homepage"}
@@ -121,7 +139,7 @@ export default function NavBar({ setOpenLogin, openLogin }) {
                 {/* <ContactNavBar /> */}
               </li>
             )}
-          {authAdminInfo && (
+          {currentUser.role === "Admin" && (
             <li>
               <NavHashLink
                 to={"/sensec/admin/#admin"}
@@ -132,7 +150,7 @@ export default function NavBar({ setOpenLogin, openLogin }) {
               </NavHashLink>
             </li>
           )}
-          {authTeacherInfo && (
+          {currentUser.role === "Teacher" && (
             <li>
               <NavHashLink
                 to={"/sensec/teacher/#teacher"}
@@ -143,7 +161,7 @@ export default function NavBar({ setOpenLogin, openLogin }) {
               </NavHashLink>
             </li>
           )}
-          {authStaffInfo && (
+          {currentUser.role === "Non-Teaching Staff" && (
             <li>
               <NavHashLink
                 to={"/sensec/staff/#staff"}
@@ -154,7 +172,7 @@ export default function NavBar({ setOpenLogin, openLogin }) {
               </NavHashLink>
             </li>
           )}
-          {studentInfo && (
+          {currentUser.role === "Student" && (
             <li>
               <NavHashLink
                 to={"/sensec/student/#student"}
@@ -167,9 +185,12 @@ export default function NavBar({ setOpenLogin, openLogin }) {
           )}
         </ul>
         <CurrentUser
+          showOptions={showOptions}
+          setShowOptions={setShowOptions}
           setOpenLogin={setOpenLogin}
           openLogin={openLogin}
           studentInfo={studentInfo}
+          toast={toast}
         />
       </div>
     </div>

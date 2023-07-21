@@ -3,33 +3,21 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { API_ENDPOINT } from "../../apiEndPoint/api";
 
-// const API_ENDPOINT = "http://localhost:7000/api";
-
-// const initialState = [
-//   {
-//     id: 1,
-//     name: "Patrick Annan",
-//     course: "Science",
-//   },
-//   {
-//     id: 2,
-//     name: "Robert Afful",
-//     course: "E-Maths",
-//   },
-// ];
-
 const initialState = {
   allStudents: [],
   studentInfo: "",
-  registerStatus: "",
-  updateStatus: "",
-  fetchingStatus: "",
-  searchStatus: "",
-  deleteStatus: "",
-  successMessage: "",
-  error: "",
-  loginStatus: "",
-  loading: true,
+  studentParentInfo: "",
+  studentGuardianInfo: "",
+  registerStudentStatus: "",
+  createGuardianStatus: "",
+  createParentStatus: "",
+  updateStudentStatus: "",
+  fetchingStudentStatus: "",
+  searchStudentStatus: "",
+  deleteStudentStatus: "",
+  studentSuccessMessage: "",
+  studentError: "",
+  loginStudentStatus: "",
   authenticated: false,
 };
 
@@ -56,7 +44,28 @@ export const studentRegistory = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${API_ENDPOINT}/authusers/add_student`,
+        `${API_ENDPOINT}/students/register/admin`,
+        data
+      );
+      console.log(res.data);
+      localStorage.setItem(
+        "newStudentRegisteredId",
+        res.data.student.studentId
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createStudentParent = createAsyncThunk(
+  "student/createStudentParent",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/students/create_parents/admin`,
         data
       );
       console.log(res.data);
@@ -67,26 +76,42 @@ export const studentRegistory = createAsyncThunk(
     }
   }
 );
+
+export const createStudentGuardian = createAsyncThunk(
+  "student/createStudentGuardian",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/students/create_guardian/admin`,
+        data
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const studentUpdate = createAsyncThunk(
   "student/studentUpdate",
-  async (student, { rejectWithValue }) => {
+  async (student, id, { rejectWithValue }) => {
     try {
       const {
-        _id,
         firstName,
         lastName,
         dateOfBirth,
         placeOfBirth,
         nationality,
-        password,
-        confirmPassword,
         email,
         studentId,
         courseStudy,
-        //   studentRegistrar,
-        level,
+        studentRegistrar,
+        studentRegistrarId,
+        classLevel,
+        isStudent,
         isMale,
-        studentImage,
         profilePicture,
         address,
         currentCity,
@@ -95,8 +120,7 @@ export const studentUpdate = createAsyncThunk(
         religion,
         height,
         weight,
-        mother,
-        father,
+        parents,
         guardian,
         motherTongue,
         otherTongue,
@@ -104,37 +128,9 @@ export const studentUpdate = createAsyncThunk(
         registedDate,
       } = student;
       const res = await axios.put(
-        `${API_ENDPOINT}/students/update_student/${_id}`,
+        `${API_ENDPOINT}/students/update_student/${id}/admin`,
         {
-          firstName,
-          lastName,
-          dateOfBirth,
-          placeOfBirth,
-          nationality,
-          password,
-          confirmPassword,
-          email,
-          studentId,
-          courseStudy,
-          //   studentRegistrar,
-          level,
-          isMale,
-          studentImage,
-          profilePicture,
-          address,
-          currentCity,
-          homeTown,
-          region,
-          religion,
-          height,
-          weight,
-          mother,
-          father,
-          guardian,
-          motherTongue,
-          otherTongue,
-          complexion,
-          registedDate,
+          student,
         }
       );
       console.log(res.data);
@@ -150,10 +146,7 @@ export const studentLogin = createAsyncThunk(
   "student/studentLogin",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post(
-        `${API_ENDPOINT}/authusers/student_login/`,
-        data
-      );
+      const res = await axios.post(`${API_ENDPOINT}/students/login/`, data);
       console.log("Student", res.data);
       //   localStorage.setItem("user", res.data);
       localStorage.setItem("studentToken", res.data.token);
@@ -179,10 +172,10 @@ export const fetchStudents = createAsyncThunk(
 
 export const fetchSingleStudent = createAsyncThunk(
   "student/fetchSingleStudent",
-  async (studentId, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${API_ENDPOINT}/students/single_student/${studentId}`
+        `${API_ENDPOINT}/students/get_single_student/${id}`
       );
       // const students = response.data;
       console.log(response.data);
@@ -217,17 +210,17 @@ const studentSlice = createSlice({
       return {
         ...state,
         studentInfo: "",
-        successMessage: "",
-        error: "",
-        registerStatus: "",
-        loginStatus: "",
+        studentSuccessMessage: "",
+        studentError: "",
+        registerStudentStatus: "",
+        loginStudentStatus: "",
         authenticated: false,
       };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(studentRegistory.pending, (state) => {
-      return { ...state, registerStatus: "pending" };
+      return { ...state, registerStudentStatus: "pending" };
     });
     builder.addCase(studentRegistory.fulfilled, (state, action) => {
       if (action.payload) {
@@ -235,73 +228,75 @@ const studentSlice = createSlice({
           ...state,
           studentInfo: action.payload.student,
           allStudents: [...state.allStudents, action.payload.student],
-          successMessage: action.payload.successMessage,
-          registerStatus: "success",
-          error: "",
+          studentSuccessMessage: action.payload.successMessage,
+          registerStudentStatus: "success",
           authenticated: false,
-          loading: false,
         };
       } else return state;
     });
     builder.addCase(studentRegistory.rejected, (state, action) => {
       return {
         ...state,
-        registerStatus: "rejected",
-        error: action.payload,
-        // error: "Failed To Register New Student!",
+        registerStudentStatus: "rejected",
+        studentError: action.payload,
       };
     });
+    builder.addCase(createStudentParent.pending, (state) => {
+      return { ...state, createParentStatus: "pending" };
+    });
+    builder.addCase(createStudentParent.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          studentParentInfo: action.payload.parent,
+          studentSuccessMessage: action.payload.successMessage,
+          createParentStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(createStudentParent.rejected, (state, action) => {
+      return {
+        ...state,
+        createParentStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
+    builder.addCase(createStudentGuardian.pending, (state) => {
+      return { ...state, createGuardianStatus: "pending" };
+    });
+    builder.addCase(createStudentGuardian.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          studentGuardianInfo: action.payload.guardian,
+          studentSuccessMessage: action.payload.successMessage,
+          createGuardianStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(createStudentGuardian.rejected, (state, action) => {
+      return {
+        ...state,
+        createGuardianStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(studentUpdate.pending, (state) => {
       return { ...state, updateStatus: "pending" };
     });
     builder.addCase(studentUpdate.fulfilled, (state, action) => {
       if (action.payload) {
-        // const updatedStudentsData = state.allStudents.map((student) =>
-        //   student._id === action.payload.updatedStudent._id
-        //     ? action.payload.updatedStudent
-        //     : student
-        // );
+        const updatedStudent = state.allStudents.map((student) =>
+          student.studentId === action.payload.updatedStudent.studentId
+            ? action.payload.updatedStudent
+            : student
+        );
         return {
           ...state,
-          // allStudents: updatedStudentsData,
-          allStudents: state.allStudents.map((student) =>
-            student._id === action.payload.updatedStudent._id
-              ? {
-                  ...student,
-                  mother: {
-                    motherName: action.payload.updatedStudent.mother.motherName,
-                    motherOccupation:
-                      action.payload.updatedStudent.mother.motherOccupation,
-                    motherPhoneNumber:
-                      action.payload.updatedStudent.mother.motherPhoneNumber,
-                    motherEmail:
-                      action.payload.updatedStudent.mother.motherEmail,
-                  },
-                  father: {
-                    fatherName: action.payload.updatedStudent.father.fatherName,
-                    fatherOccupation:
-                      action.payload.updatedStudent.father.fatherOccupation,
-                    fatherPhoneNumber:
-                      action.payload.updatedStudent.father.fatherPhoneNumber,
-                    fatherEmail:
-                      action.payload.updatedStudent.father.fatherEmail,
-                  },
-                  guardian: {
-                    guardianName:
-                      action.payload.updatedStudent.guardian.guardianName,
-                    guardianOccupation:
-                      action.payload.updatedStudent.guardian.guardianOccupation,
-                    guardianPhoneNumber:
-                      action.payload.updatedStudent.guardian
-                        .guardianPhoneNumber,
-                    guardianEmail:
-                      action.payload.updatedStudent.guardian.guardianEmail,
-                  },
-                }
-              : student
-          ),
-          studentInfo: action.payload.updatedStudent,
-          successMessage: action.payload.successMessage,
+          allStudents: updatedStudent,
+          studentSuccessMessage: action.payload.successMessage,
           updateStatus: "success",
         };
       } else return state;
@@ -310,12 +305,12 @@ const studentSlice = createSlice({
       return {
         ...state,
         updateStatus: "rejected",
-        error: action.payload.errorMessage,
-        // error: "Failed To Register New Student!",
+        studentError: action.payload,
       };
     });
+
     builder.addCase(studentLogin.pending, (state, action) => {
-      return { ...state, loginStatus: "pending" };
+      return { ...state, loginStudentStatus: "pending" };
     });
     builder.addCase(studentLogin.fulfilled, (state, action) => {
       if (action.payload) {
@@ -323,8 +318,8 @@ const studentSlice = createSlice({
         return {
           ...state,
           studentInfo: student,
-          successMessage: action.payload.successMessage,
-          loginStatus: "success",
+          studentSuccessMessage: action.payload.successMessage,
+          loginStudentStatus: "success",
           authenticated: true,
           loading: false,
         };
@@ -333,14 +328,14 @@ const studentSlice = createSlice({
     builder.addCase(studentLogin.rejected, (state, action) => {
       return {
         ...state,
-        loginStatus: "rejected",
+        loginStudentStatus: "rejected",
         // error: "Authentication failed! Please check your input values!",
-        error: action.payload,
+        studentError: action.payload,
       };
     });
 
     builder.addCase(fetchStudents.pending, (state, action) => {
-      return { ...state, fetchingStatus: "pending" };
+      return { ...state, fetchingStudentStatus: "pending" };
     });
     builder.addCase(fetchStudents.fulfilled, (state, action) => {
       if (action.payload) {
@@ -348,22 +343,22 @@ const studentSlice = createSlice({
         return {
           ...state,
           allStudents: action.payload.students,
-          successMessage: action.payload.successMessage,
-          fetchingStatus: "success",
-          searchStatus: "",
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingStudentStatus: "success",
+          searchStudentStatus: "",
         };
       } else return state;
     });
     builder.addCase(fetchStudents.rejected, (state, action) => {
       return {
         ...state,
-        fetchingStatus: "rejected",
-        error: action.payload.errorMessage,
+        fetchingStudentStatus: "rejected",
+        studentError: action.payload.errorMessage,
       };
     });
 
     builder.addCase(fetchSingleStudent.pending, (state, action) => {
-      return { ...state, fetchingStatus: "pending" };
+      return { ...state, fetchingStudentStatus: "pending" };
     });
     builder.addCase(fetchSingleStudent.fulfilled, (state, action) => {
       if (action.payload) {
@@ -371,21 +366,21 @@ const studentSlice = createSlice({
         return {
           ...state,
           studentInfo: action.payload.student,
-          successMessage: action.payload.successMessage,
-          fetchingStatus: "success",
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingStudentStatus: "success",
         };
       } else return state;
     });
     builder.addCase(fetchSingleStudent.rejected, (state, action) => {
       return {
         ...state,
-        fetchingStatus: "rejected",
-        error: action.payload.errorMessage,
+        fetchingStudentStatus: "rejected",
+        studentError: action.payload.errorMessage,
       };
     });
 
     builder.addCase(studentSearch.pending, (state, action) => {
-      return { ...state, searchStatus: "pending" };
+      return { ...state, searchStudentStatus: "pending" };
     });
     builder.addCase(studentSearch.fulfilled, (state, action) => {
       if (action.payload) {
@@ -393,17 +388,17 @@ const studentSlice = createSlice({
         return {
           ...state,
           allStudents: action.payload.student,
-          successMessage: action.payload.successMessage,
-          searchStatus: "success",
-          fetchingStatus: "",
+          studentSuccessMessage: action.payload.successMessage,
+          searchStudentStatus: "success",
+          fetchingStudentStatus: "",
         };
       } else return state;
     });
     builder.addCase(studentSearch.rejected, (state, action) => {
       return {
         ...state,
-        searchStatus: "rejected",
-        error: action.payload.errorMessage,
+        searchStudentStatus: "rejected",
+        studentError: action.payload.errorMessage,
       };
     });
   },

@@ -33,6 +33,7 @@ export default function LogoutBtn({ openSidebar }) {
   const authTeacherInfo = useSelector(getTeacherInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = (e) => {
     e.preventDefault();
     if (studentInfo) {

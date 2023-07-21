@@ -56,17 +56,17 @@ export default function AddStaffMember({ toast, toastOptions }) {
               <p>Select an option to employ a new staff member...</p>
             </div>
           )}
-          {adminReg ? (
+          {adminReg && (
             <AdminEmployment toast={toast} toastOptions={toastOptions} />
-          ) : teacherReg ? (
+          )}
+          {teacherReg && (
             <TeacherEmploymentForm toast={toast} toastOptions={toastOptions} />
-          ) : nonTeachingReg ? (
+          )}{" "}
+          {nonTeachingReg && (
             <NonTeachingEmploymentForm
               toast={toast}
               toastOptions={toastOptions}
             />
-          ) : (
-            ""
           )}
         </div>
       </div>
