@@ -120,6 +120,7 @@ export default function AdminEmployment({ toast, toastOptions }) {
     formData.append("password", newStaff.password);
     formData.append("confirmPassword", newStaff.confirmPassword);
     formData.append("email", newStaff.email);
+    formData.append("role", newStaff.role);
     formData.append("adminId", newStaff.adminId);
     formData.append("adminSecret", newStaff.adminSecret);
     formData.append("isMale", newStaff.isMale);
@@ -213,7 +214,7 @@ export default function AdminEmployment({ toast, toastOptions }) {
               />
             </div>
             <div className="studentId">
-              <h3>New Staff Member ID</h3>
+              <h3>Admin's ID</h3>
               <input
                 className="idInput"
                 type="text"
@@ -223,12 +224,15 @@ export default function AdminEmployment({ toast, toastOptions }) {
                 disabled
                 value={newStaff.adminId}
               />
-              <div className="staffMember">
-                <span className="staffQuestion">Staff Role:</span>
-                <div className="staffAnswer">
-                  <h3>Admin</h3>
-                </div>
-              </div>
+              <h3>Admin's Role</h3>
+              <input
+                className="idInput"
+                type="text"
+                name="role"
+                onChange={handleInputValues}
+                placeholder="Enter admin's role here..."
+                value={newStaff.role}
+              />
             </div>
           </div>
         </div>

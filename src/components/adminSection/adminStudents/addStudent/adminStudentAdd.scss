@@ -36,6 +36,47 @@
         display: flex;
         justify-content: center;
       }
+      .getIds {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 2rem;
+        padding-right: 10%;
+        gap: 10%;
+        .getIdsWrap {
+          position: relative;
+          button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.4rem;
+            font-size: 1.2rem;
+            width: 10rem;
+          }
+          .programLists {
+            position: absolute;
+            width: 12rem;
+            margin-top: 1rem;
+            background-color: #fff;
+            border: 1px solid #292929;
+            border-radius: 0.4rem;
+            z-index: 1;
+            .contentFlex {
+              display: flex;
+              justify-content: space-between;
+              padding: 1rem 0.7rem;
+              align-items: center;
+              .copyContentIcon {
+                font-size: 1.3rem;
+                cursor: pointer;
+                color: rgb(5, 169, 250);
+              }
+              .contentCopiedIcon {
+                font-size: 1.3rem;
+                cursor: pointer;
+                color: green;
+              }
+            }
+          }
+        }
+      }
       form {
         .studentProfile {
           padding: 1rem;
@@ -52,9 +93,9 @@
             .studentImageWrap {
               display: flex;
               align-items: center;
+              padding: 2rem 0;
               .file {
                 padding-left: 1rem;
-                padding-bottom: 2rem;
                 .profileImageUpload {
                   img {
                     border: #292929cc 1px solid;
@@ -349,6 +390,7 @@
           justify-content: right;
           padding-right: 5rem;
           .addStudentBtn {
+            width: 15rem;
             padding: 1rem;
             font-size: 1.5rem;
             border-radius: 0.4rem;

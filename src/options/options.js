@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+export const classLevelOptions = [
+  { value: "64af0de51566c21f53c2da05", label: "Level 100" },
+  { value: "64b97714c42be34e9f9ac629", label: "Level 200" },
+  { value: "64b97722c42be34e9f9ac62f", label: "Level 300" },
+];
 export const religionOptions = [
   { value: "None", label: "None" },
   { value: "Christian", label: "Christian" },
@@ -47,13 +52,13 @@ export const gender = [
   { male: "male", female: "female", transgender: "transgender" },
 ];
 
-export const column = [
+export const studentColumn = [
   {
     name: "Image",
     selector: (row) =>
       row.profilePicture ? (
         <Link
-          to={`/sensec/admin/student_info/${row.studentId}`}
+          to={`/sensec/admin/student_info/${row._id}`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -74,23 +79,35 @@ export const column = [
   },
   {
     name: "Course",
-    selector: (row) => (row.courseStudy ? row.courseStudy : "Unknown"),
+    selector: (row) =>
+      row.courseStudy
+        ? row.courseStudy
+        : row.program
+        ? row.program.name
+        : "Unknown",
   },
   { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.registedDate },
   {
+    name: "Batch",
+    selector: (row) =>
+      row.academicYear
+        ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+        : "Unknown",
+  },
+  {
     name: "Level",
     selector: (row) =>
-      row.level ? (
+      row.classLevel ? (
         <>
-          {row.level === "1" && (
+          {row.classLevel === "1" && (
             <div className="firstYearTag" title="1st Year"></div>
           )}
-          {row.level === "2" && (
+          {row.classLevel === "2" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.level === "3" && (
+          {row.classLevel === "3" && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
         </>
@@ -103,7 +120,7 @@ export const column = [
     selector: (row) => (
       <Link
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
       >
         Edit
       </Link>
@@ -147,8 +164,8 @@ export const staffColumn = [
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
   {
-    name: "Teaching Course",
-    selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
+    name: "Staff Role",
+    selector: (row) => (row.role ? row.role : "Unknown"),
   },
   { name: "Staff-ID", selector: (row) => row.staffId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
@@ -199,10 +216,69 @@ export const teachersColumn = [
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
   {
+    name: "Teacher Role",
+    selector: (row) => (row.role ? row.role : "Unknown"),
+  },
+  {
     name: "Teaching Course",
     selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
   },
   { name: "Teacher-ID", selector: (row) => row.teacherId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Date Employed", selector: (row) => row.dateEmployed },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_teacher/${row.staffId}`}
+      >
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
+];
+
+export const adminsColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/teacher_info/${row.teacherId}`}
+          title="View Teacher Info"
+        >
+          <img className="staffImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Admin Role",
+    selector: (row) => (row.role ? row.role : "Unknown"),
+  },
+  { name: "Admin-ID", selector: (row) => row.adminId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Date Employed", selector: (row) => row.dateEmployed },
   {

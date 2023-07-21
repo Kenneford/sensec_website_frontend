@@ -92,15 +92,6 @@ export default function StudentDashBoard({
                 <TvIcon />
                 <h4>Dashboard</h4>
               </div>
-              <div className="links" title={openSidebar ? "Teachers" : ""}>
-                <div className="teacherIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  />
-                </div>
-                <h4>Teachers</h4>
-              </div>
               <HashLink
                 to={"/sensec/student/weekly_lectures"}
                 className="links"
@@ -108,6 +99,15 @@ export default function StudentDashBoard({
               >
                 <NoteAltIcon />
                 <h4>Weekly Lectures</h4>
+              </HashLink>
+              <HashLink className="links" title={openSidebar ? "Teachers" : ""}>
+                <div className="teacherIcons">
+                  <PanoramaOutlinedIcon className="tvIcon" />
+                  <PersonIcon
+                    style={{ backgroundColor: "#292929", zIndex: 1 }}
+                  />
+                </div>
+                <h4>Teachers</h4>
               </HashLink>
               <div className="links" title={openSidebar ? "Coursemates" : ""}>
                 <SchoolOutlinedIcon />
@@ -129,7 +129,7 @@ export default function StudentDashBoard({
                 <MoneyOutlinedIcon />
                 <h4>My Fees</h4>
                 <div className="feesCheck">
-                  {owing ? (
+                  {!owing ? (
                     <QuestionMarkOutlinedIcon
                       titleAccess="Your are owing"
                       style={{

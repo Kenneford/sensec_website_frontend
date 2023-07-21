@@ -3,127 +3,98 @@ import "./adminStudentAdd.scss";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { CircularProgress } from "@mui/material";
-import { HashLink } from "react-router-hash-link";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
-import set from "lodash/set";
 import { studentRegistory } from "../../../../features/student/studentsSlice";
 import { useNavigate } from "react-router-dom";
-import { getStaffInfo } from "../../../../features/staff/staffSlice";
 import {
+  classLevelOptions,
   complexionOptions,
   otherTongueOptions,
   regionOptions,
   religionOptions,
 } from "../../../../options/options";
+import copy from "copy-to-clipboard";
+import {
+  fetchAllProgrammes,
+  fetchAllYears,
+  getAllProgrammes,
+  getAllYears,
+} from "../../../../features/academics/academics";
+import { getAdminInfo } from "../../../../features/admin/adminsSlice";
 
-export default function AdminStudentAdd({
-  newStudent,
-  setNewStudent,
-  toastOptions,
-  toast,
-}) {
-  const { registerStatus, error, successMessage } = useSelector(
-    (state) => state.student
-  );
-  const { staffInfo } = useSelector((state) => state.staff);
-  // const staffInfo = useSelector(getStaffInfo);
-  console.log(staffInfo);
-  const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
-  const [date] = useState(
-    // new Date().toLocaleString("en-US", {
-    //   day: "2-digit",
-    //   year: "numeric",
-    //   month: "2-digit",
-    // })
-    new Date().toDateString()
-  );
-  const [selectedRegion, setSelectedRegion] = useState("None");
-  const [isAStudent, setIsAStudent] = useState(false);
-  const [father, setFather] = useState(false);
-  const [mother, setMother] = useState(false);
-  const [guardian, setGuardian] = useState(false);
+const Programmes = () => {
+  return <div>Programmes</div>;
+};
+
+export default function AdminStudentAdd({ toastOptions, toast }) {
+  const { registerStudentStatus, studentError, studentSuccessMessage } =
+    useSelector((state) => state.student);
+  const authAdminInfo = useSelector(getAdminInfo);
+  const allProgrammes = useSelector(getAllProgrammes);
+  const allYears = useSelector(getAllYears);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(num);
-  console.log(date);
 
   const [loadProfileImage, setLoadProfileImage] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
-  const currentYear = new Date().getFullYear();
-  // const [newStudent, setNewStudent] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   dateOfBirth: "",
-  //   placeOfBirth: "",
-  //   nationality: "",
-  //   password: `${currentYear}-${num}`,
-  //   confirmPassword: `${currentYear}-${num}`,
-  //   email: "",
-  //   studentId: `STDSSHS-${num}-${currentYear}`,
-  //   courseStudy: "",
-  //   studentRegistrar: {
-  //     registrarFirstName: `${staffInfo.firstName}`,
-  //     registrarlastName: `${staffInfo.lastName}`,
-  //     registrarRole: `${staffInfo.staffRole}`,
-  //     registrarId: `${staffInfo.staffId}`,
-  //   },
-  //   level: "",
-  //   // isStudent: "",
-  //   isMale: "",
-  //   studentImage: "",
-  //   profilePicture: "",
-  //   address: "",
-  //   currentCity: "",
-  //   homeTown: "",
-  //   region: "",
-  //   religion: "",
-  //   height: "",
-  //   weight: "",
-  //   mother: {
-  //     motherName: "",
-  //     motherOccupation: "",
-  //     motherPhoneNumber: "",
-  //     motherEmail: "",
-  //   },
-  //   father: {
-  //     fatherName: "",
-  //     fatherOccupation: "",
-  //     fatherPhoneNumber: "",
-  //     fatherEmail: "",
-  //   },
-  //   guardian: {
-  //     guardianName: "",
-  //     guardianOccupation: "",
-  //     guardianPhoneNumber: "",
-  //     guardianEmail: "",
-  //   },
-  //   motherTongue: "",
-  //   otherTongue: "",
-  //   complexion: "",
-  //   registedDate: date,
-  // });
-  console.log(newStudent.studentId);
   const [showpass, setShowPass] = useState(false);
   const [showConfirmpass, setShowConfirmPass] = useState(false);
+  const [showProgrammes, setShowProgrammes] = useState(false);
+  const [showYears, setShowYears] = useState(false);
+  const [copied, setCopied] = useState(false);
 
+  const currentYear = new Date().getFullYear();
+  // const { staffInfo } = useSelector((state) => state.staff);
+  const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
+  const [date] = useState(new Date().toDateString());
+  const [newStudent, setNewStudent] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    nationality: "",
+    password: `${currentYear}-${num}`,
+    confirmPassword: `${currentYear}-${num}`,
+    email: "",
+    studentId: `STDSSHS-${num}-${currentYear}`,
+    academicYear: "",
+    program: "",
+    studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+    studentRegistrarId: `${authAdminInfo.adminId}`,
+    currentClassLevel: "",
+    isMale: "",
+    profilePicture: "",
+    address: "",
+    currentCity: "",
+    homeTown: "",
+    region: "",
+    religion: "",
+    height: "",
+    weight: "",
+    motherTongue: "",
+    otherTongue: "",
+    complexion: "",
+    dateEnrolled: date,
+  });
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
-  const handleGuardianValues = (e) => {
-    const userInfoCopy = JSON.parse(JSON.stringify(newStudent));
-    set(userInfoCopy, e.target.name, e.target.value);
-    setNewStudent(userInfoCopy);
-  };
   const handleRegionInput = (regionSelected) => {
     const region = regionSelected.value;
     setNewStudent({
       ...newStudent,
       region: region,
     });
-    // console.log(e);
-    // setSelectedRegion(regionOptions.value);
+  };
+  const handleClassLevelInput = (classLevelSelected) => {
+    const currentClassLevel = classLevelSelected.value;
+    setNewStudent({
+      ...newStudent,
+      currentClassLevel: currentClassLevel,
+    });
   };
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
@@ -149,10 +120,6 @@ export default function AdminStudentAdd({
       otherTongue: otherTongue,
     });
   };
-  // console.log(loadProfileImage);
-  const stdFather = (e) => setFather(!father);
-  const stdMother = (e) => setMother(!mother);
-  const stdGuardian = (e) => setGuardian(!guardian);
 
   const selectorStyles = {
     control: (baseStyles, state) => ({
@@ -195,37 +162,6 @@ export default function AdminStudentAdd({
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // const {
-    //   firstName,
-    //   lastName,
-    //   dateOfBirth,
-    //   placeOfBirth,
-    //   nationality,
-    //   password,
-    //   confirmPassword,
-    //   email,
-    //   studentId,
-    //   courseStudy,
-    //   studentRegistrar,
-    //   level,
-    //   isMale,
-    //   studentImage,
-    //   profilePicture,
-    //   address,
-    //   currentCity,
-    //   homeTown,
-    //   region,
-    //   religion,
-    //   height,
-    //   weight,
-    //   mother,
-    //   father,
-    //   guardian,
-    //   motherTongue,
-    //   otherTongue,
-    //   complexion,
-    //   registedDate,
-    // } = newStudent;
     console.log(newStudent);
     const formData = new FormData();
     formData.append("firstName", newStudent.firstName);
@@ -236,30 +172,14 @@ export default function AdminStudentAdd({
     formData.append("password", newStudent.password);
     formData.append("confirmPassword", newStudent.confirmPassword);
     formData.append("email", newStudent.email);
-    // formData.append("studentId", newStudent.studentId);
-    formData.append("courseStudy", newStudent.courseStudy);
-    formData.append(
-      "studentRegistrar[registrarFirstName]",
-      newStudent.studentRegistrar.registrarFirstName
-    );
-    formData.append(
-      "studentRegistrar[registrarlastName]",
-      newStudent.studentRegistrar.registrarlastName
-    );
-    formData.append(
-      "studentRegistrar[registrarRole]",
-      newStudent.studentRegistrar.registrarRole
-    );
-    formData.append(
-      "studentRegistrar[registrarId]",
-      newStudent.studentRegistrar.registrarId
-    );
-    formData.append("level", newStudent.level);
-    // formData.append("isStudent", isStudent);
+    formData.append("studentId", newStudent.studentId);
+    formData.append("academicYear", newStudent.academicYear);
+    formData.append("program", newStudent.program);
+    formData.append("studentRegistrar", newStudent.studentRegistrar);
+    formData.append("studentRegistrarId", newStudent.studentRegistrarId);
+    formData.append("currentClassLevel", newStudent.currentClassLevel);
     formData.append("isMale", newStudent.isMale);
-    formData.append("studentImage", newStudent.studentImage);
     formData.append("profilePicture", newStudent.profilePicture);
-    // formData.append("image", profilePicture);
     formData.append("address", newStudent.address);
     formData.append("currentCity", newStudent.currentCity);
     formData.append("homeTown", newStudent.homeTown);
@@ -267,107 +187,26 @@ export default function AdminStudentAdd({
     formData.append("religion", newStudent.religion);
     formData.append("height", newStudent.height);
     formData.append("weight", newStudent.weight);
-    formData.append("mother[motherName]", newStudent.mother.motherName);
-    formData.append(
-      "mother[motherOccupation]",
-      newStudent.mother.motherOccupation
-    );
-    formData.append(
-      "mother[motherPhoneNumber]",
-      newStudent.mother.motherPhoneNumber
-    );
-    formData.append("mother[motherEmail]", newStudent.mother.motherEmail);
-    formData.append("father[fatherName]", newStudent.father.fatherName);
-    formData.append(
-      "father[fatherOccupation]",
-      newStudent.father.fatherOccupation
-    );
-    formData.append(
-      "father[fatherPhoneNumber]",
-      newStudent.father.fatherPhoneNumber
-    );
-    formData.append("father[fatherEmail]", newStudent.father.fatherEmail);
-    formData.append("guardian[guardianName]", newStudent.guardian.guardianName);
-    formData.append(
-      "guardian[guardianOccupation]",
-      newStudent.guardian.guardianOccupation
-    );
-    formData.append(
-      "guardian[guardianPhoneNumber]",
-      newStudent.guardian.guardianPhoneNumber
-    );
-    formData.append(
-      "guardian[guardianEmail]",
-      newStudent.guardian.guardianEmail
-    );
     formData.append("motherTongue", newStudent.motherTongue);
     formData.append("otherTongue", newStudent.otherTongue);
     formData.append("complexion", newStudent.complexion);
-    formData.append("registedDate", newStudent.registedDate);
+    formData.append("dateEnrolled", newStudent.dateEnrolled);
     dispatch(studentRegistory(formData));
-    // setNewStudent({
-    //   firstName: "",
-    //   lastName: "",
-    //   dateOfBirth: "",
-    //   placeOfBirth: "",
-    //   nationality: "",
-    //   password: "",
-    //   confirmPassword: "",
-    //   email: "",
-    //   studentId: "",
-    //   courseStudy: "",
-    //   studentRegistrar: {
-    //     registrarFirstName: "",
-    //     registrarlastName: "",
-    //     registrarRole: "",
-    //     registrarId: "",
-    //   },
-    //   level: "",
-    //   // isStudent: "",
-    //   isMale: "",
-    //   studentImage: "",
-    //   profilePicture: "",
-    //   address: "",
-    //   currentCity: "",
-    //   homeTown: "",
-    //   region: "",
-    //   religion: "",
-    //   height: "",
-    //   weight: "",
-    //   mother: {
-    //     motherName: "",
-    //     motherOccupation: "",
-    //     motherPhoneNumber: "",
-    //     motherEmail: "",
-    //   },
-    //   father: {
-    //     fatherName: "",
-    //     fatherOccupation: "",
-    //     fatherPhoneNumber: "",
-    //     fatherEmail: "",
-    //   },
-    //   guardian: {
-    //     guardianName: "",
-    //     guardianOccupation: "",
-    //     guardianPhoneNumber: "",
-    //     guardianEmail: "",
-    //   },
-    //   motherTongue: "",
-    //   otherTongue: "",
-    //   complexion: "",
-    //   registedDate: date,
-    // });
-
-    setFather(false);
-    setMother(false);
-    setGuardian(false);
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
   console.log(canSave);
 
   useEffect(() => {
-    if (registerStatus === "rejected") {
-      error.errorMessage.message.map((err) =>
+    dispatch(fetchAllProgrammes());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAllYears());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (registerStudentStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -376,32 +215,114 @@ export default function AdminStudentAdd({
       );
       return;
     }
-    if (registerStatus === "success") {
+    if (registerStudentStatus === "success") {
       // navigate("/sensec/admin/all_students");
-      toast.success(successMessage, {
+      toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
+      navigate("/sensec/admin/students/add_parents_guardian");
     }
-  }, [error, successMessage, registerStatus, toast, toastOptions, navigate]);
+  }, [
+    studentError,
+    studentSuccessMessage,
+    registerStudentStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
+  const copyToClipboard = (e) => {
+    e.preventDefault();
+    let copyText = newStudent.studentId;
+    let isCopy = copy(copyText);
+    if (isCopy) {
+      toast.success("Copied to Clipboard");
+      // setCopied(true);
+    }
+  };
+  const clear = (e) => {
+    // e.preventDefault();
+    if (showProgrammes) {
+      setShowProgrammes(false);
+    }
+    if (showYears) {
+      setShowYears(false);
+    }
+  };
   return (
     <div className="registerWrap" id="studentReg">
       <div className="register">
         <h1>NEW STUDENT REGISTRATION</h1>
         <div className="registerCont">
+          <div className="getIds">
+            <div className="getIdsWrap">
+              <button
+                onClick={() =>
+                  setShowProgrammes(!showProgrammes, setShowYears(false))
+                }
+              >
+                Programmes
+              </button>
+              {showProgrammes && (
+                <>
+                  <div className="programLists">
+                    {allProgrammes.map((prgrm) => (
+                      <div className="contentFlex" key={prgrm._id}>
+                        <p>{prgrm.name}</p>
+                        <ContentCopyIcon
+                          className="copyContentIcon"
+                          titleAccess="Copy Program's Id"
+                          onClick={() =>
+                            copy(
+                              prgrm._id,
+                              toast.success("Id copied to clipboard")
+                            )
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="getIdsWrap">
+              <button
+                onClick={() =>
+                  setShowYears(!showYears, setShowProgrammes(false))
+                }
+              >
+                Year
+              </button>
+              {showYears && (
+                <>
+                  <div className="programLists">
+                    {allYears.map((prgrm) => (
+                      <div className="contentFlex" key={prgrm._id}>
+                        <p>{prgrm.name}</p>
+                        <ContentCopyIcon
+                          className="copyContentIcon"
+                          titleAccess="Copy Program's Id"
+                          onClick={() =>
+                            copy(
+                              prgrm._id,
+                              toast.success("Id copied to clipboard")
+                            )
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
           <form onSubmit={handleRegister}>
             <div className="studentProfile">
               <div className="title">
                 <div className="studentImageWrap">
                   <div className="file">
-                    {/* <label
-                              htmlFor="profilePicture"
-                              className="imageUpload text"
-                            >
-                              Student Image
-                            </label> */}
                     <label
                       htmlFor="profilePicture"
                       className="profileImageUpload"
@@ -425,7 +346,7 @@ export default function AdminStudentAdd({
                       accept=".png,.jpeg,.jpg"
                     />
                   </div>
-                  {/* <div className="studentId">
+                  <div className="studentId">
                     <h3>Student ID</h3>
                     <input
                       className="idInput"
@@ -435,7 +356,18 @@ export default function AdminStudentAdd({
                       // value={newStudent.studentId}
                       value={newStudent.studentId}
                     />
-                  </div> */}
+                    {/* <button onClick={copyToClipboard}>Copy</button> */}
+                    {/* <ContentCopyIcon onClick={copyToClipboard} /> */}
+                    <h3>Academic Year ID</h3>
+                    <input
+                      className="idInput"
+                      type="text"
+                      name="academicYear"
+                      onChange={handleInputValues}
+                      // value={newStudent.studentId}
+                      value={newStudent.academicYear}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="profileDateWrap">
@@ -445,9 +377,9 @@ export default function AdminStudentAdd({
                   <input
                     className="dateInput"
                     type="text"
-                    name="registedDate"
+                    name="dateEnrolled"
                     onChange={handleInputValues}
-                    value={date}
+                    value={newStudent.dateEnrolled}
                   />
                 </div>
               </div>
@@ -518,25 +450,45 @@ export default function AdminStudentAdd({
                       })}
                     />
                   </div>
-                  <div className="inputField">
-                    <label htmlFor="level">Form (Level)</label>
+                  <div className="region">
+                    <label htmlFor="currentClassLevel">Class Level:</label>
+                    <Select
+                      name="currentClassLevel"
+                      id="selector"
+                      // defaultValue={classLevelOptions[0]}
+                      options={classLevelOptions}
+                      onChange={handleClassLevelInput}
+                      styles={selectorStyles}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          primary25: "#696969",
+                          primary: "#696969",
+                        },
+                      })}
+                    />
+                  </div>
+                  {/* <div className="inputField">
+                    <label htmlFor="classLevel">Form (Class Level)</label>
                     <input
                       type="text"
                       onChange={handleInputValues}
-                      name="level"
-                      value={newStudent.level}
+                      name="classLevel"
+                      value={newStudent.classLevel}
                     />
-                  </div>
-                  {/* <p>{selectedRegion} Region</p> */}
+                  </div> */}
+                  {/* <p>{selectedclassLevel} classLevel</p> */}
                 </div>
                 <div className="middle">
                   <div className="inputField">
-                    <label htmlFor="courseStudy">Course Study</label>
+                    <label htmlFor="program">Program</label>
                     <input
                       type="text"
                       onChange={handleInputValues}
-                      name="courseStudy"
-                      value={newStudent.courseStudy}
+                      name="program"
+                      value={newStudent.program}
                     />
                   </div>
                   <div className="inputField">
@@ -672,7 +624,6 @@ export default function AdminStudentAdd({
                       name="otherTongue"
                       id="selector"
                       isMulti={true}
-                      // defaultValue={regionOptions[0]}
                       options={otherTongueOptions}
                       onChange={handleotherTongueInput}
                       styles={selectorStyles}
@@ -692,7 +643,6 @@ export default function AdminStudentAdd({
                     <Select
                       name="complexion"
                       id="selector"
-                      // defaultValue={regionOptions[0]}
                       options={complexionOptions}
                       onChange={handleComplexionInput}
                       styles={selectorStyles}
@@ -760,169 +710,13 @@ export default function AdminStudentAdd({
                 </div>
               </div>
             </div>
-            <div className="guardianProfile">
-              <h3>Parents/Guardian Profile</h3>
-              <div className="guadianCont">
-                <div className="left">
-                  <div className="guardianImage" onClick={stdFather}>
-                    <img
-                      src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Father</h3>
-                  </div>
-                  {father && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="fatherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherName"
-                          // value={newStudent.father.fatherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherOccupation"
-                          value={newStudent.father.fatherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="father.fatherPhoneNumber"
-                          // value={newStudent.father.fatherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="fatherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="father.fatherEmail"
-                          // value={newStudent.father.fatherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="middle">
-                  <div className="guardianImage" onClick={stdMother}>
-                    <img
-                      src="https://images.unsplash.com/photo-1581464907815-29bdb6343d3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Mother</h3>
-                  </div>
-                  {mother && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="motherName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherName"
-                          // value={newStudent.mother.motherName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherOccupation"
-                          // value={newStudent.mother.motherOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherPhoneNumber">Mobile Number</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="mother.motherPhoneNumber"
-                          // value={newStudent.mother.motherPhoneNumber}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="motherEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="mother.motherEmail"
-                          // value={newStudent.mother.motherEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="right">
-                  <div className="guardianImage" onClick={stdGuardian}>
-                    <img
-                      src="https://images.unsplash.com/photo-1619380061814-58f03707f082?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <h3>Guardian</h3>
-                  </div>
-                  {guardian && (
-                    <div>
-                      <div className="inputField">
-                        <label htmlFor="guardianName">Full Name</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianName"
-                          // value={newStudent.guardian.guardianName}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianOccupation">Occupation</label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianOccupation"
-                          // value={newStudent.guardian.guardianOccupation}
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianPhoneNumber">
-                          Mobile Number
-                        </label>
-                        <input
-                          type="text"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianPhoneNumber"
-                          // value={
-                          //   newStudent.guardian.guardianPhoneNumber
-                          // }
-                        />
-                      </div>
-                      <div className="inputField">
-                        <label htmlFor="guardianEmail">Email</label>
-                        <input
-                          type="email"
-                          onChange={handleGuardianValues}
-                          name="guardian.guardianEmail"
-                          // value={newStudent.guardian.guardianEmail}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
             <div className="addStudentBtnWrap">
               <button
                 className="addStudentBtn"
                 type="submit"
-                disabled={!canSave || registerStatus === "pending"}
+                disabled={!canSave || registerStudentStatus === "pending"}
               >
-                {registerStatus === "pending" ? (
+                {registerStudentStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
                 ) : (
                   "Add Student"

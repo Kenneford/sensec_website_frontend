@@ -153,6 +153,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     formData.append("password", newStaff.password);
     formData.append("confirmPassword", newStaff.confirmPassword);
     formData.append("email", newStaff.email);
+    formData.append("role", newStaff.role);
     formData.append("teacherId", newStaff.teacherId);
     formData.append("adminSecret", newStaff.adminSecret);
     formData.append("isMale", newStaff.isMale);
@@ -243,7 +244,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
               />
             </div>
             <div className="studentId">
-              <h3>New Staff Member ID</h3>
+              <h3>Teacher's ID</h3>
               <input
                 className="idInput"
                 type="text"
@@ -254,12 +255,15 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 placeholder="Will generate automatically."
                 value={newStaff.teacherId}
               />
-              <div className="staffMember">
-                <span className="staffQuestion">Staff Role:</span>
-                <div className="staffAnswer">
-                  <h3>Teacher</h3>
-                </div>
-              </div>
+              <h3>Teacher's Role</h3>
+              <input
+                className="idInput"
+                type="text"
+                name="role"
+                onChange={handleInputValues}
+                placeholder="Enter teacher's role here..."
+                value={newStaff.role}
+              />
             </div>
           </div>
         </div>

@@ -9,8 +9,11 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import TvIcon from "@mui/icons-material/Tv";
 import DashboardContent from "../../../components/adminSection/dashboardContent/DashboardContent";
 import { Outlet } from "react-router-dom";
@@ -56,23 +59,23 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
             </div>
             <div className="contentLinks">
               <HashLink to={"/sensec/admin"} className="links">
-                <TvIcon />
+                <TvIcon className="icon" />
                 <h4>Dashboard</h4>
               </HashLink>
-              {/* <HashLink to={"/sensec/admin/all_admins"} className="links">
-                <TvIcon />
+              <HashLink to={"/sensec/admin/all_admins"} className="links">
+                <AdminPanelSettingsIcon />
                 <h4>Admins</h4>
-              </HashLink> */}
+              </HashLink>
               <HashLink to={"/sensec/admin/staff_members"} className="links">
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
               </HashLink>
               <HashLink to={"/sensec/admin/all_teachers"} className="links">
                 <div className="teacherIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
+                  <SupervisedUserCircleIcon className="tvIcon" />
+                  {/* <PersonIcon
                     style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  />
+                  /> */}
                 </div>
                 <h4>Teachers</h4>
               </HashLink>
@@ -80,8 +83,12 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <SchoolOutlinedIcon />
                 <h4>Students</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/students"} className="links">
-                <HistoryEduIcon />
+              <HashLink
+                to={"/sensec/admin/programes&subjects"}
+                className="links"
+              >
+                <AutoStoriesIcon />
+                {/* <HistoryEduIcon /> */}
                 <h4>Courses</h4>
               </HashLink>
               <HashLink to={"/sensec/admin/attendance"} className="links">
