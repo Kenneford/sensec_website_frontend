@@ -15,19 +15,40 @@ import {
 } from "../../../../features/student/studentsSlice";
 import { getAllStaffs } from "../../../../features/staff/staffSlice";
 import { studentColumn } from "../../../../options/options";
+import {
+  fetchClassLevel100,
+  fetchClassLevel200,
+  fetchClassLevel300,
+  fetchClassLevels,
+  getAllClassLevels,
+  getClassLevel100,
+  getClassLevel200,
+  getClassLevel300,
+} from "../../../../features/classLevels/classLevelsSlice";
 
 const API_ENDPOINT = "http://localhost:7000/api";
 
 export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
-  const { fetchingStatus, searchStatus, error, successMessage } = useSelector(
-    (state) => state.student
-  );
+  const {
+    fetchingStudentStatus,
+    searchStatus,
+    studentError,
+    studentSuccessMessage,
+  } = useSelector((state) => state.student);
+  const { batch } = useParams();
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const allStudents = useSelector(getAllStudents);
   const studentInfo = useSelector(getStudentInfo);
   const staffs = useSelector(getAllStaffs);
-  const [open, setOpen] = React.useState(false);
+  const allClassLevels = useSelector(getAllClassLevels);
+  const classLevel100 = useSelector(getClassLevel100);
+  const classLevel200 = useSelector(getClassLevel200);
+  const classLevel300 = useSelector(getClassLevel300);
+  const [level100, setLevel100] = useState(false);
+  const [level200, setLevel200] = useState(false);
+  const [level300, setLevel300] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
   // const [allStudents, setAllStudents] = useState("");
@@ -39,6 +60,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   console.log(staffs);
   console.log(studentInfo);
   console.log(allStudents);
+  console.log(allClassLevels);
+  console.log(classLevel100);
 
   const customStyle = {
     headRow: {
@@ -81,6 +104,11 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   const student_name = query.get("student_name");
   const location = useLocation();
 
+  const selectedBatch = allClassLevels.find((c) => c._id === batch);
+
+  // const selectedStudent = allStudents.find(
+  //   (std) => std.studentId === studentId.studentId
+  // );
   const handleStudentSearch = (e) => {
     e.preventDefault();
     if (searchStudent) {
@@ -91,11 +119,15 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
 
   useEffect(() => {
     dispatch(fetchStudents());
+    dispatch(fetchClassLevels());
+    dispatch(fetchClassLevel100());
+    dispatch(fetchClassLevel200());
+    dispatch(fetchClassLevel300());
   }, [dispatch]);
 
   useEffect(() => {
-    if (fetchingStatus === "rejected") {
-      error.message.map((err) =>
+    if (fetchingStudentStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -105,7 +137,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       return;
     }
     if (searchStatus === "rejected") {
-      error.message.map((err) =>
+      studentError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -114,19 +146,19 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       );
       return;
     }
-    // if (fetchingStatus === "success") {
+    // if (fetchingStudentStatus === "success") {
     //   // navigate("/sensec/admin/all_students");
-    //   toast.success(successMessage, {
+    //   toast.success(studentSuccessMessage, {
     //     position: "top-right",
     //     theme: "dark",
     //     // toastId: successId,
     //   });
     // }
   }, [
-    error,
-    successMessage,
+    studentError,
+    studentSuccessMessage,
     searchStatus,
-    fetchingStatus,
+    fetchingStudentStatus,
     toast,
     toastOptions,
   ]);
@@ -177,12 +209,72 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           </button>
         )}
         <div className="totalStudentsCont">
-          <DataTable
-            columns={studentColumn}
-            data={allStudents}
-            customStyles={customStyle}
-            pagination
-          />
+          {allStudents.length !== 0 && (
+            <div className="batches">
+              <span
+                onClick={() =>
+                  setLevel100(!level100, setLevel200(false), setLevel300(false))
+                }
+                className={level100 && "greenBackground"}
+              >
+                1st Years
+              </span>
+              <span
+                onClick={() =>
+                  setLevel200(!level200, setLevel100(false), setLevel300(false))
+                }
+                className={level200 && "greenBackground"}
+              >
+                2nd Years
+              </span>
+              <span
+                onClick={() =>
+                  setLevel300(!level300, setLevel100(false), setLevel200(false))
+                }
+                className={level300 && "greenBackground"}
+              >
+                3rd Years
+              </span>
+            </div>
+          )}
+          {level100 ? (
+            <>
+              <h3>Level 100 Students / Total = {classLevel100.length}</h3>
+              <DataTable
+                columns={studentColumn}
+                data={classLevel100}
+                customStyles={customStyle}
+                pagination
+              />
+            </>
+          ) : level200 ? (
+            <>
+              <h3>Level 200 Students / Total = {classLevel200.length}</h3>
+              <DataTable
+                columns={studentColumn}
+                data={classLevel200}
+                customStyles={customStyle}
+                pagination
+              />
+            </>
+          ) : level300 ? (
+            <>
+              <h3>Level 300 Students / Total = {classLevel300.length}</h3>
+              <DataTable
+                columns={studentColumn}
+                data={classLevel300}
+                customStyles={customStyle}
+                pagination
+              />
+            </>
+          ) : (
+            <DataTable
+              columns={studentColumn}
+              data={allStudents}
+              customStyles={customStyle}
+              pagination
+            />
+          )}
           {/* <div className="studentWrapper">
             {allStudents &&
               allStudents.map((student) => (

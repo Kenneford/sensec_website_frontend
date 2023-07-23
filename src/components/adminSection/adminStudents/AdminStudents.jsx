@@ -14,12 +14,19 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchStudents } from "../../../features/student/studentsSlice";
+import {
+  fetchStudents,
+  getAllStudents,
+} from "../../../features/student/studentsSlice";
 
 export default function AdminStudents({ toast, toastOptions }) {
+  const allStudents = useSelector(getAllStudents);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchStudents());
+  }, [dispatch]);
   return (
     <div>
       <h1 className="h1">Admins Dashboard</h1>
@@ -48,7 +55,7 @@ export default function AdminStudents({ toast, toastOptions }) {
                   }}
                 />
               </div>
-              <div className="totalStudents">9,544</div>
+              <div className="totalStudents">{allStudents.length}</div>
             </div>
             <div className="pending">
               <h4>Pending Student(s)</h4>

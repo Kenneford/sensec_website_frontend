@@ -15,6 +15,7 @@ import {
   otherTongueOptions,
   regionOptions,
   religionOptions,
+  studentRoleOptions,
 } from "../../../../options/options";
 import copy from "copy-to-clipboard";
 import {
@@ -62,6 +63,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     studentId: `STDSSHS-${num}-${currentYear}`,
     academicYear: "",
     program: "",
+    role: "",
     studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     studentRegistrarId: `${authAdminInfo.adminId}`,
     currentClassLevel: "",
@@ -87,6 +89,13 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     setNewStudent({
       ...newStudent,
       region: region,
+    });
+  };
+  const handleStudentroleInput = (roleSelected) => {
+    const role = roleSelected.value;
+    setNewStudent({
+      ...newStudent,
+      role: role,
     });
   };
   const handleClassLevelInput = (classLevelSelected) => {
@@ -175,6 +184,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     formData.append("studentId", newStudent.studentId);
     formData.append("academicYear", newStudent.academicYear);
     formData.append("program", newStudent.program);
+    formData.append("role", newStudent.role);
     formData.append("studentRegistrar", newStudent.studentRegistrar);
     formData.append("studentRegistrarId", newStudent.studentRegistrarId);
     formData.append("currentClassLevel", newStudent.currentClassLevel);
@@ -435,7 +445,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                     <Select
                       name="region"
                       id="selector"
-                      defaultValue={regionOptions[0]}
+                      // defaultValue={regionOptions[0]}
                       options={regionOptions}
                       onChange={handleRegionInput}
                       styles={selectorStyles}
@@ -482,6 +492,26 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                   {/* <p>{selectedclassLevel} classLevel</p> */}
                 </div>
                 <div className="middle">
+                  <div className="religion">
+                    <label htmlFor="region">Role:</label>
+                    <Select
+                      name="role"
+                      id="selector"
+                      // defaultValue={regionOptions[0]}
+                      options={studentRoleOptions}
+                      onChange={handleStudentroleInput}
+                      styles={selectorStyles}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          primary25: "#696969",
+                          primary: "#696969",
+                        },
+                      })}
+                    />
+                  </div>
                   <div className="inputField">
                     <label htmlFor="program">Program</label>
                     <input
@@ -584,29 +614,6 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       })}
                     />
                   </div>
-                  <div className="inputField">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type={showpass ? "text" : "password"}
-                      onChange={handleInputValues}
-                      name="password"
-                      value={newStudent.password}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        width: "30px",
-                      }}
-                      onClick={showPassword}
-                    >
-                      {showpass ? (
-                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
-                      ) : (
-                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
-                      )}
-                    </div>
-                  </div>
                 </div>
                 <div className="right">
                   <div className="inputField">
@@ -683,6 +690,29 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       name="email"
                       value={newStudent.email}
                     />
+                  </div>
+                  <div className="inputField">
+                    <label htmlFor="password">Password</label>
+                    <input
+                      type={showpass ? "text" : "password"}
+                      onChange={handleInputValues}
+                      name="password"
+                      value={newStudent.password}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "1rem",
+                        width: "30px",
+                      }}
+                      onClick={showPassword}
+                    >
+                      {showpass ? (
+                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
+                      ) : (
+                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
+                      )}
+                    </div>
                   </div>
                   <div className="inputField">
                     <label htmlFor="password">Confirm Password</label>

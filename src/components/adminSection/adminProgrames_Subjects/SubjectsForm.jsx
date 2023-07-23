@@ -40,7 +40,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
 
   return (
     <div>
-      <h3>Programes Form</h3>
+      <h3>Subjects Form</h3>
       <div className="formWrap">
         <form onSubmit={handleProgrameAdd}>
           <div className="inputField">

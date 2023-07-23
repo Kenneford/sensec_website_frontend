@@ -271,6 +271,12 @@ export default function App() {
             }
           />
           <Route
+            path="/sensec/admin/all_students/:batch"
+            element={
+              <TotalStudents toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
             path="/sensec/admin/search_student"
             element={
               <TotalStudents toastOptions={toastOptions} toast={toast} />
