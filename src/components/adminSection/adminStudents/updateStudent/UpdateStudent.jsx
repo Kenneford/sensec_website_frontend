@@ -9,6 +9,7 @@ import axios from "axios";
 import {
   fetchSingleStudent,
   getAllStudents,
+  getStudentInfo,
   studentUpdate,
 } from "../../../../features/student/studentsSlice";
 
@@ -64,15 +65,17 @@ export default function UpdateStudent({
     (state) => state.student
   );
   const allStudents = useSelector(getAllStudents);
+  const studentInfo = useSelector(getStudentInfo);
   console.log(allStudents);
+  console.log(studentInfo);
 
   const [num] = useState(Math.floor(1000000 + Math.random() * 9000000));
   const [date] = useState(new Date().toDateString());
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const studentId = useParams();
+  const { studentId } = useParams();
   console.log(studentId);
-  const student_name = useParams();
+  const { student_name } = useParams();
   console.log(num);
   console.log(date);
 
@@ -84,38 +87,38 @@ export default function UpdateStudent({
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
   const selectedStudent = allStudents.find(
-    (std) => std.studentId === studentId.studentId
+    (std) => std.studentId === studentId
   );
   console.log(selectedStudent);
   // const [student] = useState(selectedStudent);
   // console.log(student);
 
   const [newStudent, setNewStudent] = useState({
-    firstName: selectedStudent.firstName,
-    lastName: selectedStudent.lastName,
-    dateOfBirth: selectedStudent.dateOfBirth,
-    placeOfBirth: selectedStudent.placeOfBirth,
-    nationality: selectedStudent.nationality,
+    firstName: selectedStudent?.firstName,
+    lastName: selectedStudent?.lastName,
+    dateOfBirth: selectedStudent?.dateOfBirth,
+    placeOfBirth: selectedStudent?.placeOfBirth,
+    nationality: selectedStudent?.nationality,
     // password: selectedStudent.,
     // confirmPassword: selectedStudent.,
-    email: selectedStudent.email,
-    studentId: selectedStudent.studentId,
-    courseStudy: selectedStudent.courseStudy,
-    studentRegistrar: selectedStudent.studentRegistrar,
-    studentRegistrarId: selectedStudent.studentRegistrarId,
-    classLevel: selectedStudent.classLevel,
-    isMale: selectedStudent.isMale,
-    profilePicture: selectedStudent.profilePicture,
-    address: selectedStudent.address,
-    currentCity: selectedStudent.currentCity,
-    homeTown: selectedStudent.homeTown,
-    region: selectedStudent.region,
-    religion: selectedStudent.religion,
-    height: selectedStudent.height,
-    weight: selectedStudent.weight,
-    motherTongue: selectedStudent.motherTongue,
-    otherTongue: selectedStudent.otherTongue,
-    complexion: selectedStudent.complexion,
+    email: selectedStudent?.email,
+    studentId: selectedStudent?.studentId,
+    courseStudy: selectedStudent?.courseStudy,
+    studentRegistrar: selectedStudent?.studentRegistrar,
+    studentRegistrarId: selectedStudent?.studentRegistrarId,
+    classLevel: selectedStudent?.classLevel,
+    isMale: selectedStudent?.isMale,
+    profilePicture: selectedStudent?.profilePicture,
+    address: selectedStudent?.address,
+    currentCity: selectedStudent?.currentCity,
+    homeTown: selectedStudent?.homeTown,
+    region: selectedStudent?.region,
+    religion: selectedStudent?.religion,
+    height: selectedStudent?.height,
+    weight: selectedStudent?.weight,
+    motherTongue: selectedStudent?.motherTongue,
+    otherTongue: selectedStudent?.otherTongue,
+    complexion: selectedStudent?.complexion,
     registedDate: date,
   });
 
@@ -254,6 +257,9 @@ export default function UpdateStudent({
     navigate,
   ]);
 
+  useEffect(() => {
+    dispatch(fetchSingleStudent(studentId));
+  }, [dispatch, studentId]);
   return (
     <div className="registerWrap">
       <div className="register">
@@ -367,7 +373,7 @@ export default function UpdateStudent({
                     <Select
                       name="region"
                       id="selector"
-                      defaultValue={regionOptions[0]}
+                      defaultValue={newStudent.region}
                       options={regionOptions}
                       onChange={handleRegionInput}
                       styles={selectorStyles}
@@ -576,6 +582,9 @@ export default function UpdateStudent({
               </div>
             </div>
             <div className="addStudentBtnWrap">
+              <button className="addStudentBtn" onClick={() => navigate(-1)}>
+                Cancel
+              </button>
               <button
                 className="addStudentBtn"
                 type="submit"
@@ -585,13 +594,6 @@ export default function UpdateStudent({
               </button>
             </div>
           </form>
-          <button
-            style={{ backgroundColor: "red", padding: "1rem" }}
-            type="submit"
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </div>

@@ -61,6 +61,17 @@ export const fetchAllProgrammes = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchSingleProgram = createAsyncThunk(
+  "Admin/fetchSingleProgram",
+  async (programName) => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/admins/academics/single_program/${programName}`
+    );
+    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
 export const fetchAgricProgram = createAsyncThunk(
   "Admin/fetchAgricProgram",
   async () => {
@@ -153,6 +164,27 @@ const academicsSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchSingleProgram.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchSingleProgram.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          programInfo: action.payload.program,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchSingleProgram.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
     builder.addCase(fetchAgricProgram.pending, (state, action) => {
       return { ...state, fetchingStatus: "pending" };
     });
@@ -198,6 +230,7 @@ const academicsSlice = createSlice({
 });
 
 export const getAllProgrammes = (state) => state.academics.allProgrammes;
+export const getSingleProgram = (state) => state.academics.programInfo;
 export const getAgricProgram = (state) => state.academics.agricProgram;
 export const getAllYears = (state) => state.academics.allYears;
 

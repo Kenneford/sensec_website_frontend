@@ -16,12 +16,13 @@
     }
     .studentId {
       display: flex;
+      justify-content: center;
       gap: 1rem;
-      padding-left: 2rem;
+      // padding-left: 2rem;
       align-items: center;
       margin-top: 1rem;
-      padding: 0.5rem;
-      background-color: green;
+      padding: 0.5rem 0;
+      background-color: #292929;
       border-radius: 0.4rem;
       color: #fff;
       font-size: 1.5rem;
