@@ -6,6 +6,7 @@ import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,11 +146,8 @@ export default function DashboardContent({ toast }) {
             <h3>Total Teachers</h3>
             <div className="teachersInfo">
               <div className="teachersInfoIcons">
-                <PanoramaOutlinedIcon className="tvIcon" />
-                <PersonIcon
+                <SupervisedUserCircleIcon
                   style={{
-                    backgroundColor: "#292929",
-                    zIndex: 1,
                     fontSize: "2rem",
                   }}
                 />

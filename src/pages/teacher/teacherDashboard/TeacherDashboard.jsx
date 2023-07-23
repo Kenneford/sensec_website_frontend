@@ -11,6 +11,7 @@ import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import TvIcon from "@mui/icons-material/Tv";
 import { HashLink } from "react-router-hash-link";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
@@ -50,16 +51,13 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/teacher"} className="links">
+              <HashLink to={"/sensec/teacher#teacher"} className="links">
                 <TvIcon />
                 <h4>Dashboard</h4>
               </HashLink>
               <HashLink to={"#"} className="links">
                 <div className="teacherIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  />
+                  <SupervisedUserCircleIcon />
                 </div>
                 <h4>Teachers</h4>
               </HashLink>

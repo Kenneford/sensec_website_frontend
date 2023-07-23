@@ -23,13 +23,15 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
   const dispatch = useDispatch();
 
   const currentYear = new Date().getFullYear();
-  const [newStaff, setNewStaff] = useState({
+  const [newTeacher, setNewTeacher] = useState({
     firstName: "",
     lastName: "",
     dateOfBirth: "",
     placeOfBirth: "",
     nationality: "",
-    adminSecret: "",
+    teacherSecret: "",
+    program: "",
+    teachingSubject: "",
     password: `${currentYear}-${num}`,
     confirmPassword: `${currentYear}-${num}`,
     email: "",
@@ -49,9 +51,9 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     complexion: "",
     dateEmployed: date,
   });
-  console.log(newStaff.staffRole);
-  console.log(newStaff.region);
-  console.log(newStaff.staffId);
+  console.log(newTeacher.staffRole);
+  console.log(newTeacher.region);
+  console.log(newTeacher.staffId);
 
   const [loadProfileImage, setLoadProfileImage] = useState("");
 
@@ -64,29 +66,29 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
   const handleInputValues = (e) => {
-    setNewStaff({
-      ...newStaff,
+    setNewTeacher({
+      ...newTeacher,
       [e.target.name]: e.target.value,
     });
   };
   const handleRegionInput = (regionSelected) => {
     const region = regionSelected.value;
-    setNewStaff({
-      ...newStaff,
+    setNewTeacher({
+      ...newTeacher,
       region: region,
     });
   };
   const handleReligionInput = (religionSelected) => {
     const religion = religionSelected.value;
-    setNewStaff({
-      ...newStaff,
+    setNewTeacher({
+      ...newTeacher,
       religion: religion,
     });
   };
   const handleComplexionInput = (complexionSelected) => {
     const complexion = complexionSelected.value;
-    setNewStaff({
-      ...newStaff,
+    setNewTeacher({
+      ...newTeacher,
       complexion: complexion,
     });
   };
@@ -95,15 +97,15 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     const otherTongue = otherTongueSelected.map((lang) => {
       return lang.value;
     });
-    setNewStaff({
-      ...newStaff,
+    setNewTeacher({
+      ...newTeacher,
       otherTongue: otherTongue,
     });
   };
 
   const handleImageFileUpload = (e) => {
     if (e.target.files.length !== 0) {
-      setNewStaff({ ...newStaff, [e.target.name]: e.target.files[0] });
+      setNewTeacher({ ...newTeacher, [e.target.name]: e.target.files[0] });
     }
     const reader = new FileReader();
     reader.onload = () => {
@@ -114,61 +116,34 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      dateOfBirth,
-      placeOfBirth,
-      nationality,
-      password,
-      confirmPassword,
-      email,
-      staffId,
-      adminSecret,
-      teacherSecret,
-      teachingCourse,
-      staffRole,
-      isMale,
-      staffImage,
-      profilePicture,
-      address,
-      currentCity,
-      homeTown,
-      region,
-      religion,
-      height,
-      weight,
-      motherTongue,
-      otherTongue,
-      complexion,
-      registedDate,
-    } = newStaff;
-    console.log(newStaff);
+    console.log(newTeacher);
     const formData = new FormData();
-    formData.append("firstName", newStaff.firstName);
-    formData.append("lastName", newStaff.lastName);
-    formData.append("dateOfBirth", newStaff.dateOfBirth);
-    formData.append("placeOfBirth", newStaff.placeOfBirth);
-    formData.append("nationality", newStaff.nationality);
-    formData.append("password", newStaff.password);
-    formData.append("confirmPassword", newStaff.confirmPassword);
-    formData.append("email", newStaff.email);
-    formData.append("role", newStaff.role);
-    formData.append("teacherId", newStaff.teacherId);
-    formData.append("adminSecret", newStaff.adminSecret);
-    formData.append("isMale", newStaff.isMale);
-    formData.append("profilePicture", newStaff.profilePicture);
-    formData.append("address", newStaff.address);
-    formData.append("currentCity", newStaff.currentCity);
-    formData.append("homeTown", newStaff.homeTown);
-    formData.append("region", newStaff.region);
-    formData.append("religion", newStaff.religion);
-    formData.append("height", newStaff.height);
-    formData.append("weight", newStaff.weight);
-    formData.append("motherTongue", newStaff.motherTongue);
-    formData.append("otherTongue", newStaff.otherTongue);
-    formData.append("complexion", newStaff.complexion);
-    formData.append("dateEmployed", newStaff.dateEmployed);
+    formData.append("firstName", newTeacher.firstName);
+    formData.append("lastName", newTeacher.lastName);
+    formData.append("dateOfBirth", newTeacher.dateOfBirth);
+    formData.append("placeOfBirth", newTeacher.placeOfBirth);
+    formData.append("nationality", newTeacher.nationality);
+    formData.append("password", newTeacher.password);
+    formData.append("confirmPassword", newTeacher.confirmPassword);
+    formData.append("email", newTeacher.email);
+    formData.append("role", newTeacher.role);
+    formData.append("teacherId", newTeacher.teacherId);
+    formData.append("teacherSecret", newTeacher.teacherSecret);
+    formData.append("program", newTeacher.program);
+    formData.append("teachingSubject", newTeacher.teachingSubject);
+    formData.append("isMale", newTeacher.isMale);
+    formData.append("profilePicture", newTeacher.profilePicture);
+    formData.append("address", newTeacher.address);
+    formData.append("currentCity", newTeacher.currentCity);
+    formData.append("homeTown", newTeacher.homeTown);
+    formData.append("region", newTeacher.region);
+    formData.append("religion", newTeacher.religion);
+    formData.append("height", newTeacher.height);
+    formData.append("weight", newTeacher.weight);
+    formData.append("motherTongue", newTeacher.motherTongue);
+    formData.append("otherTongue", newTeacher.otherTongue);
+    formData.append("complexion", newTeacher.complexion);
+    formData.append("dateEmployed", newTeacher.dateEmployed);
     dispatch(teacherRegistory(formData));
   };
 
@@ -193,7 +168,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     }),
   };
 
-  const canSave = Boolean(newStaff.firstName) && Boolean(newStaff.lastName);
+  const canSave = Boolean(newTeacher.firstName) && Boolean(newTeacher.lastName);
 
   useEffect(() => {
     if (registerTeacherStatus === "rejected") {
@@ -253,7 +228,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 disabled
                 // value={newStudent.studentId}
                 placeholder="Will generate automatically."
-                value={newStaff.teacherId}
+                value={newTeacher.teacherId}
               />
               <h3>Teacher's Role</h3>
               <input
@@ -262,13 +237,13 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 name="role"
                 onChange={handleInputValues}
                 placeholder="Enter teacher's role here..."
-                value={newStaff.role}
+                value={newTeacher.role}
               />
             </div>
           </div>
         </div>
         <div className="profileDateWrap">
-          <h3>Staff Member Profile</h3>
+          <h3>Teacher Member Profile</h3>
           <div className="date">
             <h3>Date:</h3>
             <input
@@ -288,7 +263,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="firstName"
-                value={newStaff.firstName}
+                value={newTeacher.firstName}
               />
             </div>
             <div className="inputField">
@@ -297,7 +272,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="lastName"
-                value={newStaff.lastName}
+                value={newTeacher.lastName}
               />
             </div>
             <div className="inputField">
@@ -306,7 +281,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="dateOfBirth"
-                value={newStaff.dateOfBirth}
+                value={newTeacher.dateOfBirth}
               />
             </div>
             <div className="inputField">
@@ -315,7 +290,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="placeOfBirth"
-                value={newStaff.placeOfBirth}
+                value={newTeacher.placeOfBirth}
               />
             </div>
             <div className="inputField">
@@ -324,7 +299,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="homeTown"
-                value={newStaff.homeTown}
+                value={newTeacher.homeTown}
               />
             </div>
             <div className="region">
@@ -353,27 +328,36 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="currentCity"
-                value={newStaff.currentCity}
+                value={newTeacher.currentCity}
               />
             </div>
           </div>
           <div className="middle">
-            <div className="inputField">
-              <label htmlFor="teachingCourse">Teaching Course</label>
-              <input
-                type="text"
-                onChange={handleInputValues}
-                name="teachingCourse"
-                value={newStaff.teachingCourse}
-              />
-            </div>
             <div className="inputField">
               <label htmlFor="nationality">Nationality</label>
               <input
                 type="text"
                 onChange={handleInputValues}
                 name="nationality"
-                value={newStaff.nationality}
+                value={newTeacher.nationality}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="teachingSubject">Subject Teaching</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="teachingSubject"
+                value={newTeacher.teachingSubject}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="program">Program</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="program"
+                value={newTeacher.program}
               />
             </div>
             <div className="sexField">
@@ -396,7 +380,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                       name="isMale"
                       value={true}
                       style={{ outline: "none" }}
-                      checked={newStaff.isMale === "true"}
+                      checked={newTeacher.isMale === "true"}
                     />
                   </div>
                   <div className="radioGap">
@@ -416,7 +400,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                       name="isMale"
                       value={false}
                       style={{ outline: "none" }}
-                      checked={newStaff.isMale === "false"}
+                      checked={newTeacher.isMale === "false"}
                     />
                   </div>
                 </div>
@@ -428,7 +412,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="address"
-                value={newStaff.address}
+                value={newTeacher.address}
               />
             </div>
             <div className="religion">
@@ -458,7 +442,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 onChange={handleInputValues}
                 name="password"
                 disabled
-                value={newStaff.password}
+                value={newTeacher.password}
               />
               <div
                 style={{
@@ -483,7 +467,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="motherTongue"
-                value={newStaff.motherTongue}
+                value={newTeacher.motherTongue}
               />
             </div>
             <div className="otherTongue">
@@ -531,7 +515,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="height"
-                value={newStaff.height}
+                value={newTeacher.height}
               />
             </div>
             <div className="inputField">
@@ -540,7 +524,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="weight"
-                value={newStaff.weight}
+                value={newTeacher.weight}
               />
             </div>
             <div className="inputField">
@@ -549,7 +533,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 type="text"
                 onChange={handleInputValues}
                 name="email"
-                value={newStaff.email}
+                value={newTeacher.email}
               />
             </div>
             <div className="inputField">
@@ -559,7 +543,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 onChange={handleInputValues}
                 name="confirmPassword"
                 disabled
-                value={newStaff.confirmPassword}
+                value={newTeacher.confirmPassword}
               />
               <div
                 style={{
