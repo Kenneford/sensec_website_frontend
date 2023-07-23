@@ -5,6 +5,7 @@ import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 
 export default function TeacherDashBoardContent() {
   return (
@@ -16,11 +17,8 @@ export default function TeacherDashBoardContent() {
             <h3>Total Teachers</h3>
             <div className="teachersInfo">
               <div className="teachersInfoIcons">
-                <PanoramaOutlinedIcon className="tvIcon" />
-                <PersonIcon
+                <SupervisedUserCircleIcon
                   style={{
-                    backgroundColor: "green",
-                    zIndex: 1,
                     fontSize: "2rem",
                   }}
                 />

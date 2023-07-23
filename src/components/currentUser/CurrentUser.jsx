@@ -152,12 +152,19 @@ export default function CurrentUser({
 
         {currentUser.role === "Teacher" && (
           <div className="userInfo">
-            <p>Welcome, {authTeacherInfo.firstName}</p>
+            <p className="currentUserName">
+              Welcome, {authTeacherInfo.firstName}
+            </p>
             <div className="icon">
               {authTeacherInfo.profilePicture ? (
-                <img src={authTeacherInfo.profilePicture} alt="" />
+                <img
+                  onClick={() => setShowOptions(!showOptions)}
+                  src={authTeacherInfo.profilePicture}
+                  alt=""
+                />
               ) : (
                 <img
+                  onClick={() => setShowOptions(!showOptions)}
                   src={
                     authTeacherInfo.isMale
                       ? "/assets/maleAvatar.png"
@@ -167,17 +174,36 @@ export default function CurrentUser({
                 />
               )}
             </div>
+            {showOptions && (
+              <div className="navLogout">
+                <span className="profileView">View Pofile</span>
+                <span className="adminConer">Teachers Coner</span>
+                <span className="logUserOutWrap">
+                  <p className="logUserOut" onClick={handleLogout}>
+                    Logout
+                  </p>
+                  <LogoutIcon className="logoutIcon" />
+                </span>
+              </div>
+            )}
           </div>
         )}
 
         {currentUser.role === "Non-Teaching Staff" && (
           <div className="userInfo">
-            <p>Welcome, {authStaffInfo.firstName}</p>
+            <p className="currentUserName">
+              Welcome, {authStaffInfo.firstName}
+            </p>
             <div className="icon">
               {authStaffInfo.profilePicture ? (
-                <img src={authStaffInfo.profilePicture} alt="" />
+                <img
+                  onClick={() => setShowOptions(!showOptions)}
+                  src={authStaffInfo.profilePicture}
+                  alt=""
+                />
               ) : (
                 <img
+                  onClick={() => setShowOptions(!showOptions)}
                   src={
                     authStaffInfo.isMale
                       ? "/assets/maleAvatar.png"
@@ -187,17 +213,33 @@ export default function CurrentUser({
                 />
               )}
             </div>
+            {showOptions && (
+              <div className="navLogout">
+                <span className="profileView">View Pofile</span>
+                <span className="logUserOutWrap">
+                  <p className="logUserOut" onClick={handleLogout}>
+                    Logout
+                  </p>
+                  <LogoutIcon className="logoutIcon" />
+                </span>
+              </div>
+            )}
           </div>
         )}
 
         {currentUser.role === "Student" && (
           <div className="userInfo">
-            <p>Welcome, {studentInfo.firstName}</p>
+            <p className="currentUserName">Welcome, {studentInfo.firstName}</p>
             <div className="icon">
               {studentInfo.profilePicture ? (
-                <img src={studentInfo.profilePicture} alt="" />
+                <img
+                  onClick={() => setShowOptions(!showOptions)}
+                  src={studentInfo.profilePicture}
+                  alt=""
+                />
               ) : (
                 <img
+                  onClick={() => setShowOptions(!showOptions)}
                   src={
                     studentInfo.isMale
                       ? "/assets/maleAvatar.png"
@@ -207,6 +249,18 @@ export default function CurrentUser({
                 />
               )}
             </div>
+            {showOptions && (
+              <div className="navLogout">
+                <span className="profileView">View Pofile</span>
+                <span className="adminConer">Students Coner</span>
+                <span className="logUserOutWrap">
+                  <p className="logUserOut" onClick={handleLogout}>
+                    Logout
+                  </p>
+                  <LogoutIcon className="logoutIcon" />
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>

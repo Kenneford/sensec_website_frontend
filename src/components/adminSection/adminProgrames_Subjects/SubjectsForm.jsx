@@ -14,7 +14,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
     adminId: authAdminInfo.adminId,
     description: "",
     academicTerm: "",
-    programId: "",
+    program: "",
     createdBy: authAdminInfo.firstName,
   });
   console.log(subject);
@@ -33,9 +33,9 @@ export default function SubjectsForm({ toast, toastOptions }) {
     formData.append("adminId", subject.adminId);
     formData.append("description", subject.description);
     formData.append("academicTerm", subject.academicTerm);
-    formData.append("programId", subject.programId);
+    formData.append("program", subject.program);
     formData.append("createdBy", subject.createdBy);
-    dispatch(addSubject({ formData, programId: subject.programId }));
+    dispatch(addSubject(subject));
   };
 
   return (
@@ -44,7 +44,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
       <div className="formWrap">
         <form onSubmit={handleProgrameAdd}>
           <div className="inputField">
-            <label htmlFor="name">Program's Name</label>
+            <label htmlFor="name">Subject's Name</label>
             <input
               type="text"
               name="name"
@@ -54,13 +54,13 @@ export default function SubjectsForm({ toast, toastOptions }) {
             />
           </div>
           <div className="inputField">
-            <label htmlFor="programId">Program's Id</label>
+            <label htmlFor="program">Program</label>
             <input
               type="text"
-              name="programId"
+              name="program"
               onChange={handleInputValues}
               placeholder=""
-              value={subject.programId}
+              value={subject.program}
             />
           </div>
           <div className="inputField">

@@ -35,10 +35,10 @@ export const addProgram = createAsyncThunk(
 
 export const addSubject = createAsyncThunk(
   "Academics/addSubject",
-  async (data, programId, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${API_ENDPOINT}/admins/academics/${programId}/add_subject`,
+        `${API_ENDPOINT}/admins/academics/add_subject`,
         data
       );
       console.log(res.data);

@@ -30,14 +30,14 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0 0 2rem;
+          padding: 0 0 1rem;
           margin-left: -1rem;
           margin-bottom: 2rem;
           gap: 1rem;
           border-bottom: 2px solid #02b202;
           img {
-            width: 7rem;
-            height: 7rem;
+            width: 5rem;
+            height: 5rem;
             object-fit: cover;
             border-radius: 0.4rem;
           }
@@ -50,7 +50,7 @@
               flex-wrap: wrap;
               justify-content: center;
               align-items: center;
-              font-size: 1.5rem;
+              font-size: 1rem;
               font-weight: 500;
             }
             p {
@@ -69,9 +69,13 @@
             padding: 1.5rem 1.5rem;
             transition: 0.4s ease;
             border-radius: 0.3rem;
+            padding: 0.7rem 1.5rem;
             cursor: pointer;
             position: relative;
             align-items: center;
+            h4 {
+              font-weight: 300;
+            }
             &:hover {
               background-color: #383838;
             }

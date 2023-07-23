@@ -121,30 +121,15 @@
       position: absolute;
       width: 10rem;
       // min-height: 7rem;
-      top: 3.3rem;
+      top: 2.3rem;
       right: 0%;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      background-color: #323232;
       padding: 1rem 0.3rem;
       border-radius: 0.4rem;
-      .profileView {
-        border-bottom: 1px solid #ccc;
-      }
-      .adminConer {
-        border-bottom: 1px solid #ccc;
-      }
+      transition: 0.4s ease;
       :nth-child(3) {
-        &:hover {
-          background-color: #fff;
-          .logUserOut {
-            color: red;
-          }
-          .logoutIcon {
-            color: red;
-          }
-        }
       }
       span {
         cursor: pointer;
@@ -152,8 +137,34 @@
         // margin: 0.5rem 0;
         padding: 0.5rem 1rem;
         font-size: 1rem;
+        animation: animateNavItems 400ms linear forwards;
+        transform-origin: top right;
+        opacity: 0;
+        background-color: #323232;
         &:hover {
           background-color: #555;
+        }
+        &:nth-child(1) {
+          animation-delay: 200ms;
+          border-radius: 0.4rem 0.4rem 0 0;
+          border-bottom: 1px solid #ccc;
+        }
+        &:nth-child(2) {
+          animation-delay: 300ms;
+          border-bottom: 1px solid #ccc;
+        }
+        &:nth-child(3) {
+          animation-delay: 400ms;
+          &:hover {
+            background-color: #fc5656;
+            border: 0 1px 1px solid #292929;
+            .logUserOut {
+              color: #fff;
+            }
+            .logoutIcon {
+              color: #fff;
+            }
+          }
         }
       }
       .logUserOutWrap {
@@ -171,14 +182,6 @@
           font-size: 1rem;
           color: #fc5656;
         }
-        // &:hover {
-        //   .logUserOut {
-        //     color: #fc7979;
-        //   }
-        //   .logoutIcon {
-        //     color: #fc7979;
-        //   }
-        // }
       }
     }
   }
