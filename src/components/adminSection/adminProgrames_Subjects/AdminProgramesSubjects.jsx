@@ -111,7 +111,39 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
             >
               Add Program
             </button>
-            <div
+            {allProgrammes.map((prgrm) => (
+              <div
+                key={prgrm._id}
+                className="students"
+                onClick={() => {
+                  navigate(`/sensec/admin/programmes/${prgrm.name}`);
+                }}
+              >
+                <h3>{prgrm.name}</h3>
+                <div className="studentsInfo">
+                  <div className="studentsInfoIcons">
+                    <PersonIcon
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
+                    {prgrm.name === "Business" && (
+                      <MoneyOutlinedIcon
+                        style={{
+                          fontSize: "2rem",
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="totalStudents">{prgrm.students.length}</div>
+                </div>
+                <div className="pending">
+                  <h4>Pending student(s)</h4>
+                  <div className="pendingStudents">2</div>
+                </div>
+              </div>
+            ))}
+            {/* <div
               className="students"
               onClick={() => {
                 navigate("/sensec/admin/agriculture_students");
@@ -239,7 +271,7 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
                 <h4>Old Notice</h4>
                 <div className="pendingStudents">/ 2023</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

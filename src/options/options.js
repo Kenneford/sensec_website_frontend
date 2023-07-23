@@ -65,7 +65,92 @@ export const studentColumn = [
     selector: (row) =>
       row.profilePicture ? (
         <Link
-          to={`/sensec/admin/student_info/${row._id}`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}`}
+          title="View Student Info"
+        >
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Program",
+    selector: (row) =>
+      row.courseStudy
+        ? row.courseStudy
+        : row.program
+        ? row.program.name
+        : "Unknown",
+  },
+  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
+  {
+    name: "Batch",
+    selector: (row) =>
+      row.academicYear
+        ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+        : "Unknown",
+  },
+  {
+    name: "Level",
+    selector: (row) =>
+      row.currentClassLevel ? (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <div className="firstYearTag" title="1st Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <div className="secondYearTag" title="2nd Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 300" && (
+            <div className="thirdYearTag" title="3rd Year"></div>
+          )}
+        </>
+      ) : (
+        "Unknown"
+      ),
+  },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+      >
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
+];
+export const studentProgramColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -227,8 +312,13 @@ export const teachersColumn = [
     selector: (row) => (row.role ? row.role : "Unknown"),
   },
   {
-    name: "Teaching Course",
-    selector: (row) => (row.teachingCourse ? row.teachingCourse : "Unknown"),
+    name: "Program",
+    selector: (row) => (row.program ? row.program.name : "Unknown"),
+  },
+  {
+    name: "Subject Teaching",
+    selector: (row) =>
+      row.teachingSubject ? row.teachingSubject.name : "Unknown",
   },
   { name: "Teacher-ID", selector: (row) => row.teacherId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },

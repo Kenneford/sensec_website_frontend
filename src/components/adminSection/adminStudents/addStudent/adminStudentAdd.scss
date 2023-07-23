@@ -387,6 +387,7 @@
         }
         .addStudentBtnWrap {
           display: flex;
+          gap: 2rem;
           justify-content: right;
           padding-right: 5rem;
           .addStudentBtn {
@@ -401,6 +402,13 @@
             cursor: pointer;
             &:hover {
               background-color: rgb(6, 168, 6);
+            }
+            &:nth-child(1) {
+              background-color: #f83b3b;
+              color: #fff;
+              &:hover {
+                background-color: red;
+              }
             }
           }
           // float: right;

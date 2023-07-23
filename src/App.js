@@ -46,6 +46,7 @@ import StudentParentGuardian from "./components/adminSection/adminStudents/stude
 import StudentGuardian from "./components/adminSection/adminStudents/studentGuardian/StudentGuardian";
 import AdminProgramesSubjects from "./components/adminSection/adminProgrames_Subjects/AdminProgramesSubjects";
 import AllAdmins from "./components/adminSection/allAdmins/AllAdmins";
+import ProgramOverView from "./pages/programOverView/ProgramOverView";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -252,6 +253,12 @@ export default function App() {
             }
           />
           <Route
+            path="/sensec/admin/programmes/:programName"
+            element={
+              <ProgramOverView toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
             path="/sensec/admin/students/add_parents_guardian"
             element={
               <StudentParentGuardian
@@ -262,7 +269,9 @@ export default function App() {
           />
           <Route
             path="/sensec/admin/edit_student/:student_name/:studentId"
-            element={<UpdateStudent />}
+            element={
+              <UpdateStudent toastOptions={toastOptions} toast={toast} />
+            }
           />
           <Route
             path="/sensec/admin/all_students"
@@ -283,7 +292,7 @@ export default function App() {
             }
           />
           <Route
-            path="/sensec/admin/student_info/:studentId"
+            path="/sensec/admin/student_info/:student_name/:studentId"
             element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
           />
           <Route

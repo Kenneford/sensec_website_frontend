@@ -243,7 +243,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
           </div>
         </div>
         <div className="profileDateWrap">
-          <h3>Teacher Member Profile</h3>
+          <h3>Teacher's Profile</h3>
           <div className="date">
             <h3>Date:</h3>
             <input

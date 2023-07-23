@@ -11,7 +11,12 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { adminPost } from "../../../features/posts/postSlice";
-import { getStaffInfo } from "../../../features/staff/staffSlice";
+import {
+  fetchStaffs,
+  fetchTeachers,
+  getAllStaffs,
+  getStaffInfo,
+} from "../../../features/staff/staffSlice";
 import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { convertToHTML } from "draft-convert";
@@ -25,8 +30,16 @@ import "react-quill/dist/quill.snow.css";
 // import "react-quill/dist/quill.bubble.css";
 import { modules } from "../../../options/options";
 import { getAdminInfo } from "../../../features/admin/adminsSlice";
+import {
+  fetchStudents,
+  getAllStudents,
+} from "../../../features/student/studentsSlice";
+import { getAllTeachers } from "../../../features/teacher/teachersSlice";
 
 export default function DashboardContent({ toast }) {
+  const allStudents = useSelector(getAllStudents);
+  const allStaffs = useSelector(getAllStaffs);
+  const allTeachers = useSelector(getAllTeachers);
   const authAdminInfo = useSelector(getAdminInfo);
   const { postStatus, success, error } = useSelector((state) => state.post);
 
@@ -115,6 +128,12 @@ export default function DashboardContent({ toast }) {
   };
 
   useEffect(() => {
+    dispatch(fetchStudents());
+    dispatch(fetchTeachers());
+    dispatch(fetchStaffs());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (postStatus === "rejected") {
       error.errorMessage.message.map((err) =>
         toast.error(err, {
@@ -152,7 +171,7 @@ export default function DashboardContent({ toast }) {
                   }}
                 />
               </div>
-              <div className="totalTeachers">34</div>
+              <div className="totalTeachers">{allTeachers.length}</div>
             </div>
             <div className="pending">
               <h4>Pending Teacher(s)</h4>
@@ -174,7 +193,7 @@ export default function DashboardContent({ toast }) {
                   }}
                 />
               </div>
-              <div className="totalTeachers">9,544</div>
+              <div className="totalTeachers">{allStudents.length}</div>
             </div>
             <div className="pending">
               <h4>Pending Student(s)</h4>
@@ -194,11 +213,11 @@ export default function DashboardContent({ toast }) {
                   }}
                 />
               </div>
-              <div className="totalTeachers">GH₵ 34,857.72</div>
+              <div className="totalTeachers">{allStaffs.length}</div>
             </div>
             <div className="pending">
-              <h4>Pending Fees</h4>
-              <div className="pendingTeachers">GH₵ 17,273.93</div>
+              <h4>Pending Staff(s)</h4>
+              <div className="pendingTeachers">7</div>
             </div>
           </div>
           <div
