@@ -94,6 +94,25 @@
       // background-color: aqua;
       margin: auto;
       padding: 1rem 0;
+      h3 {
+        padding: 1rem 0;
+        color: #ccc;
+      }
+      .batches {
+        display: flex;
+        gap: 4rem;
+        padding: 1rem 0;
+        span {
+          background-color: #fff;
+          padding: 0.5rem;
+          border-radius: 0.4rem;
+          cursor: pointer;
+        }
+        .greenBackground {
+          background-color: #05a605;
+          color: #fff;
+        }
+      }
       .editLink {
         text-decoration: none;
         color: orange;

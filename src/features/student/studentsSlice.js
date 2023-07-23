@@ -40,7 +40,7 @@ if (getStudentToken) {
 }
 
 export const studentRegistory = createAsyncThunk(
-  "student/studentRegistory",
+  "Student/studentRegistory",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -61,7 +61,7 @@ export const studentRegistory = createAsyncThunk(
 );
 
 export const createStudentParent = createAsyncThunk(
-  "student/createStudentParent",
+  "Student/createStudentParent",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -78,7 +78,7 @@ export const createStudentParent = createAsyncThunk(
 );
 
 export const createStudentGuardian = createAsyncThunk(
-  "student/createStudentGuardian",
+  "Student/createStudentGuardian",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -95,7 +95,7 @@ export const createStudentGuardian = createAsyncThunk(
 );
 
 export const studentUpdate = createAsyncThunk(
-  "student/studentUpdate",
+  "Student/studentUpdate",
   async (student, id, { rejectWithValue }) => {
     try {
       const {
@@ -143,7 +143,7 @@ export const studentUpdate = createAsyncThunk(
 );
 
 export const studentLogin = createAsyncThunk(
-  "student/studentLogin",
+  "Student/studentLogin",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${API_ENDPOINT}/students/login/`, data);
@@ -159,7 +159,7 @@ export const studentLogin = createAsyncThunk(
 );
 
 export const fetchStudents = createAsyncThunk(
-  "student/fetchStudents",
+  "Student/fetchStudents",
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_all_students`
@@ -169,9 +169,8 @@ export const fetchStudents = createAsyncThunk(
     return response.data;
   }
 );
-
 export const fetchSingleStudent = createAsyncThunk(
-  "student/fetchSingleStudent",
+  "Student/fetchSingleStudent",
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
@@ -187,7 +186,7 @@ export const fetchSingleStudent = createAsyncThunk(
 );
 
 export const studentSearch = createAsyncThunk(
-  "student/studentSearch",
+  "Student/studentSearch",
   async (student_name, { rejectWithValue }) => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/search_student?student_name=${student_name}`
@@ -199,7 +198,7 @@ export const studentSearch = createAsyncThunk(
 );
 
 const studentSlice = createSlice({
-  name: "student",
+  name: "Student",
   initialState,
   reducers: {
     registeredStudents(state, action) {
@@ -353,7 +352,7 @@ const studentSlice = createSlice({
       return {
         ...state,
         fetchingStudentStatus: "rejected",
-        studentError: action.payload.errorMessage,
+        studentError: action.payload,
       };
     });
 

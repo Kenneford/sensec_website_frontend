@@ -5,6 +5,7 @@ import AcademicsReducer from "../features/academics/academics";
 import postSlice from "../features/posts/postSlice";
 import emailSlice from "../features/email/emailSlice";
 import adminsReducer from "../features/admin/adminsSlice";
+import classLevelsReducer from "../features/classLevels/classLevelsSlice";
 import teachersReducer from "../features/teacher/teachersSlice";
 // import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     student: studentReducer,
     staff: staffsReducer,
     academics: AcademicsReducer,
+    classLevel: classLevelsReducer,
     post: postSlice,
     email: emailSlice,
   },

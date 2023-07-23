@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 export const classLevelOptions = [
-  { value: "64af0de51566c21f53c2da05", label: "Level 100" },
-  { value: "64b97714c42be34e9f9ac629", label: "Level 200" },
-  { value: "64b97722c42be34e9f9ac62f", label: "Level 300" },
+  { value: "64bc5b4a24b0183b8ede8945", label: "Level 100" },
+  { value: "64bc5b5724b0183b8ede894b", label: "Level 200" },
+  { value: "64bc5b6124b0183b8ede8951", label: "Level 300" },
 ];
 export const religionOptions = [
   { value: "None", label: "None" },
@@ -16,6 +16,13 @@ export const otherTongueOptions = [
   { value: "English", label: "English" },
   // { value: "Hausa", label: "Hausa" },
   // { value: "French", label: "French" },
+  // { value: "Spanish", label: "Spanish" },
+  // { value: "Deutsch", label: "Deutsch" },
+];
+export const studentRoleOptions = [
+  { value: "Boys Prefect", label: "Boys Prefect" },
+  { value: "Girls Prefect", label: "Girls Prefect" },
+  { value: "No Special Role", label: "No Special Role" },
   // { value: "Spanish", label: "Spanish" },
   // { value: "Deutsch", label: "Deutsch" },
 ];
@@ -78,7 +85,7 @@ export const studentColumn = [
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
   {
-    name: "Course",
+    name: "Program",
     selector: (row) =>
       row.courseStudy
         ? row.courseStudy
@@ -88,7 +95,7 @@ export const studentColumn = [
   },
   { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
-  { name: "Enrolled Date", selector: (row) => row.registedDate },
+  { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
     name: "Batch",
     selector: (row) =>
@@ -99,15 +106,15 @@ export const studentColumn = [
   {
     name: "Level",
     selector: (row) =>
-      row.classLevel ? (
+      row.currentClassLevel ? (
         <>
-          {row.classLevel === "1" && (
+          {row.currentClassLevel.name === "Level 100" && (
             <div className="firstYearTag" title="1st Year"></div>
           )}
-          {row.classLevel === "2" && (
+          {row.currentClassLevel.name === "Level 200" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.classLevel === "3" && (
+          {row.currentClassLevel.name === "Level 300" && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
         </>
