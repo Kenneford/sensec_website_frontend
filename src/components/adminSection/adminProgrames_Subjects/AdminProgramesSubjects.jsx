@@ -9,11 +9,15 @@ import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import {
   fetchAgricProgram,
   fetchAllProgrammes,
+  fetchAllSubjects,
   getAgricProgram,
   getAllProgrammes,
+  getAllSubjects,
 } from "../../../features/academics/academics";
 import { useNavigate } from "react-router";
 
@@ -22,12 +26,14 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
     (state) => state.academics
   );
   const allProgrammes = useSelector(getAllProgrammes);
+  const allSubjects = useSelector(getAllSubjects);
   const agricProgram = useSelector(getAgricProgram);
   const [program, setProgram] = useState(false);
   const [programForm, setProgramForm] = useState(false);
   const [subject, setSubject] = useState(false);
   const [subjectForm, setSubjectForm] = useState(false);
   console.log(allProgrammes);
+  console.log(allSubjects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(program);
@@ -37,6 +43,7 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
   useEffect(() => {
     dispatch(fetchAllProgrammes());
     dispatch(fetchAgricProgram());
+    dispatch(fetchAllSubjects());
   }, [dispatch]);
 
   useEffect(() => {
@@ -87,7 +94,20 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
             )
           }
         >
-          Subject
+          Program's Subject
+        </button>
+        <button
+          className="optionBtn"
+          onClick={() =>
+            setSubject(
+              !subject,
+              setProgram(false),
+              setProgramForm(false),
+              setSubjectForm(false)
+            )
+          }
+        >
+          Core Subject
         </button>
       </div>
       <div className="forms">
@@ -119,159 +139,40 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
                   navigate(`/sensec/admin/programmes/${prgrm.name}`);
                 }}
               >
-                <h3>{prgrm.name}</h3>
-                <div className="studentsInfo">
-                  <div className="studentsInfoIcons">
-                    <PersonIcon
+                <div className="programName">
+                  {prgrm.name === "Business" && (
+                    <MoneyOutlinedIcon
                       style={{
                         fontSize: "2rem",
                       }}
                     />
-                    {prgrm.name === "Business" && (
-                      <MoneyOutlinedIcon
-                        style={{
-                          fontSize: "2rem",
-                        }}
-                      />
-                    )}
+                  )}
+                  <h3>{prgrm.name}</h3>
+                </div>
+                <div className="studentsInfo">
+                  <div className="studentsInfoIcons">
+                    <SchoolOutlinedIcon
+                      titleAccess="Number of Students"
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
                   </div>
                   <div className="totalStudents">{prgrm.students.length}</div>
                 </div>
                 <div className="pending">
-                  <h4>Pending student(s)</h4>
-                  <div className="pendingStudents">2</div>
+                  <MenuBookIcon
+                    titleAccess="Number of Subjects"
+                    style={{
+                      fontSize: "2rem",
+                    }}
+                  />
+                  <div className="pendingStudents">
+                    {prgrm.subjects?.length}
+                  </div>
                 </div>
               </div>
             ))}
-            {/* <div
-              className="students"
-              onClick={() => {
-                navigate("/sensec/admin/agriculture_students");
-              }}
-            >
-              <h3>Agriculture Students</h3>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{
-                      backgroundColor: "#005780",
-                      zIndex: 1,
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">
-                  {agricProgram.students.length}
-                </div>
-              </div>
-              <div className="pending">
-                <h4>Pending student(s)</h4>
-                <div className="pendingStudents">2</div>
-              </div>
-            </div>
-            <div
-              className="students"
-              onClick={() => {
-                navigate("/sensec/admin/general_art_students");
-              }}
-            >
-              <h3>General Art Students</h3>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <MoneyOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">GH₵ 34,857.72</div>
-              </div>
-              <div className="pending">
-                <h4>Pending Fees</h4>
-                <div className="pendingStudents">GH₵ 17,273.93</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Business Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Home Economics Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Science Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Visua Art Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div> */}
           </div>
         </div>
       )}
@@ -290,133 +191,44 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
             >
               Add Subject
             </button>
-            <div
-              className="students"
-              onClick={() => {
-                navigate("/sensec/admin/agriculture_students");
-              }}
-            >
-              <h3>Agriculture Students</h3>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{
-                      backgroundColor: "#005780",
-                      zIndex: 1,
-                      fontSize: "2rem",
-                    }}
-                  />
+            {allSubjects.map((sbj) => (
+              <div
+                key={sbj._id}
+                className="students"
+                onClick={() => {
+                  navigate(`/sensec/admin/subjects/${sbj.name}`);
+                }}
+              >
+                <div className="programName">
+                  {sbj.name === "Business" && (
+                    <MoneyOutlinedIcon
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
+                  )}
+                  <h3>{sbj.name}</h3>
                 </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Pending student(s)</h4>
-                <div className="pendingStudents">2</div>
-              </div>
-            </div>
-            <div
-              className="students"
-              onClick={() => {
-                navigate("/sensec/admin/general_art_students");
-              }}
-            >
-              <h3>General Art Students</h3>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <MoneyOutlinedIcon
+                <div className="studentsInfo">
+                  <div className="studentsInfoIcons">
+                    <SupervisedUserCircleIcon
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
+                  </div>
+                  <div className="totalStudents">{sbj.teachers?.length}</div>
+                </div>
+                <div className="pending">
+                  <SchoolOutlinedIcon
                     style={{
                       fontSize: "2rem",
                     }}
                   />
+                  <div className="pendingStudents">{sbj.students?.length}</div>
                 </div>
-                <div className="totalStudents">GH₵ 34,857.72</div>
               </div>
-              <div className="pending">
-                <h4>Pending Fees</h4>
-                <div className="pendingStudents">GH₵ 17,273.93</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Business Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Home Economics Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Science Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
-            <div className="students">
-              <div className="titleFlex">
-                <h3>Visua Art Students</h3>
-                <p>Year 2023</p>
-              </div>
-              <div className="studentsInfo">
-                <div className="studentsInfoIcons">
-                  <CampaignOutlinedIcon
-                    style={{
-                      fontSize: "2rem",
-                    }}
-                  />
-                </div>
-                <div className="totalStudents">34</div>
-              </div>
-              <div className="pending">
-                <h4>Old Notice</h4>
-                <div className="pendingStudents">/ 2023</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       )}

@@ -1,0 +1,175 @@
+.attendanceWrap {
+  .topAttendance {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.3rem 2rem;
+    background-color: #555;
+    .takeViewAttendance {
+      width: 60%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      .attIcons {
+        font-size: 1rem;
+        margin-right: 0.2rem;
+      }
+      .textView {
+        display: flex;
+        align-items: center;
+      }
+      .actionWrap {
+        display: flex;
+        align-items: center;
+        border: 1px solid #fff;
+        padding: 0.2rem;
+        border-radius: 0.4rem;
+        cursor: pointer;
+        .actionBtnView {
+        }
+      }
+    }
+  }
+  .middleAttendance {
+    display: flex;
+    justify-content: center;
+    .manageAttendance {
+      width: 70%;
+      border: 1px solid #ccc;
+      margin: 2rem 0 1rem;
+      h3 {
+        padding: 1rem 2rem 0;
+      }
+      .flex3 {
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem;
+        h4 {
+          padding-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+  .manageActionWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+    .manageActionBtn {
+      padding: 0.5rem;
+      border-radius: 0.4rem;
+      background-color: #555;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  }
+  .attendanceTable {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    table {
+      border: 2px solid #ccc;
+      width: 70%;
+      margin-bottom: 3rem;
+      //   height: 200px;
+    }
+    th {
+      border: none;
+      background-color: #555;
+      color: #fff;
+      padding: 1rem 0;
+    }
+    td {
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      img {
+        width: 3rem;
+        height: 3rem;
+        margin: 0.3rem 0.3rem 0;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .alignTextLeft {
+      text-align: left;
+      padding-left: 1rem;
+      border: #555 1px solid;
+    }
+    .statusWrap {
+      display: flex;
+      align-items: center;
+      .status {
+        display: flex;
+        align-items: center;
+        .statusActionBtn {
+          display: flex;
+          align-items: center;
+          margin: 0 0.5rem;
+          cursor: pointer;
+          button {
+            background-color: transparent;
+            cursor: pointer;
+          }
+          &:nth-child(1) {
+            background-color: #06ab06;
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.4rem;
+            button {
+              color: #fff;
+            }
+          }
+          &:nth-child(2) {
+            background-color: rgb(249, 56, 56);
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.4rem;
+            button {
+              color: #fff;
+            }
+          }
+          &:nth-child(3) {
+            background-color: rgb(4, 160, 238);
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.4rem;
+            button {
+              color: #fff;
+            }
+          }
+          .statusIcons {
+            font-size: 1rem;
+            margin-right: 0.3rem;
+          }
+        }
+      }
+    }
+    .statusValueWrap {
+      display: flex;
+      gap: 1rem;
+      .statusValue {
+        display: flex;
+        gap: 0.3rem;
+      }
+    }
+    .saveAttendance {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 3rem;
+      gap: 0.5rem;
+      .date {
+        display: flex;
+        gap: 1rem;
+      }
+      button {
+        padding: 0.7rem;
+        border-radius: 0.4rem;
+        background-color: green;
+        color: #fff;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

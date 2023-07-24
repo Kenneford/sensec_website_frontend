@@ -84,12 +84,12 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Students</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/programes&subjects"}
+                to={"/sensec/admin/programs&subjects"}
                 className="links"
               >
                 <AutoStoriesIcon />
                 {/* <HistoryEduIcon /> */}
-                <h4>Courses</h4>
+                <h4>Programs/Subjects</h4>
               </HashLink>
               <HashLink to={"/sensec/admin/attendance"} className="links">
                 <ListAltOutlinedIcon />
