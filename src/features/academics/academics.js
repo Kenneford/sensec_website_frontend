@@ -7,13 +7,14 @@ const initialState = {
   programInfo: "",
   subjectInfo: "",
   allProgrammes: [],
+  allSubjects: [],
   agricProgram: "",
   allYears: [],
-  allSubjects: [],
   successMessage: "",
   error: "",
   addStatus: "",
   fetchingStatus: "",
+  fetchingSubjectStatus: "",
 };
 
 export const addProgram = createAsyncThunk(
@@ -72,11 +73,33 @@ export const fetchSingleProgram = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchSingleSubject = createAsyncThunk(
+  "Admin/fetchSingleSubject",
+  async (subjectName) => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/admins/academics/single_subject/${subjectName}`
+    );
+    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
 export const fetchAgricProgram = createAsyncThunk(
   "Admin/fetchAgricProgram",
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/admins/academics/get_agric_program`
+    );
+    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchAllSubjects = createAsyncThunk(
+  "Admin/fetchAllSubjects",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/admins/academics/get_all_subjects`
     );
     // const students = response.data;
     console.log(response.data);
@@ -164,6 +187,27 @@ const academicsSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchAllSubjects.pending, (state, action) => {
+      return { ...state, fetchingSubjectStatus: "pending" };
+    });
+    builder.addCase(fetchAllSubjects.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allSubjects: action.payload.subjects,
+          successMessage: action.payload.successMessage,
+          fetchingSubjectStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchAllSubjects.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingSubjectStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
     builder.addCase(fetchSingleProgram.pending, (state, action) => {
       return { ...state, fetchingStatus: "pending" };
     });
@@ -178,6 +222,27 @@ const academicsSlice = createSlice({
       } else return state;
     });
     builder.addCase(fetchSingleProgram.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
+    builder.addCase(fetchSingleSubject.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchSingleSubject.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          subjectInfo: action.payload.subject,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchSingleSubject.rejected, (state, action) => {
       return {
         ...state,
         fetchingStatus: "rejected",
@@ -230,7 +295,9 @@ const academicsSlice = createSlice({
 });
 
 export const getAllProgrammes = (state) => state.academics.allProgrammes;
+export const getAllSubjects = (state) => state.academics.allSubjects;
 export const getSingleProgram = (state) => state.academics.programInfo;
+export const getSingleSubject = (state) => state.academics.subjectInfo;
 export const getAgricProgram = (state) => state.academics.agricProgram;
 export const getAllYears = (state) => state.academics.allYears;
 

@@ -53,13 +53,13 @@
           padding-bottom: 2rem;
         }
         .pending {
-          padding: 0.5rem;
-          border-radius: 0.3rem;
-          transition: 0.4s ease;
-          &:hover {
-            background-color: #fff;
-            color: #292929;
-          }
+          // padding: 0.5rem;
+          // border-radius: 0.3rem;
+          // transition: 0.4s ease;
+          // &:hover {
+          //   background-color: #fff;
+          //   color: #292929;
+          // }
         }
       }
       &:nth-child(6) {
@@ -104,6 +104,11 @@
           font-size: 1.5rem;
         }
       }
+    }
+    .programName {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
   .noticeBox {

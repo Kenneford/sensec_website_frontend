@@ -47,6 +47,8 @@ import StudentGuardian from "./components/adminSection/adminStudents/studentGuar
 import AdminProgramesSubjects from "./components/adminSection/adminProgrames_Subjects/AdminProgramesSubjects";
 import AllAdmins from "./components/adminSection/allAdmins/AllAdmins";
 import ProgramOverView from "./pages/programOverView/ProgramOverView";
+import SubjectOverView from "./pages/subjectOverView/SubjectOverView";
+import AdminAttendance from "./components/adminSection/adminAttendance/AdminAttendance";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -244,7 +246,13 @@ export default function App() {
             }
           />
           <Route
-            path="/sensec/admin/programes&subjects"
+            path="/sensec/admin/attendance"
+            element={
+              <AdminAttendance toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
+            path="/sensec/admin/programs&subjects"
             element={
               <AdminProgramesSubjects
                 toastOptions={toastOptions}
@@ -256,6 +264,12 @@ export default function App() {
             path="/sensec/admin/programmes/:programName"
             element={
               <ProgramOverView toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
+            path="/sensec/admin/subjects/:subjectName"
+            element={
+              <SubjectOverView toastOptions={toastOptions} toast={toast} />
             }
           />
           <Route

@@ -261,7 +261,7 @@ export const staffColumn = [
   },
   { name: "Staff-ID", selector: (row) => row.staffId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
-  { name: "Date Employed", selector: (row) => row.registedDate },
+  { name: "Date Employed", selector: (row) => row.dateEmployed },
   {
     name: "Edit",
     selector: (row) => (
@@ -283,6 +283,69 @@ export const staffColumn = [
 ];
 
 export const teachersColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/teacher_info/${row.teacherId}`}
+          title="View Teacher Info"
+        >
+          <img className="staffImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Teacher Role",
+    selector: (row) => (row.role ? row.role : "Unknown"),
+  },
+  {
+    name: "Program",
+    selector: (row) => (row.program ? row.program.name : "Unknown"),
+  },
+  {
+    name: "Subject Teaching",
+    selector: (row) =>
+      row.teachingSubject ? row.teachingSubject.name : "Unknown",
+  },
+  { name: "Teacher-ID", selector: (row) => row.teacherId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Date Employed", selector: (row) => row.dateEmployed },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_teacher/${row.staffId}`}
+      >
+        Edit
+      </Link>
+    ),
+    // cell: (props) => (
+    //   <Link
+    //     to={`/sensec/admin/edit_student/${row.id}`}
+    //     onClick={() => {
+    //       clickHandler(props);
+    //     }}
+    //   >
+    //     Edit
+    //   </Link>
+    // ),
+  },
+];
+export const teachersSubjectColumn = [
   {
     name: "Image",
     selector: (row) =>

@@ -582,9 +582,9 @@ export default function UpdateStudent({
               </div>
             </div>
             <div className="addStudentBtnWrap">
-              <button className="addStudentBtn" onClick={() => navigate(-1)}>
+              <p className="addStudentBtn" onClick={() => navigate(-1)}>
                 Cancel
-              </button>
+              </p>
               <button
                 className="addStudentBtn"
                 type="submit"
