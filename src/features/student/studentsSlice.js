@@ -97,39 +97,10 @@ export const createStudentGuardian = createAsyncThunk(
 
 export const studentUpdate = createAsyncThunk(
   "Student/studentUpdate",
-  async (student, id, { rejectWithValue }) => {
+  async (student, id, name, { rejectWithValue }) => {
     try {
-      const {
-        firstName,
-        lastName,
-        dateOfBirth,
-        placeOfBirth,
-        nationality,
-        email,
-        studentId,
-        courseStudy,
-        studentRegistrar,
-        studentRegistrarId,
-        classLevel,
-        isStudent,
-        isMale,
-        profilePicture,
-        address,
-        currentCity,
-        homeTown,
-        region,
-        religion,
-        height,
-        weight,
-        parents,
-        guardian,
-        motherTongue,
-        otherTongue,
-        complexion,
-        registedDate,
-      } = student;
       const res = await axios.put(
-        `${API_ENDPOINT}/students/update_student/${id}/admin`,
+        `${API_ENDPOINT}/students/update_student/${name}/${id}/admin`,
         {
           student,
         }
@@ -280,27 +251,27 @@ const studentSlice = createSlice({
     });
 
     builder.addCase(studentUpdate.pending, (state) => {
-      return { ...state, updateStatus: "pending" };
+      return { ...state, updateStudentStatus: "pending" };
     });
     builder.addCase(studentUpdate.fulfilled, (state, action) => {
       if (action.payload) {
-        const updatedStudent = state.allStudents.map((student) =>
+        const updatedStudents = state.allStudents.map((student) =>
           student.studentId === action.payload.updatedStudent.studentId
             ? action.payload.updatedStudent
             : student
         );
         return {
           ...state,
-          allStudents: updatedStudent,
+          allStudents: updatedStudents,
           studentSuccessMessage: action.payload.successMessage,
-          updateStatus: "success",
+          updateStudentStatus: "success",
         };
       } else return state;
     });
     builder.addCase(studentUpdate.rejected, (state, action) => {
       return {
         ...state,
-        updateStatus: "rejected",
+        updateStudentStatus: "rejected",
         studentError: action.payload,
       };
     });
@@ -317,7 +288,6 @@ const studentSlice = createSlice({
           studentSuccessMessage: action.payload.successMessage,
           loginStudentStatus: "success",
           authenticated: true,
-          loading: false,
         };
       } else return state;
     });

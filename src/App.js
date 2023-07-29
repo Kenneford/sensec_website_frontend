@@ -49,6 +49,7 @@ import AllAdmins from "./components/adminSection/allAdmins/AllAdmins";
 import ProgramOverView from "./pages/programOverView/ProgramOverView";
 import SubjectOverView from "./pages/subjectOverView/SubjectOverView";
 import AdminAttendance from "./components/adminSection/adminAttendance/AdminAttendance";
+import TeacherAttendance from "./components/teacherSection/attendanceTeacher/TeacherAttendance";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -181,7 +182,7 @@ export default function App() {
           exact
           path="/sensec/admin"
           element={
-            authAdminInfo && authAdminInfo.role === "Admin" ? (
+            authAdminInfo && authAdminInfo.isAdmin ? (
               <AdminDashboard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -235,12 +236,12 @@ export default function App() {
             path="/sensec/admin/all_teachers"
             element={<AdminTeachers openSidebar={openSidebar} />}
           />
-          <Route
+          {/* <Route
             path="/sensec/admin/students"
             element={<AdminStudents openSidebar={openSidebar} />}
-          />
+          /> */}
           <Route
-            path="/sensec/admin/students_enrollment"
+            path="/sensec/admin/student_enrollment"
             element={
               <AdminStudentAdd toastOptions={toastOptions} toast={toast} />
             }
@@ -288,13 +289,13 @@ export default function App() {
             }
           />
           <Route
-            path="/sensec/admin/all_students"
+            path="/sensec/admin/students"
             element={
               <TotalStudents toastOptions={toastOptions} toast={toast} />
             }
           />
           <Route
-            path="/sensec/admin/all_students/:batch"
+            path="/sensec/admin/students"
             element={
               <TotalStudents toastOptions={toastOptions} toast={toast} />
             }
@@ -345,7 +346,7 @@ export default function App() {
         <Route
           path="/sensec/teacher"
           element={
-            authTeacherInfo && authTeacherInfo.role === "Teacher" ? (
+            authTeacherInfo && authTeacherInfo.isTeacher ? (
               <TeacherDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -360,6 +361,12 @@ export default function App() {
           <Route
             index
             element={<TeacherDashBoardContent openSidebar={openSidebar} />}
+          />
+          <Route
+            path="/sensec/teacher/students_attendance"
+            element={
+              <TeacherAttendance toastOptions={toastOptions} toast={toast} />
+            }
           />
         </Route>
         {/* STUDENTS ROUTES */}

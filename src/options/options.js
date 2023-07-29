@@ -1,6 +1,23 @@
 import { Link } from "react-router-dom";
 
+export const programOptions = [
+  { value: "None", label: "None" },
+  { value: "64bc5b7d24b0183b8ede8957", label: "Agriculture Science" },
+  { value: "64bc5ba624b0183b8ede895d", label: "Science" },
+  { value: "64bc5bbe24b0183b8ede8963", label: "Home Economics" },
+  { value: "64bc5bd124b0183b8ede8969", label: "Business" },
+  { value: "64bc5be224b0183b8ede896f", label: "General Art" },
+  { value: "64bc5bf324b0183b8ede8975", label: "Visaul Arts" },
+];
+export const academicYearOptions = [
+  { value: "Select Year", label: "Select Year" },
+  { value: "64bc5acd24b0183b8ede8933", label: "2023-2026" },
+  { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
+  { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
+];
+
 export const classLevelOptions = [
+  { value: "Select Level", label: "Select Level" },
   { value: "64bc5b4a24b0183b8ede8945", label: "Level 100" },
   { value: "64bc5b5724b0183b8ede894b", label: "Level 200" },
   { value: "64bc5b6124b0183b8ede8951", label: "Level 300" },
@@ -14,15 +31,15 @@ export const religionOptions = [
 ];
 export const otherTongueOptions = [
   { value: "English", label: "English" },
-  // { value: "Hausa", label: "Hausa" },
-  // { value: "French", label: "French" },
-  // { value: "Spanish", label: "Spanish" },
-  // { value: "Deutsch", label: "Deutsch" },
+  { value: "Hausa", label: "Hausa" },
+  { value: "French", label: "French" },
+  { value: "Spanish", label: "Spanish" },
+  { value: "Deutsch", label: "Deutsch" },
 ];
 export const studentRoleOptions = [
+  { value: "No Special Role", label: "No Special Role" },
   { value: "Boys Prefect", label: "Boys Prefect" },
   { value: "Girls Prefect", label: "Girls Prefect" },
-  { value: "No Special Role", label: "No Special Role" },
   // { value: "Spanish", label: "Spanish" },
   // { value: "Deutsch", label: "Deutsch" },
 ];
@@ -55,8 +72,11 @@ export const complexionOptions = [
   { value: "Black", label: "Black" },
 ];
 
-export const gender = [
-  { male: "male", female: "female", transgender: "transgender" },
+export const genderOptions = [
+  { value: "Select", label: "Select" },
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
+  { value: "Transgender", label: "Transgender" },
 ];
 
 export const studentColumn = [
@@ -127,7 +147,7 @@ export const studentColumn = [
     selector: (row) => (
       <Link
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
       >
         Edit
       </Link>
@@ -212,7 +232,7 @@ export const studentProgramColumn = [
     selector: (row) => (
       <Link
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
       >
         Edit
       </Link>

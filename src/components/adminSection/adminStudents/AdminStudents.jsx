@@ -51,7 +51,7 @@ export default function AdminStudents({ toast, toastOptions }) {
             className="students"
             onClick={() => {
               // dispatch(fetchStudents());
-              navigate("/sensec/admin/all_students");
+              navigate("/sensec/admin/students");
             }}
           >
             <h3>Total Students</h3>

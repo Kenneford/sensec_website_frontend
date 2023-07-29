@@ -82,7 +82,7 @@ export default function StudentParentGuardian({ toast, toastOptions }) {
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/sensec/admin/all_students");
+      navigate("/sensec/admin/students");
     }
   }, [
     createParentStatus,

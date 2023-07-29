@@ -68,12 +68,12 @@ export default function TeacherLoginPage({ toast, toastOptions }) {
       return;
     }
     if (loginStatus === "success") {
-      navigate("/sensec/teacher/#teacher");
       toast.success(teacherSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
+      navigate("/sensec/teacher/#teacher");
     }
   }, [
     teacherError,

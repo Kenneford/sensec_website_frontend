@@ -83,7 +83,7 @@ export default function StudentParents({ toast, toastOptions }) {
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/sensec/admin/all_students");
+      navigate("/sensec/admin/students");
     }
   }, [
     createParentStatus,
@@ -151,7 +151,7 @@ export default function StudentParents({ toast, toastOptions }) {
               />
             </div>
             <div className="inputField">
-              <label htmlFor="email">email</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="text"
                 onChange={handleInputValues}

@@ -27,6 +27,7 @@ export default function NavBar({
   const currentUser =
     authAdminInfo || authStaffInfo || authTeacherInfo || studentInfo;
 
+  console.log(authTeacherInfo);
   const [menuVisible, setMenuVisible] = useState(false);
   const [navbar, setNavbar] = useState(false);
 
@@ -139,7 +140,7 @@ export default function NavBar({
                 {/* <ContactNavBar /> */}
               </li>
             )}
-          {currentUser.role === "Admin" && (
+          {currentUser.isAdmin && (
             <li>
               <NavHashLink
                 to={"/sensec/admin/#admin"}
@@ -150,7 +151,7 @@ export default function NavBar({
               </NavHashLink>
             </li>
           )}
-          {currentUser.role === "Teacher" && (
+          {currentUser.isTeacher && (
             <li>
               <NavHashLink
                 to={"/sensec/teacher/#teacher"}
