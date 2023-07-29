@@ -111,7 +111,7 @@ export default function CurrentUser({
           </div>
         )}
 
-        {currentUser.role === "Admin" && (
+        {currentUser.isAdmin && (
           <div className="userInfo">
             <p className="currentUserName">
               Welcome, {authAdminInfo.firstName}
@@ -150,7 +150,7 @@ export default function CurrentUser({
           </div>
         )}
 
-        {currentUser.role === "Teacher" && (
+        {currentUser.isTeacher && (
           <div className="userInfo">
             <p className="currentUserName">
               Welcome, {authTeacherInfo.firstName}

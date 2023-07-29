@@ -69,7 +69,10 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
                 <SchoolOutlinedIcon />
                 <h4> Course Students</h4>
               </HashLink>
-              <HashLink to={"#"} className="links">
+              <HashLink
+                to={"/sensec/teacher/students_attendance"}
+                className="links"
+              >
                 <ListAltOutlinedIcon />
                 <h4>Students Attendance</h4>
               </HashLink>

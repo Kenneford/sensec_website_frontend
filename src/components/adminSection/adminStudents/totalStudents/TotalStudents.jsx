@@ -35,7 +35,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     studentError,
     studentSuccessMessage,
   } = useSelector((state) => state.student);
-  const { batch } = useParams();
+  // const { batch } = useParams();
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const allStudents = useSelector(getAllStudents);
@@ -56,6 +56,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
 
   // console.log(getAllStudents);
   // console.log(studentss);
+  console.log(level100);
   console.log(searchStudent);
   console.log(staffs);
   console.log(studentInfo);
@@ -102,6 +103,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
 
   const query = useQuery();
   const student_name = query.get("student_name");
+  const batch = query.get("batch");
   const location = useLocation();
 
   const selectedBatch = allClassLevels.find((c) => c._id === batch);
@@ -109,6 +111,30 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   // const selectedStudent = allStudents.find(
   //   (std) => std.studentId === studentId.studentId
   // );
+  const handleFirstYears = () => {
+    setLevel100(!level100, setLevel200(false), setLevel300(false));
+    if (!level100) {
+      navigate(`/sensec/admin/students?batch=1st_Years`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleSecondYears = () => {
+    setLevel200(!level200, setLevel100(false), setLevel300(false));
+    if (!level200) {
+      navigate(`/sensec/admin/students?batch=2nd_Years`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleThirdYears = () => {
+    setLevel300(!level300, setLevel100(false), setLevel200(false));
+    if (!level300) {
+      navigate(`/sensec/admin/students?batch=3rd_Years`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
   const handleStudentSearch = (e) => {
     e.preventDefault();
     if (searchStudent) {
@@ -147,7 +173,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       return;
     }
     // if (fetchingStudentStatus === "success") {
-    //   // navigate("/sensec/admin/all_students");
+    //   // navigate("/sensec/admin/students");
     //   toast.success(studentSuccessMessage, {
     //     position: "top-right",
     //     theme: "dark",
@@ -182,16 +208,21 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       {/* <button onClick={() => dispatch(fetchStudents())}>Students</button> */}
       {/* <div>{renderStudents}</div> */}
       <div className="totalStudentsWrap">
+        <div className="addTeacherBtn">
+          <button onClick={() => navigate("/sensec/admin/student_enrollment")}>
+            Add New Student +
+          </button>
+        </div>
         <div className="searchDetails">
           {!searchStatus && (
             <p className="searchInfo">Total Students = {allStudents.length}</p>
           )}
           {allStudents?.length === 0 &&
-            location.pathname === "/sensec/admin/all_students" && (
+            location.pathname === "/sensec/admin/students" && (
               <p className="searchInfo">No Student Found</p>
             )}
           {allStudents?.length === 0 &&
-            location.pathname !== "/sensec/admin/all_students" && (
+            location.pathname !== "/sensec/admin/students" && (
               <p className="searchInfo">
                 We couldn't find any matches for "{student_name}"
               </p>
@@ -201,7 +232,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           <button
             className="goBack-btn"
             onClick={() => {
-              navigate("/sensec/admin/all_students");
+              navigate("/sensec/admin/students");
               window.location.reload();
             }}
           >
@@ -212,25 +243,19 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           {allStudents.length !== 0 && (
             <div className="batches">
               <span
-                onClick={() =>
-                  setLevel100(!level100, setLevel200(false), setLevel300(false))
-                }
+                onClick={handleFirstYears}
                 className={level100 && "greenBackground"}
               >
                 1st Years
               </span>
               <span
-                onClick={() =>
-                  setLevel200(!level200, setLevel100(false), setLevel300(false))
-                }
+                onClick={handleSecondYears}
                 className={level200 && "greenBackground"}
               >
                 2nd Years
               </span>
               <span
-                onClick={() =>
-                  setLevel300(!level300, setLevel100(false), setLevel200(false))
-                }
+                onClick={handleThirdYears}
                 className={level300 && "greenBackground"}
               >
                 3rd Years
@@ -284,7 +309,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                     onClick={() => {
                       setOpen(true);
                       // navigate(
-                      //   `/sensec/admin/all_students/${student.firstName}`
+                      //   `/sensec/admin/students/${student.firstName}`
                       // );
                     }}
                   >

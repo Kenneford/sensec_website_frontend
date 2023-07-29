@@ -10,9 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { studentRegistory } from "../../../../features/student/studentsSlice";
 import { useNavigate } from "react-router-dom";
 import {
+  academicYearOptions,
   classLevelOptions,
   complexionOptions,
+  genderOptions,
   otherTongueOptions,
+  programOptions,
   regionOptions,
   religionOptions,
   studentRoleOptions,
@@ -67,7 +70,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     studentRegistrarId: `${authAdminInfo.adminId}`,
     currentClassLevel: "",
-    isMale: "",
+    gender: "",
     profilePicture: "",
     address: "",
     currentCity: "",
@@ -188,7 +191,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     formData.append("studentRegistrar", newStudent.studentRegistrar);
     formData.append("studentRegistrarId", newStudent.studentRegistrarId);
     formData.append("currentClassLevel", newStudent.currentClassLevel);
-    formData.append("isMale", newStudent.isMale);
+    formData.append("gender", newStudent.gender);
     formData.append("profilePicture", newStudent.profilePicture);
     formData.append("address", newStudent.address);
     formData.append("currentCity", newStudent.currentCity);
@@ -266,7 +269,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
       <div className="register">
         <h1>NEW STUDENT REGISTRATION</h1>
         <div className="registerCont">
-          <div className="getIds">
+          {/* <div className="getIds">
             <div className="getIdsWrap">
               <button
                 onClick={() =>
@@ -327,7 +330,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                 </>
               )}
             </div>
-          </div>
+          </div> */}
           <form onSubmit={handleRegister}>
             <div className="studentProfile">
               <div className="title">
@@ -369,14 +372,33 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                     {/* <button onClick={copyToClipboard}>Copy</button> */}
                     {/* <ContentCopyIcon onClick={copyToClipboard} /> */}
                     <h3>Academic Year ID</h3>
-                    <input
+                    <div className="academicYear">
+                      <label htmlFor="academicYear">Academic Year</label>
+                      <select
+                        className="select"
+                        value={newStudent.academicYear}
+                        onChange={handleInputValues}
+                        name="academicYear"
+                      >
+                        {academicYearOptions.map((academicYear) => (
+                          <option
+                            key={academicYear.label}
+                            value={academicYear.value}
+                            className="selectOptions"
+                          >
+                            {academicYear.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* <input
                       className="idInput"
                       type="text"
                       name="academicYear"
                       onChange={handleInputValues}
                       // value={newStudent.studentId}
                       value={newStudent.academicYear}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
@@ -440,7 +462,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       value={newStudent.homeTown}
                     />
                   </div>
-                  <div className="region">
+                  {/* <div className="selector">
                     <label htmlFor="region">Region:</label>
                     <Select
                       name="region"
@@ -459,8 +481,31 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         },
                       })}
                     />
+                  </div> */}
+                  <div className="selector">
+                    <label htmlFor="region">Region</label>
+                    <select
+                      className="select"
+                      value={newStudent.region}
+                      onChange={handleInputValues}
+                      name="region"
+                      id=""
+                    >
+                      {regionOptions.map((region) => (
+                        <option
+                          key={region.label}
+                          value={region.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {region.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  <div className="region">
+                  {/* <div className="selector">
                     <label htmlFor="currentClassLevel">Class Level:</label>
                     <Select
                       name="currentClassLevel"
@@ -479,6 +524,29 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         },
                       })}
                     />
+                  </div> */}
+                  <div className="selector">
+                    <label htmlFor="currentClassLevel">Class Level</label>
+                    <select
+                      className="select"
+                      value={newStudent.currentClassLevel}
+                      onChange={handleInputValues}
+                      name="currentClassLevel"
+                      id=""
+                    >
+                      {classLevelOptions.map((classLevel) => (
+                        <option
+                          key={classLevel.label}
+                          value={classLevel.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {classLevel.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   {/* <div className="inputField">
                     <label htmlFor="classLevel">Form (Class Level)</label>
@@ -492,7 +560,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                   {/* <p>{selectedclassLevel} classLevel</p> */}
                 </div>
                 <div className="middle">
-                  <div className="religion">
+                  {/* <div className="selector">
                     <label htmlFor="region">Role:</label>
                     <Select
                       name="role"
@@ -511,8 +579,53 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         },
                       })}
                     />
+                  </div> */}
+                  <div className="selector">
+                    <label htmlFor="role">Role</label>
+                    <select
+                      className="select"
+                      value={newStudent.role}
+                      onChange={handleInputValues}
+                      name="role"
+                    >
+                      {studentRoleOptions.map((role) => (
+                        <option
+                          key={role.label}
+                          value={role.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {role.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  <div className="inputField">
+                  <div className="selector">
+                    <label htmlFor="program">Program</label>
+                    <select
+                      className="select"
+                      value={newStudent.program}
+                      onChange={handleInputValues}
+                      name="program"
+                      id=""
+                    >
+                      {programOptions.map((program) => (
+                        <option
+                          key={program.label}
+                          value={program.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {program.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* <div className="inputField">
                     <label htmlFor="program">Program</label>
                     <input
                       type="text"
@@ -520,7 +633,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       name="program"
                       value={newStudent.program}
                     />
-                  </div>
+                  </div> */}
                   <div className="inputField">
                     <label htmlFor="currentCity">Current City</label>
                     <input
@@ -539,7 +652,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       value={newStudent.nationality}
                     />
                   </div>
-                  <div className="sexField">
+                  {/* <div className="sexField">
                     <div className="genderWrap">
                       <label htmlFor="nationality">Gender:</label>
                       <div className="genderCont">
@@ -584,6 +697,29 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                  <div className="selector">
+                    <label htmlFor="gender">Gender</label>
+                    <select
+                      className="select"
+                      value={newStudent.gender}
+                      onChange={handleInputValues}
+                      name="gender"
+                      id=""
+                    >
+                      {genderOptions.map((gender) => (
+                        <option
+                          key={gender.label}
+                          value={gender.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {gender.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="inputField">
                     <label htmlFor="address">Residential Address</label>
@@ -594,25 +730,27 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       value={newStudent.address}
                     />
                   </div>
-                  <div className="religion">
+                  <div className="selector">
                     <label htmlFor="religion">Religion</label>
-                    <Select
+                    <select
+                      className="select"
+                      value={newStudent.religion}
+                      onChange={handleInputValues}
                       name="religion"
-                      id="selector"
-                      // defaultValue={regionOptions[0]}
-                      options={religionOptions}
-                      onChange={handleReligionInput}
-                      styles={selectorStyles}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        colors: {
-                          ...theme.colors,
-                          primary25: "#696969",
-                          primary: "#696969",
-                        },
-                      })}
-                    />
+                    >
+                      {religionOptions.map((r) => (
+                        <option
+                          key={r.label}
+                          value={r.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {r.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="right">
@@ -625,7 +763,29 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       value={newStudent.motherTongue}
                     />
                   </div>
-                  <div className="otherTongue">
+                  <div className="selector">
+                    <label htmlFor="otherTongue">Other Tongues</label>
+                    <select
+                      className="select"
+                      value={newStudent.otherTongue}
+                      onChange={handleInputValues}
+                      name="otherTongue"
+                    >
+                      {otherTongueOptions.map((otherTongue) => (
+                        <option
+                          key={otherTongue.label}
+                          value={otherTongue.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {otherTongue.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* <div className="selector">
                     <label htmlFor="otherTongue">Other Language(s)</label>
                     <CreatableSelect
                       name="otherTongue"
@@ -644,8 +804,8 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         },
                       })}
                     />
-                  </div>
-                  <div className="complexion">
+                  </div> */}
+                  {/* <div className="selector">
                     <label htmlFor="complexion">Complexion</label>
                     <Select
                       name="complexion"
@@ -663,9 +823,32 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                         },
                       })}
                     />
+                  </div> */}
+                  <div className="selector">
+                    <label htmlFor="complexion">Complexion</label>
+                    <select
+                      className="select"
+                      value={newStudent.complexion}
+                      onChange={handleInputValues}
+                      name="complexion"
+                      id=""
+                    >
+                      {complexionOptions.map((complexion) => (
+                        <option
+                          key={complexion.label}
+                          value={complexion.value}
+                          style={{
+                            backgroundColor: "#292929",
+                            color: "#fff",
+                          }}
+                        >
+                          {complexion.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="inputField">
-                    <label htmlFor="height">Height</label>
+                    <label htmlFor="height">Height(M)</label>
                     <input
                       type="text"
                       onChange={handleInputValues}
@@ -674,7 +857,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                     />
                   </div>
                   <div className="inputField">
-                    <label htmlFor="weight">Weight</label>
+                    <label htmlFor="weight">Weight(kg)</label>
                     <input
                       type="text"
                       onChange={handleInputValues}

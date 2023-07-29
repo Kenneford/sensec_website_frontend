@@ -2,6 +2,80 @@
 @use "../../../../utilities/colors";
 .registerWrap {
   background-color: #383838;
+  .selector {
+    width: 93.5%;
+    background-color: #383838;
+    // position: relative;
+    display: flex;
+    // gap: 0.5rem;
+    margin: 2rem 1rem;
+    align-items: center;
+    // padding: 10px;
+    // margin-bottom: 2rem;
+    // margin-top: 2rem;
+    font-size: 1em;
+    padding: 0.1rem 0;
+    label {
+      width: 28%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      // padding-left: 0.5rem;
+      color: #fff;
+      font-weight: 400;
+    }
+    .select {
+      width: 70%;
+      height: 2.6rem;
+      font-size: 1em;
+      background-color: #fff;
+      color: #292929;
+      padding: 0.1rem 1rem;
+      font-weight: 100;
+      .selectOptions {
+        background-color: #fff;
+        color: #292929;
+        font-size: 1.1rem;
+      }
+    }
+  }
+  .academicYear {
+    width: 93%;
+    background-color: #383838;
+    // position: relative;
+    display: flex;
+    // gap: 0.5rem;
+    margin: 0.5rem 2rem;
+    align-items: center;
+    // padding: 10px;
+    // margin-bottom: 2rem;
+    // margin-top: 2rem;
+    font-size: 1em;
+    padding: 0.1rem 0;
+    label {
+      width: 28%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      // padding-left: 0.5rem;
+      color: #fff;
+      font-weight: 400;
+      padding: 0 0.5rem;
+    }
+    .select {
+      width: 70%;
+      height: 2.6rem;
+      font-size: 1em;
+      background-color: #fff;
+      color: #292929;
+      padding: 0.1rem 1rem;
+      font-weight: 100;
+      .selectOptions {
+        background-color: #292929;
+        color: #fff;
+      }
+    }
+  }
   .register {
     display: flex;
     flex-direction: column;
@@ -81,8 +155,7 @@
         .studentProfile {
           padding: 1rem;
           padding-top: 3rem;
-          h3,
-          label {
+          h3 {
             padding-left: 2rem;
           }
           .title {
@@ -118,6 +191,7 @@
                   margin: 0.5rem 1rem;
                   background-color: transparent;
                   margin-left: 2rem;
+                  margin-bottom: 1rem;
                 }
                 .staffMember {
                   .staffQuestion {
@@ -171,11 +245,19 @@
             .right {
               width: 50%;
             }
+            .bottomSelect {
+              margin-top: 1.7rem;
+            }
+            .updateRight {
+              margin-top: -0.5rem;
+              .selector {
+              }
+            }
             .inputField {
               position: relative;
               display: flex;
               gap: 0.5rem;
-              margin: 1rem 0 1.5rem;
+              margin: 1rem 0 1.1rem;
               align-items: center;
               label {
                 position: absolute;
@@ -201,190 +283,72 @@
                 }
               }
             }
-            .left {
-              .region {
-                background-color: #383838;
-                position: relative;
-                display: flex;
-                // gap: 0.5rem;
-                margin: 2rem 1rem;
-                align-items: center;
-                // padding: 10px;
-                margin-bottom: 2rem;
-                // margin-top: 2rem;
-                font-size: 1.1em;
-                padding: 0.1rem 0;
-                label {
-                  padding-left: 0.5rem;
-                  color: #fff;
-                  font-weight: 400;
-                }
-                #selector {
-                  width: 100%;
-                  // padding: 3px;
-                  margin: 0 0.5rem;
-                  font-size: 1em;
-                }
-              }
-            }
-            .middle {
-              .sexField {
-                padding: 10px;
-                margin: 0 1rem;
-                // border: 1px solid transparent;
-                margin-bottom: 2rem;
-                margin-top: 2rem;
-                border-radius: 0.3rem;
-                .genderWrap {
-                  display: flex;
-                  // gap: 2rem;
-                  align-items: center;
-                  label {
-                    padding: 0 0.5rem;
-                    color: #696969;
-                    font-weight: 500;
-                    font-size: 1.2em;
-                  }
-                  .genderCont {
-                    display: flex;
-                    // align-items: center;
-                    gap: 1rem;
-                    .radioGap {
-                      // background-color: #383838;
-                      position: relative;
-                      display: flex;
-                      gap: 0.5rem;
-                      // margin: 1rem 0.5rem 1.5rem;
-                      align-items: center;
-                      // padding: 10px;
-                      // font-size: 1.1em;
-                      label {
-                        // padding: 0 0.5rem;
-                        color: #fff;
-                        font-weight: 300;
-                      }
-                    }
-                  }
-                }
-              }
-              .religion {
-                background-color: #383838;
-                position: relative;
-                display: flex;
-                gap: 0.5rem;
-                margin: 1.5rem 1rem;
-                align-items: center;
-                // padding: 10px;
-                font-size: 1.1em;
-                margin-bottom: 2rem;
-                // margin-top: 2rem;
-                padding: 0.1rem 0;
-                label {
-                  padding: 0 0.5rem;
-                  color: #fff;
-                  font-weight: 400;
-                }
-                #selector {
-                  width: 100%;
-                  // padding: 3px;
-                  margin: 0 0.5rem;
-                  font-size: 1em;
-                }
-              }
-            }
-            .right {
-              .complexion,
-              .otherTongue {
-                background-color: #383838;
-                position: relative;
-                display: flex;
-                gap: 0.5rem;
-                margin: 1rem 1rem;
-                align-items: center;
-                // padding: 10px;
-                margin-bottom: 2rem;
-                margin-top: 2rem;
-                font-size: 1.1em;
-                padding: 0.1rem 0;
-                label {
-                  padding: 0 0.5rem;
-                  color: #fff;
-                  font-weight: 400;
-                }
-                #selector {
-                  width: 100%;
-                  // padding: 3px;
-                  margin: 0 0.5rem;
-                  font-size: 1em;
-                }
-              }
-            }
           }
         }
-        .guardianProfile {
-          h3 {
-            padding: 2rem;
-          }
-          .guadianCont {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            .left,
-            .middle,
-            .right {
-              width: 50%;
-              .guardianImage {
-                // display: flex;
-                // flex-direction: column;
-                // justify-content: center;
-                align-items: center;
-                padding-left: 1rem;
-                img {
-                  width: 10rem;
-                  height: 10rem;
-                  object-fit: cover;
-                  border-radius: 0.5rem;
-                }
-              }
-              .inputField {
-                position: relative;
-                display: flex;
-                gap: 0.5rem;
-                margin: 1rem 0 1.5rem;
-                align-items: center;
-                label {
-                  position: absolute;
-                  top: 0rem;
-                  left: 1.5rem;
-                  background-color: #fff;
-                  padding: 0 0.5rem;
-                  color: #696969;
-                  font-weight: 400;
-                }
-                input {
-                  border: 1px solid lightgray;
-                  padding: 10px;
-                  font-size: 1.1em;
-                  border-radius: 3px;
-                  width: 100%;
-                  // gap: 5rem;
-                  margin: 0.5rem 1rem;
-                  background-color: transparent;
-                  &:focus {
-                    background-color: transparent;
-                    border: 1px solid #292929cc;
-                  }
-                }
-              }
-            }
-            .left {
-            }
-            .middle {
-            }
-            .right {
-            }
-          }
-        }
+        // .guardianProfile {
+        //   h3 {
+        //     // padding: 2rem;
+        //   }
+        //   .guadianCont {
+        //     display: flex;
+        //     justify-content: space-between;
+        //     padding: 1rem;
+        //     .left,
+        //     .middle,
+        //     .right {
+        //       width: 50%;
+        //       .guardianImage {
+        //         // display: flex;
+        //         // flex-direction: column;
+        //         // justify-content: center;
+        //         align-items: center;
+        //         padding-left: 1rem;
+        //         img {
+        //           width: 10rem;
+        //           height: 10rem;
+        //           object-fit: cover;
+        //           border-radius: 0.5rem;
+        //         }
+        //       }
+        //       .inputField {
+        //         position: relative;
+        //         display: flex;
+        //         gap: 0.5rem;
+        //         margin: 1rem 0 1.5rem;
+        //         align-items: center;
+        //         label {
+        //           position: absolute;
+        //           top: 0rem;
+        //           left: 1.5rem;
+        //           background-color: #fff;
+        //           padding: 0 0.5rem;
+        //           color: #696969;
+        //           font-weight: 400;
+        //         }
+        //         input {
+        //           border: 1px solid lightgray;
+        //           padding: 10px;
+        //           font-size: 1.1em;
+        //           border-radius: 3px;
+        //           width: 100%;
+        //           // gap: 5rem;
+        //           margin: 0.5rem 1rem;
+        //           background-color: transparent;
+        //           &:focus {
+        //             background-color: transparent;
+        //             border: 1px solid #292929cc;
+        //           }
+        //         }
+        //       }
+        //     }
+        //     .left {
+        //     }
+        //     .middle {
+        //     }
+        //     .right {
+        //     }
+        //   }
+        // }
         .addStudentBtnWrap {
           display: flex;
           gap: 2rem;
@@ -403,13 +367,6 @@
             &:hover {
               background-color: rgb(6, 168, 6);
             }
-            &:nth-child(1) {
-              background-color: #f83b3b;
-              color: #fff;
-              &:hover {
-                background-color: red;
-              }
-            }
           }
           // float: right;
         }
@@ -417,6 +374,15 @@
           display: flex;
           justify-content: right;
           padding-right: 5rem;
+          .cancelBtn {
+            display: flex;
+            justify-content: center;
+            background-color: #f83b3b;
+            color: #fff;
+            &:hover {
+              background-color: red;
+            }
+          }
           .addStudentBtn:disabled {
             padding: 1rem;
             font-size: 1.5rem;

@@ -181,7 +181,7 @@ export default function DashboardContent({ toast }) {
           <div
             className="teachers"
             onClick={() => {
-              navigate("/sensec/admin/all_students");
+              navigate("/sensec/admin/students");
             }}
           >
             <h3>Total Students</h3>
