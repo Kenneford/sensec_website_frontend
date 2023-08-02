@@ -6,17 +6,20 @@ import { academicYearOptions } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
+import { createClassLevelSection } from "../../features/classLevels/classLevelSectionSlice";
 
 export default function CreateClassSection({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
-  const { createStatus, successMessage, academicYearError } = useSelector(
-    (state) => state.academicYear
+  const { createLevelSectionStatus, successMessage, error } = useSelector(
+    (state) => state.classLevelSection
   );
 
   const dispatch = useDispatch();
   const [classSection, setClassSection] = useState({
-    name: "",
+    section: "",
+    classLevel: "",
     description: "",
+    currentTeacher: "",
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     adminId: authAdminInfo.adminId,
   });
@@ -39,12 +42,12 @@ export default function CreateClassSection({ toast, toastOptions }) {
     formData.append("description", classSection.description);
     formData.append("createdBy", classSection.createdBy);
     formData.append("adminId", classSection.adminId);
-    dispatch(createAcademicYear(classSection));
+    dispatch(createClassLevelSection(classSection));
   };
 
   useEffect(() => {
-    if (createStatus === "rejected") {
-      academicYearError.errorMessage.message.map((err) =>
+    if (createLevelSectionStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -53,7 +56,7 @@ export default function CreateClassSection({ toast, toastOptions }) {
       );
       return;
     }
-    if (createStatus === "success") {
+    if (createLevelSectionStatus === "success") {
       setClassSection({ name: "", description: "" });
       toast.success(successMessage, {
         position: "top-right",
@@ -62,31 +65,41 @@ export default function CreateClassSection({ toast, toastOptions }) {
       });
     }
   }, [
-    academicYearError,
+    error,
     successMessage,
-    createStatus,
+    createLevelSectionStatus,
     toast,
     toastOptions,
     navigate,
   ]);
 
   setTimeout(() => {
-    if (createStatus === "success") {
-      navigate("#");
+    if (createLevelSectionStatus === "success") {
+      window.location.reload();
     }
-  }, 2000);
+  }, 5000);
   return (
     <div className="formWrap">
       <h3>Class Section Form</h3>
       <form onSubmit={handleClassSection}>
         <div className="inputField">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="section">Section Name</label>
           <input
             type="text"
-            name="name"
+            name="section"
             onChange={handleInputValues}
             placeholder=""
-            value={classSection.name}
+            value={classSection.section}
+          />
+        </div>
+        <div className="inputField">
+          <label htmlFor="classLevel">Class Level</label>
+          <input
+            type="text"
+            name="classLevel"
+            onChange={handleInputValues}
+            placeholder=""
+            value={classSection.classLevel}
           />
         </div>
         <div className="inputField">
@@ -99,13 +112,23 @@ export default function CreateClassSection({ toast, toastOptions }) {
             value={classSection.description}
           />
         </div>
+        <div className="inputField">
+          <label htmlFor="currentTeacher">Teacher</label>
+          <input
+            type="text"
+            name="currentTeacher"
+            onChange={handleInputValues}
+            placeholder=""
+            value={classSection.currentTeacher}
+          />
+        </div>
         <div className="addStudentBtnWrap">
           <button
             className="addStudentBtn"
             type="submit"
             //   disabled={!canSave || registerStudentStatus === "pending"}
           >
-            {createStatus === "pending" ? (
+            {createLevelSectionStatus === "pending" ? (
               <CircularProgress style={{ color: "white", size: "20px" }} />
             ) : (
               "Create Class Section"

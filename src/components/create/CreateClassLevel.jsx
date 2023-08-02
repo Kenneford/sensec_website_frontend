@@ -10,7 +10,7 @@ import { createClassLevel } from "../../features/classLevels/classLevelsSlice";
 
 export default function CreateClassLevel({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
-  const { createStatus, successMessage, error } = useSelector(
+  const { createLevelStatus, successMessage, error } = useSelector(
     (state) => state.classLevel
   );
 
@@ -44,7 +44,7 @@ export default function CreateClassLevel({ toast, toastOptions }) {
   };
 
   useEffect(() => {
-    if (createStatus === "rejected") {
+    if (createLevelStatus === "rejected") {
       error.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
@@ -54,7 +54,7 @@ export default function CreateClassLevel({ toast, toastOptions }) {
       );
       return;
     }
-    if (createStatus === "success") {
+    if (createLevelStatus === "success") {
       setClassLevel({ name: "", description: "" });
       toast.success(successMessage, {
         position: "top-right",
@@ -62,13 +62,13 @@ export default function CreateClassLevel({ toast, toastOptions }) {
         // toastId: successId,
       });
     }
-  }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
+  }, [error, successMessage, createLevelStatus, toast, toastOptions, navigate]);
 
-  // setTimeout(() => {
-  //   if (createStatus === "success") {
-  //     navigate("#");
-  //   }
-  // }, 2000);
+  setTimeout(() => {
+    if (createLevelStatus === "success") {
+      window.location.reload();
+    }
+  }, 5000);
   return (
     <div className="formWrap">
       <h3>Class Level Form</h3>
@@ -99,7 +99,7 @@ export default function CreateClassLevel({ toast, toastOptions }) {
             type="submit"
             //   disabled={!canSave || registerStudentStatus === "pending"}
           >
-            {createStatus === "pending" ? (
+            {createLevelStatus === "pending" ? (
               <CircularProgress style={{ color: "white", size: "20px" }} />
             ) : (
               "Create Class Level"

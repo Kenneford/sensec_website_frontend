@@ -56,7 +56,6 @@ const academicYearsSlice = createSlice({
           academicYearInfo: action.payload.academicYear,
           successMessage: action.payload.successMessage,
           createStatus: "success",
-          academicYearError: "",
         };
       } else return state;
     });

@@ -99,6 +99,16 @@ export default function DashboardContent({ toast }) {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
+
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -120;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
   // const handleInputValues = (e) => {
   //   setPost({
   //     ...post,
@@ -122,9 +132,6 @@ export default function DashboardContent({ toast }) {
       setText("");
       setTitle("");
     }
-    setTimeout(() => {
-      navigate("/sensec/general_announcement");
-    }, 2000);
   };
 
   useEffect(() => {
@@ -153,6 +160,12 @@ export default function DashboardContent({ toast }) {
     }
   }, [error, success, postStatus, toast]);
 
+  setTimeout(() => {
+    if (postStatus === "success") {
+      navigate("/sensec/general_announcement/#generalNotice");
+      window.location.reload();
+    }
+  }, 2000);
   return (
     <div>
       <h1>Admins Dashboard</h1>
@@ -222,7 +235,9 @@ export default function DashboardContent({ toast }) {
           </div>
           <div
             className="teachers"
-            onClick={() => navigate("/sensec/general_announcement")}
+            onClick={() =>
+              navigate("/sensec/general_announcement/#generalNotice")
+            }
           >
             <div className="titleFlex">
               <h3>Public Notice</h3>
@@ -308,8 +323,12 @@ export default function DashboardContent({ toast }) {
                       // readOnly={true}
                     />
                   </div>
-                  <div dangerouslySetInnerHTML={{ __html: text }} />
-                  <button className="noticeBtn">
+                  {/* <div dangerouslySetInnerHTML={{ __html: text }} /> */}
+                  <button
+                    className="noticeBtn"
+                    smooth
+                    scroll={scrollWithOffset}
+                  >
                     {postStatus === "pending" ? (
                       <CircularProgress
                         style={{ color: "white", size: "20px" }}

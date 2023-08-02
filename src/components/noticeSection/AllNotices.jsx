@@ -81,7 +81,7 @@ export default function AllNotices({
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 
   return (
-    <div className="postGrid">
+    <div className="postGrid" id="generalNotice">
       {allPosts.map((post) => (
         <NoticeItem
           key={post._id}

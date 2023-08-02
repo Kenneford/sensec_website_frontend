@@ -116,7 +116,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement/#notice"}
+                  to={"/sensec/general_announcement/#generalNotice"}
                   className="links"
                 >
                   <CampaignOutlinedIcon />
