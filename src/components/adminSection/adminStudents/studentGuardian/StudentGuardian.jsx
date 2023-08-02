@@ -102,6 +102,7 @@ export default function StudentGuardian({ toast, toastOptions }) {
   setTimeout(() => {
     if (createGuardianStatus === "success") {
       navigate("/sensec/admin/students");
+      window.location.reload();
     }
   }, 2000);
 

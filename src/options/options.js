@@ -20,6 +20,7 @@ export const academicYearOptions = [
   { value: "64bc5acd24b0183b8ede8933", label: "2023-2026" },
   { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
   { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
+  { value: "64c9341d6109338e6ca76bc2", label: "2026-2029" },
 ];
 export const academicTermOptions = [
   { value: "Select Year", label: "Select" },
@@ -89,22 +90,6 @@ export const genderOptions = [
   { value: "Male", label: "Male" },
   { value: "Female", label: "Female" },
 ];
-
-const handlePromotionTo200 = async () => {
-  // const studentInfo = useSelector(getStudentInfo);
-  // if (userInfo) {
-  //   try {
-  //     await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
-  //       userId: userInfo.id,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // } else {
-  //   return;
-  // }
-};
-const handlePromotion = () => {};
 
 export const studentColumn = [
   {
@@ -233,7 +218,6 @@ export const studentColumn = [
           {row.isGraduated && (
             <Link
               className="editLink"
-              onClick={handlePromotion}
               // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
             >
               Graduated
@@ -382,7 +366,6 @@ export const graduatesColumn = [
           {row.isGraduated && (
             <Link
               className="isGraduatedLink"
-              onClick={handlePromotion}
               // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
             >
               Graduated

@@ -64,11 +64,11 @@ export default function CreateProgram({ toast, toastOptions }) {
     }
   }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
 
-  // setTimeout(() => {
-  //   if (createStatus === "success") {
-  //     navigate("#");
-  //   }
-  // }, 2000);
+  setTimeout(() => {
+    if (createStatus === "success") {
+      window.location.reload();
+    }
+  }, 2000);
   return (
     <div className="formWrap">
       <h3>Program Form</h3>

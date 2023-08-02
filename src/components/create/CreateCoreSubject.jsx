@@ -73,7 +73,7 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
 
   setTimeout(() => {
     if (createStatus === "success") {
-      navigate("#");
+      window.location.reload();
     }
   }, 2000);
   return (

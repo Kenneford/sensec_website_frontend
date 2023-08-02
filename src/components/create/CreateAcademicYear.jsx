@@ -74,7 +74,7 @@ export default function CreateAcademicYear({ toast, toastOptions }) {
 
   setTimeout(() => {
     if (createStatus === "success") {
-      navigate("#");
+      window.location.reload();
     }
   }, 2000);
   return (

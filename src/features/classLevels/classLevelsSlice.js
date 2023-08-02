@@ -11,7 +11,7 @@ const initialState = {
   classLevel300: "",
   successMessage: "",
   error: "",
-  createStatus: "",
+  createLevelStatus: "",
   fetchingStatus: "",
 };
 
@@ -85,7 +85,7 @@ const classLevelsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createClassLevel.pending, (state, action) => {
-      return { ...state, createStatus: "pending" };
+      return { ...state, createLevelStatus: "pending" };
     });
     builder.addCase(createClassLevel.fulfilled, (state, action) => {
       if (action.payload) {
@@ -93,7 +93,7 @@ const classLevelsSlice = createSlice({
           ...state,
           classLevelInfo: action.payload.classLevel,
           successMessage: action.payload.successMessage,
-          createStatus: "success",
+          createLevelStatus: "success",
           error: "",
           authenticated: false,
         };
@@ -102,7 +102,7 @@ const classLevelsSlice = createSlice({
     builder.addCase(createClassLevel.rejected, (state, action) => {
       return {
         ...state,
-        createStatus: "rejected",
+        createLevelStatus: "rejected",
         error: action.payload,
       };
     });

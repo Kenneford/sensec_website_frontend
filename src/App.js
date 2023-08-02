@@ -196,7 +196,7 @@ export default function App() {
           exact
           path="/sensec/admin"
           element={
-            authAdminInfo && authAdminInfo.isAdmin ? (
+            authAdminInfo.isAdmin ? (
               <AdminDashboard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -371,7 +371,7 @@ export default function App() {
         <Route
           path="/sensec/teacher"
           element={
-            authTeacherInfo && authTeacherInfo.isTeacher ? (
+            authTeacherInfo.isTeacher ? (
               <TeacherDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
@@ -398,7 +398,7 @@ export default function App() {
         <Route
           path="/sensec/student"
           element={
-            studentInfo && studentInfo.isStudent ? (
+            studentInfo.isStudent ? (
               <StudentDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}

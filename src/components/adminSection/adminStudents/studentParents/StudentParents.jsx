@@ -104,6 +104,7 @@ export default function StudentParents({ toast, toastOptions }) {
   setTimeout(() => {
     if (createParentStatus === "success") {
       navigate("/sensec/admin/students");
+      window.location.reload();
     }
   }, 2000);
 

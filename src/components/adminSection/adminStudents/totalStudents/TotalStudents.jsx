@@ -1,11 +1,8 @@
-import axios from "axios";
 import "./totalStudents.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { format } from "timeago.js";
-import EditButton from "../../../editButton/EditButton";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchStudents,
@@ -28,8 +25,6 @@ import {
   getClassLevel300,
 } from "../../../../features/classLevels/classLevelsSlice";
 
-const API_ENDPOINT = "http://localhost:7000/api";
-
 export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   const {
     fetchingStudentStatus,
@@ -37,7 +32,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     studentError,
     studentSuccessMessage,
   } = useSelector((state) => state.student);
-  // const { batch } = useParams();
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const allStudents = useSelector(getAllStudents);
@@ -52,14 +46,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   const [level200, setLevel200] = useState(false);
   const [level300, setLevel300] = useState(false);
   const [isGraduated, setIsGraduated] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-  // const [allStudents, setAllStudents] = useState("");
-  // const students = useSelector(getStudents)
-
-  // console.log(getAllStudents);
-  // console.log(studentss);
   console.log(level100);
   console.log(searchStudent);
   console.log(staffs);
@@ -107,14 +95,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
 
   const query = useQuery();
   const student_name = query.get("student_name");
-  const batch = query.get("batch");
   const location = useLocation();
 
-  const selectedBatch = allClassLevels.find((c) => c._id === batch);
-
-  // const selectedStudent = allStudents.find(
-  //   (std) => std.studentId === studentId.studentId
-  // );
   const handleFirstYears = () => {
     setLevel100(
       !level100,
@@ -205,14 +187,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
       );
       return;
     }
-    // if (fetchingStudentStatus === "success") {
-    //   // navigate("/sensec/admin/students");
-    //   toast.success(studentSuccessMessage, {
-    //     position: "top-right",
-    //     theme: "dark",
-    //     // toastId: successId,
-    //   });
-    // }
   }, [
     studentError,
     studentSuccessMessage,
@@ -238,8 +212,6 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           <SearchIcon className="searchIcon" />
         </button>
       </form>
-      {/* <button onClick={() => dispatch(fetchStudents())}>Students</button> */}
-      {/* <div>{renderStudents}</div> */}
       <div className="totalStudentsWrap">
         <div className="addTeacherBtn">
           <button onClick={() => navigate("/sensec/admin/student_enrollment")}>
@@ -301,7 +273,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
               </span>
             </div>
           )}
-          {level100 ? (
+          {level100 && (
             <>
               <h3>Level 100 Students / Total = {classLevel100.length}</h3>
               <DataTable
@@ -311,7 +283,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                 pagination
               />
             </>
-          ) : level200 ? (
+          )}{" "}
+          {level200 && (
             <>
               <h3>Level 200 Students / Total = {classLevel200.length}</h3>
               <DataTable
@@ -321,7 +294,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                 pagination
               />
             </>
-          ) : level300 ? (
+          )}{" "}
+          {level300 && (
             <>
               <h3>Level 300 Students / Total = {classLevel300.length}</h3>
               <DataTable
@@ -331,7 +305,8 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                 pagination
               />
             </>
-          ) : isGraduated ? (
+          )}
+          {isGraduated && (
             <>
               <h3>Graduated Students / Total = {allGraduates.length}</h3>
               <DataTable
@@ -341,146 +316,19 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                 pagination
               />
             </>
-          ) : (
-            <DataTable
-              columns={studentColumn}
-              data={allStudents}
-              customStyles={customStyle}
-              pagination
-            />
           )}
-          {/* <div className="studentWrapper">
-            {allStudents &&
-              allStudents.map((student) => (
-                <div key={student._id}>
-                  <div
-                    className="student"
-                    onClick={() => {
-                      setOpen(true);
-                      // navigate(
-                      //   `/sensec/admin/students/${student.firstName}`
-                      // );
-                    }}
-                  >
-                    <EditButton
-                      setNewStudent={setNewStudent}
-                      firstName={student.firstName}
-                      lastName={student.lastName}
-                      studentId={student._id}
-                      student={student}
-                    />
-                    <div
-                      className={
-                        student.level === "1"
-                          ? "firstYearTag"
-                          : student.level === "2"
-                          ? "secondYearTag"
-                          : "thirdYearTag"
-                      }
-                      title={
-                        student.level === "1"
-                          ? "1st Year"
-                          : student.level === "2"
-                          ? "2nd Year"
-                          : "3rd Year"
-                      }
-                    ></div>
-                    <img src={student.profilePicture} alt="" />
-                    <div className="studentInfo">
-                      <div className="left">
-                        <div className="info">
-                          <h4>First Name:</h4>
-                          <p>{student.firstName} </p>
-                        </div>
-                        <div className="info">
-                          <h4>Date of Birth:</h4>
-                          <p>{student.dateOfBirth}</p>
-                        </div>
-                        <div className="info">
-                          <h4>Course Study:</h4>
-                          <p>{student.courseStudy}</p>
-                        </div>
-                      </div>
-                      <div className="right">
-                        <div className="info">
-                          <h4>Surname:</h4>
-                          <p>{student.lastName}</p>
-                        </div>
-                        <div className="info">
-                          <h4>Enrolled Date:</h4>
-                          <p>{format(student.createdAt)}</p>
-                        </div>
-                        <div className="info">
-                          <h4>ID:</h4>
-                          <p>{student.studentId}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {open && student.studentId ? (
-                    <div className="modal" onClick={handleModalClose}>
-                      <div
-                        className="modalContent"
-                        onClick={() => {
-                          setOpen(true);
-                        }}
-                      >
-                        <img
-                          src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                          alt=""
-                        />
-                        <div className="studentInfo">
-                          <div className="left">
-                            <div className="info">
-                              <h4>First Name:</h4>
-                              <p>{student.firstName}</p>
-                            </div>
-                            <div className="info">
-                              <h4>Surname:</h4>
-                              <p>{student.lastName}</p>
-                            </div>
-                            <div className="info">
-                              <h4>Date of Birth:</h4>
-                              <p>{student.dateOfBirth}</p>
-                            </div>
-                          </div>
-                          <div className="middle">
-                            <div className="info">
-                              <h4>Home Town:</h4>
-                              <p>{student.homeTown}</p>
-                            </div>
-                            <div className="info">
-                              <h4>Mother Tongue:</h4>
-                              <p>{student.motherTongue}</p>
-                            </div>
-                            <div className="info">
-                              <h4>Course Study:</h4>
-                              <p>{student.courseStudy}</p>
-                            </div>
-                          </div>
-                          <div className="right">
-                            <div className="info">
-                              <h4>Religion:</h4>
-                              <p>{student.religion}</p>
-                            </div>
-                            <div className="info">
-                              <h4>Enrolled Date:</h4>
-                              <p>{student.registedDate}</p>
-                            </div>
-                            <div className="info">
-                              <h4>ID:</h4>
-                              <p>{student.studentId}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              ))}
-          </div> */}
+          {allStudents &&
+            !level100 &&
+            !level200 &&
+            !level300 &&
+            !isGraduated && (
+              <DataTable
+                columns={studentColumn}
+                data={allStudents}
+                customStyles={customStyle}
+                pagination
+              />
+            )}
         </div>
       </div>
     </div>

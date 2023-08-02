@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   academicTermOptions,
   academicYearOptions,
+  classLevelOptions,
   programOptions,
 } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
@@ -22,8 +23,11 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
   const [electiveSubject, setElectiveSubject] = useState({
     name: "",
     description: "",
+    teacher: "",
+    classLevel: "",
     academicTerm: "",
     program: "",
+    isElectiveSubject: "",
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     adminId: authAdminInfo.adminId,
   });
@@ -45,7 +49,10 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
     formData.append("name", electiveSubject.name);
     formData.append("description", electiveSubject.description);
     formData.append("academicTerm", electiveSubject.academicTerm);
+    formData.append("teacher", electiveSubject.teacher);
+    formData.append("classLevel", electiveSubject.classLevel);
     formData.append("program", electiveSubject.program);
+    formData.append("isElectiveSubject", electiveSubject.isElectiveSubject);
     formData.append("createdBy", electiveSubject.createdBy);
     formData.append("adminId", electiveSubject.adminId);
     dispatch(createElectiveSubject(electiveSubject));
@@ -72,11 +79,11 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
     }
   }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
 
-  // setTimeout(() => {
-  //   if (createStatus === "success") {
-  //     navigate("#");
-  //   }
-  // }, 2000);
+  setTimeout(() => {
+    if (createStatus === "success") {
+      window.location.reload();
+    }
+  }, 5000);
   return (
     <div className="formWrap">
       <h3>Elective Subject Form</h3>
@@ -101,8 +108,37 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
             value={electiveSubject.description}
           />
         </div>
+        <div className="inputField">
+          <label htmlFor="teacher">Teacher's Id</label>
+          <input
+            type="text"
+            name="teacher"
+            onChange={handleInputValues}
+            placeholder=""
+            value={electiveSubject.teacher}
+          />
+        </div>
         <div className="selector">
-          <label htmlFor="academicTerm">Academic Term</label>
+          <label htmlFor="classLevel">Class Level</label>
+          <select
+            className="select"
+            value={electiveSubject.classLevel}
+            onChange={handleInputValues}
+            name="classLevel"
+          >
+            {classLevelOptions.map((term) => (
+              <option
+                key={term.label}
+                value={term.value}
+                className="selectOptions"
+              >
+                {term.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
+          <label htmlFor="classLevel">Academic Term</label>
           <select
             className="select"
             value={electiveSubject.academicTerm}

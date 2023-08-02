@@ -29,7 +29,6 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     dateOfBirth: "",
     placeOfBirth: "",
     nationality: "",
-    teacherSecret: "",
     program: "",
     teachingSubject: "",
     password: `${currentYear}-${num}`,
@@ -130,7 +129,6 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     formData.append("teacherId", newTeacher.teacherId);
     formData.append("teacherSecret", newTeacher.teacherSecret);
     formData.append("program", newTeacher.program);
-    formData.append("teachingSubject", newTeacher.teachingSubject);
     formData.append("isMale", newTeacher.isMale);
     formData.append("profilePicture", newTeacher.profilePicture);
     formData.append("address", newTeacher.address);
@@ -340,15 +338,6 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 onChange={handleInputValues}
                 name="nationality"
                 value={newTeacher.nationality}
-              />
-            </div>
-            <div className="inputField">
-              <label htmlFor="teachingSubject">Subject Teaching</label>
-              <input
-                type="text"
-                onChange={handleInputValues}
-                name="teachingSubject"
-                value={newTeacher.teachingSubject}
               />
             </div>
             <div className="inputField">

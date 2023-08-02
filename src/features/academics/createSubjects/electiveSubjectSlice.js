@@ -16,7 +16,7 @@ export const createElectiveSubject = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${API_ENDPOINT}/admins/academics/add_subject`,
+        `${API_ENDPOINT}/admins/subjects/add_elective_subject`,
         data
       );
       console.log(res.data);
@@ -29,10 +29,10 @@ export const createElectiveSubject = createAsyncThunk(
 );
 
 export const fetchAllElectiveSubjects = createAsyncThunk(
-  "Admin/fetchAllElectiveSubjects",
+  "Academics/fetchAllElectiveSubjects",
   async () => {
     const response = await axios.get(
-      `${API_ENDPOINT}/admins/academics/get_all_electiveSubjects`
+      `${API_ENDPOINT}/admins/subjects/get_all_elective_subjects`
     );
     // const students = response.data;
     console.log(response.data);
@@ -40,10 +40,10 @@ export const fetchAllElectiveSubjects = createAsyncThunk(
   }
 );
 export const fetchSingleElectiveSubject = createAsyncThunk(
-  "Admin/fetchSingleElectiveSubject",
+  "Academics/fetchSingleElectiveSubject",
   async (ElectiveSubjectName) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/admins/academics/single_electiveSubject/${ElectiveSubjectName}`
+      `${API_ENDPOINT}/admins/subjects/single_elective_subject/${ElectiveSubjectName}`
     );
     // const students = response.data;
     console.log(response.data);
@@ -56,14 +56,14 @@ const academicsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createElectiveSubject.pending, (state, action) => {
+    builder.addCase(createElectiveSubject.pending, (state) => {
       return { ...state, createStatus: "pending" };
     });
     builder.addCase(createElectiveSubject.fulfilled, (state, action) => {
       if (action.payload) {
         return {
           ...state,
-          ElectiveSubjectInfo: action.payload.ElectiveSubject,
+          ElectiveSubjectInfo: action.payload.electiveSubject,
           successMessage: action.payload.successMessage,
           createStatus: "success",
           error: "",

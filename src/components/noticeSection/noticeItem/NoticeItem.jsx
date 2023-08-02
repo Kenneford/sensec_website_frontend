@@ -82,7 +82,7 @@ export default function NoticeItem({
             </span>
             {/* <span className="postDate">{post.date}</span> */}
           </div>
-          {userInfo.role === "Admin" && (
+          {userInfo.isAdmin && (
             <div>
               <div
                 className="postTopRight"

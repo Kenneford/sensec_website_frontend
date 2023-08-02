@@ -276,6 +276,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
   setTimeout(() => {
     if (registerStudentStatus === "success") {
       navigate("/sensec/admin/students/add_parents_guardian");
+      window.location.reload();
     }
   }, 2000);
 

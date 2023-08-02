@@ -28,6 +28,18 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
   // const staffInfo = true;
   const authAdminInfo = useSelector(getAdminInfo);
   const staffInfo = useSelector(getStaffInfo);
+
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
+
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -80;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
+
   return (
     <div id="admin">
       <div className="adminWrap">
@@ -101,8 +113,10 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Attendance</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/general_announcement/#notice"}
+                to={"/sensec/general_announcement/#generalNotice"}
                 className="links"
+                smooth
+                scroll={scrollWithOffset}
               >
                 <CampaignOutlinedIcon />
                 <h4>Notice</h4>

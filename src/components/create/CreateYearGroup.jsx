@@ -76,7 +76,7 @@ export default function CreateYearGroup({ toast, toastOptions }) {
 
   setTimeout(() => {
     if (createStatus === "success") {
-      navigate("#");
+      window.location.reload();
     }
   }, 2000);
 
