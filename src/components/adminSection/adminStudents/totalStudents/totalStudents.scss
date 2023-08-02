@@ -114,10 +114,19 @@
         }
       }
       .editLink {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-decoration: none;
-        color: orange;
-        font-size: 1rem;
+        color: grey;
+        font-size: 0.9rem;
         font-weight: 600;
+      }
+      .isGraduatedLink {
+        text-decoration: none;
+        color: #aeabab;
+        // font-size: 1rem;
+        font-weight: 400;
       }
       .studentImg {
         width: 3rem;
@@ -145,6 +154,9 @@
         height: 1rem;
         background-color: rgb(6, 205, 72);
         border-radius: 50%;
+      }
+      .isGraduated {
+        width: 100%;
       }
       .studentWrapper {
         position: relative;

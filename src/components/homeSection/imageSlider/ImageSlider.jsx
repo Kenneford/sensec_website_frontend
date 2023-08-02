@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import SwiperNavBtn from "./SwiperNavBtn";
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { HashLink } from "react-router-hash-link";
 
 export default function ImageSlider({ slides }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -141,7 +142,32 @@ export default function ImageSlider({ slides }) {
           <motion.h3 initial={"off"} whileInView={"on"} variants={animate2}>
             Our Library is fully resourced with all the needs of our Students.
           </motion.h3>
-          <Link to={"#"}>
+          <Link to={"/sensec/school_library#library"}>
+            <motion.button
+              className="appointmentBtn"
+              initial={"off"}
+              whileInView={"on"}
+              variants={animate}
+            >
+              Read More
+            </motion.button>
+          </Link>
+        </div>
+      </SwiperSlide>
+      <SwiperSlide
+        className="slideCont"
+        style={{
+          backgroundImage: `url("https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80")`,
+        }}
+      >
+        <div className="overlay">
+          <motion.h1 initial={"off"} whileInView={"on"} variants={animate1}>
+            IT Department
+          </motion.h1>
+          <motion.h3 initial={"off"} whileInView={"on"} variants={animate2}>
+            All you need to know about our IT department.
+          </motion.h3>
+          <Link to={"/sensec/school_IT_department#it"}>
             <motion.button
               className="appointmentBtn"
               initial={"off"}
@@ -166,7 +192,7 @@ export default function ImageSlider({ slides }) {
           <motion.h3 initial={"off"} whileInView={"on"} variants={animate2}>
             # 1 School Cadet in Ghana handled by top military officials.
           </motion.h3>
-          <Link to={"#"}>
+          <HashLink to={"/sensec/school_cadet#schoolCadet"}>
             <motion.button
               className="appointmentBtn"
               initial={"off"}
@@ -175,7 +201,7 @@ export default function ImageSlider({ slides }) {
             >
               Discover More
             </motion.button>
-          </Link>
+          </HashLink>
         </div>
       </SwiperSlide>
       <SwiperNavBtn />

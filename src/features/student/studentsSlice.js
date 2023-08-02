@@ -5,6 +5,7 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 
 const initialState = {
   allStudents: [],
+  allGraduates: [],
   studentInfo: "",
   studentParentInfo: "",
   studentGuardianInfo: "",
@@ -99,8 +100,60 @@ export const studentUpdate = createAsyncThunk(
   "Student/studentUpdate",
   async (student, id, name, { rejectWithValue }) => {
     try {
+      // const {
+      //   firstName,
+      //   lastName,
+      //   dateOfBirth,
+      //   placeOfBirth,
+      //   nationality,
+      //   email,
+      //   program,
+      //   updatedBy,
+      //   updatedByAdminId,
+      //   academicYear,
+      //   currentClassLevel,
+      //   role,
+      //   gender,
+      //   address,
+      //   currentCity,
+      //   homeTown,
+      //   region,
+      //   religion,
+      //   height,
+      //   weight,
+      //   motherTongue,
+      //   otherTongue,
+      //   complexion,
+      //   updatedDate,
+      // } = student;
       const res = await axios.put(
         `${API_ENDPOINT}/students/update_student/${name}/${id}/admin`,
+        // {
+        //   firstName,
+        //   lastName,
+        //   dateOfBirth,
+        //   placeOfBirth,
+        //   nationality,
+        //   email,
+        //   program,
+        //   updatedBy,
+        //   updatedByAdminId,
+        //   academicYear,
+        //   currentClassLevel,
+        //   role,
+        //   gender,
+        //   address,
+        //   currentCity,
+        //   homeTown,
+        //   region,
+        //   religion,
+        //   height,
+        //   weight,
+        //   motherTongue,
+        //   otherTongue,
+        //   complexion,
+        //   updatedDate,
+        // }
         {
           student,
         }
@@ -109,7 +162,7 @@ export const studentUpdate = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error.response.data);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -120,7 +173,6 @@ export const studentLogin = createAsyncThunk(
     try {
       const res = await axios.post(`${API_ENDPOINT}/students/login/`, data);
       console.log("Student", res.data);
-      //   localStorage.setItem("user", res.data);
       localStorage.setItem("studentToken", res.data.token);
       return res.data;
     } catch (error) {
@@ -136,7 +188,17 @@ export const fetchStudents = createAsyncThunk(
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_all_students`
     );
-    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
+
+export const fetchGraduates = createAsyncThunk(
+  "Student/fetchGraduates",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/get_all_graduates`
+    );
     console.log(response.data);
     return response.data;
   }
@@ -147,7 +209,6 @@ export const fetchSingleStudent = createAsyncThunk(
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_single_student/${studentId}`
     );
-    // const students = response.data;
     console.log(response.data);
     return response.data;
   }
@@ -159,7 +220,6 @@ export const studentSearch = createAsyncThunk(
     const response = await axios.get(
       `${API_ENDPOINT}/students/search_student?student_name=${student_name}`
     );
-    // const students = response.data;
     console.log(response.data);
     return response.data;
   }
@@ -295,7 +355,6 @@ const studentSlice = createSlice({
       return {
         ...state,
         loginStudentStatus: "rejected",
-        // error: "Authentication failed! Please check your input values!",
         studentError: action.payload,
       };
     });
@@ -305,7 +364,6 @@ const studentSlice = createSlice({
     });
     builder.addCase(fetchStudents.fulfilled, (state, action) => {
       if (action.payload) {
-        // const student = tokenDecoded(action.payload);
         return {
           ...state,
           allStudents: action.payload.students,
@@ -323,12 +381,32 @@ const studentSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchGraduates.pending, (state, action) => {
+      return { ...state, fetchingGraduatesStatus: "pending" };
+    });
+    builder.addCase(fetchGraduates.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allGraduates: action.payload.graduatedStudents,
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingGraduatesStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchGraduates.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingGraduatesStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(fetchSingleStudent.pending, (state, action) => {
       return { ...state, fetchingSingleStudentStatus: "pending" };
     });
     builder.addCase(fetchSingleStudent.fulfilled, (state, action) => {
       if (action.payload) {
-        // const student = tokenDecoded(action.payload);
         return {
           ...state,
           studentInfo: action.payload.student,
@@ -350,7 +428,6 @@ const studentSlice = createSlice({
     });
     builder.addCase(studentSearch.fulfilled, (state, action) => {
       if (action.payload) {
-        // const student = tokenDecoded(action.payload);
         return {
           ...state,
           allStudents: action.payload.student,
@@ -371,6 +448,7 @@ const studentSlice = createSlice({
 });
 
 export const getAllStudents = (state) => state.student.allStudents;
+export const getAllGraduates = (state) => state.student.allGraduates;
 export const getStudentInfo = (state) => state.student.studentInfo;
 
 export const { registeredStudents, studentLogout } = studentSlice.actions;

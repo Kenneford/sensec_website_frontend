@@ -229,13 +229,40 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
       return;
     }
     if (registerStudentStatus === "success") {
-      // navigate("/sensec/admin/all_students");
+      setNewStudent({
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        placeOfBirth: "",
+        nationality: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+        studentId: "",
+        academicYear: "",
+        program: "",
+        role: "",
+        studentRegistrar: "",
+        studentRegistrarId: "",
+        currentClassLevel: "",
+        gender: "",
+        profilePicture: "",
+        address: "",
+        currentCity: "",
+        homeTown: "",
+        region: "",
+        religion: "",
+        height: "",
+        weight: "",
+        motherTongue: "",
+        otherTongue: "",
+        complexion: "",
+      });
       toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/sensec/admin/students/add_parents_guardian");
     }
   }, [
     studentError,
@@ -245,6 +272,12 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     toastOptions,
     navigate,
   ]);
+
+  setTimeout(() => {
+    if (registerStudentStatus === "success") {
+      navigate("/sensec/admin/students/add_parents_guardian");
+    }
+  }, 2000);
 
   const copyToClipboard = (e) => {
     e.preventDefault();

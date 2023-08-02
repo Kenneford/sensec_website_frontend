@@ -1,7 +1,13 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_ENDPOINT } from "../apiEndPoint/api";
+import { useSelector } from "react-redux";
+import { getStudentInfo } from "../features/student/studentsSlice";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const programOptions = [
-  { value: "None", label: "None" },
+  { value: "Select", label: "Select" },
   { value: "64bc5b7d24b0183b8ede8957", label: "Agriculture Science" },
   { value: "64bc5ba624b0183b8ede895d", label: "Science" },
   { value: "64bc5bbe24b0183b8ede8963", label: "Home Economics" },
@@ -14,6 +20,12 @@ export const academicYearOptions = [
   { value: "64bc5acd24b0183b8ede8933", label: "2023-2026" },
   { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
   { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
+];
+export const academicTermOptions = [
+  { value: "Select Year", label: "Select" },
+  { value: "64af0734f3dece9edfe0e208", label: "First Term" },
+  { value: "64b2e4ce756a5a8432cf5df1", label: "Second Term" },
+  { value: "64b2e4e1756a5a8432cf5df7", label: "Third Term" },
 ];
 
 export const classLevelOptions = [
@@ -76,8 +88,23 @@ export const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Male", label: "Male" },
   { value: "Female", label: "Female" },
-  { value: "Transgender", label: "Transgender" },
 ];
+
+const handlePromotionTo200 = async () => {
+  // const studentInfo = useSelector(getStudentInfo);
+  // if (userInfo) {
+  //   try {
+  //     await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
+  //       userId: userInfo.id,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // } else {
+  //   return;
+  // }
+};
+const handlePromotion = () => {};
 
 export const studentColumn = [
   {
@@ -126,7 +153,7 @@ export const studentColumn = [
   {
     name: "Level",
     selector: (row) =>
-      row.currentClassLevel ? (
+      row.currentClassLevel && (
         <>
           {row.currentClassLevel.name === "Level 100" && (
             <div className="firstYearTag" title="1st Year"></div>
@@ -134,12 +161,85 @@ export const studentColumn = [
           {row.currentClassLevel.name === "Level 200" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 300" && (
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
+          {row.isGraduated && (
+            <div className="isGraduated" title="Graduated">
+              <SchoolOutlinedIcon />
+            </div>
+          )}
         </>
-      ) : (
-        "Unknown"
+      ),
+  },
+  {
+    name: "Promote",
+    selector: (row) =>
+      row.currentClassLevel && (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_200/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L200
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_300/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L300
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/isgraduated/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
+              Graduate
+            </Link>
+          )}
+          {row.isGraduated && (
+            <Link
+              className="editLink"
+              onClick={handlePromotion}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              Graduated
+            </Link>
+          )}
+        </>
       ),
   },
   {
@@ -149,21 +249,161 @@ export const studentColumn = [
         className="editLink"
         to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
       >
-        Edit
+        <EditIcon />
       </Link>
     ),
-    // cell: (props) => (
-    //   <Link
-    //     to={`/sensec/admin/edit_student/${row.id}`}
-    //     onClick={() => {
-    //       clickHandler(props);
-    //     }}
-    //   >
-    //     Edit
-    //   </Link>
-    // ),
   },
 ];
+
+export const graduatesColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}`}
+          title="View Student Info"
+        >
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Program",
+    selector: (row) =>
+      row.courseStudy
+        ? row.courseStudy
+        : row.program
+        ? row.program.name
+        : "Unknown",
+  },
+  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
+  {
+    name: "Batch",
+    selector: (row) =>
+      row.academicYear
+        ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+        : "Unknown",
+  },
+  {
+    name: "Level",
+    selector: (row) =>
+      row.currentClassLevel && (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <div className="firstYearTag" title="1st Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <div className="secondYearTag" title="2nd Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+            <div className="thirdYearTag" title="3rd Year"></div>
+          )}
+          {row.isGraduated && (
+            <div className="isGraduated" title="Graduated">
+              <SchoolOutlinedIcon />
+            </div>
+          )}
+        </>
+      ),
+  },
+  {
+    name: "Promote",
+    selector: (row) =>
+      row.currentClassLevel && (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_200/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L200
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_300/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L300
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+            <Link
+              className="graduatedLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/isgraduated/${row._id}`
+                  );
+                  window.location.reload();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
+              Graduate
+            </Link>
+          )}
+          {row.isGraduated && (
+            <Link
+              className="isGraduatedLink"
+              onClick={handlePromotion}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              Graduated
+            </Link>
+          )}
+        </>
+      ),
+  },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+      >
+        <EditIcon />
+      </Link>
+    ),
+  },
+];
+
 export const studentProgramColumn = [
   {
     name: "Image",

@@ -12,9 +12,11 @@ import {
   getStudentInfo,
   studentSearch,
   getAllStudents,
+  fetchGraduates,
+  getAllGraduates,
 } from "../../../../features/student/studentsSlice";
 import { getAllStaffs } from "../../../../features/staff/staffSlice";
-import { studentColumn } from "../../../../options/options";
+import { graduatesColumn, studentColumn } from "../../../../options/options";
 import {
   fetchClassLevel100,
   fetchClassLevel200,
@@ -39,6 +41,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const allStudents = useSelector(getAllStudents);
+  const allGraduates = useSelector(getAllGraduates);
   const studentInfo = useSelector(getStudentInfo);
   const staffs = useSelector(getAllStaffs);
   const allClassLevels = useSelector(getAllClassLevels);
@@ -48,6 +51,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   const [level100, setLevel100] = useState(false);
   const [level200, setLevel200] = useState(false);
   const [level300, setLevel300] = useState(false);
+  const [isGraduated, setIsGraduated] = useState(false);
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -112,7 +116,12 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
   //   (std) => std.studentId === studentId.studentId
   // );
   const handleFirstYears = () => {
-    setLevel100(!level100, setLevel200(false), setLevel300(false));
+    setLevel100(
+      !level100,
+      setLevel200(false),
+      setLevel300(false),
+      setIsGraduated(false)
+    );
     if (!level100) {
       navigate(`/sensec/admin/students?batch=1st_Years`);
     } else {
@@ -120,7 +129,12 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     }
   };
   const handleSecondYears = () => {
-    setLevel200(!level200, setLevel100(false), setLevel300(false));
+    setLevel200(
+      !level200,
+      setLevel100(false),
+      setLevel300(false),
+      setIsGraduated(false)
+    );
     if (!level200) {
       navigate(`/sensec/admin/students?batch=2nd_Years`);
     } else {
@@ -128,9 +142,27 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     }
   };
   const handleThirdYears = () => {
-    setLevel300(!level300, setLevel100(false), setLevel200(false));
+    setLevel300(
+      !level300,
+      setLevel100(false),
+      setLevel200(false),
+      setIsGraduated(false)
+    );
     if (!level300) {
       navigate(`/sensec/admin/students?batch=3rd_Years`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleOldStudents = () => {
+    setIsGraduated(
+      !isGraduated,
+      setLevel100(false),
+      setLevel200(false),
+      setLevel300(false)
+    );
+    if (!isGraduated) {
+      navigate(`/sensec/admin/students?old_students`);
     } else {
       navigate(`/sensec/admin/students`);
     }
@@ -149,6 +181,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
     dispatch(fetchClassLevel100());
     dispatch(fetchClassLevel200());
     dispatch(fetchClassLevel300());
+    dispatch(fetchGraduates());
   }, [dispatch]);
 
   useEffect(() => {
@@ -240,7 +273,7 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
           </button>
         )}
         <div className="totalStudentsCont">
-          {allStudents.length !== 0 && (
+          {allStudents && (
             <div className="batches">
               <span
                 onClick={handleFirstYears}
@@ -259,6 +292,12 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
                 className={level300 && "greenBackground"}
               >
                 3rd Years
+              </span>
+              <span
+                onClick={handleOldStudents}
+                className={isGraduated && "greenBackground"}
+              >
+                Past Students
               </span>
             </div>
           )}
@@ -288,6 +327,16 @@ export default function TotalStudents({ setNewStudent, toast, toastOptions }) {
               <DataTable
                 columns={studentColumn}
                 data={classLevel300}
+                customStyles={customStyle}
+                pagination
+              />
+            </>
+          ) : isGraduated ? (
+            <>
+              <h3>Graduated Students / Total = {allGraduates.length}</h3>
+              <DataTable
+                columns={graduatesColumn}
+                data={allGraduates}
                 customStyles={customStyle}
                 pagination
               />

@@ -65,33 +65,33 @@ export default function StudentParentGuardian({ toast, toastOptions }) {
     Boolean(newParent.phoneNumber);
   console.log(canSave);
 
-  useEffect(() => {
-    if (createParentStatus === "rejected") {
-      studentError.errorMessage.message.map((err) =>
-        toast.error(err, {
-          position: "top-right",
-          theme: "light",
-          // toastId: successId,
-        })
-      );
-      return;
-    }
-    if (createParentStatus === "success") {
-      toast.success(studentSuccessMessage, {
-        position: "top-right",
-        theme: "dark",
-        // toastId: successId,
-      });
-      navigate("/sensec/admin/students");
-    }
-  }, [
-    createParentStatus,
-    studentError,
-    studentSuccessMessage,
-    toast,
-    toastOptions,
-    navigate,
-  ]);
+  // useEffect(() => {
+  //   if (createParentStatus === "rejected") {
+  //     studentError.errorMessage.message.map((err) =>
+  //       toast.error(err, {
+  //         position: "top-right",
+  //         theme: "light",
+  //         // toastId: successId,
+  //       })
+  //     );
+  //     return;
+  //   }
+  //   if (createParentStatus === "success") {
+  //     toast.success(studentSuccessMessage, {
+  //       position: "top-right",
+  //       theme: "dark",
+  //       // toastId: successId,
+  //     });
+  //     navigate("/sensec/admin/students");
+  //   }
+  // }, [
+  //   createParentStatus,
+  //   studentError,
+  //   studentSuccessMessage,
+  //   toast,
+  //   toastOptions,
+  //   navigate,
+  // ]);
 
   return (
     <div className="parentsWrap">

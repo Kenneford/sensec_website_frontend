@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./studentDashboard.scss";
 import TvIcon from "@mui/icons-material/Tv";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
@@ -23,17 +23,28 @@ import DashBoardNav from "../../../components/navBar/DashBoardNav";
 // import { logoutStudent } from "../../../store/actions/authActions";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
+import {
+  fetchSingleStudent,
+  getStudentInfo,
+} from "../../../features/student/studentsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function StudentDashBoard({
   openSidebar,
   toggleSidebar,
-  studentInfo,
+  // studentInfo,
 }) {
-  // const studentInfo = useSelector(getStudentInfo);
+  const studentInfo = useSelector(getStudentInfo);
+  // const singleStudent = useSelector(getSingleStudent);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // const studentInfo = true;
   const owing = false;
   console.log(studentInfo);
+
+  useEffect(() => {
+    dispatch(fetchSingleStudent(studentInfo.studentId));
+  }, [dispatch, studentInfo.studentId]);
 
   return (
     <div id="student">
@@ -62,9 +73,10 @@ export default function StudentDashBoard({
               />
               <div className="infoText">
                 <span>
-                  {studentInfo.isMale ? "Bro." : "Sis."} {studentInfo.lastName}
+                  {studentInfo.gender === "Male" ? "Bro." : "Sis."}{" "}
+                  {studentInfo.lastName}
                 </span>
-                <p>( {studentInfo.courseStudy} Student )</p>
+                <p>( {studentInfo.program.name} Student )</p>
               </div>
             </div>
             {/* <div className="adminInfo">

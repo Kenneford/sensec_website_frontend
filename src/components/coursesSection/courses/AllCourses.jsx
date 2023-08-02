@@ -15,7 +15,7 @@ export default function AllCourses() {
       </div>
       <div className="coursesCont">
         <div className="coursesLeft">
-          <div className="course">
+          <div className="course" id="agriculture">
             <h1 className="title">Agriculture</h1>
             <img
               src="https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -33,7 +33,7 @@ export default function AllCourses() {
               <button>Learn More</button>
             </Link>
           </div>
-          <div className="course">
+          <div className="course" id="visualArt">
             <h1 className="title">Visual Art</h1>
             <img
               src="https://images.unsplash.com/photo-1525254646234-87ffe274c810?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -51,7 +51,7 @@ export default function AllCourses() {
               <button>Learn More</button>
             </Link>
           </div>
-          <div className="course">
+          <div className="course" id="science">
             <h1 className="title">Science</h1>
             <img
               src="https://images.unsplash.com/photo-1617155093730-a8bf47be792d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -71,7 +71,7 @@ export default function AllCourses() {
           </div>
         </div>
         <div className="coursesRight">
-          <div className="course">
+          <div className="course" id="business">
             <div className="img">
               <h1>Business</h1>
               <img
@@ -91,7 +91,7 @@ export default function AllCourses() {
               <button>Learn More</button>
             </Link>
           </div>
-          <div className="course">
+          <div className="course" id="generalArt">
             <div className="img">
               <h1>General Art</h1>
               <img
@@ -111,7 +111,7 @@ export default function AllCourses() {
               <button>Learn More</button>
             </Link>
           </div>
-          <div className="course">
+          <div className="course" id="homeEconomics">
             <div className="img">
               <h1>Home Economics</h1>
               <img

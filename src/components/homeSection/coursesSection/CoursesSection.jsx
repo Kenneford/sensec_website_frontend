@@ -3,8 +3,24 @@ import { Link } from "react-router-dom";
 import "./courses.scss";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { HashLink } from "react-router-hash-link";
 
 export default function CoursesSection() {
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -80;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
+  const scrollWithOffset1 = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -160;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
+
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
   return (
     <div className="courseWrap">
       <div className="courseSecHeader">
@@ -27,29 +43,37 @@ export default function CoursesSection() {
               ever since the 1500s,
             </p>
           </div>
-          <Link to={"/sensec/courses"}>
+          <HashLink
+            to={"/sensec/courses#business"}
+            smooth
+            scroll={scrollWithOffset}
+          >
             <button className="courseBtn">Learn More</button>
-          </Link>
+          </HashLink>
         </div>
         <div className="courseCard">
           <div className="courseImgWrap">
             <img
-              src="/assets/images/home-img/coding.jpg"
+              src="https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
               alt=""
               className="courseImg"
             />
           </div>
           <div className="courseInfo">
-            <h4>Computer Programming</h4>
+            <h4>Agriculture Science</h4>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s,
             </p>
           </div>
-          <Link to={"/sensec/courses"}>
+          <HashLink
+            to={"/sensec/courses#agriculture"}
+            smooth
+            scroll={scrollWithOffset1}
+          >
             <button className="courseBtn">Learn More</button>
-          </Link>
+          </HashLink>
         </div>
         <div className="courseCard">
           <div className="courseImgWrap">
@@ -67,9 +91,13 @@ export default function CoursesSection() {
               ever since the 1500s,
             </p>
           </div>
-          <Link to={"/sensec/courses"}>
+          <HashLink
+            to={"/sensec/courses#homeEconomics"}
+            smooth
+            scroll={scrollWithOffset}
+          >
             <button className="courseBtn">Learn More</button>
-          </Link>
+          </HashLink>
         </div>
       </div>
     </div>

@@ -78,12 +78,19 @@ export default function StudentParents({ toast, toastOptions }) {
       return;
     }
     if (createParentStatus === "success") {
+      setNewParent({
+        studentId: "",
+        fatherName: "",
+        motherName: "",
+        email: "",
+        address: "",
+        phoneNumber: "",
+      });
       toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/sensec/admin/students");
     }
   }, [
     createParentStatus,
@@ -93,6 +100,12 @@ export default function StudentParents({ toast, toastOptions }) {
     toastOptions,
     navigate,
   ]);
+
+  setTimeout(() => {
+    if (createParentStatus === "success") {
+      navigate("/sensec/admin/students");
+    }
+  }, 2000);
 
   return (
     <form onSubmit={handleRegister} className="form">

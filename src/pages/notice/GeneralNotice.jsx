@@ -15,6 +15,10 @@ import TvIcon from "@mui/icons-material/Tv";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 import { HashLink } from "react-router-hash-link";
 import LogoutBtn from "../../components/logoutBtn/LogoutBtn";
@@ -70,63 +74,50 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                 </div>
               </div>
               <div className="contentLinks">
-                <HashLink
-                  to={"/sensec/admin"}
-                  className="links"
-                  title={openSidebar ? "Dashboard" : ""}
-                >
-                  <TvIcon />
+                <HashLink to={"/sensec/admin"} className="links">
+                  <TvIcon className="icon" />
                   <h4>Dashboard</h4>
                 </HashLink>
-                <HashLink
-                  to={"/sensec/admin/school_staff"}
-                  className="links"
-                  title={openSidebar ? "Staff Members" : ""}
-                >
+                <HashLink to={"/sensec/admin/create_data"} className="links">
+                  <ConstructionIcon />
+                  <h4>Create</h4>
+                </HashLink>
+                <HashLink to={"/sensec/admin/all_admins"} className="links">
+                  <AdminPanelSettingsIcon />
+                  <h4>Admins</h4>
+                </HashLink>
+                <HashLink to={"/sensec/admin/staff_members"} className="links">
                   <Diversity3Icon />
                   <h4>Staff Members</h4>
                 </HashLink>
-                <HashLink
-                  to={"/sensec/admin/all_teachers"}
-                  className="links"
-                  title={openSidebar ? "Teachers" : ""}
-                >
+                <HashLink to={"/sensec/admin/all_teachers"} className="links">
                   <div className="teacherIcons">
-                    <PanoramaOutlinedIcon className="tvIcon" />
-                    <PersonIcon
-                      style={{ backgroundColor: "#292929", zIndex: 1 }}
-                    />
+                    <SupervisedUserCircleIcon className="tvIcon" />
+                    {/* <PersonIcon
+                    style={{ backgroundColor: "#292929", zIndex: 1 }}
+                  /> */}
                   </div>
                   <h4>Teachers</h4>
                 </HashLink>
-                <HashLink
-                  to={"/sensec/admin/students"}
-                  className="links"
-                  title={openSidebar ? "Students" : ""}
-                >
+                <HashLink to={"/sensec/admin/students"} className="links">
                   <SchoolOutlinedIcon />
                   <h4>Students</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/admin/students"}
+                  to={"/sensec/admin/programs&subjects"}
                   className="links"
-                  title={openSidebar ? "Courses" : ""}
                 >
-                  <HistoryEduIcon />
-                  <h4>Courses</h4>
+                  <AutoStoriesIcon />
+                  {/* <HistoryEduIcon /> */}
+                  <h4>Programs/Subjects</h4>
                 </HashLink>
-                <HashLink
-                  to={"/sensec/admin/attendance"}
-                  className="links"
-                  title={openSidebar ? "Attendance" : ""}
-                >
+                <HashLink to={"/sensec/admin/attendance"} className="links">
                   <ListAltOutlinedIcon />
                   <h4>Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement"}
+                  to={"/sensec/general_announcement/#notice"}
                   className="links"
-                  title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
                   <h4>Notice</h4>

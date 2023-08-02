@@ -1,0 +1,111 @@
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid #ccc;
+  form {
+    width: 40%;
+    .selector {
+      width: 93.5%;
+      background-color: #383838;
+      // position: relative;
+      display: flex;
+      // gap: 0.5rem;
+      margin: 2rem 1rem;
+      align-items: center;
+      // padding: 10px;
+      // margin-bottom: 2rem;
+      // margin-top: 2rem;
+      font-size: 1em;
+      padding: 0.1rem 0;
+      label {
+        width: 28%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        // padding-left: 0.5rem;
+        color: #fff;
+        font-weight: 400;
+      }
+      .select {
+        width: 70%;
+        height: 2.6rem;
+        font-size: 1em;
+        background-color: #fff;
+        color: #292929;
+        padding: 0.1rem 1rem;
+        font-weight: 100;
+        .selectOptions {
+          background-color: #fff;
+          color: #292929;
+          font-size: 1.1rem;
+        }
+      }
+    }
+    .inputField {
+      position: relative;
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0 1.5rem;
+      align-items: center;
+      label {
+        position: absolute;
+        top: 0rem;
+        left: 1.5rem;
+        background-color: #fff;
+        padding: 0 0.5rem;
+        color: #696969;
+        font-weight: 400;
+      }
+      input {
+        border: 1px solid lightgray;
+        padding: 10px;
+        font-size: 1.1em;
+        border-radius: 3px;
+        width: 100%;
+        // gap: 5rem;
+        margin: 0.5rem 1rem;
+        background-color: transparent;
+        &:focus {
+          background-color: transparent;
+          border: 1px solid #292929cc;
+        }
+      }
+    }
+    .addStudentBtnWrap {
+      display: flex;
+      justify-content: right;
+      padding-right: 1rem;
+      .addStudentBtn {
+        padding: 1rem;
+        font-size: 1.5rem;
+        border-radius: 0.4rem;
+        margin: 1.5rem 0;
+        background-color: green;
+        color: #fff;
+        transition: 0.4s ease;
+        cursor: pointer;
+        &:hover {
+          background-color: rgb(6, 168, 6);
+        }
+      }
+      // float: right;
+    }
+    .addStudentBtn:disabled {
+      //   padding: 1rem;
+      width: 15rem;
+      font-size: 1.5rem;
+      border-radius: 0.4rem;
+      margin: 1.5rem 0;
+      background-color: #cccccc;
+      color: #fff;
+      transition: 0.4s ease;
+      cursor: not-allowed;
+      // &:hover {
+      //   background-color: #e2e1e1cc;
+      // }
+    }
+  }
+}

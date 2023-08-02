@@ -1,26 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { getAdminInfo } from "../../../features/admin/adminsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubject } from "../../../features/academics/academics";
+import { addProgram } from "../../../features/academics/academics";
 
-export default function SubjectsForm({ toast, toastOptions }) {
+export default function Programs({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
   const { addStatus } = useSelector((state) => state.academics);
 
   const dispatch = useDispatch();
-  const [subject, setSubject] = useState({
+  const [program, setProgram] = useState({
     name: "",
     adminId: authAdminInfo.adminId,
     description: "",
-    academicTerm: "",
-    program: "",
     createdBy: authAdminInfo.firstName,
   });
-  console.log(subject);
+  console.log(program);
   const handleInputValues = (e) => {
-    setSubject({
-      ...subject,
+    setProgram({
+      ...program,
       [e.target.name]: e.target.value,
     });
   };
@@ -29,48 +27,36 @@ export default function SubjectsForm({ toast, toastOptions }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", subject.name);
-    formData.append("adminId", subject.adminId);
-    formData.append("description", subject.description);
-    formData.append("academicTerm", subject.academicTerm);
-    formData.append("program", subject.program);
-    formData.append("createdBy", subject.createdBy);
-    dispatch(addSubject(subject));
+    formData.append("name", program.name);
+    formData.append("adminId", program.adminId);
+    formData.append("description", program.description);
+    formData.append("createdBy", program.createdBy);
+    dispatch(addProgram(program));
   };
 
   return (
     <div>
-      <h3>Subjects Form</h3>
+      <h3>Programes Form</h3>
       <div className="formWrap">
         <form onSubmit={handleProgrameAdd}>
+          {/* <div className="inputField">
+            <label htmlFor="adminId">Admin's Id</label>
+            <input
+              type="text"
+              name="adminId"
+              onChange={handleInputValues}
+              placeholder=""
+              value={program.adminId}
+            />
+          </div> */}
           <div className="inputField">
-            <label htmlFor="name">Subject's Name</label>
+            <label htmlFor="name">Program's Name</label>
             <input
               type="text"
               name="name"
               onChange={handleInputValues}
               placeholder=""
-              value={subject.name}
-            />
-          </div>
-          <div className="inputField">
-            <label htmlFor="program">Program</label>
-            <input
-              type="text"
-              name="program"
-              onChange={handleInputValues}
-              placeholder=""
-              value={subject.program}
-            />
-          </div>
-          <div className="inputField">
-            <label htmlFor="academicTerm">Academic Term</label>
-            <input
-              type="text"
-              name="academicTerm"
-              onChange={handleInputValues}
-              placeholder=""
-              value={subject.academicTerm}
+              value={program.name}
             />
           </div>
           <div className="inputField">
@@ -80,7 +66,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
               name="description"
               onChange={handleInputValues}
               placeholder=""
-              value={subject.description}
+              value={program.description}
             />
           </div>
           {/* <div className="inputField">
@@ -90,7 +76,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
               name="createdBy"
               onChange={handleInputValues}
               placeholder=""
-              value={subject.createdBy}
+              value={program.createdBy}
             />
           </div> */}
           <div className="addStudentBtnWrap">
@@ -102,7 +88,7 @@ export default function SubjectsForm({ toast, toastOptions }) {
               {addStatus === "pending" ? (
                 <CircularProgress style={{ color: "white", size: "20px" }} />
               ) : (
-                "Add Subject"
+                "Add Program"
               )}
             </button>
           </div>
