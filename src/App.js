@@ -50,6 +50,12 @@ import ProgramOverView from "./pages/programOverView/ProgramOverView";
 import SubjectOverView from "./pages/subjectOverView/SubjectOverView";
 import AdminAttendance from "./components/adminSection/adminAttendance/AdminAttendance";
 import TeacherAttendance from "./components/teacherSection/attendanceTeacher/TeacherAttendance";
+import Library from "./pages/library/Library";
+import Cadet from "./pages/cadet/Cadet";
+import ITDepartment from "./pages/IT/ITDepartment";
+import Facilities from "./pages/facilities/Facilities";
+import FacilityOverview from "./pages/facilities/facilityOverview/FacilityOverview";
+import CreateNewData from "./pages/createData/CreateNewData";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -120,6 +126,14 @@ export default function App() {
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/contact" element={<Contact />} />
+        <Route path="/sensec/school_library" element={<Library />} />
+        <Route path="/sensec/school_cadet" element={<Cadet />} />
+        <Route path="/sensec/school_IT_department" element={<ITDepartment />} />
+        <Route path="/sensec/facilities" element={<Facilities />} />
+        <Route
+          path="/sensec/facilities_overview/:name"
+          element={<FacilityOverview />}
+        />
         <Route path="/sensec/student_enrollment" element={<Enrollments />} />
         <Route
           path="/sensec/admin/login"
@@ -198,6 +212,17 @@ export default function App() {
             index
             element={
               <DashboardContent
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
+            exact
+            path="/sensec/admin/create_data"
+            element={
+              <CreateNewData
                 openSidebar={openSidebar}
                 toastOptions={toastOptions}
                 toast={toast}

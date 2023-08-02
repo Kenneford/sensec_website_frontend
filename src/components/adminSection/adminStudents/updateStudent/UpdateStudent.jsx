@@ -24,6 +24,7 @@ import {
   getAllStudents,
   getStudentInfo,
 } from "../../../../features/student/studentsSlice";
+import { getAdminInfo } from "../../../../features/admin/adminsSlice";
 
 export default function UpdateStudent({
   // newStudent,
@@ -38,6 +39,7 @@ export default function UpdateStudent({
     studentError,
     studentSuccessMessage,
   } = useSelector((state) => state.student);
+  const authAdminInfo = useSelector(getAdminInfo);
   const allStudents = useSelector(getAllStudents);
   const studentInfo = useSelector(getStudentInfo);
   console.log(allStudents);
@@ -65,7 +67,32 @@ export default function UpdateStudent({
   // const [student] = useState(selectedStudent);
   // console.log(student);
 
-  const [newStudent, setNewStudent] = useState(selectedStudent);
+  const [newStudent, setNewStudent] = useState({
+    firstName: selectedStudent?.firstName,
+    lastName: selectedStudent?.lastName,
+    dateOfBirth: selectedStudent?.dateOfBirth,
+    placeOfBirth: selectedStudent?.placeOfBirth,
+    nationality: selectedStudent?.nationality,
+    email: selectedStudent?.email,
+    program: selectedStudent?.program,
+    updatedBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+    updatedByAdminId: `${authAdminInfo.adminId}`,
+    academicYear: selectedStudent?.academicYear,
+    // currentClassLevel: selectedStudent?.currentClassLevel._id,
+    role: selectedStudent?.role,
+    gender: selectedStudent?.gender,
+    address: selectedStudent?.address,
+    currentCity: selectedStudent?.currentCity,
+    homeTown: selectedStudent?.homeTown,
+    region: selectedStudent?.region,
+    religion: selectedStudent?.religion,
+    height: selectedStudent?.height,
+    weight: selectedStudent?.weight,
+    motherTongue: selectedStudent?.motherTongue,
+    otherTongue: selectedStudent?.otherTongue,
+    complexion: selectedStudent?.complexion,
+    updatedDate: date,
+  });
 
   useEffect(() => {
     setNewStudent(selectedStudent);
@@ -93,6 +120,7 @@ export default function UpdateStudent({
     e.preventDefault();
     console.log(newStudent);
     const formData = new FormData();
+    formData.append("_id", newStudent._id);
     formData.append("firstName", newStudent.firstName);
     formData.append("lastName", newStudent.lastName);
     formData.append("dateOfBirth", newStudent.dateOfBirth);
@@ -102,10 +130,11 @@ export default function UpdateStudent({
     formData.append("program", newStudent.program);
     formData.append("updatedBy", newStudent.updatedBy);
     formData.append("updatedByAdminId", newStudent.updatedByAdminId);
-    formData.append("currentClassLevel", newStudent.currentClassLevel);
-    formData.append("program", newStudent.program);
-    formData.append("academicYear", newStudent.academicYear);
+    formData.append("currentClassLevel", newStudent.currentClassLevel?._id);
+    formData.append("program", newStudent.program?._id);
+    formData.append("academicYear", newStudent.academicYear?._id);
     formData.append("gender", newStudent.gender);
+    formData.append("role", newStudent.role);
     formData.append("profilePicture", newStudent.profilePicture);
     formData.append("address", newStudent.address);
     formData.append("currentCity", newStudent.currentCity);
@@ -118,7 +147,7 @@ export default function UpdateStudent({
     formData.append("otherTongue", newStudent.otherTongue);
     formData.append("complexion", newStudent.complexion);
     formData.append("updatedDate", newStudent.updatedDate);
-    console.log(formData);
+    console.log(...formData);
     dispatch(
       studentUpdate({
         formData,
@@ -131,34 +160,34 @@ export default function UpdateStudent({
     Boolean(newStudent?.firstName) && Boolean(newStudent.lastName);
   console.log(canSave);
 
-  // useEffect(() => {
-  //   if (updateStudentStatus === "rejected") {
-  //     studentError.errorMessage.message.map((err) =>
-  //       toast.error(err, {
-  //         position: "top-right",
-  //         theme: "light",
-  //         // toastId: successId,
-  //       })
-  //     );
-  //     return;
-  //   }
-  //   if (updateStudentStatus === "success") {
-  //     // navigate("/sensec/admin/all_students");
-  //     toast.success(studentSuccessMessage, {
-  //       position: "top-right",
-  //       theme: "dark",
-  //       // toastId: successId,
-  //     });
-  //     navigate("/sensec/admin/students/add_parents_guardian");
-  //   }
-  // }, [
-  //   studentError,
-  //   studentSuccessMessage,
-  //   updateStudentStatus,
-  //   toast,
-  //   toastOptions,
-  //   navigate,
-  // ]);
+  useEffect(() => {
+    // if (updateStudentStatus === "rejected") {
+    //   studentError.errorMessage.message.map((err) =>
+    //     toast.error(err, {
+    //       position: "top-right",
+    //       theme: "light",
+    //       // toastId: successId,
+    //     })
+    //   );
+    //   return;
+    // }
+    if (updateStudentStatus === "success") {
+      // navigate("/sensec/admin/all_students");
+      toast.success(studentSuccessMessage, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+      // navigate("/sensec/admin/students/add_parents_guardian");
+    }
+  }, [
+    studentError,
+    studentSuccessMessage,
+    updateStudentStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -450,7 +479,7 @@ export default function UpdateStudent({
                     <label htmlFor="academicYear">Academic Year</label>
                     <select
                       className="select"
-                      value={newStudent?.academicYear._id}
+                      value={newStudent?.academicYear?._id}
                       onChange={handleInputValues}
                       name="academicYear"
                     >
@@ -488,7 +517,7 @@ export default function UpdateStudent({
                     <label htmlFor="program">Program</label>
                     <select
                       className="select"
-                      value={newStudent?.program._id}
+                      value={newStudent?.program?._id}
                       onChange={handleInputValues}
                       name="program"
                       id=""
@@ -508,7 +537,7 @@ export default function UpdateStudent({
                     <label htmlFor="currentClassLevel">Class Level</label>
                     <select
                       className="select"
-                      value={newStudent?.currentClassLevel._id}
+                      value={newStudent?.currentClassLevel?._id}
                       onChange={handleInputValues}
                       name="currentClassLevel"
                     >

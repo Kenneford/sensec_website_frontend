@@ -29,20 +29,20 @@
       color: #fff;
       cursor: pointer;
       &:nth-child(1) {
-        background-color: #292929;
+        background-color: rgb(1, 89, 1);
       }
       cursor: pointer;
       &:nth-child(2) {
-        background-color: green;
+        background-color: #604322;
       }
       &:nth-child(3) {
-        background-color: #005780;
+        background-color: #124f6c;
       }
       &:nth-child(4) {
-        background-color: #7a0080;
+        background-color: #701674;
       }
       &:nth-child(5) {
-        background-color: orange;
+        background-color: rgb(176, 126, 34);
         .titleFlex {
           h3 {
             padding-bottom: unset;

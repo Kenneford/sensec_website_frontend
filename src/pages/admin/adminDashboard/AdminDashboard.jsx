@@ -15,6 +15,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import TvIcon from "@mui/icons-material/Tv";
+import ConstructionIcon from "@mui/icons-material/Construction";
 import DashboardContent from "../../../components/adminSection/dashboardContent/DashboardContent";
 import { Outlet } from "react-router-dom";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
@@ -61,6 +62,10 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               <HashLink to={"/sensec/admin"} className="links">
                 <TvIcon className="icon" />
                 <h4>Dashboard</h4>
+              </HashLink>
+              <HashLink to={"/sensec/admin/create_data"} className="links">
+                <ConstructionIcon />
+                <h4>Create</h4>
               </HashLink>
               <HashLink to={"/sensec/admin/all_admins"} className="links">
                 <AdminPanelSettingsIcon />

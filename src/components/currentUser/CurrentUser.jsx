@@ -227,7 +227,7 @@ export default function CurrentUser({
           </div>
         )}
 
-        {currentUser.role === "Student" && (
+        {currentUser.isStudent && (
           <div className="userInfo">
             <p className="currentUserName">Welcome, {studentInfo.firstName}</p>
             <div className="icon">

@@ -3,8 +3,14 @@ import "./firstView.scss";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { HashLink } from "react-router-hash-link";
 
 export default function FirstViewSection() {
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -80;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
   return (
     <div className="secWrap">
       <div className="secCont">
@@ -21,9 +27,13 @@ export default function FirstViewSection() {
             ever since the 1500s, when an unknown printer took a galley of type
             and scrambled it to make a type specimen book.
           </motion.p>
-          <Link to={"#"}>
+          <HashLink
+            to={"/sensec/about#about"}
+            smooth
+            scrollWithOffset={scrollWithOffset}
+          >
             <motion.button className="startBtn">Learn More</motion.button>
-          </Link>
+          </HashLink>
         </motion.div>
         <motion.div
           className="secRight"

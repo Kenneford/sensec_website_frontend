@@ -11,12 +11,12 @@ const initialState = {
   classLevel300: "",
   successMessage: "",
   error: "",
-  addStatus: "",
+  createStatus: "",
   fetchingStatus: "",
 };
 
-export const addClassLevel = createAsyncThunk(
-  "ClassLevel/addClassLevel",
+export const createClassLevel = createAsyncThunk(
+  "ClassLevel/createClassLevel",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
@@ -84,26 +84,26 @@ const classLevelsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addClassLevel.pending, (state, action) => {
-      return { ...state, addStatus: "pending" };
+    builder.addCase(createClassLevel.pending, (state, action) => {
+      return { ...state, createStatus: "pending" };
     });
-    builder.addCase(addClassLevel.fulfilled, (state, action) => {
+    builder.addCase(createClassLevel.fulfilled, (state, action) => {
       if (action.payload) {
         return {
           ...state,
           classLevelInfo: action.payload.classLevel,
           successMessage: action.payload.successMessage,
-          addStatus: "success",
+          createStatus: "success",
           error: "",
           authenticated: false,
         };
       } else return state;
     });
-    builder.addCase(addClassLevel.rejected, (state, action) => {
+    builder.addCase(createClassLevel.rejected, (state, action) => {
       return {
         ...state,
-        addStatus: "rejected",
-        teacherError: action.payload,
+        createStatus: "rejected",
+        error: action.payload,
       };
     });
 
@@ -124,7 +124,7 @@ const classLevelsSlice = createSlice({
       return {
         ...state,
         fetchingStatus: "rejected",
-        teacherError: action.payload,
+        error: action.payload,
       };
     });
 

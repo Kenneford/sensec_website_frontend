@@ -21,10 +21,10 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   const errorId = "error";
   const successId = "success";
 
-  const { loginStatus, error, successMessage } = useSelector(
+  const { loginStudentStatus, studentError, successMessage } = useSelector(
     (state) => state.student
   );
-  console.log(error);
+  console.log(studentError);
   console.log(successMessage);
 
   const [student, setStudent] = useState({
@@ -62,19 +62,32 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   };
 
   useEffect(() => {
-    if (loginStatus === "rejected") {
-      error.errorMessage.message.map((err) => toast.error(err, toastOptions));
+    if (loginStudentStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
+        toast.error(err, toastOptions)
+      );
       return;
     }
-    if (loginStatus === "success") {
-      navigate("/sensec/student/#students");
+    if (loginStudentStatus === "success") {
+      setStudent({
+        studentId: "",
+        password: "",
+      });
+      navigate("/sensec/student/#student");
       toast.success(successMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
     }
-  }, [error, successMessage, loginStatus, toast, toastOptions, navigate]);
+  }, [
+    studentError,
+    successMessage,
+    loginStudentStatus,
+    toast,
+    toastOptions,
+    navigate,
+  ]);
 
   useEffect(() => {
     setPassLengthError("Password must be at least 6 characters long!");
@@ -156,7 +169,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                 </p>
               )}
               <button type="submit">
-                {loginStatus === "pending" ? (
+                {loginStudentStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
                 ) : (
                   "Login"

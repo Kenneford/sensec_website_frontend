@@ -1,0 +1,45 @@
+.createWrap {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  .createBtn {
+    width: 7rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    &:nth-child(1) {
+      background-color: rgb(115, 89, 4);
+      color: #fff;
+    }
+    &:nth-child(2) {
+      background-color: rgb(47, 66, 54);
+      color: #fff;
+    }
+    &:nth-child(3) {
+      background-color: rgb(89, 4, 65);
+      color: #fff;
+    }
+    &:nth-child(4) {
+      background-color: rgb(24, 14, 113);
+      color: #fff;
+    }
+    &:nth-child(5) {
+      background-color: rgb(16, 104, 85);
+      color: #fff;
+    }
+    &:nth-child(6) {
+      background-color: rgb(65, 28, 128);
+      color: #fff;
+    }
+    &:nth-child(7) {
+      background-color: rgb(144, 59, 22);
+      color: #fff;
+    }
+    &:nth-child(8) {
+      background-color: rgb(58, 58, 58);
+      color: #fff;
+    }
+  }
+}

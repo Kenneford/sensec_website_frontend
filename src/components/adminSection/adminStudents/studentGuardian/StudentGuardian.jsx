@@ -76,12 +76,19 @@ export default function StudentGuardian({ toast, toastOptions }) {
       return;
     }
     if (createGuardianStatus === "success") {
+      setNewGuardian({
+        studentId: "",
+        guardianName: "",
+        motherName: "",
+        email: "",
+        address: "",
+        phoneNumber: "",
+      });
       toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/sensec/admin/all_students");
     }
   }, [
     createGuardianStatus,
@@ -91,6 +98,12 @@ export default function StudentGuardian({ toast, toastOptions }) {
     toastOptions,
     navigate,
   ]);
+
+  setTimeout(() => {
+    if (createGuardianStatus === "success") {
+      navigate("/sensec/admin/students");
+    }
+  }, 2000);
 
   return (
     <form onSubmit={handleRegister} className="form">

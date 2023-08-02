@@ -173,7 +173,7 @@ export default function NavBar({
               </NavHashLink>
             </li>
           )}
-          {currentUser.role === "Student" && (
+          {currentUser.isStudent && (
             <li>
               <NavHashLink
                 to={"/sensec/student/#student"}

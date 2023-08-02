@@ -5,7 +5,7 @@ import { HashLink } from "react-router-hash-link";
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView, staggerChildren } from "react-intersection-observer";
 
-export default function CategorySection() {
+export default function ProgramSection() {
   const scrollWithOffset = (el) => {
     const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
     const yOffset = -80;
@@ -89,7 +89,7 @@ export default function CategorySection() {
           variants={animate1}
           // transition={{ type: "spring", duration: 3, bounce: 0.3 }}
         >
-          <h1>Categories</h1>
+          <h1>Programs</h1>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
