@@ -35,19 +35,6 @@ export default function AdminTeachers({ openSidebar }) {
   const handleModalOpen = () => {
     setOpen(true);
   };
-  //   const getTeachers = async () => {
-  //     try {
-  //       const res = await axios.get(`${API_ENDPOINT}/authusers/get_all_teachers`);
-  //       // const data = await res.json();
-  //       console.log(res.data);
-  //       setAllTeachers(res.data.teachers);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     getTeachers();
-  //   }, []);
 
   const animate = {
     off: { y: 50, opacity: 0 },

@@ -22,6 +22,7 @@ export default function AllNotices({
   openSidebar,
   setPostOptions,
   postOptions,
+  clearLogOptions,
 }) {
   const { postFetchingStatus, deletePostStatus, error, success } = useSelector(
     (state) => state.post
@@ -64,19 +65,13 @@ export default function AllNotices({
         })
       );
     }
-    // if (postFetchingStatus === "success") {
-    //   toast.success(success, {
-    //     position: "top-right",
-    //     theme: "dark",
-    //     // toastId: successId,
-    //   });
-    // }
     if (deletePostStatus === "success") {
       toast.success(success, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
+      window.location.reload();
     }
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 
@@ -89,6 +84,7 @@ export default function AllNotices({
           openSidebar={openSidebar}
           setPostOptions={setPostOptions}
           postOptions={postOptions}
+          clearLogOptions={clearLogOptions}
         />
       ))}
     </div>
