@@ -12,6 +12,7 @@ import {
   religionOptions,
 } from "../../../options/options";
 import { teacherRegistory } from "../../../features/teacher/teachersSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function TeacherEmploymentForm({ toast, toastOptions }) {
   const { registerTeacherStatus, teacherError, teacherSuccessMessage } =
@@ -21,6 +22,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
   const [date] = useState(new Date().toDateString());
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const currentYear = new Date().getFullYear();
   const [newTeacher, setNewTeacher] = useState({
@@ -191,6 +193,13 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     toast,
     toastOptions,
   ]);
+
+  setTimeout(() => {
+    if (registerTeacherStatus === "success") {
+      navigate("/sensec/admin/all_teachers");
+      window.location.reload();
+    }
+  }, 5000);
 
   return (
     <form onSubmit={handleRegister}>
@@ -562,7 +571,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
             {registerTeacherStatus === "pending" ? (
               <CircularProgress style={{ color: "white", size: "20px" }} />
             ) : (
-              "Add Member"
+              "Add Teacher"
             )}
           </button>
         </div>

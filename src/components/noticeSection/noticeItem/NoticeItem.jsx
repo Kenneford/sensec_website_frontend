@@ -18,8 +18,8 @@ import { getTeacherInfo } from "../../../features/teacher/teachersSlice";
 
 export default function NoticeItem({
   post,
-  setPostOptions,
-  postOptions,
+  // setPostOptions,
+  // postOptions,
   openSidebar,
 }) {
   const authStaffInfo = useSelector(getStaffInfo);
@@ -33,6 +33,7 @@ export default function NoticeItem({
   const [isLiked, setIsLiked] = useState(false);
   const [love, setLove] = useState(post.likes.length);
   const [isLoved, setIsLoved] = useState(false);
+  const [postOptions, setPostOptions] = useState(false);
 
   console.log(userInfo);
 

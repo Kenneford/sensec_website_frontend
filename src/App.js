@@ -176,6 +176,7 @@ export default function App() {
                 toast={toast}
                 setPostOptions={setPostOptions}
                 postOptions={postOptions}
+                clearLogOptions={clearLogOptions}
               />
             }
           />

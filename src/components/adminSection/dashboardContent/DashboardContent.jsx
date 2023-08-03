@@ -141,6 +141,11 @@ export default function DashboardContent({ toast }) {
   }, [dispatch]);
 
   useEffect(() => {
+    if (postStatus === "pending") {
+      setTimeout(() => {
+        return <div>Loading</div>;
+      }, 6000);
+    }
     if (postStatus === "rejected") {
       error.errorMessage.message.map((err) =>
         toast.error(err, {
@@ -165,7 +170,7 @@ export default function DashboardContent({ toast }) {
       navigate("/sensec/general_announcement/#generalNotice");
       window.location.reload();
     }
-  }, 2000);
+  }, 5000);
   return (
     <div>
       <h1>Admins Dashboard</h1>
