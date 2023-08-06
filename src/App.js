@@ -56,6 +56,10 @@ import ITDepartment from "./pages/IT/ITDepartment";
 import Facilities from "./pages/facilities/Facilities";
 import FacilityOverview from "./pages/facilities/facilityOverview/FacilityOverview";
 import CreateNewData from "./pages/createData/CreateNewData";
+import Total1stYearStudents from "./components/adminSection/adminStudents/totalStudents/ClassLevelStudents";
+import Total2ndYearStudents from "./components/adminSection/adminStudents/totalStudents/OldStudents";
+import ClassLevelStudents from "./components/adminSection/adminStudents/totalStudents/ClassLevelStudents";
+import OldStudents from "./components/adminSection/adminStudents/totalStudents/OldStudents";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -69,6 +73,10 @@ export default function App() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [level100, setLevel100] = useState(false);
+  const [level200, setLevel200] = useState(false);
+  const [level300, setLevel300] = useState(false);
+  const [isGraduated, setIsGraduated] = useState(false);
   const [currentNewStudent] = useState(
     localStorage.getItem("newStudentRegisteredId")
   );
@@ -88,8 +96,59 @@ export default function App() {
       setShowOptions(false);
     }
   };
-  const clearOptions = () => {};
 
+  const handleFirstYears = () => {
+    setLevel100(
+      !level100,
+      setLevel200(false),
+      setLevel300(false),
+      setIsGraduated(false)
+    );
+    if (!level100) {
+      navigate(`/sensec/admin/students/first_year_students`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleSecondYears = () => {
+    setLevel200(
+      !level200,
+      setLevel100(false),
+      setLevel300(false),
+      setIsGraduated(false)
+    );
+    if (!level200) {
+      navigate(`/sensec/admin/students/second_year_students`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleThirdYears = () => {
+    setLevel300(
+      !level300,
+      setLevel100(false),
+      setLevel200(false),
+      setIsGraduated(false)
+    );
+    if (!level300) {
+      navigate(`/sensec/admin/students?batch=3rd_Years`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
+  const handleOldStudents = () => {
+    setIsGraduated(
+      !isGraduated,
+      setLevel100(false),
+      setLevel200(false),
+      setLevel300(false)
+    );
+    if (!isGraduated) {
+      navigate(`/sensec/admin/students/old_students`);
+    } else {
+      navigate(`/sensec/admin/students`);
+    }
+  };
   const openChat = () => setOpenChatBox(!openChatBox);
   const toastOptions = {
     position: "bottom-right",
@@ -163,7 +222,6 @@ export default function App() {
             <GeneralNotice
               openSidebar={openSidebar}
               toggleSidebar={toggleSidebar}
-              clearOptions={clearOptions}
             />
           }
         >
@@ -317,15 +375,46 @@ export default function App() {
           <Route
             path="/sensec/admin/students"
             element={
-              <TotalStudents toastOptions={toastOptions} toast={toast} />
+              <TotalStudents
+                toastOptions={toastOptions}
+                toast={toast}
+                setLevel100={setLevel100}
+                setLevel200={setLevel200}
+                setLevel300={setLevel300}
+                handleFirstYears={handleFirstYears}
+                handleSecondYears={handleSecondYears}
+                handleThirdYears={handleThirdYears}
+                handleOldStudents={handleOldStudents}
+              />
             }
           />
           <Route
-            path="/sensec/admin/students"
+            path="/sensec/admin/students/:class_level"
             element={
-              <TotalStudents toastOptions={toastOptions} toast={toast} />
+              <ClassLevelStudents toastOptions={toastOptions} toast={toast} />
             }
           />
+          <Route
+            path="/sensec/admin/old_students/:graduates"
+            element={<OldStudents toastOptions={toastOptions} toast={toast} />}
+          />
+          {/* <Route
+            path="/sensec/admin/students/:level_200"
+            element={
+              <Total2ndYearStudents
+                toastOptions={toastOptions}
+                toast={toast}
+                level200={level200}
+                setLevel100={setLevel100}
+                setLevel200={setLevel200}
+                setLevel300={setLevel300}
+                handleFirstYears={handleFirstYears}
+                handleSecondYears={handleSecondYears}
+                handleThirdYears={handleThirdYears}
+                handleOldStudents={handleOldStudents}
+              />
+            }
+          /> */}
           <Route
             path="/sensec/admin/search_student"
             element={

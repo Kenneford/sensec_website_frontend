@@ -278,7 +278,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
       navigate("/sensec/admin/students/add_parents_guardian");
       window.location.reload();
     }
-  }, 2000);
+  }, 5000);
 
   const copyToClipboard = (e) => {
     e.preventDefault();

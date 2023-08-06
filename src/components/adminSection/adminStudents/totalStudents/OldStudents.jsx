@@ -8,14 +8,13 @@ import {
   fetchStudents,
   studentSearch,
   getAllStudents,
+  fetchGraduates,
+  getAllGraduates,
 } from "../../../../features/student/studentsSlice";
-import { studentColumn } from "../../../../options/options";
-import {
-  fetchClassLevels,
-  getAllClassLevels,
-} from "../../../../features/classLevels/classLevelsSlice";
+import { graduatesColumn } from "../../../../options/options";
+import { getAllClassLevels } from "../../../../features/classLevels/classLevelsSlice";
 
-export default function TotalStudents({ toast, toastOptions }) {
+export default function OldStudents({ toast, toastOptions }) {
   const {
     fetchingStudentStatus,
     searchStatus,
@@ -24,14 +23,12 @@ export default function TotalStudents({ toast, toastOptions }) {
   } = useSelector((state) => state.student);
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
+  const { graduates } = useParams();
   const allStudents = useSelector(getAllStudents);
+  const allGraduates = useSelector(getAllGraduates);
   const allClassLevels = useSelector(getAllClassLevels);
 
   const navigate = useNavigate();
-  const { class_level } = useParams();
-  console.log(searchStudent);
-  console.log(allStudents);
-  console.log(allClassLevels);
 
   const customStyle = {
     headRow: {
@@ -84,7 +81,7 @@ export default function TotalStudents({ toast, toastOptions }) {
 
   useEffect(() => {
     dispatch(fetchStudents());
-    dispatch(fetchClassLevels());
+    dispatch(fetchGraduates());
   }, [dispatch]);
 
   useEffect(() => {
@@ -140,7 +137,7 @@ export default function TotalStudents({ toast, toastOptions }) {
         </div>
         <div className="searchDetails">
           {!searchStatus && (
-            <p className="searchInfo">Total Students = {allStudents.length}</p>
+            <p className="searchInfo">Total Students = {allGraduates.length}</p>
           )}
           {allStudents?.length === 0 &&
             location.pathname === "/sensec/admin/students" && (
@@ -169,34 +166,34 @@ export default function TotalStudents({ toast, toastOptions }) {
             <div className="batches">
               <span
                 onClick={() => navigate(`/sensec/admin/students`)}
-                className={!class_level && "greenBackground"}
+                className=""
               >
                 All Enrolled Students
               </span>
-              {allClassLevels?.map((cLevel) => (
+              {allClassLevels.map((cLevel) => (
                 <span
                   key={cLevel._id}
                   onClick={() =>
                     navigate(`/sensec/admin/students/${cLevel.name}`)
                   }
-                  className={cLevel.name === class_level && "greenBackground"}
+                  className=""
                 >
                   {cLevel.name}
                 </span>
               ))}
               <span
                 onClick={() => navigate(`/sensec/admin/old_students/graduates`)}
-                className=""
+                className={graduates && "greenBackground"}
               >
                 Past Students
               </span>
             </div>
           </div>
           <>
-            <h3>All Enrolled Students / Total = {allStudents?.length}</h3>
+            <h3>All Graduates / Total = {allGraduates?.length}</h3>
             <DataTable
-              columns={studentColumn}
-              data={allStudents}
+              columns={graduatesColumn}
+              data={allGraduates}
               customStyles={customStyle}
               pagination
             />
