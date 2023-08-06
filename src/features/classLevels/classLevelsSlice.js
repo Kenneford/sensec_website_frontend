@@ -13,6 +13,7 @@ const initialState = {
   error: "",
   createLevelStatus: "",
   fetchingStatus: "",
+  fetchingSingleStatus: "",
 };
 
 export const createClassLevel = createAsyncThunk(
@@ -37,6 +38,17 @@ export const fetchClassLevels = createAsyncThunk(
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/admins/academics/get_class_levels`
+    );
+    // const students = response.data;
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchSingleClassLevel = createAsyncThunk(
+  "ClassLevel/fetchSingleClassLevel",
+  async (id) => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/admins/academics/single_class_level/${id}`
     );
     // const students = response.data;
     console.log(response.data);
@@ -128,6 +140,27 @@ const classLevelsSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchSingleClassLevel.pending, (state) => {
+      return { ...state, fetchingSingleStatus: "pending" };
+    });
+    builder.addCase(fetchSingleClassLevel.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          classLevelInfo: action.payload.classLevel,
+          successMessage: action.payload.successMessage,
+          fetchingSingleStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchSingleClassLevel.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingSingleStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
     builder.addCase(fetchClassLevel100.pending, (state) => {
       return { ...state, fetchingStatus: "pending" };
     });
@@ -194,6 +227,7 @@ const classLevelsSlice = createSlice({
 });
 
 export const getAllClassLevels = (state) => state.classLevel.allClassLevels;
+export const getSingleClassLevel = (state) => state.classLevel.classLevelInfo;
 export const getClassLevel100 = (state) =>
   state.classLevel.classLevel100.students;
 

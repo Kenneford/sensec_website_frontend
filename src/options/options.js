@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { getStudentInfo } from "../features/student/studentsSlice";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import EditIcon from "@mui/icons-material/Edit";
+import { ToastContainer, toast } from "react-toastify";
 
 export const programOptions = [
   { value: "Select", label: "Select" },
@@ -13,7 +14,7 @@ export const programOptions = [
   { value: "64bc5bbe24b0183b8ede8963", label: "Home Economics" },
   { value: "64bc5bd124b0183b8ede8969", label: "Business" },
   { value: "64bc5be224b0183b8ede896f", label: "General Art" },
-  { value: "64bc5bf324b0183b8ede8975", label: "Visaul Arts" },
+  { value: "64ca233a2a97480b7c2db2cb", label: "Visaul Arts" },
 ];
 export const academicYearOptions = [
   { value: "Select Year", label: "Select Year" },
@@ -31,9 +32,9 @@ export const academicTermOptions = [
 
 export const classLevelOptions = [
   { value: "Select Level", label: "Select Level" },
-  { value: "64cbe3532f246c06edd33add", label: "Level 100" },
-  { value: "64cbe37e2f246c06edd33ae3", label: "Level 200" },
-  { value: "64cbe3942f246c06edd33ae9", label: "Level 300" },
+  { value: "64cf197d9f81521cfba82c91", label: "Level 100" },
+  { value: "64cf19939f81521cfba82c97", label: "Level 200" },
+  { value: "64cf19ab9f81521cfba82c9d", label: "Level 300" },
 ];
 export const religionOptions = [
   { value: "None", label: "None" },
@@ -93,6 +94,23 @@ export const genderOptions = [
 
 export const studentColumn = [
   {
+    name: (
+      <>
+        <p>All</p>{" "}
+        <input
+          type="checkbox"
+          style={{ marginLeft: "1rem" }}
+          onSelect={(e) => e.target.value}
+        />
+      </>
+    ),
+    selector: (row) => (
+      <div>
+        <input type="checkbox" />
+      </div>
+    ),
+  },
+  {
     name: "Image",
     selector: (row) =>
       row.profilePicture ? (
@@ -118,12 +136,7 @@ export const studentColumn = [
   },
   {
     name: "Program",
-    selector: (row) =>
-      row.courseStudy
-        ? row.courseStudy
-        : row.program
-        ? row.program.name
-        : "Unknown",
+    selector: (row) => (row.program ? row.program.name : "Unknown"),
   },
   { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
@@ -170,7 +183,14 @@ export const studentColumn = [
                   await axios.put(
                     `${API_ENDPOINT}/students/promote_student_200/${row._id}`
                   );
-                  window.location.reload();
+                  toast.success("Student promoted successfully...", {
+                    position: "top-right",
+                    theme: "dark",
+                    // toastId: successId,
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 5000);
                 } catch (error) {
                   console.error(error);
                 }
@@ -185,10 +205,19 @@ export const studentColumn = [
               className="editLink"
               onClick={async () => {
                 try {
-                  await axios.put(
+                  const res = await axios.put(
                     `${API_ENDPOINT}/students/promote_student_300/${row._id}`
                   );
-                  window.location.reload();
+                  if (res) {
+                    toast.success("Student promoted successfully...", {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 5000);
+                  }
                 } catch (error) {
                   console.error(error);
                 }
@@ -203,10 +232,203 @@ export const studentColumn = [
               className="editLink"
               onClick={async () => {
                 try {
-                  await axios.put(
+                  const res = await axios.put(
                     `${API_ENDPOINT}/students/isgraduated/${row._id}`
                   );
-                  window.location.reload();
+                  if (res) {
+                    toast.success("Student graduated successfully...", {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 5000);
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
+              Graduate
+            </Link>
+          )}
+          {row.isGraduated && (
+            <Link
+              className="editLink"
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              Graduated
+            </Link>
+          )}
+        </>
+      ),
+  },
+  {
+    name: "Edit",
+    selector: (row) => (
+      <Link
+        className="editLink"
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+      >
+        <EditIcon />
+      </Link>
+    ),
+  },
+];
+export const classLevelStudentsColumn = [
+  {
+    name: (
+      <>
+        <p>All</p>{" "}
+        <input
+          type="checkbox"
+          style={{ marginLeft: "1rem" }}
+          onSelect={(e) => e.target.value}
+        />
+      </>
+    ),
+    selector: (row) => (
+      <div>
+        <input type="checkbox" />
+      </div>
+    ),
+  },
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <Link
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}`}
+          title="View Student Info"
+        >
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        </Link>
+      ) : (
+        "none"
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  {
+    name: "Program",
+    selector: (row) => (row.program ? row.program.name : "Unknown"),
+  },
+  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
+  {
+    name: "Batch",
+    selector: (row) =>
+      row.academicYear
+        ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+        : "Unknown",
+  },
+  {
+    name: "Level",
+    selector: (row) =>
+      row.currentClassLevel && (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <div className="firstYearTag" title="1st Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <div className="secondYearTag" title="2nd Year"></div>
+          )}
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+            <div className="thirdYearTag" title="3rd Year"></div>
+          )}
+          {row.isGraduated && (
+            <div className="isGraduated" title="Graduated">
+              <SchoolOutlinedIcon />
+            </div>
+          )}
+        </>
+      ),
+  },
+  {
+    name: "Promote",
+    selector: (row) =>
+      row.currentClassLevel && (
+        <>
+          {row.currentClassLevel.name === "Level 100" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_200/${row._id}`
+                  );
+                  toast.success("Student promoted successfully...", {
+                    position: "top-right",
+                    theme: "dark",
+                    // toastId: successId,
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 5000);
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L200
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 200" && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  const res = await axios.put(
+                    `${API_ENDPOINT}/students/promote_student_300/${row._id}`
+                  );
+                  if (res) {
+                    toast.success("Student promoted successfully...", {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 5000);
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+            >
+              P-L300
+            </Link>
+          )}
+          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+            <Link
+              className="editLink"
+              onClick={async () => {
+                try {
+                  const res = await axios.put(
+                    `${API_ENDPOINT}/students/isgraduated/${row._id}`
+                  );
+                  if (res) {
+                    toast.success("Student graduated successfully...", {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 5000);
+                  }
                 } catch (error) {
                   console.error(error);
                 }

@@ -9,8 +9,8 @@ import {
 
 export default function StudentInfos() {
   const studentInfo = useSelector(getStudentInfo);
-  const guardian = studentInfo && studentInfo?.guardian[0];
-  const parents = studentInfo && studentInfo?.parents[0];
+  const guardian = studentInfo?.guardian;
+  const parents = studentInfo?.parents;
   const dispatch = useDispatch();
   const { studentId } = useParams();
   console.log(studentId);

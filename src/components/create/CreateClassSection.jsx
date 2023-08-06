@@ -36,13 +36,24 @@ export default function CreateClassSection({ toast, toastOptions }) {
 
   const handleClassSection = (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("name", classSection.name);
-    formData.append("description", classSection.description);
-    formData.append("createdBy", classSection.createdBy);
-    formData.append("adminId", classSection.adminId);
-    dispatch(createClassLevelSection(classSection));
+    if (classSection.currentTeacher.length !== 24) {
+      toast.error(
+        "Teacher Id provided is not valid!",
+        toast.error({
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    } else {
+      const formData = new FormData();
+      formData.append("name", classSection.name);
+      formData.append("description", classSection.description);
+      formData.append("createdBy", classSection.createdBy);
+      formData.append("adminId", classSection.adminId);
+      dispatch(createClassLevelSection(classSection));
+    }
   };
 
   useEffect(() => {

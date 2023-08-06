@@ -13,8 +13,10 @@ import {
 } from "../../../options/options";
 import { teacherRegistory } from "../../../features/teacher/teachersSlice";
 import { useNavigate } from "react-router-dom";
+import { getAdminInfo } from "../../../features/admin/adminsSlice";
 
 export default function TeacherEmploymentForm({ toast, toastOptions }) {
+  const authAdminInfo = useSelector(getAdminInfo);
   const { registerTeacherStatus, teacherError, teacherSuccessMessage } =
     useSelector((state) => state.teacher);
 
@@ -37,6 +39,8 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     confirmPassword: `${currentYear}-${num}`,
     email: "",
     role: "",
+    createdBy: `${authAdminInfo.id}`,
+    adminId: `${authAdminInfo.adminId}`,
     teacherId: `TCH-${num}-${currentYear}`,
     isMale: "",
     profilePicture: "",
@@ -128,6 +132,8 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     formData.append("confirmPassword", newTeacher.confirmPassword);
     formData.append("email", newTeacher.email);
     formData.append("role", newTeacher.role);
+    formData.append("createdBy", newTeacher.createdBy);
+    formData.append("adminId", newTeacher.adminId);
     formData.append("teacherId", newTeacher.teacherId);
     formData.append("teacherSecret", newTeacher.teacherSecret);
     formData.append("program", newTeacher.program);
