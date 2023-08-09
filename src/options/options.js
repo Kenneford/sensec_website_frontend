@@ -9,32 +9,51 @@ import { ToastContainer, toast } from "react-toastify";
 
 export const programOptions = [
   { value: "Select", label: "Select" },
-  { value: "64bc5b7d24b0183b8ede8957", label: "Agriculture Science" },
-  { value: "64bc5ba624b0183b8ede895d", label: "Science" },
-  { value: "64bc5bbe24b0183b8ede8963", label: "Home Economics" },
-  { value: "64bc5bd124b0183b8ede8969", label: "Business" },
-  { value: "64bc5be224b0183b8ede896f", label: "General Art" },
-  { value: "64ca233a2a97480b7c2db2cb", label: "Visaul Arts" },
+  { value: "64d27b345722656cea2b6a92", label: "Visaul Arts" },
+  { value: "64cfd92ac0970fa09be4e165", label: "General Arts_1" },
+  { value: "64cfd961c0970fa09be4e16c", label: "General Arts_2" },
+  { value: "64cfd98bc0970fa09be4e173", label: "General Arts_3" },
+  { value: "64cfd9a4c0970fa09be4e17a", label: "General Arts_4" },
+  { value: "64d2787a6a1a5e4e8d5c64e3", label: "Business" },
+  { value: "64d3e5efe6daeca15d022416", label: "General Science" },
+  { value: "64cfda5ac0970fa09be4e18f", label: "Agric Science" },
+  { value: "64cfda91c0970fa09be4e196", label: "Home Economics_1" },
+  { value: "64cfdab1c0970fa09be4e19d", label: "Home Economics_2" },
 ];
 export const academicYearOptions = [
-  { value: "Select Year", label: "Select Year" },
-  { value: "64bc5acd24b0183b8ede8933", label: "2023-2026" },
-  { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
-  { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
-  { value: "64c9341d6109338e6ca76bc2", label: "2026-2029" },
+  { value: "Select", label: "Select" },
+  { value: "64cff5e79e1d6d39b72d6c3d", label: "2023-2026" },
+  // { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
+  // { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
+  // { value: "64c9341d6109338e6ca76bc2", label: "2026-2029" },
 ];
 export const academicTermOptions = [
-  { value: "Select Year", label: "Select" },
-  { value: "64af0734f3dece9edfe0e208", label: "First Term" },
-  { value: "64b2e4ce756a5a8432cf5df1", label: "Second Term" },
-  { value: "64b2e4e1756a5a8432cf5df7", label: "Third Term" },
+  { value: "Select", label: "Select" },
+  { value: "64cfd54bc0970fa09be4e14f", label: "First Semester" },
+  // { value: "64b2e4ce756a5a8432cf5df1", label: "Second Semester" },
+  // { value: "64b2e4e1756a5a8432cf5df7", label: "Third Semester" },
 ];
 
 export const classLevelOptions = [
-  { value: "Select Level", label: "Select Level" },
-  { value: "64cf197d9f81521cfba82c91", label: "Level 100" },
-  { value: "64cf19939f81521cfba82c97", label: "Level 200" },
-  { value: "64cf19ab9f81521cfba82c9d", label: "Level 300" },
+  { value: "Select", label: "Select" },
+  { value: "64cfd804c0970fa09be4e155", label: "Level 100" },
+  { value: "64cffb8615f5321a1513ee0a", label: "Level 200" },
+  { value: "64cffbbe15f5321a1513ee42", label: "Level 300" },
+];
+export const classLevelNameOptions = [
+  { value: "Select", label: "Select" },
+  { value: "Level_100", label: "Level_100" },
+  { value: "Level_200", label: "Level_200" },
+  { value: "Level_300", label: "Level_300" },
+];
+export const teachersOptions = [
+  { value: "Select", label: "Select" },
+  { value: "64d1273797a22c17e91c3d5f", label: "Mrs. Doris Essuman" },
+  { value: "64d279416a1a5e4e8d5c64fb", label: "Mr. Patrick Kenneford Annan" },
+  { value: "64d27ca95722656cea2b6aad", label: "Mrs. Matilda Asare" },
+  { value: "64d28463eac134cb917311a6", label: "Mr. Matthias Menk" },
+  { value: "64d296fbb2ad1593b4ad146e", label: "Mr. Maxwell Annan" },
+  { value: "64d2b448cd1cd7eaea00507c", label: "Mrs. Elena Bentum" },
 ];
 export const religionOptions = [
   { value: "None", label: "None" },
@@ -153,13 +172,13 @@ export const studentColumn = [
     selector: (row) =>
       row.currentClassLevel && (
         <>
-          {row.currentClassLevel.name === "Level 100" && (
+          {row.currentClassLevel.name === "Level_100" && (
             <div className="firstYearTag" title="1st Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 200" && (
+          {row.currentClassLevel.name === "Level_200" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+          {row.currentClassLevel.name === "Level_300" && !row.isGraduated && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
           {row.isGraduated && (
@@ -175,7 +194,7 @@ export const studentColumn = [
     selector: (row) =>
       row.currentClassLevel && (
         <>
-          {row.currentClassLevel.name === "Level 100" && (
+          {row.currentClassLevel.name === "Level_100" && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -200,7 +219,7 @@ export const studentColumn = [
               P-L200
             </Link>
           )}
-          {row.currentClassLevel.name === "Level 200" && (
+          {row.currentClassLevel.name === "Level_200" && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -227,7 +246,7 @@ export const studentColumn = [
               P-L300
             </Link>
           )}
-          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+          {row.currentClassLevel.name === "Level_300" && !row.isGraduated && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -337,13 +356,13 @@ export const classLevelStudentsColumn = [
     selector: (row) =>
       row.currentClassLevel && (
         <>
-          {row.currentClassLevel.name === "Level 100" && (
+          {row.currentClassLevel.name === "Level_100" && (
             <div className="firstYearTag" title="1st Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 200" && (
+          {row.currentClassLevel.name === "Level_200" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+          {row.currentClassLevel.name === "Level_300" && !row.isGraduated && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
           {row.isGraduated && (
@@ -359,7 +378,7 @@ export const classLevelStudentsColumn = [
     selector: (row) =>
       row.currentClassLevel && (
         <>
-          {row.currentClassLevel.name === "Level 100" && (
+          {row.currentClassLevel.name === "Level_100" && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -384,7 +403,7 @@ export const classLevelStudentsColumn = [
               P-L200
             </Link>
           )}
-          {row.currentClassLevel.name === "Level 200" && (
+          {row.currentClassLevel.name === "Level_200" && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -411,7 +430,7 @@ export const classLevelStudentsColumn = [
               P-L300
             </Link>
           )}
-          {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
+          {row.currentClassLevel.name === "Level_300" && !row.isGraduated && (
             <Link
               className="editLink"
               onClick={async () => {
@@ -513,86 +532,6 @@ export const graduatesColumn = [
         </>
       ),
   },
-  // {
-  //   name: "Promote",
-  //   selector: (row) =>
-  //     row.currentClassLevel && (
-  //       <>
-  //         {row.currentClassLevel.name === "Level 100" && (
-  //           <Link
-  //             className="editLink"
-  //             onClick={async () => {
-  //               try {
-  //                 await axios.put(
-  //                   `${API_ENDPOINT}/students/promote_student_200/${row._id}`
-  //                 );
-  //                 window.location.reload();
-  //               } catch (error) {
-  //                 console.error(error);
-  //               }
-  //             }}
-  //             // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
-  //           >
-  //             P-L200
-  //           </Link>
-  //         )}
-  //         {row.currentClassLevel.name === "Level 200" && (
-  //           <Link
-  //             className="editLink"
-  //             onClick={async () => {
-  //               try {
-  //                 await axios.put(
-  //                   `${API_ENDPOINT}/students/promote_student_300/${row._id}`
-  //                 );
-  //                 window.location.reload();
-  //               } catch (error) {
-  //                 console.error(error);
-  //               }
-  //             }}
-  //             // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
-  //           >
-  //             P-L300
-  //           </Link>
-  //         )}
-  //         {row.currentClassLevel.name === "Level 300" && !row.isGraduated && (
-  //           <Link
-  //             className="graduatedLink"
-  //             onClick={async () => {
-  //               try {
-  //                 await axios.put(
-  //                   `${API_ENDPOINT}/students/isgraduated/${row._id}`
-  //                 );
-  //                 window.location.reload();
-  //               } catch (error) {
-  //                 console.error(error);
-  //               }
-  //             }}
-  //           >
-  //             Graduate
-  //           </Link>
-  //         )}
-  //         {row.isGraduated && (
-  //           <Link
-  //             className="isGraduatedLink"
-  //             // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
-  //           >
-  //             Graduated
-  //           </Link>
-  //         )}
-  //       </>
-  //     ),
-  // },
-  // {
-  //   name: "Edit",
-  //   selector: (row) => (
-  //     <Link
-  //       className="editLink"
-  //       to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
-  //     >
-  //       <EditIcon />
-  //     </Link>
-  //   ),
-  // },
 ];
 
 export const studentProgramColumn = [
@@ -644,13 +583,13 @@ export const studentProgramColumn = [
     selector: (row) =>
       row.currentClassLevel ? (
         <>
-          {row.currentClassLevel.name === "Level 100" && (
+          {row.currentClassLevel.name === "Level_100" && (
             <div className="firstYearTag" title="1st Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 200" && (
+          {row.currentClassLevel.name === "Level_200" && (
             <div className="secondYearTag" title="2nd Year"></div>
           )}
-          {row.currentClassLevel.name === "Level 300" && (
+          {row.currentClassLevel.name === "Level_300" && (
             <div className="thirdYearTag" title="3rd Year"></div>
           )}
         </>

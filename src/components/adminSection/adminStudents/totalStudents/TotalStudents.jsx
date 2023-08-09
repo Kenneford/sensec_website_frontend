@@ -139,13 +139,13 @@ export default function TotalStudents({ toast, toastOptions }) {
           </button>
         </div>
         <div className="searchDetails">
+          {allStudents?.length === 0 &&
+            location.pathname === "/sensec/admin/students" && (
+              <p className="searchInfo">No Student Found!</p>
+            )}
           {!searchStatus && (
             <p className="searchInfo">Total Students = {allStudents.length}</p>
           )}
-          {allStudents?.length === 0 &&
-            location.pathname === "/sensec/admin/students" && (
-              <p className="searchInfo">No Student Found</p>
-            )}
           {allStudents?.length === 0 &&
             location.pathname !== "/sensec/admin/students" && (
               <p className="searchInfo">

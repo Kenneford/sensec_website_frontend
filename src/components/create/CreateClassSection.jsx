@@ -2,22 +2,34 @@ import React, { useEffect, useState } from "react";
 import "./create.scss";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { academicYearOptions } from "../../options/options";
+import {
+  academicYearOptions,
+  classLevelOptions,
+  programOptions,
+  teachersOptions,
+} from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
 import { createClassLevelSection } from "../../features/classLevels/classLevelSectionSlice";
+import {
+  fetchTeachers,
+  getAllTeachers,
+} from "../../features/teacher/teachersSlice";
 
 export default function CreateClassSection({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
   const { createLevelSectionStatus, successMessage, error } = useSelector(
     (state) => state.classLevelSection
   );
+  const allTeachers = useSelector(getAllTeachers);
 
   const dispatch = useDispatch();
   const [classSection, setClassSection] = useState({
-    section: "",
+    sectionName: "",
+    label: "",
     classLevel: "",
+    program: "",
     description: "",
     currentTeacher: "",
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
@@ -48,7 +60,10 @@ export default function CreateClassSection({ toast, toastOptions }) {
       return;
     } else {
       const formData = new FormData();
-      formData.append("name", classSection.name);
+      formData.append("sectionName", classSection.sectionName);
+      formData.append("label", classSection.label);
+      formData.append("classLevel", classSection.classLevel);
+      formData.append("program", classSection.program);
       formData.append("description", classSection.description);
       formData.append("createdBy", classSection.createdBy);
       formData.append("adminId", classSection.adminId);
@@ -84,6 +99,10 @@ export default function CreateClassSection({ toast, toastOptions }) {
     navigate,
   ]);
 
+  useEffect(() => {
+    dispatch(fetchTeachers());
+  }, [dispatch]);
+
   setTimeout(() => {
     if (createLevelSectionStatus === "success") {
       window.location.reload();
@@ -94,23 +113,23 @@ export default function CreateClassSection({ toast, toastOptions }) {
       <h3>Class Section Form</h3>
       <form onSubmit={handleClassSection}>
         <div className="inputField">
-          <label htmlFor="section">Section Name</label>
+          <label htmlFor="sectionName">Section Name</label>
           <input
             type="text"
-            name="section"
+            name="sectionName"
             onChange={handleInputValues}
             placeholder=""
-            value={classSection.section}
+            value={classSection.sectionName}
           />
         </div>
         <div className="inputField">
-          <label htmlFor="classLevel">Class Level</label>
+          <label htmlFor="label">Label</label>
           <input
             type="text"
-            name="classLevel"
+            name="label"
             onChange={handleInputValues}
             placeholder=""
-            value={classSection.classLevel}
+            value={classSection.label}
           />
         </div>
         <div className="inputField">
@@ -123,15 +142,62 @@ export default function CreateClassSection({ toast, toastOptions }) {
             value={classSection.description}
           />
         </div>
-        <div className="inputField">
-          <label htmlFor="currentTeacher">Teacher</label>
-          <input
-            type="text"
-            name="currentTeacher"
+        <div className="selector">
+          <label htmlFor="classLevel">Class Level</label>
+          <select
+            className="select"
+            value={classSection.classLevel}
             onChange={handleInputValues}
-            placeholder=""
+            name="classLevel"
+          >
+            {classLevelOptions.map((classLevel) => (
+              <option
+                key={classLevel.label}
+                value={classLevel.value}
+                className="selectOptions"
+              >
+                {classLevel.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
+          <label htmlFor="program">Program</label>
+          <select
+            className="select"
+            value={classSection.program}
+            onChange={handleInputValues}
+            name="program"
+          >
+            {programOptions.map((program) => (
+              <option
+                key={program.label}
+                value={program.value}
+                className="selectOptions"
+              >
+                {program.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
+          <label htmlFor="currentTeacher">Teacher</label>
+          <select
+            className="select"
             value={classSection.currentTeacher}
-          />
+            onChange={handleInputValues}
+            name="currentTeacher"
+          >
+            {teachersOptions.map((teacher) => (
+              <option
+                key={teacher.label}
+                value={teacher.value}
+                className="selectOptions"
+              >
+                {teacher.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="addStudentBtnWrap">
           <button

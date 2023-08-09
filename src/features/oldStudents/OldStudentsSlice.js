@@ -43,7 +43,6 @@ const yearGroupSlice = createSlice({
           yearGroupInfo: action.payload.oldStudents,
           successMessage: action.payload.successMessage,
           createStatus: "success",
-          yearGroupError: "",
         };
       } else return state;
     });

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   complexionOptions,
   otherTongueOptions,
+  programOptions,
   regionOptions,
   religionOptions,
 } from "../../../options/options";
@@ -355,14 +356,24 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 value={newTeacher.nationality}
               />
             </div>
-            <div className="inputField">
+            <div className="selector">
               <label htmlFor="program">Program</label>
-              <input
-                type="text"
+              <select
+                className="select"
+                value={newTeacher.program}
                 onChange={handleInputValues}
                 name="program"
-                value={newTeacher.program}
-              />
+              >
+                {programOptions.map((program) => (
+                  <option
+                    key={program.label}
+                    value={program.value}
+                    className="selectOptions"
+                  >
+                    {program.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="sexField">
               <div className="genderWrap">

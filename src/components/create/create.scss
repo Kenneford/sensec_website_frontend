@@ -38,9 +38,17 @@
         padding: 0.1rem 1rem;
         font-weight: 100;
         .selectOptions {
+          display: flex;
           background-color: #fff;
           color: #292929;
           font-size: 1.1rem;
+          .hasClass {
+            margin-left: 2rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: green;
+          }
         }
       }
     }

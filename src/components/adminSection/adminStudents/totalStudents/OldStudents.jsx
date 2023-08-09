@@ -10,6 +10,7 @@ import {
   getAllStudents,
   fetchGraduates,
   getAllGraduates,
+  searchOldStudent,
 } from "../../../../features/student/studentsSlice";
 import { graduatesColumn } from "../../../../options/options";
 import { getAllClassLevels } from "../../../../features/classLevels/classLevelsSlice";
@@ -29,6 +30,7 @@ export default function OldStudents({ toast, toastOptions }) {
   const allClassLevels = useSelector(getAllClassLevels);
 
   const navigate = useNavigate();
+  console.log(searchStudent);
 
   const customStyle = {
     headRow: {
@@ -74,8 +76,10 @@ export default function OldStudents({ toast, toastOptions }) {
   const handleStudentSearch = (e) => {
     e.preventDefault();
     if (searchStudent) {
-      dispatch(studentSearch(searchStudent));
-      navigate(`/sensec/admin/search_student?student_name=${searchStudent}`);
+      dispatch(searchOldStudent(searchStudent));
+      navigate(
+        `/sensec/admin/old_students/search_student?student_name=${searchStudent}`
+      );
     }
   };
 
@@ -139,12 +143,12 @@ export default function OldStudents({ toast, toastOptions }) {
           {!searchStatus && (
             <p className="searchInfo">Total Students = {allGraduates.length}</p>
           )}
-          {allStudents?.length === 0 &&
-            location.pathname === "/sensec/admin/students" && (
+          {allGraduates?.length === 0 &&
+            location.pathname === `/sensec/admin/old_students/${graduates}` && (
               <p className="searchInfo">No Student Found</p>
             )}
-          {allStudents?.length === 0 &&
-            location.pathname !== "/sensec/admin/students" && (
+          {allGraduates?.length === 0 &&
+            location.pathname !== `/sensec/admin/old_students/${graduates}` && (
               <p className="searchInfo">
                 We couldn't find any matches for "{student_name}"
               </p>
@@ -154,7 +158,7 @@ export default function OldStudents({ toast, toastOptions }) {
           <button
             className="goBack-btn"
             onClick={() => {
-              navigate("/sensec/admin/students");
+              navigate(`/sensec/admin/old_students/${graduates}`);
               window.location.reload();
             }}
           >

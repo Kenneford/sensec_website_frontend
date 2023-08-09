@@ -14,6 +14,7 @@ import academicTermReducer from "../features/academics/academicTerm/academicTerm
 import yearGroupReducer from "../features/oldStudents/OldStudentsSlice";
 import academicProgramReducer from "../features/academics/academicProgram/academicProgram";
 import electiveSubjectReducer from "../features/academics/createSubjects/electiveSubjectSlice";
+import coreSubjectReducer from "../features/academics/createSubjects/coreSubjectSlice";
 // import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export const store = configureStore({
@@ -32,6 +33,7 @@ export const store = configureStore({
     academicTerm: academicTermReducer,
     academicProgram: academicProgramReducer,
     electiveSubject: electiveSubjectReducer,
+    coreSubject: coreSubjectReducer,
     yearGroup: yearGroupReducer,
   },
   //   middleware: getDefaultMiddleware({

@@ -30,14 +30,14 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
   const agricProgram = useSelector(getAgricProgram);
   const [program, setProgram] = useState(false);
   const [programForm, setProgramForm] = useState(false);
-  const [subject, setSubject] = useState(false);
+  const [electiveSubject, setElectiveSubject] = useState(false);
   const [subjectForm, setSubjectForm] = useState(false);
   console.log(allProgrammes);
   console.log(allSubjects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(program);
-  console.log(subject);
+  console.log(electiveSubject);
   console.log(agricProgram);
 
   useEffect(() => {
@@ -72,19 +72,23 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
       <div className="options">
         <button
           className="optionBtn"
-          onClick={() => setProgram(!program, setSubject(false))}
+          onClick={() => setProgram(!program, setElectiveSubject(false))}
         >
           Programs
         </button>
         <button
           className="optionBtn"
-          onClick={() => setSubject(!subject, setProgram(false))}
+          onClick={() =>
+            setElectiveSubject(!electiveSubject, setProgram(false))
+          }
         >
           Elective Subjects
         </button>
         <button
           className="optionBtn"
-          onClick={() => setSubject(!subject, setProgram(false))}
+          onClick={() =>
+            setElectiveSubject(!electiveSubject, setProgram(false))
+          }
         >
           Core Subjects
         </button>
@@ -130,7 +134,7 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
           </div>
         </div>
       )}
-      {subject && (
+      {electiveSubject && (
         <div className="adminStudentsContent">
           <div className="dashBoardContent">
             {allSubjects.map((sbj) => (
