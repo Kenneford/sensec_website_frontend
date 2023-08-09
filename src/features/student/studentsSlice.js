@@ -224,6 +224,16 @@ export const studentSearch = createAsyncThunk(
     return response.data;
   }
 );
+export const searchOldStudent = createAsyncThunk(
+  "Student/searchOldStudent",
+  async (student_name, { rejectWithValue }) => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/graduates/search_student?student_name=${student_name}`
+    );
+    console.log(response.data);
+    return response.data;
+  }
+);
 
 const studentSlice = createSlice({
   name: "Student",
@@ -438,6 +448,28 @@ const studentSlice = createSlice({
       } else return state;
     });
     builder.addCase(studentSearch.rejected, (state, action) => {
+      return {
+        ...state,
+        searchStudentStatus: "rejected",
+        studentError: action.payload.errorMessage,
+      };
+    });
+
+    builder.addCase(searchOldStudent.pending, (state, action) => {
+      return { ...state, searchStudentStatus: "pending" };
+    });
+    builder.addCase(searchOldStudent.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allStudents: action.payload.student,
+          studentSuccessMessage: action.payload.successMessage,
+          searchStudentStatus: "success",
+          fetchingStudentStatus: "",
+        };
+      } else return state;
+    });
+    builder.addCase(searchOldStudent.rejected, (state, action) => {
       return {
         ...state,
         searchStudentStatus: "rejected",

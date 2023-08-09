@@ -28,6 +28,16 @@ export const createAcademicTerm = createAsyncThunk(
     }
   }
 );
+export const fetchAllAcademicTerms = createAsyncThunk(
+  "Academics/fetchAllAcademicTerms",
+  async () => {
+    const res = await axios.get(
+      `${API_ENDPOINT}/admins/academics/get_academic_terms`
+    );
+    console.log(res.data);
+    return res.data;
+  }
+);
 
 const academicTermSlice = createSlice({
   name: "Academics",
@@ -55,7 +65,30 @@ const academicTermSlice = createSlice({
         academicTermError: action.payload,
       };
     });
+    builder.addCase(fetchAllAcademicTerms.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchAllAcademicTerms.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allAcademicTerms: action.payload.academicTerms,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchAllAcademicTerms.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
+        academicTermError: action.payload,
+      };
+    });
   },
 });
+
+export const getAllAcademicTerms = (state) =>
+  state.academicTerm.allAcademicTerms;
 
 export default academicTermSlice.reducer;

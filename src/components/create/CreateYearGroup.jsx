@@ -6,11 +6,16 @@ import { academicYearOptions } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { createYearGroup } from "../../features/oldStudents/OldStudentsSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  fetchAllYears,
+  getAllAcademicYears,
+} from "../../features/academics/academicYear/academicYearSlice";
 
 export default function CreateYearGroup({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
   const { createStatus, successMessage, yearGroupError, fetchingStatus } =
     useSelector((state) => state.yearGroup);
+  const allAcademicYears = useSelector(getAllAcademicYears);
 
   const dispatch = useDispatch();
   const [yearGroup, setYearGroup] = useState({
@@ -20,7 +25,7 @@ export default function CreateYearGroup({ toast, toastOptions }) {
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     adminId: authAdminInfo.adminId,
   });
-  console.log(yearGroup);
+  console.log(yearGroup.academicYear);
   const navigate = useNavigate();
   const handleInputValues = (e) => {
     setYearGroup({
@@ -73,6 +78,10 @@ export default function CreateYearGroup({ toast, toastOptions }) {
     toastOptions,
     navigate,
   ]);
+
+  useEffect(() => {
+    dispatch(fetchAllYears());
+  }, [dispatch]);
 
   setTimeout(() => {
     if (createStatus === "success") {

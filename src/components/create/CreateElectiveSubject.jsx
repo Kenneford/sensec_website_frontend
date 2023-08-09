@@ -7,17 +7,38 @@ import {
   academicYearOptions,
   classLevelOptions,
   programOptions,
+  teachersOptions,
 } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
 import { createElectiveSubject } from "../../features/academics/createSubjects/electiveSubjectSlice";
+import {
+  fetchTeachers,
+  getAllTeachers,
+} from "../../features/teacher/teachersSlice";
+import {
+  fetchAllProgrammes,
+  getAllProgrammes,
+} from "../../features/academics/academicProgram/academicProgram";
+import {
+  fetchAllAcademicTerms,
+  getAllAcademicTerms,
+} from "../../features/academics/academicTerm/academicTermSlice";
+import {
+  fetchClassLevels,
+  getAllClassLevels,
+} from "../../features/classLevels/classLevelsSlice";
 
 export default function CreateElectiveSubject({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
   const { createStatus, successMessage, error } = useSelector(
     (state) => state.electiveSubject
   );
+  const allTeachers = useSelector(getAllTeachers);
+  const allProgrammes = useSelector(getAllProgrammes);
+  const allAcademicTerms = useSelector(getAllAcademicTerms);
+  const allAllClassLevels = useSelector(getAllClassLevels);
 
   const dispatch = useDispatch();
   const [electiveSubject, setElectiveSubject] = useState({
@@ -79,6 +100,13 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
     }
   }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
 
+  useEffect(() => {
+    dispatch(fetchTeachers());
+    dispatch(fetchAllProgrammes());
+    dispatch(fetchAllAcademicTerms());
+    dispatch(fetchClassLevels());
+  }, [dispatch]);
+
   setTimeout(() => {
     if (createStatus === "success") {
       window.location.reload();
@@ -108,7 +136,7 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
             value={electiveSubject.description}
           />
         </div>
-        <div className="inputField">
+        {/* <div className="inputField">
           <label htmlFor="teacher">Teacher's Id</label>
           <input
             type="text"
@@ -117,6 +145,25 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
             placeholder=""
             value={electiveSubject.teacher}
           />
+        </div> */}
+        <div className="selector">
+          <label htmlFor="teacher">Teacher</label>
+          <select
+            className="select"
+            value={electiveSubject.teacher}
+            onChange={handleInputValues}
+            name="teacher"
+          >
+            {teachersOptions.map((teacher) => (
+              <option
+                key={teacher.label}
+                value={teacher.value}
+                className="selectOptions"
+              >
+                {teacher.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="selector">
           <label htmlFor="classLevel">Class Level</label>
@@ -126,13 +173,13 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
             onChange={handleInputValues}
             name="classLevel"
           >
-            {classLevelOptions.map((term) => (
+            {classLevelOptions.map((classLevel) => (
               <option
-                key={term.label}
-                value={term.value}
+                key={classLevel.label}
+                value={classLevel.value}
                 className="selectOptions"
               >
-                {term.label}
+                {classLevel.label}
               </option>
             ))}
           </select>

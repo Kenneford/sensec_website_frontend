@@ -2,22 +2,39 @@ import React, { useEffect, useState } from "react";
 import "./create.scss";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { academicYearOptions, programOptions } from "../../options/options";
+import {
+  academicTermOptions,
+  classLevelOptions,
+  teachersOptions,
+} from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
-import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
+import { createCoreSubject } from "../../features/academics/createSubjects/coreSubjectSlice";
+import {
+  fetchAllAcademicTerms,
+  getAllAcademicTerms,
+} from "../../features/academics/academicTerm/academicTermSlice";
+import {
+  fetchTeachers,
+  getAllTeachers,
+} from "../../features/teacher/teachersSlice";
 
 export default function CreateCoreSubject({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
-  const { createStatus, successMessage, academicYearError } = useSelector(
-    (state) => state.academicYear
+  const { createStatus, successMessage, error } = useSelector(
+    (state) => state.coreSubject
   );
+
+  const allTeachers = useSelector(getAllTeachers);
+  const allAcademicTerms = useSelector(getAllAcademicTerms);
 
   const dispatch = useDispatch();
   const [coreSubject, setCoreSubject] = useState({
     name: "",
     description: "",
     academicTerm: "",
+    teacher: "",
+    classLevel: "",
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     adminId: authAdminInfo.adminId,
   });
@@ -38,14 +55,17 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
     const formData = new FormData();
     formData.append("name", coreSubject.name);
     formData.append("description", coreSubject.description);
+    formData.append("academicTerm", coreSubject.academicTerm);
+    formData.append("classLevel", coreSubject.classLevel);
+    formData.append("teacher", coreSubject.teacher);
     formData.append("createdBy", coreSubject.createdBy);
     formData.append("adminId", coreSubject.adminId);
-    dispatch(createAcademicYear(coreSubject));
+    dispatch(createCoreSubject(coreSubject));
   };
 
   useEffect(() => {
     if (createStatus === "rejected") {
-      academicYearError.errorMessage.message.map((err) =>
+      error.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -62,20 +82,18 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
         // toastId: successId,
       });
     }
-  }, [
-    academicYearError,
-    successMessage,
-    createStatus,
-    toast,
-    toastOptions,
-    navigate,
-  ]);
+  }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
+
+  useEffect(() => {
+    dispatch(fetchTeachers());
+    dispatch(fetchAllAcademicTerms());
+  }, [dispatch]);
 
   setTimeout(() => {
     if (createStatus === "success") {
       window.location.reload();
     }
-  }, 2000);
+  }, 5000);
   return (
     <div className="formWrap">
       <h3>Core Subject Form</h3>
@@ -101,6 +119,44 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
           />
         </div>
         <div className="selector">
+          <label htmlFor="classLevel">Class Level</label>
+          <select
+            className="select"
+            value={coreSubject.classLevel}
+            onChange={handleInputValues}
+            name="classLevel"
+          >
+            {classLevelOptions.map((classLevel) => (
+              <option
+                key={classLevel.label}
+                value={classLevel.value}
+                className="selectOptions"
+              >
+                {classLevel.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
+          <label htmlFor="teacher">Teacher</label>
+          <select
+            className="select"
+            value={coreSubject.teacher}
+            onChange={handleInputValues}
+            name="teacher"
+          >
+            {teachersOptions.map((teacher) => (
+              <option
+                key={teacher.label}
+                value={teacher.value}
+                className="selectOptions"
+              >
+                {teacher.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
           <label htmlFor="academicTerm">Academic Term</label>
           <select
             className="select"
@@ -108,13 +164,13 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
             onChange={handleInputValues}
             name="academicTerm"
           >
-            {academicYearOptions.map((year) => (
+            {academicTermOptions.map((term) => (
               <option
-                key={year.label}
-                value={year.value}
+                key={term.label}
+                value={term.value}
                 className="selectOptions"
               >
-                {year.label}
+                {term.label}
               </option>
             ))}
           </select>

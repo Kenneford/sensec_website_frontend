@@ -398,23 +398,10 @@ export default function App() {
             path="/sensec/admin/old_students/:graduates"
             element={<OldStudents toastOptions={toastOptions} toast={toast} />}
           />
-          {/* <Route
-            path="/sensec/admin/students/:level_200"
-            element={
-              <Total2ndYearStudents
-                toastOptions={toastOptions}
-                toast={toast}
-                level200={level200}
-                setLevel100={setLevel100}
-                setLevel200={setLevel200}
-                setLevel300={setLevel300}
-                handleFirstYears={handleFirstYears}
-                handleSecondYears={handleSecondYears}
-                handleThirdYears={handleThirdYears}
-                handleOldStudents={handleOldStudents}
-              />
-            }
-          /> */}
+          <Route
+            path="/sensec/admin/old_students/search_student"
+            element={<OldStudents toastOptions={toastOptions} toast={toast} />}
+          />
           <Route
             path="/sensec/admin/search_student"
             element={

@@ -10,7 +10,11 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { adminPost } from "../../../features/posts/postSlice";
+import {
+  adminPost,
+  fetchPosts,
+  getAllPosts,
+} from "../../../features/posts/postSlice";
 import {
   fetchStaffs,
   fetchTeachers,
@@ -41,6 +45,7 @@ export default function DashboardContent({ toast }) {
   const allStaffs = useSelector(getAllStaffs);
   const allTeachers = useSelector(getAllTeachers);
   const authAdminInfo = useSelector(getAdminInfo);
+  const allPosts = useSelector(getAllPosts);
   const { postStatus, success, error } = useSelector((state) => state.post);
 
   // const [editorState, setEditorState] = useState(() =>
@@ -165,6 +170,9 @@ export default function DashboardContent({ toast }) {
     }
   }, [error, success, postStatus, toast]);
 
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
   setTimeout(() => {
     if (postStatus === "success") {
       navigate("/sensec/general_announcement/#generalNotice");
@@ -256,7 +264,7 @@ export default function DashboardContent({ toast }) {
                   }}
                 />
               </div>
-              <div className="totalTeachers">34</div>
+              <div className="totalTeachers">{allPosts.length}</div>
             </div>
             <div className="pending">
               <h4>Old Notice</h4>
