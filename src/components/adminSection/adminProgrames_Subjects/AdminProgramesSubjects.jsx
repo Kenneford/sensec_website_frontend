@@ -31,6 +31,7 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
   const [program, setProgram] = useState(false);
   const [programForm, setProgramForm] = useState(false);
   const [electiveSubject, setElectiveSubject] = useState(false);
+  const [coreSubject, setCoreSubject] = useState(false);
   const [subjectForm, setSubjectForm] = useState(false);
   console.log(allProgrammes);
   console.log(allSubjects);
@@ -126,7 +127,7 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
                     }}
                   />
                   <div className="pendingStudents">
-                    {prgrm.subjects?.length}
+                    {prgrm.electiveSubjects?.length}
                   </div>
                 </div>
               </div>

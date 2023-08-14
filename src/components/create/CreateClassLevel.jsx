@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./create.scss";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { academicYearOptions } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
-import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
 import { createClassLevel } from "../../features/classLevels/classLevelsSlice";
 
@@ -36,7 +34,7 @@ export default function CreateClassLevel({ toast, toastOptions }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", classLevel.name);
+    formData.append("name", classLevel.name.replace(/ /g, "_"));
     formData.append("description", classLevel.description);
     formData.append("createdBy", classLevel.createdBy);
     formData.append("adminId", classLevel.adminId);
@@ -80,7 +78,7 @@ export default function CreateClassLevel({ toast, toastOptions }) {
             name="name"
             onChange={handleInputValues}
             placeholder=""
-            value={classLevel.name}
+            value={classLevel.name.replace(/ /g, "_")}
           />
         </div>
         <div className="inputField">

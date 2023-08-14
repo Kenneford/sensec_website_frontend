@@ -3,17 +3,12 @@ import "./create.scss";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  academicYearOptions,
   classLevelNameOptions,
   classLevelOptions,
 } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
-import { createAcademicYear } from "../../features/academics/academicYear/academicYearSlice";
 import { useNavigate } from "react-router-dom";
-import {
-  createProgram,
-  fetchAllProgrammes,
-} from "../../features/academics/academicProgram/academicProgram";
+import { createProgram } from "../../features/academics/academicProgram/academicProgram";
 
 export default function CreateProgram({ toast, toastOptions }) {
   const authAdminInfo = useSelector(getAdminInfo);
@@ -25,8 +20,6 @@ export default function CreateProgram({ toast, toastOptions }) {
   const [program, setProgram] = useState({
     name: "",
     description: "",
-    classLevel: "",
-    classLevelName: "",
     createdBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
     adminId: authAdminInfo.adminId,
   });
@@ -45,10 +38,8 @@ export default function CreateProgram({ toast, toastOptions }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", program.name);
+    formData.append("name", program.name.replace(/ /g, "_"));
     formData.append("description", program.description);
-    formData.append("classLevel", program.classLevel);
-    formData.append("classLevelName", program.classLevelName);
     formData.append("createdBy", program.createdBy);
     formData.append("adminId", program.adminId);
     dispatch(createProgram(program));
@@ -79,7 +70,7 @@ export default function CreateProgram({ toast, toastOptions }) {
     if (createStatus === "success") {
       window.location.reload();
     }
-  }, 2000);
+  }, 5000);
   return (
     <div className="formWrap">
       <h3>Program Form</h3>
@@ -91,7 +82,7 @@ export default function CreateProgram({ toast, toastOptions }) {
             name="name"
             onChange={handleInputValues}
             placeholder=""
-            value={program.name}
+            value={program.name.replace(/ /g, "_")}
           />
         </div>
         <div className="inputField">
@@ -103,44 +94,6 @@ export default function CreateProgram({ toast, toastOptions }) {
             placeholder=""
             value={program.description}
           />
-        </div>
-        <div className="selector">
-          <label htmlFor="classLevel">Class Level</label>
-          <select
-            className="select"
-            value={program.classLevel}
-            onChange={handleInputValues}
-            name="classLevel"
-          >
-            {classLevelOptions.map((classLevel) => (
-              <option
-                key={classLevel.label}
-                value={classLevel.value}
-                className="selectOptions"
-              >
-                {classLevel.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="selector">
-          <label htmlFor="classLevelName">Class-Level Name</label>
-          <select
-            className="select"
-            value={program.classLevelName}
-            onChange={handleInputValues}
-            name="classLevelName"
-          >
-            {classLevelNameOptions.map((classLevelName) => (
-              <option
-                key={classLevelName.label}
-                value={classLevelName.value}
-                className="selectOptions"
-              >
-                {classLevelName.label}
-              </option>
-            ))}
-          </select>
         </div>
         <div className="addStudentBtnWrap">
           <button

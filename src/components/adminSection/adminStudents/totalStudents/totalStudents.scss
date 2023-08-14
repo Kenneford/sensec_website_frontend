@@ -298,5 +298,23 @@
         }
       }
     }
+    .classLeveSections {
+      .levelSections {
+        display: flex;
+        // justify-content: center;
+        padding-left: 14.3rem;
+        span {
+          display: flex;
+          gap: 0.5rem;
+          .greenBackground {
+            background-color: yellow;
+            color: #292929;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }

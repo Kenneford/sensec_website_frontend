@@ -20,6 +20,10 @@ import {
   getAllClassLevels,
   getSingleClassLevel,
 } from "../../../../features/classLevels/classLevelsSlice";
+import {
+  fetchAllClassLevelSections,
+  getAllClassLevelSections,
+} from "../../../../features/classLevels/classLevelSectionSlice";
 
 export default function ClassLevelStudents({ toast, toastOptions }) {
   const {
@@ -34,13 +38,18 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const { class_level } = useParams();
+  console.log(class_level);
   const allStudents = useSelector(getAllStudents);
   const allClassLevels = useSelector(getAllClassLevels);
+  const allClassLevelSections = useSelector(getAllClassLevelSections);
   const singleClassLevel = useSelector(getSingleClassLevel);
 
   const selectedClassLevel = allClassLevels.map(
     (cLevel) => cLevel.name === class_level
   );
+
+  console.log(allClassLevelSections);
+  console.log(JSON.stringify(selectedClassLevel));
 
   const navigate = useNavigate();
 
@@ -96,6 +105,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   useEffect(() => {
     dispatch(fetchStudents());
     dispatch(fetchClassLevels());
+    dispatch(fetchAllClassLevelSections());
     dispatch(fetchSingleClassLevel(class_level));
     dispatch(fetchClassLevel100());
     dispatch(fetchClassLevel200());
@@ -114,6 +124,14 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
       return;
     }
     if (searchStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+        })
+      );
+    }
+    if (studentError) {
       studentError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
@@ -212,18 +230,40 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
               </div>
             </div>
           )}
-          <>
+          <div className="classLeveSections">
+            <div className="levelSections">
+              {allClassLevels.map((cLevel) => (
+                <span key={cLevel._id}>
+                  {cLevel.name === class_level &&
+                    cLevel.sections.map((c) => (
+                      <p
+                        key={c._id}
+                        className={
+                          cLevel.name === class_level && "greenBackground"
+                        }
+                        onClick={() =>
+                          navigate(
+                            `/sensec/admin/students/${cLevel.name}/${c.sectionName}_Students`
+                          )
+                        }
+                      >
+                        {c.sectionName}
+                      </p>
+                    ))}
+                </span>
+              ))}
+            </div>
             <h3>
               {singleClassLevel?.name} Students / Total ={" "}
               {singleClassLevel?.students?.length}
             </h3>
-            <DataTable
-              columns={classLevelStudentsColumn}
-              data={singleClassLevel.students}
-              customStyles={customStyle}
-              pagination
-            />
-          </>
+          </div>
+          <DataTable
+            columns={classLevelStudentsColumn}
+            data={singleClassLevel.students}
+            customStyles={customStyle}
+            pagination
+          />
         </div>
       </div>
     </div>

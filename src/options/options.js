@@ -1,24 +1,41 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { API_ENDPOINT } from "../apiEndPoint/api";
-import { useSelector } from "react-redux";
-import { getStudentInfo } from "../features/student/studentsSlice";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
 
 export const programOptions = [
   { value: "Select", label: "Select" },
-  { value: "64d27b345722656cea2b6a92", label: "Visaul Arts" },
-  { value: "64cfd92ac0970fa09be4e165", label: "General Arts_1" },
-  { value: "64cfd961c0970fa09be4e16c", label: "General Arts_2" },
-  { value: "64cfd98bc0970fa09be4e173", label: "General Arts_3" },
-  { value: "64cfd9a4c0970fa09be4e17a", label: "General Arts_4" },
-  { value: "64d2787a6a1a5e4e8d5c64e3", label: "Business" },
-  { value: "64d3e5efe6daeca15d022416", label: "General Science" },
-  { value: "64cfda5ac0970fa09be4e18f", label: "Agric Science" },
-  { value: "64cfda91c0970fa09be4e196", label: "Home Economics_1" },
-  { value: "64cfdab1c0970fa09be4e19d", label: "Home Economics_2" },
+  { value: "64d9590d41b1b91c4bbcc6e7", label: "Business" },
+  { value: "64d80991f457ed82531d78c8", label: "Visaul Arts" },
+  { value: "64d74dbd2d98841f7c9ee4c5", label: "Agric Science" },
+  { value: "64d751852d98841f7c9ee4d5", label: "General Arts_1" },
+  { value: "64d752682d98841f7c9ee4dd", label: "General Arts_2" },
+  { value: "64d752932d98841f7c9ee4e5", label: "General Arts_3" },
+  { value: "64d753172d98841f7c9ee4ed", label: "General Arts_4" },
+  { value: "64d751092d98841f7c9ee4cd", label: "General Science" },
+  { value: "64d753832d98841f7c9ee4f5", label: "Home Economics_1" },
+  { value: "64d753be2d98841f7c9ee4fd", label: "Home Economics_2" },
+];
+export const sectionsNameOptions = [
+  { value: "Select", label: "Select" },
+  { value: "Business", label: "Business" },
+  { value: "Visaul_Arts", label: "Visaul Arts" },
+  { value: "Agric_Science", label: "Agric Science" },
+  { value: "General_Arts_1", label: "General Arts 1" },
+  { value: "General_Arts_2", label: "General Arts 2" },
+  { value: "General_Arts_3", label: "General Arts 3" },
+  { value: "General_Arts_4", label: "General Arts 4" },
+  { value: "General_Science", label: "General Science" },
+  { value: "Home_Economics_1", label: "Home Economics 1" },
+  { value: "Home_Economics_2", label: "Home Economics 2" },
+];
+export const classSectionLabelOptions = [
+  { value: "Select", label: "Select" },
+  { value: "Level_100", label: "Level 100" },
+  { value: "Level_200", label: "Level 200" },
+  { value: "Level_300", label: "Level 300" },
 ];
 export const academicYearOptions = [
   { value: "Select", label: "Select" },
@@ -36,9 +53,9 @@ export const academicTermOptions = [
 
 export const classLevelOptions = [
   { value: "Select", label: "Select" },
-  { value: "64cfd804c0970fa09be4e155", label: "Level 100" },
-  { value: "64cffb8615f5321a1513ee0a", label: "Level 200" },
-  { value: "64cffbbe15f5321a1513ee42", label: "Level 300" },
+  { value: "64d808e7f457ed82531d78b0", label: "Level 100" },
+  { value: "64d8090bf457ed82531d78b6", label: "Level 200" },
+  { value: "64d80926f457ed82531d78bc", label: "Level 300" },
 ];
 export const classLevelNameOptions = [
   { value: "Select", label: "Select" },
@@ -48,11 +65,12 @@ export const classLevelNameOptions = [
 ];
 export const teachersOptions = [
   { value: "Select", label: "Select" },
-  { value: "64d1273797a22c17e91c3d5f", label: "Mrs. Doris Essuman" },
-  { value: "64d279416a1a5e4e8d5c64fb", label: "Mr. Patrick Kenneford Annan" },
+  { value: "64d80b21f457ed82531d7902", label: "Mrs. Doris Essuman" },
+  { value: "64d7d93b816ce6d302194c82", label: "Mr. Patrick Kenneford Bentum" },
   { value: "64d27ca95722656cea2b6aad", label: "Mrs. Matilda Asare" },
-  { value: "64d28463eac134cb917311a6", label: "Mr. Matthias Menk" },
-  { value: "64d296fbb2ad1593b4ad146e", label: "Mr. Maxwell Annan" },
+  { value: "64d80a4cf457ed82531d78d3", label: "Mr. Matthias Menk" },
+  { value: "64d7eeaff457ed82531d6a2f", label: "Mr. Maxwell Mensah" },
+  { value: "64d80ad7f457ed82531d78f3", label: "Mr. Stephen Mensah" },
   { value: "64d2b448cd1cd7eaea00507c", label: "Mrs. Elena Bentum" },
 ];
 export const religionOptions = [
@@ -199,17 +217,19 @@ export const studentColumn = [
               className="editLink"
               onClick={async () => {
                 try {
-                  await axios.put(
+                  const res = await axios.put(
                     `${API_ENDPOINT}/students/promote_student_200/${row._id}`
                   );
-                  toast.success("Student promoted successfully...", {
-                    position: "top-right",
-                    theme: "dark",
-                    // toastId: successId,
-                  });
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 5000);
+                  if (res) {
+                    toast.success("Student promoted successfully...", {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 5000);
+                  }
                 } catch (error) {
                   console.error(error);
                 }
@@ -522,14 +542,10 @@ export const graduatesColumn = [
   {
     name: "Graduate",
     selector: (row) =>
-      row.currentClassLevel && (
-        <>
-          {row.isGraduated && (
-            <div className="isGraduated" title="Graduated">
-              <SchoolOutlinedIcon />
-            </div>
-          )}
-        </>
+      row.isGraduated && (
+        <div className="isGraduated" title="Graduated">
+          <SchoolOutlinedIcon />
+        </div>
       ),
   },
 ];
