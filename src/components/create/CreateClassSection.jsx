@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   academicYearOptions,
   classLevelOptions,
+  classSectionLabelOptions,
   programOptions,
+  sectionsNameOptions,
   teachersOptions,
 } from "../../options/options";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
@@ -60,7 +62,10 @@ export default function CreateClassSection({ toast, toastOptions }) {
       return;
     } else {
       const formData = new FormData();
-      formData.append("sectionName", classSection.sectionName);
+      formData.append(
+        "sectionName",
+        classSection.sectionName.replace(/ /g, "_")
+      );
       formData.append("label", classSection.label);
       formData.append("classLevel", classSection.classLevel);
       formData.append("program", classSection.program);
@@ -112,25 +117,43 @@ export default function CreateClassSection({ toast, toastOptions }) {
     <div className="formWrap">
       <h3>Class Section Form</h3>
       <form onSubmit={handleClassSection}>
-        <div className="inputField">
+        <div className="selector">
           <label htmlFor="sectionName">Section Name</label>
-          <input
-            type="text"
-            name="sectionName"
-            onChange={handleInputValues}
-            placeholder=""
+          <select
+            className="select"
             value={classSection.sectionName}
-          />
-        </div>
-        <div className="inputField">
-          <label htmlFor="label">Label</label>
-          <input
-            type="text"
-            name="label"
             onChange={handleInputValues}
-            placeholder=""
+            name="sectionName"
+          >
+            {sectionsNameOptions.map((name) => (
+              <option
+                key={name.label}
+                value={name.value}
+                className="selectOptions"
+              >
+                {name.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="selector">
+          <label htmlFor="label">Label</label>
+          <select
+            className="select"
             value={classSection.label}
-          />
+            onChange={handleInputValues}
+            name="label"
+          >
+            {classSectionLabelOptions.map((label) => (
+              <option
+                key={label.label}
+                value={label.value}
+                className="selectOptions"
+              >
+                {label.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="inputField">
           <label htmlFor="description">Description</label>

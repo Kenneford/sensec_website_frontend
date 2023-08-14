@@ -43,6 +43,23 @@ export default function CreateNewData({ toast, toastOptions }) {
         <button
           className="createBtn"
           onClick={() =>
+            setShowYearGroup(
+              !showYearGroup,
+              setShowAcadmicYear(false),
+              setShowAcadmicTerm(false),
+              setShowClassLevel(false),
+              setShowClassSection(false),
+              setShowProgram(false),
+              setShowCoreSubject(false),
+              setShowElectiveSubject(false)
+            )
+          }
+        >
+          Year Group
+        </button>
+        <button
+          className="createBtn"
+          onClick={() =>
             setShowAcadmicTerm(
               !showAcadmicTerm,
               setShowYearGroup(false),
@@ -77,40 +94,6 @@ export default function CreateNewData({ toast, toastOptions }) {
         <button
           className="createBtn"
           onClick={() =>
-            setShowClassSection(
-              !showclassSection,
-              setShowAcadmicYear(false),
-              setShowAcadmicTerm(false),
-              setShowClassLevel(false),
-              setShowYearGroup(false),
-              setShowProgram(false),
-              setShowCoreSubject(false),
-              setShowElectiveSubject(false)
-            )
-          }
-        >
-          Class Section
-        </button>
-        <button
-          className="createBtn"
-          onClick={() =>
-            setShowYearGroup(
-              !showYearGroup,
-              setShowAcadmicYear(false),
-              setShowAcadmicTerm(false),
-              setShowClassLevel(false),
-              setShowClassSection(false),
-              setShowProgram(false),
-              setShowCoreSubject(false),
-              setShowElectiveSubject(false)
-            )
-          }
-        >
-          Year Group
-        </button>
-        <button
-          className="createBtn"
-          onClick={() =>
             setShowProgram(
               !showProgram,
               setShowAcadmicYear(false),
@@ -124,6 +107,23 @@ export default function CreateNewData({ toast, toastOptions }) {
           }
         >
           Program
+        </button>
+        <button
+          className="createBtn"
+          onClick={() =>
+            setShowClassSection(
+              !showclassSection,
+              setShowAcadmicYear(false),
+              setShowAcadmicTerm(false),
+              setShowClassLevel(false),
+              setShowYearGroup(false),
+              setShowProgram(false),
+              setShowCoreSubject(false),
+              setShowElectiveSubject(false)
+            )
+          }
+        >
+          Class Section
         </button>
         <button
           className="createBtn"

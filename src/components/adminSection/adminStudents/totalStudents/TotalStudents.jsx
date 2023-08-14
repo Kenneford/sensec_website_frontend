@@ -173,7 +173,7 @@ export default function TotalStudents({ toast, toastOptions }) {
               >
                 All Enrolled Students
               </span>
-              {allClassLevels?.map((cLevel) => (
+              {allClassLevels.map((cLevel) => (
                 <span
                   key={cLevel._id}
                   onClick={() =>

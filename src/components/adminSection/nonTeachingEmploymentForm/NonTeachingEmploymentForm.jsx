@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { staffRegistory } from "../../../features/staff/staffSlice";
 import {
   complexionOptions,
+  genderOptions,
   otherTongueOptions,
   regionOptions,
   religionOptions,
@@ -34,7 +35,7 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
     email: "",
     role: "",
     staffId: `STF-${num}-${currentYear}`,
-    isMale: "",
+    gender: "",
     profilePicture: "",
     address: "",
     currentCity: "",
@@ -120,7 +121,7 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
     formData.append("confirmPassword", newStaff.confirmPassword);
     formData.append("email", newStaff.email);
     formData.append("staffId", newStaff.staffId);
-    formData.append("isMale", newStaff.isMale);
+    formData.append("gender", newStaff.gender);
     formData.append("profilePicture", newStaff.profilePicture);
     formData.append("address", newStaff.address);
     formData.append("currentCity", newStaff.currentCity);
@@ -212,12 +213,15 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
                 placeholder="Will generate automatically."
                 value={newStaff.staffId}
               />
-              <div className="staffMember">
-                <span className="staffQuestion">Staff Role:</span>
-                <div className="staffAnswer">
-                  <h3>Non-Teaching Staff</h3>
-                </div>
-              </div>
+              <h3>Role</h3>
+              <input
+                className="idInput"
+                type="text"
+                name="role"
+                onChange={handleInputValues}
+                placeholder="Enter role here..."
+                value={newStaff.role}
+              />
             </div>
           </div>
         </div>
@@ -281,25 +285,24 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
                 value={newStaff.homeTown}
               />
             </div>
-            <div className="region">
-              <label htmlFor="region">Region:</label>
-              <Select
+            <div className="selector bottomSelect">
+              <label htmlFor="region">Region</label>
+              <select
+                className="select"
+                value={newStaff.region}
+                onChange={handleInputValues}
                 name="region"
-                id="selector"
-                defaultValue={regionOptions[0]}
-                options={regionOptions}
-                onChange={handleRegionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {regionOptions.map((region) => (
+                  <option
+                    key={region.label}
+                    value={region.value}
+                    className="selectOptions"
+                  >
+                    {region.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="currentCity">Current City</label>
@@ -321,51 +324,25 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
                 value={newStaff.nationality}
               />
             </div>
-            <div className="sexField">
-              <div className="genderWrap">
-                <label htmlFor="nationality">Gender:</label>
-                <div className="genderCont">
-                  <div className="radioGap">
-                    <label
-                      htmlFor="male"
-                      style={{
-                        color: "#696969",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Male
-                    </label>
-                    <input
-                      type="radio"
-                      onChange={handleInputValues}
-                      name="isMale"
-                      value={true}
-                      style={{ outline: "none" }}
-                      checked={newStaff.isMale === "true"}
-                    />
-                  </div>
-                  <div className="radioGap">
-                    <label
-                      htmlFor="female"
-                      style={{
-                        color: "#696969",
-                        outline: "none",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Female
-                    </label>
-                    <input
-                      type="radio"
-                      onChange={handleInputValues}
-                      name="isMale"
-                      value={false}
-                      style={{ outline: "none" }}
-                      checked={newStaff.isMale === "false"}
-                    />
-                  </div>
-                </div>
-              </div>
+            <div className="selector">
+              <label htmlFor="gender">Gender</label>
+              <select
+                className="select"
+                value={newStaff?.gender}
+                onChange={handleInputValues}
+                name="gender"
+                id=""
+              >
+                {genderOptions.map((gender) => (
+                  <option
+                    key={gender.label}
+                    value={gender.value}
+                    className="selectOptions"
+                  >
+                    {gender.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="address">Residential Address</label>
@@ -376,25 +353,24 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
                 value={newStaff.address}
               />
             </div>
-            <div className="religion">
+            <div className="selector">
               <label htmlFor="religion">Religion</label>
-              <Select
+              <select
+                className="select"
+                value={newStaff?.religion}
+                onChange={handleInputValues}
                 name="religion"
-                id="selector"
-                defaultValue={regionOptions[0]}
-                options={religionOptions}
-                onChange={handleReligionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {religionOptions.map((religion) => (
+                  <option
+                    key={religion.label}
+                    value={religion.value}
+                    className="selectOptions"
+                  >
+                    {religion.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="password">Password</label>
@@ -430,46 +406,44 @@ export default function NonTeachingEmploymentForm({ toast, toastOptions }) {
                 value={newStaff.motherTongue}
               />
             </div>
-            <div className="otherTongue">
-              <label htmlFor="otherTongue">Other Language(s)</label>
-              <CreatableSelect
+            <div className="selector bottomSelect">
+              <label htmlFor="otherTongue">Other Tongues</label>
+              <select
+                className="select"
+                value={newStaff?.otherTongue}
+                onChange={handleInputValues}
                 name="otherTongue"
-                id="selector"
-                isMulti={true}
-                // defaultValue={regionOptions[0]}
-                options={otherTongueOptions}
-                onChange={handleotherTongueInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {otherTongueOptions.map((otherTongue) => (
+                  <option
+                    key={otherTongue.label}
+                    value={otherTongue.value}
+                    className="selectOptions"
+                  >
+                    {otherTongue.label}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="complexion">
+            <div className="selector">
               <label htmlFor="complexion">Complexion</label>
-              <Select
+              <select
+                className="select"
+                value={newStaff.complexion}
+                onChange={handleInputValues}
                 name="complexion"
-                id="selector"
-                // defaultValue={regionOptions[0]}
-                options={complexionOptions}
-                onChange={handleComplexionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+                id=""
+              >
+                {complexionOptions.map((complexion) => (
+                  <option
+                    key={complexion.label}
+                    value={complexion.value}
+                    className="selectOptions"
+                  >
+                    {complexion.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="height">Height</label>

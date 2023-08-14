@@ -27,6 +27,16 @@ export const createClassLevelSection = createAsyncThunk(
     }
   }
 );
+export const fetchAllClassLevelSections = createAsyncThunk(
+  "ClassLevelSection/fetchAllClassLevelSections",
+  async () => {
+    const res = await axios.get(
+      `${API_ENDPOINT}/admins/academics/get_class_sections`
+    );
+    console.log(res.data);
+    return res.data;
+  }
+);
 
 const classLevelSectionsSlice = createSlice({
   name: "ClassLevelSection",
@@ -51,6 +61,27 @@ const classLevelSectionsSlice = createSlice({
       return {
         ...state,
         createLevelSectionStatus: "rejected",
+        error: action.payload,
+      };
+    });
+
+    builder.addCase(fetchAllClassLevelSections.pending, (state, action) => {
+      return { ...state, fetchingStatus: "pending" };
+    });
+    builder.addCase(fetchAllClassLevelSections.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allClassLevelSections: action.payload.classLevelSections,
+          successMessage: action.payload.successMessage,
+          fetchingStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchAllClassLevelSections.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStatus: "rejected",
         error: action.payload,
       };
     });

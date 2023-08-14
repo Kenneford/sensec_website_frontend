@@ -7,6 +7,7 @@ import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
 import {
   complexionOptions,
+  genderOptions,
   otherTongueOptions,
   programOptions,
   regionOptions,
@@ -43,7 +44,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     createdBy: `${authAdminInfo.id}`,
     adminId: `${authAdminInfo.adminId}`,
     teacherId: `TCH-${num}-${currentYear}`,
-    isMale: "",
+    gender: "",
     profilePicture: "",
     address: "",
     currentCity: "",
@@ -138,7 +139,7 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
     formData.append("teacherId", newTeacher.teacherId);
     formData.append("teacherSecret", newTeacher.teacherSecret);
     formData.append("program", newTeacher.program);
-    formData.append("isMale", newTeacher.isMale);
+    formData.append("gender", newTeacher.gender);
     formData.append("profilePicture", newTeacher.profilePicture);
     formData.append("address", newTeacher.address);
     formData.append("currentCity", newTeacher.currentCity);
@@ -316,25 +317,24 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 value={newTeacher.homeTown}
               />
             </div>
-            <div className="region">
-              <label htmlFor="region">Region:</label>
-              <Select
+            <div className="selector bottomSelect">
+              <label htmlFor="region">Region</label>
+              <select
+                className="select"
+                value={newTeacher.region}
+                onChange={handleInputValues}
                 name="region"
-                id="selector"
-                defaultValue={regionOptions[0]}
-                options={regionOptions}
-                onChange={handleRegionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {regionOptions.map((region) => (
+                  <option
+                    key={region.label}
+                    value={region.value}
+                    className="selectOptions"
+                  >
+                    {region.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="currentCity">Current City</label>
@@ -375,51 +375,25 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 ))}
               </select>
             </div>
-            <div className="sexField">
-              <div className="genderWrap">
-                <label htmlFor="nationality">Gender:</label>
-                <div className="genderCont">
-                  <div className="radioGap">
-                    <label
-                      htmlFor="male"
-                      style={{
-                        color: "#696969",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Male
-                    </label>
-                    <input
-                      type="radio"
-                      onChange={handleInputValues}
-                      name="isMale"
-                      value={true}
-                      style={{ outline: "none" }}
-                      checked={newTeacher.isMale === "true"}
-                    />
-                  </div>
-                  <div className="radioGap">
-                    <label
-                      htmlFor="female"
-                      style={{
-                        color: "#696969",
-                        outline: "none",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Female
-                    </label>
-                    <input
-                      type="radio"
-                      onChange={handleInputValues}
-                      name="isMale"
-                      value={false}
-                      style={{ outline: "none" }}
-                      checked={newTeacher.isMale === "false"}
-                    />
-                  </div>
-                </div>
-              </div>
+            <div className="selector">
+              <label htmlFor="gender">Gender</label>
+              <select
+                className="select"
+                value={newTeacher?.gender}
+                onChange={handleInputValues}
+                name="gender"
+                id=""
+              >
+                {genderOptions.map((gender) => (
+                  <option
+                    key={gender.label}
+                    value={gender.value}
+                    className="selectOptions"
+                  >
+                    {gender.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="address">Residential Address</label>
@@ -430,25 +404,24 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 value={newTeacher.address}
               />
             </div>
-            <div className="religion">
+            <div className="selector">
               <label htmlFor="religion">Religion</label>
-              <Select
+              <select
+                className="select"
+                value={newTeacher?.religion}
+                onChange={handleInputValues}
                 name="religion"
-                id="selector"
-                defaultValue={regionOptions[0]}
-                options={religionOptions}
-                onChange={handleReligionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {religionOptions.map((religion) => (
+                  <option
+                    key={religion.label}
+                    value={religion.value}
+                    className="selectOptions"
+                  >
+                    {religion.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="password">Password</label>
@@ -485,44 +458,44 @@ export default function TeacherEmploymentForm({ toast, toastOptions }) {
                 value={newTeacher.motherTongue}
               />
             </div>
-            <div className="otherTongue">
-              <label htmlFor="otherTongue">Other Language(s)</label>
-              <CreatableSelect
+            <div className="selector bottomSelect">
+              <label htmlFor="otherTongue">Other Tongues</label>
+              <select
+                className="select"
+                value={newTeacher?.otherTongue}
+                onChange={handleInputValues}
                 name="otherTongue"
-                id="selector"
-                isMulti={true}
-                options={otherTongueOptions}
-                onChange={handleotherTongueInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+              >
+                {otherTongueOptions.map((otherTongue) => (
+                  <option
+                    key={otherTongue.label}
+                    value={otherTongue.value}
+                    className="selectOptions"
+                  >
+                    {otherTongue.label}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="complexion">
+            <div className="selector">
               <label htmlFor="complexion">Complexion</label>
-              <Select
+              <select
+                className="select"
+                value={newTeacher.complexion}
+                onChange={handleInputValues}
                 name="complexion"
-                id="selector"
-                options={complexionOptions}
-                onChange={handleComplexionInput}
-                styles={selectorStyles}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#696969",
-                    primary: "#696969",
-                  },
-                })}
-              />
+                id=""
+              >
+                {complexionOptions.map((complexion) => (
+                  <option
+                    key={complexion.label}
+                    value={complexion.value}
+                    className="selectOptions"
+                  >
+                    {complexion.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="inputField">
               <label htmlFor="height">Height</label>

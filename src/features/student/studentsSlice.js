@@ -5,6 +5,9 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 
 const initialState = {
   allStudents: [],
+  allLevel100Students: [],
+  allLevel200Students: [],
+  allLevel300Students: [],
   allGraduates: [],
   studentInfo: "",
   studentParentInfo: "",
@@ -187,6 +190,36 @@ export const fetchStudents = createAsyncThunk(
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_all_students`
+    );
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchLevel100Students = createAsyncThunk(
+  "Student/fetchLevel100Students",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/get_level100_students`
+    );
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchLevel200Students = createAsyncThunk(
+  "Student/fetchLevel200Students",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/get_level200_students`
+    );
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchLevel300Students = createAsyncThunk(
+  "Student/fetchLevel300Students",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/get_level300_students`
     );
     console.log(response.data);
     return response.data;
@@ -391,6 +424,69 @@ const studentSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchLevel100Students.pending, (state) => {
+      return { ...state, fetchingStudentStatus: "pending" };
+    });
+    builder.addCase(fetchLevel100Students.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          getAllLevel100Students: action.payload.students,
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingStudentStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchLevel100Students.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStudentStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
+    builder.addCase(fetchLevel200Students.pending, (state) => {
+      return { ...state, fetchingStudentStatus: "pending" };
+    });
+    builder.addCase(fetchLevel200Students.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          getAllLevel200Students: action.payload.students,
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingStudentStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchLevel200Students.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStudentStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
+    builder.addCase(fetchLevel300Students.pending, (state) => {
+      return { ...state, fetchingStudentStatus: "pending" };
+    });
+    builder.addCase(fetchLevel300Students.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          getAllLevel300Students: action.payload.students,
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingStudentStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchLevel300Students.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingStudentStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(fetchGraduates.pending, (state, action) => {
       return { ...state, fetchingGraduatesStatus: "pending" };
     });
@@ -480,6 +576,12 @@ const studentSlice = createSlice({
 });
 
 export const getAllStudents = (state) => state.student.allStudents;
+export const getAllLevel100Students = (state) =>
+  state.student.allLevel100Students;
+export const getAllLevel200Students = (state) =>
+  state.student.allLevel200Students;
+export const getAllLevel300Students = (state) =>
+  state.student.allLevel300Students;
 export const getAllGraduates = (state) => state.student.allGraduates;
 export const getStudentInfo = (state) => state.student.studentInfo;
 
