@@ -35,13 +35,16 @@ import "react-quill/dist/quill.snow.css";
 import { modules } from "../../../options/options";
 import { getAdminInfo } from "../../../features/admin/adminsSlice";
 import {
+  fetchPendingStudents,
   fetchStudents,
+  getAllPendingStudents,
   getAllStudents,
 } from "../../../features/student/studentsSlice";
 import { getAllTeachers } from "../../../features/teacher/teachersSlice";
 
 export default function DashboardContent({ toast }) {
   const allStudents = useSelector(getAllStudents);
+  const allPendingStudents = useSelector(getAllPendingStudents);
   const allStaffs = useSelector(getAllStaffs);
   const allTeachers = useSelector(getAllTeachers);
   const authAdminInfo = useSelector(getAdminInfo);
@@ -141,8 +144,10 @@ export default function DashboardContent({ toast }) {
 
   useEffect(() => {
     dispatch(fetchStudents());
+    dispatch(fetchPendingStudents());
     dispatch(fetchTeachers());
     dispatch(fetchStaffs());
+    dispatch(fetchPosts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -170,9 +175,6 @@ export default function DashboardContent({ toast }) {
     }
   }, [error, success, postStatus, toast]);
 
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
   setTimeout(() => {
     if (postStatus === "success") {
       navigate("/sensec/general_announcement/#generalNotice");
@@ -195,6 +197,7 @@ export default function DashboardContent({ toast }) {
                   style={{
                     fontSize: "2rem",
                   }}
+                  titleAccess="All Employed Teachers"
                 />
               </div>
               <div className="totalTeachers">{allTeachers.length}</div>
@@ -204,26 +207,32 @@ export default function DashboardContent({ toast }) {
               <div className="pendingTeachers">2</div>
             </div>
           </div>
-          <div
-            className="teachers"
-            onClick={() => {
-              navigate("/sensec/admin/students");
-            }}
-          >
+          <div className="teachers">
             <h3>Total Students</h3>
-            <div className="teachersInfo">
+            <div
+              className="teachersInfo"
+              onClick={() => {
+                navigate("/sensec/admin/students");
+              }}
+            >
               <div className="teachersInfoIcons">
                 <SchoolOutlinedIcon
                   style={{
                     fontSize: "2rem",
                   }}
+                  titleAccess="All Enrolled Students"
                 />
               </div>
               <div className="totalTeachers">{allStudents.length}</div>
             </div>
-            <div className="pending">
+            <div
+              className="pending"
+              onClick={() => {
+                navigate("/sensec/admin/all_pending_students");
+              }}
+            >
               <h4>Pending Student(s)</h4>
-              <div className="pendingTeachers">201</div>
+              <div className="pendingTeachers">{allPendingStudents.length}</div>
             </div>
           </div>
           <div
@@ -237,6 +246,7 @@ export default function DashboardContent({ toast }) {
                   style={{
                     fontSize: "2rem",
                   }}
+                  titleAccess="All Employed NT Staffs"
                 />
               </div>
               <div className="totalTeachers">{allStaffs.length}</div>

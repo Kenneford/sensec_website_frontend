@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./contact.scss";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -8,6 +8,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import { CircularProgress } from "@mui/material";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Footer from "../../footer/Footer";
 import emailjs from "@emailjs/browser";
@@ -20,11 +21,11 @@ import { getStaffInfo } from "../../../features/staff/staffSlice";
 import { receiveEmail } from "../../../features/email/emailSlice";
 // import EmailTemplate from "../../emailTemplate/EmailTemplate";
 
-export default function ContactContent() {
+export default function ContactContent({ toast, toastOptions }) {
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const dispatch = useDispatch();
-
+  const { emailStatus, error, success } = useSelector((state) => state.email);
   const [email, setEmail] = useState({
     user_name: "",
     user_email: "",
@@ -46,6 +47,7 @@ export default function ContactContent() {
     e.preventDefault();
     const { user_name, user_email, message_subject, message } = email;
     console.log({ email });
+
     dispatch(
       receiveEmail({
         user_name,
@@ -54,7 +56,38 @@ export default function ContactContent() {
         message_subject,
       })
     );
+    setEmail({
+      user_name: "",
+      user_email: "",
+      message_subject: "",
+      message: "",
+    });
   };
+  useEffect(() => {
+    if (emailStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
+    if (emailStatus === "success") {
+      toast.success(success, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+  }, [emailStatus, error, success, toast, toastOptions]);
+
+  setTimeout(() => {
+    if (emailStatus === "success") {
+      window.location.reload();
+    }
+  }, 3000);
 
   return (
     <div className="contactWrap">
@@ -178,7 +211,11 @@ export default function ContactContent() {
                 />
               </div>
               <button type="submit" className="sendMessageBtn">
-                Send Message
+                {emailStatus === "pending" ? (
+                  <CircularProgress style={{ color: "white", size: "15px" }} />
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
           </div>

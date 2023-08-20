@@ -12,6 +12,7 @@ import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TvIcon from "@mui/icons-material/Tv";
 import { HashLink } from "react-router-hash-link";
@@ -73,10 +74,7 @@ export default function StaffDashboard({ openSidebar, toggleSidebar }) {
               </HashLink>
               <HashLink to={"/sensec/all_teachers"} className="links">
                 <div className="teacherIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  />
+                  <SupervisedUserCircleIcon className="tvIcon" />
                 </div>
                 <h4>Teachers</h4>
               </HashLink>

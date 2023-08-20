@@ -19,7 +19,7 @@ export default function Enroll() {
         <Link to={"#"}>Semester Details</Link>
         <Link to={"#"}>Scholarships</Link>
         <Link to={"#"}>Advice</Link>
-        <Link to={"#"}>Apply</Link>
+        <Link to={"/sensec/student_enrollment/online_application"}>Apply</Link>
       </div>
       <div className="enrollCont">
         <div className="enrollLeft">

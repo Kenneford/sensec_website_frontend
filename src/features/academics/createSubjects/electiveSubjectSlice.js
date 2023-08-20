@@ -63,7 +63,7 @@ const academicsSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          ElectiveSubjectInfo: action.payload.electiveSubject,
+          electiveSubjectInfo: action.payload.electiveSubject,
           successMessage: action.payload.successMessage,
           createStatus: "success",
           error: "",
@@ -78,14 +78,14 @@ const academicsSlice = createSlice({
       };
     });
 
-    builder.addCase(fetchAllElectiveSubjects.pending, (state, action) => {
+    builder.addCase(fetchAllElectiveSubjects.pending, (state) => {
       return { ...state, fetchingStatus: "pending" };
     });
     builder.addCase(fetchAllElectiveSubjects.fulfilled, (state, action) => {
       if (action.payload) {
         return {
           ...state,
-          allElectiveSubjectmes: action.payload.ElectiveSubjects,
+          allElectiveSubjects: action.payload.electiveSubjects,
           successMessage: action.payload.successMessage,
           fetchingStatus: "success",
         };
@@ -122,7 +122,9 @@ const academicsSlice = createSlice({
   },
 });
 
-export const getAllSubjects = (state) => state.academics.allSubjects;
-export const getSingleSubject = (state) => state.academics.subjectInfo;
+export const getAllElectiveSubjects = (state) =>
+  state.electiveSubject.allElectiveSubjects;
+export const getSingleElectiveSubject = (state) =>
+  state.electiveSubject.electiveSubjectInfo;
 
 export default academicsSlice.reducer;

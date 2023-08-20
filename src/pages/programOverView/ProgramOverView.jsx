@@ -68,9 +68,9 @@ export default function ProgramOverView() {
       <h1>{singleProgram.name}</h1>
       <div className="prgrmInfo">
         <p>Total Students = {singleProgram.students?.length}</p>
-        <p>Total Subjects = {singleProgram.subjects?.length}</p>
+        <p>Total Subjects = {singleProgram.electiveSubjects?.length}</p>
         <div className="subjectLists">
-          {singleProgram.subjects?.map((sbj) => (
+          {singleProgram.electiveSubjects?.map((sbj) => (
             <p className="subjectName" key={sbj._id}>
               {sbj.name}
             </p>

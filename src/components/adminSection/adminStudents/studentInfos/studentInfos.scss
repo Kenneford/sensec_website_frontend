@@ -1,9 +1,43 @@
+.downloadWrap {
+  background-color: #fff;
+  padding: 2rem;
+  padding-bottom: 0;
+  width: 100%;
+  .excelExport {
+    // position: relative;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+    .excelBtn,
+    .pdfBtn {
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 0.4rem;
+      background-color: green;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .pdfBtn {
+      background-color: #292929;
+    }
+  }
+}
 .profileWrap {
   padding-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .studentImage {
+    width: 85%;
     display: flex;
     align-items: center;
-    padding: 3rem 0 3rem 21%;
+    padding: 0 0 3rem;
     gap: 2rem;
     img {
       width: 15rem;
@@ -21,18 +55,59 @@
       // padding-left: 2rem;
       align-items: center;
       margin-top: 1rem;
-      padding: 0.5rem 0;
-      background-color: #292929;
+      padding: 0.5rem;
+      background-color: #555;
       border-radius: 0.4rem;
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       h3 {
       }
       p {
-        font-weight: 500;
+        font-weight: 400;
       }
     }
   }
+  // .studentInfoTable {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   table {
+  //     border: 2px solid #ccc;
+  //     width: 90%;
+  //     margin-bottom: 3rem;
+  //     //   height: 200px;
+  //     .personalDetails {
+  //       width: 100%;
+  //     }
+  //   }
+  //   th {
+  //     border: none;
+  //     background-color: #555;
+  //     color: #fff;
+  //     padding: 1rem 0;
+  //     font-weight: 500;
+  //   }
+  //   td {
+  //     text-align: center;
+  //     border-bottom: 1px solid #ccc;
+  //     padding: 0.5rem 0;
+  //     color: #fff;
+  //     font-weight: 300;
+  //     img {
+  //       width: 3rem;
+  //       height: 3rem;
+  //       margin: 0.3rem 0.3rem 0;
+  //       border-radius: 50%;
+  //       object-fit: cover;
+  //     }
+  //   }
+  //   .alignTextLeft {
+  //     text-align: left;
+  //     padding-left: 1rem;
+  //     border: #555 1px solid;
+  //   }
+  // }
   .studentProfile {
     padding: 2rem 2rem 0;
     hr {
@@ -61,9 +136,14 @@
     }
   }
   .studentParentsProfileWrap {
-    margin-top: 4rem;
+    // margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     h2 {
-      padding-left: 2rem;
+      width: 85%;
+      // padding-left: 2rem;
     }
     .studentParentsProfile {
       display: flex;
@@ -130,6 +210,59 @@
         p {
           font-size: 1.2rem;
         }
+      }
+    }
+  }
+  .studentInfoContent {
+    background-color: #fff;
+    padding: 2rem;
+    width: 100%;
+    .studentInfoTable {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h2 {
+        padding-bottom: 2rem;
+      }
+      table {
+        border: 2px solid #ccc;
+        width: 90%;
+        margin-bottom: 3rem;
+        h3 {
+          padding: 0.4rem 0;
+          padding-left: 1rem;
+        }
+      }
+      th {
+        border: none;
+        background-color: #555;
+        color: #fff;
+        padding: 1rem 0;
+        font-weight: 500;
+      }
+      td {
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        padding: 0.5rem 0;
+        color: #696969;
+        font-weight: 300;
+        img {
+          width: 3rem;
+          height: 3rem;
+          margin: 0.3rem 0.3rem 0;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      .alignTextLeft {
+        // text-align: left;
+        padding: 0 1rem;
+        border: #555 1px solid;
+      }
+      .tableHearder {
+        text-align: left;
+        padding: 0.7rem 1rem;
       }
     }
   }

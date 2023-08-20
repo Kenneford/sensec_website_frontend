@@ -29,6 +29,7 @@ export default function AdminTeachers({ openSidebar }) {
   const allTeachers = useSelector(getAllTeachers);
   const { member_name } = useParams();
   console.log(member_name);
+  console.log(allTeachers);
   const handleModalClose = () => {
     setOpen(false);
   };
