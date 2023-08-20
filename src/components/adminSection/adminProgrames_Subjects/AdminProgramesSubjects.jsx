@@ -219,9 +219,9 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
                             "Level 300"}
                         </td>
                         <td className="alignTextLeft">
-                          {subject.teacher.gender === "Male" && "Mr."}
-                          {subject.teacher.gender === "Female" && "Mrs."}{" "}
-                          {subject.teacher.fullName}
+                          {subject.teacher?.gender === "Male" && "Mr."}
+                          {subject.teacher?.gender === "Female" && "Mrs."}{" "}
+                          {subject.teacher?.fullName}
                         </td>
                         {/* <td className="alignTextLeft">{subject.duration}</td> */}
                       </tr>
@@ -258,12 +258,12 @@ export default function AdminProgramesSubjects({ toast, toastOptions }) {
                         {subject.classLevel.name === "Level_300" && "Level 300"}
                       </td>
                       <td className="alignTextLeft">
-                        {/* {subject.teacher.gender === "Male"
+                        {subject.teacher?.gender === "Male"
                           ? "Mr."
-                          : subject.teacher.gender === "Female"
+                          : subject.teacher?.gender === "Female"
                           ? "Mrs."
                           : ""}{" "}
-                        {subject.teacher.firstName} {subject.teacher.lastName} */}
+                        {subject.teacher?.fullName}
                       </td>
                       <td className="alignTextLeft">{subject.duration}</td>
                     </tr>

@@ -830,16 +830,6 @@ export const studentProgramColumn = [
         <EditIcon />
       </Link>
     ),
-    // cell: (props) => (
-    //   <Link
-    //     to={`/sensec/admin/edit_student/${row.id}`}
-    //     onClick={() => {
-    //       clickHandler(props);
-    //     }}
-    //   >
-    //     Edit
-    //   </Link>
-    // ),
   },
 ];
 
@@ -879,19 +869,9 @@ export const staffColumn = [
     name: "Edit",
     selector: (row) => (
       <Link className="editLink" to={`/sensec/admin/edit_staff/${row.staffId}`}>
-        Edit
+        <EditIcon />
       </Link>
     ),
-    // cell: (props) => (
-    //   <Link
-    //     to={`/sensec/admin/edit_student/${row.id}`}
-    //     onClick={() => {
-    //       clickHandler(props);
-    //     }}
-    //   >
-    //     Edit
-    //   </Link>
-    // ),
   },
 ];
 
@@ -1006,19 +986,9 @@ export const teachersSubjectColumn = [
         className="editLink"
         to={`/sensec/admin/edit_teacher/${row.staffId}`}
       >
-        Edit
+        <EditIcon />
       </Link>
     ),
-    // cell: (props) => (
-    //   <Link
-    //     to={`/sensec/admin/edit_student/${row.id}`}
-    //     onClick={() => {
-    //       clickHandler(props);
-    //     }}
-    //   >
-    //     Edit
-    //   </Link>
-    // ),
   },
 ];
 
@@ -1061,19 +1031,9 @@ export const adminsColumn = [
         className="editLink"
         to={`/sensec/admin/edit_teacher/${row.staffId}`}
       >
-        Edit
+        <EditIcon />
       </Link>
     ),
-    // cell: (props) => (
-    //   <Link
-    //     to={`/sensec/admin/edit_student/${row.id}`}
-    //     onClick={() => {
-    //       clickHandler(props);
-    //     }}
-    //   >
-    //     Edit
-    //   </Link>
-    // ),
   },
 ];
 
