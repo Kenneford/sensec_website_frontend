@@ -60,6 +60,8 @@ import Total1stYearStudents from "./components/adminSection/adminStudents/totalS
 import Total2ndYearStudents from "./components/adminSection/adminStudents/totalStudents/OldStudents";
 import ClassLevelStudents from "./components/adminSection/adminStudents/totalStudents/ClassLevelStudents";
 import OldStudents from "./components/adminSection/adminStudents/totalStudents/OldStudents";
+import ApplyOnline from "./pages/applyOnline/ApplyOnline";
+import PendingStudents from "./components/adminSection/adminStudents/totalStudents/PendingStudents";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -184,11 +186,19 @@ export default function App() {
         <Route path="/sensec/email" element={<EmailTemplate />} />
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
-        <Route exact path="/sensec/contact" element={<Contact />} />
+        <Route
+          exact
+          path="/sensec/contact"
+          element={<Contact toastOptions={toastOptions} toast={toast} />}
+        />
         <Route path="/sensec/school_library" element={<Library />} />
         <Route path="/sensec/school_cadet" element={<Cadet />} />
         <Route path="/sensec/school_IT_department" element={<ITDepartment />} />
         <Route path="/sensec/facilities" element={<Facilities />} />
+        <Route
+          path="/sensec/student_enrollment/online_application"
+          element={<ApplyOnline toastOptions={toastOptions} toast={toast} />}
+        />
         <Route
           path="/sensec/facilities_overview/:name"
           element={<FacilityOverview />}
@@ -375,17 +385,13 @@ export default function App() {
           <Route
             path="/sensec/admin/students"
             element={
-              <TotalStudents
-                toastOptions={toastOptions}
-                toast={toast}
-                setLevel100={setLevel100}
-                setLevel200={setLevel200}
-                setLevel300={setLevel300}
-                handleFirstYears={handleFirstYears}
-                handleSecondYears={handleSecondYears}
-                handleThirdYears={handleThirdYears}
-                handleOldStudents={handleOldStudents}
-              />
+              <TotalStudents toastOptions={toastOptions} toast={toast} />
+            }
+          />
+          <Route
+            path="/sensec/admin/all_pending_students"
+            element={
+              <PendingStudents toastOptions={toastOptions} toast={toast} />
             }
           />
           <Route

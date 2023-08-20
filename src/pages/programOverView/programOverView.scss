@@ -77,7 +77,7 @@
     }
     .editLink {
       text-decoration: none;
-      color: orange;
+      color: grey;
       font-size: 1rem;
       font-weight: 600;
     }
@@ -90,23 +90,40 @@
     .headCells {
       border: 0.2rem solid green;
     }
-    .firstYearTag {
-      width: 1rem;
-      height: 1rem;
-      background-color: rgb(208, 6, 93);
-      border-radius: 50%;
-    }
-    .secondYearTag {
-      width: 1rem;
-      height: 1rem;
-      background-color: rgb(205, 205, 6);
-      border-radius: 50%;
-    }
-    .thirdYearTag {
-      width: 1rem;
-      height: 1rem;
-      background-color: rgb(6, 205, 72);
-      border-radius: 50%;
+    .tableClassLevel {
+      .firstYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: #d0065d;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .secondYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: #cdcd06;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .thirdYearTag {
+        width: 1rem;
+        height: 1rem;
+        background-color: #06cd48;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .isGraduated {
+        width: 100%;
+      }
     }
     .studentWrapper {
       position: relative;

@@ -5,6 +5,7 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 
 const initialState = {
   allStudents: [],
+  allPendingStudents: [],
   allLevel100Students: [],
   allLevel200Students: [],
   allLevel300Students: [],
@@ -17,6 +18,7 @@ const initialState = {
   createParentStatus: "",
   updateStudentStatus: "",
   fetchingStudentStatus: "",
+  fetchingPendingStudentsStatus: "",
   fetchingSingleStudentStatus: "",
   searchStudentStatus: "",
   deleteStudentStatus: "",
@@ -190,6 +192,16 @@ export const fetchStudents = createAsyncThunk(
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/get_all_students`
+    );
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const fetchPendingStudents = createAsyncThunk(
+  "Student/fetchPendingStudents",
+  async () => {
+    const response = await axios.get(
+      `${API_ENDPOINT}/students/get_all_pending_students`
     );
     console.log(response.data);
     return response.data;
@@ -424,6 +436,27 @@ const studentSlice = createSlice({
       };
     });
 
+    builder.addCase(fetchPendingStudents.pending, (state, action) => {
+      return { ...state, fetchingPendingStudentsStatus: "pending" };
+    });
+    builder.addCase(fetchPendingStudents.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          allPendingStudents: action.payload.students,
+          studentSuccessMessage: action.payload.successMessage,
+          fetchingPendingStudentsStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(fetchPendingStudents.rejected, (state, action) => {
+      return {
+        ...state,
+        fetchingPendingStudentsStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(fetchLevel100Students.pending, (state) => {
       return { ...state, fetchingStudentStatus: "pending" };
     });
@@ -431,7 +464,7 @@ const studentSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          getAllLevel100Students: action.payload.students,
+          allLevel100Students: action.payload.students,
           studentSuccessMessage: action.payload.successMessage,
           fetchingStudentStatus: "success",
         };
@@ -452,7 +485,7 @@ const studentSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          getAllLevel200Students: action.payload.students,
+          allLevel200Students: action.payload.students,
           studentSuccessMessage: action.payload.successMessage,
           fetchingStudentStatus: "success",
         };
@@ -473,7 +506,7 @@ const studentSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          getAllLevel300Students: action.payload.students,
+          allLevel300Students: action.payload.students,
           studentSuccessMessage: action.payload.successMessage,
           fetchingStudentStatus: "success",
         };
@@ -576,6 +609,8 @@ const studentSlice = createSlice({
 });
 
 export const getAllStudents = (state) => state.student.allStudents;
+export const getAllPendingStudents = (state) =>
+  state.student.allPendingStudents;
 export const getAllLevel100Students = (state) =>
   state.student.allLevel100Students;
 export const getAllLevel200Students = (state) =>

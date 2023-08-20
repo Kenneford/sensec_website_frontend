@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./adminStudentAdd.scss";
+// import "./adminStudentAdd.scss";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { CircularProgress } from "@mui/material";
@@ -7,8 +7,18 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
-import { studentRegistory } from "../../../../features/student/studentsSlice";
 import { useNavigate } from "react-router-dom";
+import copy from "copy-to-clipboard";
+import { getAdminInfo } from "../../features/admin/adminsSlice";
+import {
+  fetchAllProgrammes,
+  getAllProgrammes,
+} from "../../features/academics/academicProgram/academicProgram";
+import {
+  fetchAllYears,
+  getAllAcademicYears,
+} from "../../features/academics/academicYear/academicYearSlice";
+import { studentRegistory } from "../../features/student/studentsSlice";
 import {
   academicYearOptions,
   classLevelOptions,
@@ -16,29 +26,21 @@ import {
   genderOptions,
   otherTongueOptions,
   programOptions,
-  regionOptions,
   religionOptions,
   studentRoleOptions,
-} from "../../../../options/options";
-import copy from "copy-to-clipboard";
-import {
-  fetchAllProgrammes,
-  fetchAllYears,
-  getAllProgrammes,
-  getAllYears,
-} from "../../../../features/academics/academics";
-import { getAdminInfo } from "../../../../features/admin/adminsSlice";
+} from "../../options/options";
+import Footer from "../../components/footer/Footer";
 
 const Programmes = () => {
   return <div>Programmes</div>;
 };
 
-export default function AdminStudentAdd({ toastOptions, toast }) {
+export default function ApplyOnline({ toastOptions, toast }) {
   const { registerStudentStatus, studentError, studentSuccessMessage } =
     useSelector((state) => state.student);
   const authAdminInfo = useSelector(getAdminInfo);
   const allProgrammes = useSelector(getAllProgrammes);
-  const allYears = useSelector(getAllYears);
+  const allYears = useSelector(getAllAcademicYears);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -308,9 +310,13 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     }
   };
   return (
-    <div className="registerWrap" id="studentReg">
+    <div
+      className="registerWrap"
+      id="studentReg"
+      style={{ paddingTop: "10rem" }}
+    >
       <div className="register">
-        <h1>NEW STUDENT REGISTRATION</h1>
+        <h1>STUDENTS ONLINE REGISTRATION FORM</h1>
         <div className="registerCont">
           <form onSubmit={handleRegister}>
             <div className="studentProfile">
@@ -461,7 +467,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       name="region"
                       id=""
                     >
-                      {regionOptions.map((region) => (
+                      {religionOptions.map((region) => (
                         <option
                           key={region.label}
                           value={region.value}
@@ -906,6 +912,9 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
             </div>
           </form>
         </div>
+      </div>
+      <div className="footer">
+        <Footer />
       </div>
     </div>
   );

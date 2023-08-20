@@ -98,6 +98,9 @@
         padding: 1rem 0;
         color: #ccc;
       }
+      .isGraduated {
+        width: 100%;
+      }
       .batches {
         display: flex;
         gap: 4rem;
@@ -122,6 +125,24 @@
         font-size: 0.9rem;
         font-weight: 600;
       }
+      .approveLink {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: rgb(3, 160, 3);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .rejectLink {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: red;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
       .isGraduatedLink {
         text-decoration: none;
         color: #aeabab;
@@ -137,26 +158,40 @@
       .headCells {
         border: 0.2rem solid green;
       }
-      .firstYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: rgb(208, 6, 93);
-        border-radius: 50%;
-      }
-      .secondYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: rgb(205, 205, 6);
-        border-radius: 50%;
-      }
-      .thirdYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: rgb(6, 205, 72);
-        border-radius: 50%;
-      }
-      .isGraduated {
-        width: 100%;
+      .tableClassLevel {
+        .firstYearTag {
+          width: 1rem;
+          height: 1rem;
+          background-color: #d0065d;
+          color: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .secondYearTag {
+          width: 1rem;
+          height: 1rem;
+          background-color: #cdcd06;
+          color: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .thirdYearTag {
+          width: 1rem;
+          height: 1rem;
+          background-color: #06cd48;
+          color: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .isGraduated {
+          width: 100%;
+        }
       }
       .studentWrapper {
         position: relative;

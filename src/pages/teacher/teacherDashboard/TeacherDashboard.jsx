@@ -21,6 +21,7 @@ import { getTeacherInfo } from "../../../features/teacher/teachersSlice";
 export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
   const staffInfo = true;
   const authTeacherInfo = useSelector(getTeacherInfo);
+  console.log(authTeacherInfo);
   return (
     <div id="teacher">
       <div className="adminsWrap">
@@ -41,13 +42,14 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
               <img src={authTeacherInfo.profilePicture} alt="" />
               <div className="infoText">
                 <span>
-                  {authTeacherInfo.isMale ? "Mr." : "Mrs."}{" "}
-                  {authTeacherInfo.lastName}
+                  {authTeacherInfo.gender === "Male"
+                    ? "Mr."
+                    : authTeacherInfo.gender === "Female"
+                    ? "Mrs."
+                    : ""}
+                  {authTeacherInfo.fullName}
                 </span>
-                <p>
-                  ( {authTeacherInfo.teachingCourse}
-                  {authTeacherInfo.role} )
-                </p>
+                <p>( {authTeacherInfo?.program?.name})</p>
               </div>
             </div>
             <div className="contentLinks">

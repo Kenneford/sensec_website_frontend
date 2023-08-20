@@ -6,6 +6,7 @@
       padding-top: sizes.$header_height;
       //   background-color: colors.$backGroundColor;
       display: flex;
+      flex-direction: column;
       .adminLeft {
         position: fixed;
         width: sizes.$container_sideBar_Width;
@@ -104,6 +105,9 @@
           }
         }
       }
+      .adminRight {
+        width: 80%;
+      }
       .adminLeft.side {
         width: 5%;
         .adminInfo {
@@ -133,6 +137,9 @@
             display: none;
           }
         }
+      }
+      .adminRight.side {
+        width: 95%;
       }
     }
   }

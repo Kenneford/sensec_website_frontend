@@ -4,7 +4,7 @@ import { API_ENDPOINT } from "../../../apiEndPoint/api";
 
 const initialState = {
   coreSubjectInfo: "",
-  allcoreSubjects: [],
+  allCoreSubjects: [],
   successMessage: "",
   error: "",
   createStatus: "",
@@ -28,8 +28,8 @@ export const createCoreSubject = createAsyncThunk(
   }
 );
 
-export const fetchAllcoreSubjects = createAsyncThunk(
-  "Academics/fetchAllcoreSubjects",
+export const fetchAllCoreSubjects = createAsyncThunk(
+  "Academics/fetchAllCoreSubjects",
   async () => {
     const response = await axios.get(
       `${API_ENDPOINT}/admins/subjects/get_all_core_subjects`
@@ -78,20 +78,20 @@ const coreSubjectSlice = createSlice({
       };
     });
 
-    builder.addCase(fetchAllcoreSubjects.pending, (state, action) => {
+    builder.addCase(fetchAllCoreSubjects.pending, (state, action) => {
       return { ...state, fetchingStatus: "pending" };
     });
-    builder.addCase(fetchAllcoreSubjects.fulfilled, (state, action) => {
+    builder.addCase(fetchAllCoreSubjects.fulfilled, (state, action) => {
       if (action.payload) {
         return {
           ...state,
-          allcoreSubjectmes: action.payload.coreSubjects,
+          allCoreSubjects: action.payload.coreSubjects,
           successMessage: action.payload.successMessage,
           fetchingStatus: "success",
         };
       } else return state;
     });
-    builder.addCase(fetchAllcoreSubjects.rejected, (state, action) => {
+    builder.addCase(fetchAllCoreSubjects.rejected, (state, action) => {
       return {
         ...state,
         fetchingStatus: "rejected",
@@ -122,7 +122,7 @@ const coreSubjectSlice = createSlice({
   },
 });
 
-export const getAllSubjects = (state) => state.academics.allSubjects;
-export const getSingleSubject = (state) => state.academics.subjectInfo;
+export const getAllCoreSubjects = (state) => state.coreSubject.allCoreSubjects;
+export const getSingleSubject = (state) => state.coreSubject.subjectInfo;
 
 export default coreSubjectSlice.reducer;

@@ -15,85 +15,78 @@
     }
   }
   h3 {
-    display: flex;
-    justify-content: center;
-    padding-top: 0.5rem;
+    // display: flex;
+    // justify-content: center;
+    // padding-top: 0.5rem;
   }
-  .formWrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    form {
-      width: 40%;
-      .inputField {
-        position: relative;
-        display: flex;
-        gap: 0.5rem;
-        margin: 1rem 0 1.5rem;
-        align-items: center;
-        label {
-          position: absolute;
-          top: 0rem;
-          left: 1.5rem;
-          background-color: #fff;
-          padding: 0 0.5rem;
-          color: #696969;
-          font-weight: 400;
-        }
-        input {
-          border: 1px solid lightgray;
-          padding: 10px;
-          font-size: 1.1em;
-          border-radius: 3px;
-          width: 100%;
-          // gap: 5rem;
-          margin: 0.5rem 1rem;
-          background-color: transparent;
-          &:focus {
-            background-color: transparent;
-            border: 1px solid #292929cc;
-          }
-        }
-      }
-      .addStudentBtnWrap {
-        display: flex;
-        justify-content: right;
-        padding-right: 1rem;
-        .addStudentBtn {
-          width: 15rem;
-          padding: 1rem;
-          font-size: 1.5rem;
-          border-radius: 0.4rem;
-          margin: 1.5rem 0;
-          background-color: green;
-          color: #fff;
-          transition: 0.4s ease;
-          cursor: pointer;
-          &:hover {
-            background-color: rgb(6, 168, 6);
-          }
-        }
-        // float: right;
-      }
-      .addStudentBtn:disabled {
-        //   padding: 1rem;
-        font-size: 1.5rem;
+  .programName {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+  }
+  .pdfWrap {
+    background-color: #292929;
+    padding: 2rem 2rem 0;
+    width: 100%;
+    .excelExport {
+      // position: relative;
+      width: 80%;
+      margin: auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      .excelBtn {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
         border-radius: 0.4rem;
-        margin: 1.5rem 0;
-        background-color: #cccccc;
+        background-color: green;
         color: #fff;
-        transition: 0.4s ease;
-        cursor: not-allowed;
-        // &:hover {
-        //   background-color: #e2e1e1cc;
-        // }
+        font-size: 1.2rem;
+        cursor: pointer;
       }
     }
   }
-  .programName {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .subjectContent {
+    background-color: #292929;
+    padding: 2rem;
+    width: 100%;
+    .attendanceTable {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      table {
+        border: 2px solid #ccc;
+        width: 80%;
+        margin-bottom: 3rem;
+        //   height: 200px;
+      }
+      th {
+        border: none;
+        background-color: #555;
+        color: #fff;
+        padding: 1rem 0;
+        font-weight: 500;
+      }
+      td {
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        padding: 0.5rem 0;
+        color: #fff;
+        font-weight: 300;
+        img {
+          width: 3rem;
+          height: 3rem;
+          margin: 0.3rem 0.3rem 0;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      .alignTextLeft {
+        text-align: left;
+        padding-left: 1rem;
+        border: #555 1px solid;
+      }
+    }
   }
 }
