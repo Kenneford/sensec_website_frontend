@@ -11,7 +11,10 @@ import {
   fetchGraduates,
   getAllLevel100Students,
 } from "../../../../features/student/studentsSlice";
-import { classLevelStudentsColumn } from "../../../../options/options";
+import {
+  classLevelStudentsColumn,
+  pendingStudentsColumn,
+} from "../../../../options/options";
 import {
   fetchClassLevel100,
   fetchClassLevel200,
@@ -25,17 +28,24 @@ import {
   fetchAllClassLevelSections,
   getAllClassLevelSections,
 } from "../../../../features/classLevels/classLevelSectionSlice";
+import {
+  fetchPendingStudentsDatas,
+  fetchSinglePendingStudentsData,
+  getAllPendingStudentsDatas,
+  getSinglePendingStudentsData,
+} from "../../../../features/pendingStudents/pendingStudentsSlice";
 
-export default function ClassLevelStudents({ toast, toastOptions }) {
+export default function PendingClassLevelStudents({ toast, toastOptions }) {
   const {
     fetchingStudentStatus,
     searchStatus,
     studentError,
     studentSuccessMessage,
   } = useSelector((state) => state.student);
-  const { fetchingSingleStatus, error, successMessage } = useSelector(
-    (state) => state.classLevel
-  );
+  const { fetchingStatus, pendingStudentsDataError, successMessage } =
+    useSelector((state) => state.pendingStudentsData);
+  const allPendingStudentsData = useSelector(getAllPendingStudentsDatas);
+
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const { class_level } = useParams();
@@ -44,7 +54,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   const allClassLevels = useSelector(getAllClassLevels);
   const allLevel100Students = useSelector(getAllLevel100Students);
   const allClassLevelSections = useSelector(getAllClassLevelSections);
-  const singleClassLevel = useSelector(getSingleClassLevel);
+  const singlePendingStudentsData = useSelector(getSinglePendingStudentsData);
 
   const selectedClassLevel = allClassLevels.map(
     (cLevel) => cLevel.name === class_level
@@ -53,6 +63,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   console.log(allClassLevelSections);
   console.log(JSON.stringify(selectedClassLevel));
   console.log(allLevel100Students);
+  console.log(singlePendingStudentsData);
 
   const navigate = useNavigate();
 
@@ -114,6 +125,8 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
     dispatch(fetchClassLevel200());
     dispatch(fetchClassLevel300());
     dispatch(fetchGraduates());
+    dispatch(fetchPendingStudentsDatas());
+    dispatch(fetchSinglePendingStudentsData(class_level));
   }, [dispatch, class_level]);
 
   useEffect(() => {
@@ -163,20 +176,15 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
           autoComplete="off"
           id="search"
         />
-        <button type="submit">
+        <button type="submit ">
           <SearchIcon className="searchIcon" />
         </button>
       </form>
-      <div className="totalStudentsWrap">
-        <div className="addTeacherBtn">
-          <button onClick={() => navigate("/sensec/admin/student_enrollment")}>
-            Add New Student +
-          </button>
-        </div>
+      <div className="totalStudentsWrap pendingTotalStudentsWrap">
         <div className="searchDetails">
           {!searchStatus && (
-            <p className="searchInfo">
-              Total Students = {singleClassLevel?.students?.length}
+            <p className="searchInfo ">
+              Total Students = {singlePendingStudentsData.students?.length}
             </p>
           )}
           {allStudents?.length === 0 &&
@@ -202,68 +210,66 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
           </button>
         )}
         <div className="totalStudentsCont">
-          {allStudents && (
+          {allPendingStudentsData && (
             <div className="totalStudentsContWrap">
               <div className="batches">
                 <span
-                  onClick={() => navigate(`/sensec/admin/students`)}
+                  onClick={() => navigate(`/sensec/admin/all_pending_students`)}
                   className=""
                 >
-                  All Enrolled Students
+                  All Pending Students
                 </span>
-                {allClassLevels?.map((cLevel) => (
+                {allPendingStudentsData?.map((pendingData) => (
                   <span
-                    key={cLevel._id}
+                    key={pendingData._id}
                     onClick={() =>
-                      navigate(`/sensec/admin/students/${cLevel.name}`)
+                      navigate(
+                        `/sensec/admin/all_pending_students/${pendingData.classLevel}`
+                      )
                     }
-                    className={cLevel.name === class_level && "greenBackground"}
+                    className={
+                      pendingData.classLevel === class_level &&
+                      "greenBackground"
+                    }
                   >
-                    {cLevel.name}
+                    {pendingData.classLevel}
                   </span>
                 ))}
-                <span
-                  onClick={() =>
-                    navigate(`/sensec/admin/old_students/graduates`)
-                  }
-                  className=""
-                >
-                  Past Students
-                </span>
               </div>
             </div>
           )}
-          <div className="classLeveSections">
+          {/* <div className="classLeveSections">
             <div className="levelSections">
-              {allClassLevels.map((cLevel) => (
-                <span key={cLevel._id}>
-                  {cLevel.name === class_level &&
-                    cLevel.sections.map((c) => (
+              {allPendingStudentsData.map((pendingData) => (
+                <span key={pendingData._id}>
+                  {pendingData.classLevel === class_level &&
+                    pendingData.students.map((c) => (
                       <p
                         key={c._id}
                         className={
-                          cLevel.name === class_level && "greenBackground"
+                          pendingData.classLevel === class_level &&
+                          "greenBackground"
                         }
                         onClick={() =>
                           navigate(
-                            `/sensec/admin/students/${cLevel.name}/${c.sectionName}_Students`
+                            `/sensec/admin/all_pending_students/${pendingData.classLevel}`
                           )
                         }
                       >
-                        {c.sectionName}
+                        {c.fullName}
                       </p>
                     ))}
                 </span>
               ))}
             </div>
             <h3>
-              {singleClassLevel?.name} Students / Total ={" "}
-              {singleClassLevel?.students?.length}
+              {pendingStudentsColumn.classLevel} Students / Total ={" "}
+              {pendingStudentsColumn.students?.length}
             </h3>
-          </div>
+          </div> */}
           <DataTable
-            columns={classLevelStudentsColumn}
-            data={singleClassLevel.students}
+            columns={pendingStudentsColumn}
+            data={singlePendingStudentsData.students}
             customStyles={customStyle}
             pagination
           />

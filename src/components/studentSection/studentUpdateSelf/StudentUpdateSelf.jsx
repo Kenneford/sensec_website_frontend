@@ -1,10 +1,11 @@
+//StudentUpdateSelf
+// import "./studentUpdateSelf.scss";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDispatch, useSelector } from "react-redux";
 import set from "lodash/set";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_ENDPOINT } from "../../../../apiEndPoint/api";
 import axios from "axios";
 import {
   academicYearOptions,
@@ -16,19 +17,18 @@ import {
   regionOptions,
   religionOptions,
   studentRoleOptions,
-} from "../../../../options/options";
+} from "../../../options/options";
+import { getAdminInfo } from "../../../features/admin/adminsSlice";
 import {
-  studentUpdate,
-  fetchSingleStudent,
   fetchStudents,
   getAllStudents,
   getStudentInfo,
-} from "../../../../features/student/studentsSlice";
-import { getAdminInfo } from "../../../../features/admin/adminsSlice";
+  studentUpdate,
+} from "../../../features/student/studentsSlice";
 
-export default function UpdateStudent({
-  // newStudent,
-  // setNewStudent,
+export default function AdminUpdateStudent({
+  // updatedStudent,
+  // setUpdatedStudent,
   toastOptions,
   toast,
 }) {
@@ -62,55 +62,37 @@ export default function UpdateStudent({
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
-  const selectedStudent = allStudents.find((std) => std._id === studentId);
+  const selectedStudent = allStudents.find(
+    (std) => std.studentId === studentId
+  );
   console.log(selectedStudent);
   // const [student] = useState(selectedStudent);
   // console.log(student);
 
-  const [newStudent, setNewStudent] = useState({
-    firstName: selectedStudent?.firstName,
-    lastName: selectedStudent?.lastName,
-    dateOfBirth: selectedStudent?.dateOfBirth,
-    placeOfBirth: selectedStudent?.placeOfBirth,
-    nationality: selectedStudent?.nationality,
-    email: selectedStudent?.email,
-    program: selectedStudent?.program,
-    updatedBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
-    updatedByAdminId: `${authAdminInfo.adminId}`,
-    academicYear: selectedStudent?.academicYear,
-    // currentClassLevel: selectedStudent?.currentClassLevel._id,
-    role: selectedStudent?.role,
-    gender: selectedStudent?.gender,
-    address: selectedStudent?.address,
-    currentCity: selectedStudent?.currentCity,
-    homeTown: selectedStudent?.homeTown,
-    region: selectedStudent?.region,
-    religion: selectedStudent?.religion,
-    height: selectedStudent?.height,
-    weight: selectedStudent?.weight,
-    motherTongue: selectedStudent?.motherTongue,
-    otherTongue: selectedStudent?.otherTongue,
-    complexion: selectedStudent?.complexion,
-    updatedDate: date,
-  });
+  const [updatedStudent, setUpdatedStudent] = useState(selectedStudent);
+  console.log(updatedStudent);
 
   useEffect(() => {
-    setNewStudent(selectedStudent);
+    // keeping student data in state
+    setUpdatedStudent(selectedStudent);
   }, [selectedStudent]);
 
   const handleInputValues = (e) => {
-    setNewStudent({
-      ...newStudent,
+    setUpdatedStudent({
+      ...updatedStudent,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleImageFileUpload = (e) => {
     if (e.target.files.length !== 0) {
-      setNewStudent({ ...newStudent, [e.target.name]: e.target.files[0] });
+      setUpdatedStudent({
+        ...updatedStudent,
+        [e.target.name]: e.target.files[0],
+      });
     }
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onloadend = () => {
       setLoadProfileImage(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -118,59 +100,69 @@ export default function UpdateStudent({
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log(newStudent);
-    const formData = new FormData();
-    formData.append("_id", newStudent._id);
-    formData.append("firstName", newStudent.firstName);
-    formData.append("lastName", newStudent.lastName);
-    formData.append("dateOfBirth", newStudent.dateOfBirth);
-    formData.append("placeOfBirth", newStudent.placeOfBirth);
-    formData.append("nationality", newStudent.nationality);
-    formData.append("email", newStudent.email);
-    formData.append("program", newStudent.program);
-    formData.append("updatedBy", newStudent.updatedBy);
-    formData.append("updatedByAdminId", newStudent.updatedByAdminId);
-    formData.append("currentClassLevel", newStudent.currentClassLevel?._id);
-    formData.append("program", newStudent.program?._id);
-    formData.append("academicYear", newStudent.academicYear?._id);
-    formData.append("gender", newStudent.gender);
-    formData.append("role", newStudent.role);
-    formData.append("profilePicture", newStudent.profilePicture);
-    formData.append("address", newStudent.address);
-    formData.append("currentCity", newStudent.currentCity);
-    formData.append("homeTown", newStudent.homeTown);
-    formData.append("region", newStudent.region);
-    formData.append("religion", newStudent.religion);
-    formData.append("height", newStudent.height);
-    formData.append("weight", newStudent.weight);
-    formData.append("motherTongue", newStudent.motherTongue);
-    formData.append("otherTongue", newStudent.otherTongue);
-    formData.append("complexion", newStudent.complexion);
-    formData.append("updatedDate", newStudent.updatedDate);
-    console.log(...formData);
+    console.log(updatedStudent);
+
+    // if (updatedStudent.profilePicture || !loadProfileImage) {
+    // toast.success("Please upload student's image!", {
+    //   position: "top-right",
+    //   theme: "dark",
+    //   // toastId: successId,
+    // });
     dispatch(
       studentUpdate({
-        formData,
-        id: newStudent._id,
-        name: newStudent.firstName + newStudent.lastName,
+        id: updatedStudent.studentId,
+        firstName: updatedStudent.firstName,
+        lastName: updatedStudent.lastName,
+        dateOfBirth: updatedStudent.dateOfBirth,
+        placeOfBirth: updatedStudent.placeOfBirth,
+        gender: updatedStudent.gender,
+        jhsAttended: updatedStudent.jhsAttended,
+        shsAttended: updatedStudent.shsAttended,
+        nationality: updatedStudent.nationality,
+        district: updatedStudent.district,
+        address: updatedStudent.address,
+        currentCity: updatedStudent.currentCity,
+        homeTown: updatedStudent.homeTown,
+        region: updatedStudent.region,
+        email: updatedStudent.email,
+        role: updatedStudent.role,
+        currentClassLevel: updatedStudent.currentClassLevel,
+        program: updatedStudent.program,
+        academicYear: updatedStudent.academicYear,
+        // religion: "",
+        height: updatedStudent.height,
+        weight: updatedStudent.weight,
+        motherTongue: updatedStudent.motherTongue,
+        otherTongue: updatedStudent.otherTongue,
+        complexion: updatedStudent.complexion,
+        updatedBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+        updatedByAdminId: `${authAdminInfo.adminId}`,
+        updatedDate: date,
       })
     );
+    // } else {
+    //   toast.error("Failed to update student! Try again later!", {
+    //     position: "top-right",
+    //     theme: "light",
+    //     // toastId: successId,
+    //   });
+    // }
   };
   const canSave =
-    Boolean(newStudent?.firstName) && Boolean(newStudent.lastName);
+    Boolean(updatedStudent?.firstName) && Boolean(updatedStudent.lastName);
   console.log(canSave);
 
   useEffect(() => {
-    // if (updateStudentStatus === "rejected") {
-    //   studentError.errorMessage.message.map((err) =>
-    //     toast.error(err, {
-    //       position: "top-right",
-    //       theme: "light",
-    //       // toastId: successId,
-    //     })
-    //   );
-    //   return;
-    // }
+    if (updateStudentStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
     if (updateStudentStatus === "success") {
       // navigate("/sensec/admin/all_students");
       toast.success(studentSuccessMessage, {
@@ -203,26 +195,35 @@ export default function UpdateStudent({
               <div className="title">
                 <div className="studentImageWrap">
                   <div className="file">
-                    <label
-                      htmlFor="profilePicture"
-                      className="profileImageUpload"
-                    >
-                      {loadProfileImage || newStudent?.profilePicture ? (
+                    <label className="profileImageUpload">
+                      {updatedStudent?.profilePicture ? (
                         <img
                           className="profileImg"
-                          src={
-                            loadProfileImage
-                              ? loadProfileImage
-                              : newStudent?.profilePicture
-                          }
+                          src={updatedStudent?.profilePicture}
                           alt=""
                         />
                       ) : (
-                        <img
-                          className="profileImg"
-                          src={"/assets/maleAvatar.png"}
-                          alt=""
-                        />
+                        <>
+                          {updatedStudent?.gender === "Male" && (
+                            <img
+                              className="profileImg"
+                              src={"/assets/maleAvatar.png"}
+                              alt=""
+                            />
+                          )}
+                          {updatedStudent?.gender === "Female" && (
+                            <img
+                              className="profileImg"
+                              src={"/assets/femaleAvatar.png"}
+                              alt=""
+                            />
+                          )}
+                          {updatedStudent?.gender === "" && (
+                            <div className="noImg">
+                              <p>"No Image"</p>
+                            </div>
+                          )}
+                        </>
                       )}
                     </label>
                     <input
@@ -240,9 +241,9 @@ export default function UpdateStudent({
                       className="idInput"
                       type="text"
                       name="studentId"
-                      placeholder={newStudent?.studentId}
+                      placeholder={updatedStudent?.studentId}
                       onChange={handleInputValues}
-                      value={newStudent?.studentId}
+                      value={updatedStudent?.studentId}
                       disabled="disabled"
                     />
                   </div>
@@ -258,7 +259,7 @@ export default function UpdateStudent({
                     name="registedDate"
                     disabled="disabled"
                     onChange={handleInputValues}
-                    value={newStudent?.dateEnrolled}
+                    value={updatedStudent?.dateEnrolled}
                   />
                 </div>
               </div>
@@ -270,7 +271,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="firstName"
-                      value={newStudent?.firstName}
+                      value={updatedStudent?.firstName}
                     />
                   </div>
                   <div className="inputField">
@@ -279,7 +280,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="lastName"
-                      value={newStudent?.lastName}
+                      value={updatedStudent?.lastName}
                     />
                   </div>
                   <div className="inputField">
@@ -288,7 +289,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="dateOfBirth"
-                      value={newStudent?.dateOfBirth}
+                      value={updatedStudent?.dateOfBirth}
                     />
                   </div>
                   <div className="inputField">
@@ -297,7 +298,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="placeOfBirth"
-                      value={newStudent?.placeOfBirth}
+                      value={updatedStudent?.placeOfBirth}
                     />
                   </div>
                   <div className="inputField">
@@ -306,7 +307,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="nationality"
-                      value={newStudent?.nationality}
+                      value={updatedStudent?.nationality}
                     />
                   </div>
                   <div className="inputField">
@@ -315,14 +316,14 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="homeTown"
-                      value={newStudent?.homeTown}
+                      value={updatedStudent?.homeTown}
                     />
                   </div>
                   <div className="selector bottomSelect">
                     <label htmlFor="region">Region</label>
                     <select
                       className="select"
-                      value={newStudent?.region}
+                      value={updatedStudent?.region}
                       onChange={handleInputValues}
                       name="region"
                     >
@@ -346,7 +347,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="currentCity"
-                      value={newStudent?.currentCity}
+                      value={updatedStudent?.currentCity}
                     />
                   </div>
                   <div className="inputField">
@@ -355,7 +356,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="address"
-                      value={newStudent?.address}
+                      value={updatedStudent?.address}
                     />
                   </div>
                   <div className="inputField">
@@ -364,7 +365,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="height"
-                      value={newStudent?.height}
+                      value={updatedStudent?.height}
                     />
                   </div>
                   <div className="inputField">
@@ -373,7 +374,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="weight"
-                      value={newStudent?.weight}
+                      value={updatedStudent?.weight}
                     />
                   </div>
                   <div className="inputField">
@@ -382,7 +383,7 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="email"
-                      value={newStudent?.email}
+                      value={updatedStudent?.email}
                     />
                   </div>
                   <div className="inputField">
@@ -391,14 +392,14 @@ export default function UpdateStudent({
                       type="text"
                       onChange={handleInputValues}
                       name="motherTongue"
-                      value={newStudent?.motherTongue}
+                      value={updatedStudent?.motherTongue}
                     />
                   </div>
                   <div className="selector bottomSelect">
                     <label htmlFor="otherTongue">Other Tongues</label>
                     <select
                       className="select"
-                      value={newStudent?.otherTongue}
+                      value={updatedStudent?.otherTongue}
                       onChange={handleInputValues}
                       name="otherTongue"
                     >
@@ -420,7 +421,7 @@ export default function UpdateStudent({
                     <label htmlFor="gender">Gender</label>
                     <select
                       className="select"
-                      value={newStudent?.gender}
+                      value={updatedStudent?.gender}
                       onChange={handleInputValues}
                       name="gender"
                       id=""
@@ -440,7 +441,7 @@ export default function UpdateStudent({
                     <label htmlFor="complexion">Complexion</label>
                     <select
                       className="select"
-                      value={newStudent?.complexion}
+                      value={updatedStudent?.complexion}
                       onChange={handleInputValues}
                       name="complexion"
                       id=""
@@ -460,7 +461,7 @@ export default function UpdateStudent({
                     <label htmlFor="religion">Religion</label>
                     <select
                       className="select"
-                      value={newStudent?.religion}
+                      value={updatedStudent?.religion}
                       onChange={handleInputValues}
                       name="religion"
                     >
@@ -479,7 +480,7 @@ export default function UpdateStudent({
                     <label htmlFor="academicYear">Academic Year</label>
                     <select
                       className="select"
-                      value={newStudent?.academicYear?._id}
+                      value={updatedStudent?.academicYear?._id}
                       onChange={handleInputValues}
                       name="academicYear"
                     >
@@ -498,7 +499,7 @@ export default function UpdateStudent({
                     <label htmlFor="role">Role</label>
                     <select
                       className="select"
-                      value={newStudent?.role}
+                      value={updatedStudent?.role}
                       onChange={handleInputValues}
                       name="role"
                     >
@@ -517,7 +518,7 @@ export default function UpdateStudent({
                     <label htmlFor="program">Program</label>
                     <select
                       className="select"
-                      value={newStudent?.program?._id}
+                      value={updatedStudent?.program?._id}
                       onChange={handleInputValues}
                       name="program"
                       id=""
@@ -537,7 +538,7 @@ export default function UpdateStudent({
                     <label htmlFor="currentClassLevel">Class Level</label>
                     <select
                       className="select"
-                      value={newStudent?.currentClassLevel?._id}
+                      value={updatedStudent?.currentClassLevel?._id}
                       onChange={handleInputValues}
                       name="currentClassLevel"
                     >

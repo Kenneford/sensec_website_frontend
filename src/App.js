@@ -33,12 +33,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AllStaffMembers from "./components/adminSection/adminStaff/allStaffMembers/AllStaffMembers";
 import AddStaffMember from "./components/adminSection/adminStaff/addStaffMember/AddStaffMember";
-import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/UpdateStudent";
+import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/AdminUpdateStudent";
 import GeneralNotice from "./pages/notice/GeneralNotice";
 import AllNotices from "./components/noticeSection/AllNotices";
 import SingleNotice from "./pages/notice/SingleNotice";
 import EmailTemplate from "./components/emailTemplate/EmailTemplate";
-import StudentInfos from "./components/adminSection/adminStudents/studentInfos/StudentInfos";
+import StudentInfos from "./components/studentSection/studentInfo/StudentInfos";
 import UpdatePost from "./components/adminSection/updatePost/UpdatePost";
 import { getAdminInfo } from "./features/admin/adminsSlice";
 import { getTeacherInfo } from "./features/teacher/teachersSlice";
@@ -62,6 +62,13 @@ import ClassLevelStudents from "./components/adminSection/adminStudents/totalStu
 import OldStudents from "./components/adminSection/adminStudents/totalStudents/OldStudents";
 import ApplyOnline from "./pages/applyOnline/ApplyOnline";
 import PendingStudents from "./components/adminSection/adminStudents/totalStudents/PendingStudents";
+import PendingClassLevelStudents from "./components/adminSection/adminStudents/totalStudents/PendingClassLevelStudents";
+import WeeklyLectures from "./components/studentSection/weeklyLectures/WeeklyLectures";
+import StudentUpdateSelf from "./components/studentSection/studentUpdateSelf/StudentUpdateSelf";
+import AdminStudentInfos from "./components/adminSection/adminStudents/studentInfos/AdminStudentInfos";
+import Blogs from "./pages/blogs/Blogs";
+import BlogItem from "./pages/blogs/BlogItem";
+import SingleBlog from "./pages/blogs/SingleBlog";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -186,6 +193,34 @@ export default function App() {
         <Route path="/sensec/email" element={<EmailTemplate />} />
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
+        <Route
+          exact
+          path="/sensec/blogs"
+          element={
+            <Blogs
+              openSidebar={openSidebar}
+              toastOptions={toastOptions}
+              toast={toast}
+              setPostOptions={setPostOptions}
+              postOptions={postOptions}
+              clearLogOptions={clearLogOptions}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/sensec/blogs/blog_overview/:blogId"
+          element={
+            <SingleBlog
+              openSidebar={openSidebar}
+              toastOptions={toastOptions}
+              toast={toast}
+              setPostOptions={setPostOptions}
+              postOptions={postOptions}
+              clearLogOptions={clearLogOptions}
+            />
+          }
+        />
         <Route
           exact
           path="/sensec/contact"
@@ -395,6 +430,15 @@ export default function App() {
             }
           />
           <Route
+            path="/sensec/admin/all_pending_students/:class_level"
+            element={
+              <PendingClassLevelStudents
+                toastOptions={toastOptions}
+                toast={toast}
+              />
+            }
+          />
+          <Route
             path="/sensec/admin/students/:class_level"
             element={
               <ClassLevelStudents toastOptions={toastOptions} toast={toast} />
@@ -416,7 +460,9 @@ export default function App() {
           />
           <Route
             path="/sensec/admin/student_info/:student_name/:studentId"
-            element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
+            element={
+              <AdminStudentInfos toastOptions={toastOptions} toast={toast} />
+            }
           />
           <Route
             path="/sensec/admin/general_announcement/update/:postId"
@@ -497,6 +543,23 @@ export default function App() {
           <Route
             index
             element={<StudentDashBoardContent openSidebar={openSidebar} />}
+          />
+          <Route
+            exact
+            path="/sensec/student/:program/:currentClassLevel/weekly_lectures"
+            element={<WeeklyLectures openSidebar={openSidebar} />}
+          />
+          <Route
+            exact
+            path="/sensec/student/student_info/:student_name/:studentId"
+            element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
+          />
+          <Route
+            exact
+            path="/sensec/student/update_info/:student_name/:studentId"
+            element={
+              <StudentUpdateSelf toastOptions={toastOptions} toast={toast} />
+            }
           />
         </Route>
         {/* 404 PAGE NOT FOUND ROUTE */}

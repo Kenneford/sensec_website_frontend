@@ -2,24 +2,52 @@ import React, { useEffect, useRef, useState } from "react";
 import "./studentInfos.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
-import { useParams } from "react-router-dom";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   fetchSingleStudent,
   getStudentInfo,
+  studentUpdate,
+  studentUpdateImage,
 } from "../../../../features/student/studentsSlice";
 import { useDownloadExcel } from "react-export-table-to-excel";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { API_ENDPOINT } from "../../../../apiEndPoint/api";
 
-export default function StudentInfos() {
+export default function AdminStudentInfos({ toast }) {
   const studentInfo = useSelector(getStudentInfo);
+  const {
+    authenticated,
+    updateStudentImageStatus,
+    studentError,
+    studentSuccessMessage,
+  } = useSelector((state) => state.student);
   const guardian = studentInfo?.guardian;
   const parents = studentInfo?.parents;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { studentId } = useParams();
   console.log(studentId);
   console.log(studentInfo);
 
+  const [loadProfileImage, setLoadProfileImage] = useState("");
+  const [imageUpdated, setImageUpdated] = useState(false);
+  const [imageUpdating, setImageUpdating] = useState(false);
+
+  const handleImageFileUpload = (e) => {
+    if (e.target.files.length !== 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLoadProfileImage(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      return;
+    }
+  };
   const studentInfoRef = useRef(null);
   const { onDownload } = useDownloadExcel({
     currentTableRef: studentInfoRef.current,
@@ -75,32 +103,167 @@ export default function StudentInfos() {
     });
   };
 
+  const handleImageUpdate = () => {
+    dispatch(
+      studentUpdateImage({
+        id: studentInfo.studentId,
+        firstName: studentInfo.firstName,
+        lastName: studentInfo.lastName,
+        profilePicture: loadProfileImage,
+      })
+    );
+    setImageUpdating(true);
+    setTimeout(() => {
+      setImageUpdated(true);
+      setImageUpdating(false);
+    }, 3000);
+  };
+  useEffect(() => {
+    if (updateStudentImageStatus === "rejected") {
+      studentError.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
+    if (updateStudentImageStatus === "success") {
+      // navigate("/sensec/admin/all_students");
+      toast.success(studentSuccessMessage, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+      // navigate("/sensec/admin/students/add_parents_guardian");
+    }
+  }, [
+    studentError,
+    studentSuccessMessage,
+    updateStudentImageStatus,
+    toast,
+    navigate,
+  ]);
+
   useEffect(() => {
     dispatch(fetchSingleStudent(studentId));
   }, [dispatch, studentId]);
   return (
-    <>
+    <div id="studentInfo">
       <div className="downloadWrap">
-        <div className="excelExport">
-          <button className="excelBtn" onClick={onDownload}>
-            Export to Excel
-          </button>
-          <button
-            className="pdfBtn "
-            onClick={downloadPDF}
-            disabled={!(loader === false)}
-          >
-            {loader ? (
-              <span>Download in progress</span>
-            ) : (
-              <span>Download PDF</span>
-            )}
-          </button>
-        </div>
+        {studentInfo.isStudent && (
+          <div className="excelExport">
+            <button className="excelBtn" onClick={onDownload}>
+              Export to Excel
+            </button>
+            <button
+              className="pdfBtn "
+              onClick={downloadPDF}
+              disabled={!(loader === false)}
+            >
+              {loader ? (
+                <span>Download in progress</span>
+              ) : (
+                <span>Download PDF</span>
+              )}
+            </button>
+          </div>
+        )}
       </div>
       <div className="profileWrap" ref={pdfRef}>
         <div className="studentImage">
-          <img src={studentInfo.profilePicture} alt="" />
+          {loadProfileImage && (
+            <label
+              className="imgUpdate"
+              onClick={() => {
+                handleImageUpdate();
+              }}
+            >
+              {!imageUpdating ? "Save Update" : "Updating..."}
+            </label>
+          )}
+          {!loadProfileImage && (
+            <label className="imgUpdate" htmlFor="profilePicture">
+              Change Image
+            </label>
+          )}
+          {imageUpdated && (
+            <label className="imgUpdate imgChange" htmlFor="profilePicture">
+              <span>Updated</span>{" "}
+              <CheckCircleOutlineIcon className="imgUpdateIcon" />
+            </label>
+          )}
+          <div className="file">
+            <label className="profileImageUpload" htmlFor="profilePicture">
+              {loadProfileImage || studentInfo.profilePicture ? (
+                <img
+                  className="profileImg"
+                  src={
+                    loadProfileImage
+                      ? loadProfileImage
+                      : studentInfo.profilePicture
+                  }
+                  alt=""
+                />
+              ) : (
+                <>
+                  {studentInfo.gender === "Male" && (
+                    <img
+                      className="profileImg"
+                      src={"/assets/maleAvatar.png"}
+                      alt=""
+                    />
+                  )}
+                  {studentInfo.gender === "Female" && (
+                    <img
+                      className="profileImg"
+                      src={"/assets/femaleAvatar.png"}
+                      alt=""
+                    />
+                  )}
+                  {studentInfo.gender === "" && (
+                    <div className="noImg">
+                      <p>"No Image"</p>
+                    </div>
+                  )}
+                </>
+              )}
+            </label>
+            <input
+              style={{ display: "none" }}
+              type="file"
+              onChange={handleImageFileUpload}
+              name="profilePicture"
+              id="profilePicture"
+              accept=".png,.jpeg,.jpg"
+            />
+          </div>
+          {/* {studentInfo.profilePicture ? (
+            <img src={studentInfo.profilePicture} alt="" />
+          ) : (
+            <>
+              {studentInfo?.gender === "Male" && (
+                <img
+                  className="profileImg"
+                  src={"/assets/maleAvatar.png"}
+                  alt=""
+                />
+              )}
+              {studentInfo?.gender === "Female" && (
+                <img
+                  className="profileImg"
+                  src={"/assets/femaleAvatar.png"}
+                  alt=""
+                />
+              )}
+              {studentInfo?.gender === "" && (
+                <div className="noImg">
+                  <p>"No Image"</p>
+                </div>
+              )}
+            </>
+          )} */}
           <div>
             <h1>
               {studentInfo.firstName} {studentInfo.lastName}'s Profile
@@ -109,6 +272,18 @@ export default function StudentInfos() {
               <h3>ID: </h3>
               <p>{studentInfo.studentId}</p>
             </div>
+            {authenticated && (
+              <button
+                className="studentUpdateBtn"
+                onClick={() =>
+                  navigate(
+                    `/sensec/student/update_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                  )
+                }
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
         </div>
         <div className="studentInfoContent">
@@ -212,6 +387,21 @@ export default function StudentInfos() {
                 <td className="alignTextLeft">{studentInfo.phoneNumber}</td>
               </tr>
             </table>
+            <table>
+              <h3>Student's Data Update Details</h3>
+              <tr>
+                <th className="tableHearder">Updated By (Admin)</th>
+                <th className="tableHearder">Admin ID</th>
+                <th className="tableHearder">Last Updated</th>
+              </tr>
+              <tr>
+                <td className="alignTextLeft">{studentInfo.updatedBy}</td>
+                <td className="alignTextLeft">
+                  {studentInfo.updatedByAdminId}
+                </td>
+                <td className="alignTextLeft">{studentInfo.updatedDate}</td>
+              </tr>
+            </table>
           </table>
         </div>
         {parents && (
@@ -256,6 +446,6 @@ export default function StudentInfos() {
           </table>
         )}
       </div>
-    </>
+    </div>
   );
 }

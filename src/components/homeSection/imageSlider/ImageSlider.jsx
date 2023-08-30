@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./imageSlider.scss";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
-import "swiper/swiper-bundle.min.css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/autoplay";
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/scss/effect-coverflow";
+import "swiper/scss/pagination";
+import "swiper/scss/navigation";
+import "swiper/scss/autoplay";
+import {
+  EffectCoverflow,
+  Pagination,
+  Navigation,
+  Autoplay,
+} from "swiper/modules";
 import { Link } from "react-router-dom";
 import SwiperNavBtn from "./SwiperNavBtn";
 import { motion, useAnimation, Variants } from "framer-motion";
@@ -17,7 +20,6 @@ import { HashLink } from "react-router-hash-link";
 
 export default function ImageSlider({ slides }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const swiperNavigation = useSwiper();
 
   const scrollWithOffset = (el) => {
     const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
@@ -60,6 +62,7 @@ export default function ImageSlider({ slides }) {
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
+
   return (
     <Swiper
       className="slideWrap mySwiper"

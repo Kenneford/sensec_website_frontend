@@ -152,7 +152,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   ]);
 
   return (
-    <div className="studentTotal" id="allStudents">
+    <div className="studentTotal" id="classLevelStudents">
       <h1 style={{ backgroundColor: "#383838" }}>All Enrolled Students</h1>
       <form onSubmit={handleStudentSearch} className="studentSearch">
         <input

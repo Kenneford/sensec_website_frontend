@@ -1,0 +1,92 @@
+.blogsGrid {
+  padding-top: 10rem;
+  width: 60%;
+  margin: auto;
+  //   display: grid;
+  //   grid-template-columns: repeat(2, 1fr);
+  //   gap: 1rem;
+  // padding: 0 1rem;
+  .post {
+    width: 100%;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    margin: 30px 0;
+    .postWrapper {
+      padding: 10px;
+      //   margin: 1rem 0;
+      .postTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .moreVert {
+          cursor: pointer;
+        }
+        .postTopLeft {
+          display: flex;
+          align-items: center;
+          .postBy {
+            display: flex;
+            align-items: center;
+            .postProfileImg {
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+        }
+        .postUsername {
+          font-size: 15px;
+          font-weight: 500;
+          margin: 0 10px;
+        }
+        .postDate {
+          font-size: 12px;
+          padding-left: 1rem;
+        }
+      }
+      .postCenter {
+        margin: 20px 0;
+        cursor: pointer;
+        .postImg {
+          margin-top: 20px;
+          width: 100%;
+          max-height: 500px;
+          object-fit: cover;
+        }
+        .postTitle {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+        .postText {
+          padding-top: 1rem;
+        }
+      }
+      .postBottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .postBottomLeft {
+          display: flex;
+          align-items: center;
+          .likeBtn {
+            background-color: transparent;
+            cursor: pointer;
+          }
+          .postLikeCounter {
+            font-size: 15px;
+            padding-left: 1rem;
+          }
+        }
+        .postBottomRight {
+          .postCommentText {
+            cursor: pointer;
+            border-bottom: 1px dashed gray;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import studentReducer from "../features/student/studentsSlice";
+import PendingStudentDataReducer from "../features/pendingStudents/pendingStudentsSlice";
 import staffsReducer from "../features/staff/staffSlice";
 import academicsReducer from "../features/academics/academics";
 import postReducer from "../features/posts/postSlice";
@@ -15,6 +16,7 @@ import yearGroupReducer from "../features/oldStudents/OldStudentsSlice";
 import academicProgramReducer from "../features/academics/academicProgram/academicProgram";
 import electiveSubjectReducer from "../features/academics/createSubjects/electiveSubjectSlice";
 import coreSubjectReducer from "../features/academics/createSubjects/coreSubjectSlice";
+import TimeTableReducer from "../features/timeTable/timeTableSlice";
 // import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export const store = configureStore({
@@ -35,6 +37,8 @@ export const store = configureStore({
     electiveSubject: electiveSubjectReducer,
     coreSubject: coreSubjectReducer,
     yearGroup: yearGroupReducer,
+    pendingStudentsData: PendingStudentDataReducer,
+    timeTable: TimeTableReducer,
   },
   //   middleware: getDefaultMiddleware({
   //     serializableCheck: false,

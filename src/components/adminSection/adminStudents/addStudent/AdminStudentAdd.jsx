@@ -178,6 +178,14 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
   const handleRegister = (e) => {
     e.preventDefault();
     console.log(newStudent);
+    if (!newStudent.profilePicture) {
+      toast.error("Please upload student's image!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append("firstName", newStudent.firstName);
     formData.append("lastName", newStudent.lastName);
@@ -321,15 +329,43 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                       htmlFor="profilePicture"
                       className="profileImageUpload"
                     >
-                      <img
-                        className="profileImg"
-                        src={
-                          loadProfileImage
-                            ? loadProfileImage
-                            : "/assets/noAvatar.png"
-                        }
-                        alt=""
-                      />
+                      <>
+                        {loadProfileImage ? (
+                          <img
+                            className="profileImg"
+                            src={
+                              loadProfileImage
+                                ? loadProfileImage
+                                : "/assets/noAvatar.png"
+                            }
+                            alt=""
+                          />
+                        ) : (
+                          <>
+                            {newStudent.gender === "Male" && (
+                              <img
+                                className="profileImg"
+                                src={"/assets/maleAvatar.png"}
+                                alt=""
+                              />
+                            )}
+                            {newStudent.gender === "Female" && (
+                              <img
+                                className="profileImg"
+                                src={"/assets/femaleAvatar.png"}
+                                alt=""
+                              />
+                            )}
+                            {!loadProfileImage && !newStudent.gender && (
+                              <img
+                                className="profileImg"
+                                src={"/assets/noAvatar.png"}
+                                alt=""
+                              />
+                            )}
+                          </>
+                        )}
+                      </>
                     </label>
                     <input
                       style={{ display: "none" }}

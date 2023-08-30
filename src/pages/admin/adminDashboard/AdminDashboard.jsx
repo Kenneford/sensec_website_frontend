@@ -71,23 +71,39 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/admin"} className="links">
+              <HashLink to={"/sensec/admin/#admin"} className="links" smooth>
                 <TvIcon className="icon" />
                 <h4>Dashboard</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/create_data"} className="links">
+              <HashLink
+                to={"/sensec/admin/create_data/#admin"}
+                className="links"
+                smooth
+              >
                 <ConstructionIcon />
                 <h4>Create</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/all_admins"} className="links">
+              <HashLink
+                to={"/sensec/admin/all_admins/#admin"}
+                className="links"
+                smooth
+              >
                 <AdminPanelSettingsIcon />
                 <h4>Admins</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/staff_members"} className="links">
+              <HashLink
+                to={"/sensec/admin/staff_members/#admin"}
+                className="links"
+                smooth
+              >
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/all_teachers"} className="links">
+              <HashLink
+                to={"/sensec/admin/all_teachers/#admin"}
+                className="links"
+                smooth
+              >
                 <div className="teacherIcons">
                   <SupervisedUserCircleIcon className="tvIcon" />
                   {/* <PersonIcon
@@ -96,19 +112,28 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 </div>
                 <h4>Teachers</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/students"} className="links">
+              <HashLink
+                to={"/sensec/admin/students/#admin"}
+                className="links"
+                smooth
+              >
                 <SchoolOutlinedIcon />
                 <h4>Students</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/programs&subjects"}
+                to={"/sensec/admin/programs&subjects/#admin"}
                 className="links"
+                smooth
               >
                 <AutoStoriesIcon />
                 {/* <HistoryEduIcon /> */}
                 <h4>Programs/Subjects</h4>
               </HashLink>
-              <HashLink to={"/sensec/admin/attendance"} className="links">
+              <HashLink
+                to={"/sensec/admin/attendance/#admin"}
+                className="links"
+                smooth
+              >
                 <ListAltOutlinedIcon />
                 <h4>Attendance</h4>
               </HashLink>

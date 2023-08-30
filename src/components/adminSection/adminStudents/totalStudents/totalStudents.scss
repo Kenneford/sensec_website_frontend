@@ -30,6 +30,9 @@
         border: 1px solid #06aaca;
       }
     }
+    .pendingSearch {
+      padding: 1rem 0;
+    }
     .searchIcon {
       position: absolute;
       right: 2.5rem;
@@ -51,6 +54,9 @@
     &:hover {
       background-color: #05a605;
     }
+  }
+  .pendingTotalStudentsWrap {
+    padding-top: 1rem;
   }
   .totalStudentsWrap {
     background-color: #383838;
@@ -154,6 +160,26 @@
         height: 3rem;
         border-radius: 0.4rem;
         object-fit: cover;
+      }
+      .noImgLink {
+        text-decoration: none;
+        color: #555;
+      }
+      .noImg {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.4rem;
+        object-fit: cover;
+        border: #292929cc 1px solid;
+        cursor: pointer;
+        p {
+          font-size: 0.8rem;
+          flex-wrap: wrap;
+        }
       }
       .headCells {
         border: 0.2rem solid green;

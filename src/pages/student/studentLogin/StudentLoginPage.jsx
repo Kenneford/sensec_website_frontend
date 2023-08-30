@@ -21,11 +21,10 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   const errorId = "error";
   const successId = "success";
 
-  const { loginStudentStatus, studentError, successMessage } = useSelector(
-    (state) => state.student
-  );
+  const { studentLoginStatus, studentError, studentSuccessMessage } =
+    useSelector((state) => state.student);
   console.log(studentError);
-  console.log(successMessage);
+  console.log(studentSuccessMessage);
 
   const [student, setStudent] = useState({
     studentId: "",
@@ -62,19 +61,23 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   };
 
   useEffect(() => {
-    if (loginStudentStatus === "rejected") {
+    if (studentLoginStatus === "rejected") {
       studentError.errorMessage.message.map((err) =>
-        toast.error(err, toastOptions)
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
       );
       return;
     }
-    if (loginStudentStatus === "success") {
+    if (studentLoginStatus === "success") {
       setStudent({
         studentId: "",
         password: "",
       });
       navigate("/sensec/student/#student");
-      toast.success(successMessage, {
+      toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
@@ -82,8 +85,8 @@ export default function StudentLoginPage({ toastOptions, toast }) {
     }
   }, [
     studentError,
-    successMessage,
-    loginStudentStatus,
+    studentSuccessMessage,
+    studentLoginStatus,
     toast,
     toastOptions,
     navigate,
@@ -169,7 +172,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                 </p>
               )}
               <button type="submit">
-                {loginStudentStatus === "pending" ? (
+                {studentLoginStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
                 ) : (
                   "Login"

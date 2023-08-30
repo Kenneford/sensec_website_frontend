@@ -251,7 +251,16 @@ export default function CurrentUser({
             </div>
             {showOptions && (
               <div className="navLogout">
-                <span className="profileView">View Pofile</span>
+                <span
+                  className="profileView"
+                  onClick={() =>
+                    navigate(
+                      `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                    )
+                  }
+                >
+                  View Pofile
+                </span>
                 <span className="adminConer">Students Coner</span>
                 <span className="logUserOutWrap">
                   <p className="logUserOut" onClick={handleLogout}>
