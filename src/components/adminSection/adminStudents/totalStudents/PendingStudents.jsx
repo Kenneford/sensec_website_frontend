@@ -19,6 +19,10 @@ import {
   fetchClassLevels,
   getAllClassLevels,
 } from "../../../../features/classLevels/classLevelsSlice";
+import {
+  fetchPendingStudentsDatas,
+  getAllPendingStudentsDatas,
+} from "../../../../features/pendingStudents/pendingStudentsSlice";
 
 export default function PendingStudents({ toast, toastOptions }) {
   const {
@@ -27,10 +31,13 @@ export default function PendingStudents({ toast, toastOptions }) {
     studentError,
     studentSuccessMessage,
   } = useSelector((state) => state.student);
+  const { fetchingStatus, pendingStudentsDataError, successMessage } =
+    useSelector((state) => state.pendingStudentsData);
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
   const allStudents = useSelector(getAllStudents);
   const allClassLevels = useSelector(getAllClassLevels);
+  const allPendingStudentsDatas = useSelector(getAllPendingStudentsDatas);
   const allPendingStudents = useSelector(getAllPendingStudents);
 
   const navigate = useNavigate();
@@ -92,11 +99,22 @@ export default function PendingStudents({ toast, toastOptions }) {
     dispatch(fetchStudents());
     dispatch(fetchClassLevels());
     dispatch(fetchPendingStudents());
+    dispatch(fetchPendingStudentsDatas());
   }, [dispatch]);
 
   useEffect(() => {
     if (fetchingPendingStudentsStatus === "rejected") {
       studentError.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
+    if (fetchingStatus === "rejected") {
+      pendingStudentsDataError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -121,6 +139,8 @@ export default function PendingStudents({ toast, toastOptions }) {
     fetchingPendingStudentsStatus,
     toast,
     toastOptions,
+    fetchingStatus,
+    pendingStudentsDataError,
   ]);
 
   return (
@@ -152,7 +172,7 @@ export default function PendingStudents({ toast, toastOptions }) {
             )}
           {!searchStatus && (
             <p className="searchInfo">
-              Total Students = {allPendingStudents.length}
+              Total Pending Students = {allPendingStudents.length}
             </p>
           )}
           {allStudents?.length === 0 &&
@@ -182,24 +202,21 @@ export default function PendingStudents({ toast, toastOptions }) {
               >
                 All Pending Students
               </span>
-              <span onClick={() => navigate(`#`)}>Level 100 Pending</span>
-              {/* {allClassLevels.map((cLevel) => (
+              {allPendingStudentsDatas.map((pendingData) => (
                 <span
-                  key={cLevel._id}
+                  key={pendingData._id}
                   onClick={() =>
-                    navigate(`/sensec/admin/students/${cLevel.name}`)
+                    navigate(
+                      `/sensec/admin/all_pending_students/${pendingData.classLevel}`
+                    )
                   }
-                  className={cLevel.name === class_level && "greenBackground"}
+                  className={
+                    pendingData.classLevel === class_level && "greenBackground"
+                  }
                 >
-                  {cLevel.name}
+                  {pendingData.classLevel}
                 </span>
-              ))} */}
-              <span onClick={() => navigate(`#`)} className="">
-                Level 200 Pending
-              </span>
-              <span onClick={() => navigate(`#`)} className="">
-                Level 300 Pending
-              </span>
+              ))}
             </div>
           </div>
           <>

@@ -68,7 +68,7 @@ export default function NavBar({
     >
       <div className="logoFlex">
         <NavHashLink
-          to={"/sensec/homepage/#homepage"}
+          to={"/sensec/homepage#homepage"}
           smooth
           scroll={scrollWithOffset}
           className="logoText"
@@ -88,7 +88,7 @@ export default function NavBar({
         <ul className={!menuVisible ? "navMenu" : "navMenu1"}>
           <li>
             <NavHashLink
-              to={"/sensec/homepage/#homepage"}
+              to={"/sensec/homepage#homepage"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -97,7 +97,7 @@ export default function NavBar({
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/about/#about"}
+              to={"/sensec/about#about"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -107,7 +107,7 @@ export default function NavBar({
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/courses/#courses"}
+              to={"/sensec/courses#courses"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -117,7 +117,7 @@ export default function NavBar({
           </li>
           <li>
             <NavHashLink
-              to={"/sensec/contact/#contact"}
+              to={"/sensec/contact#contact"}
               smooth
               scroll={scrollWithOffset}
             >
@@ -125,21 +125,40 @@ export default function NavBar({
             </NavHashLink>
             {/* <ContactNavBar /> */}
           </li>
-          {!authAdminInfo &&
+          <li>
+            <NavHashLink
+              to={"/sensec/student_enrollment/online_application#apply"}
+              smooth
+              scroll={scrollWithOffset}
+            >
+              Apply
+            </NavHashLink>
+            {/* <ContactNavBar /> */}
+          </li>
+          <li>
+            <NavHashLink
+              to={"/sensec/blogs#blog"}
+              smooth
+              scroll={scrollWithOffset}
+            >
+              Blog
+            </NavHashLink>
+            {/* <ContactNavBar /> */}
+          </li>
+          {/* {!authAdminInfo &&
             !studentInfo &&
             !authTeacherInfo &&
             !authStaffInfo && (
               <li>
                 <NavHashLink
-                  to={"/sensec/general_announcement/#notice"}
+                  to={"/sensec/general_announcement#generalNotice"}
                   smooth
                   scroll={scrollWithOffset}
                 >
                   General Notice
                 </NavHashLink>
-                {/* <ContactNavBar /> */}
               </li>
-            )}
+            )} */}
           {currentUser.isAdmin && (
             <li>
               <NavHashLink

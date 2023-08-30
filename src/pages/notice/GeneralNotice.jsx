@@ -118,6 +118,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                 <HashLink
                   to={"/sensec/general_announcement/#generalNotice"}
                   className="links"
+                  smooth
                 >
                   <CampaignOutlinedIcon />
                   <h4>Notice</h4>
@@ -216,8 +217,9 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement"}
+                  to={"/sensec/general_announcement/#generalNotice"}
                   className="links"
+                  smooth
                   title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
@@ -317,8 +319,9 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement"}
+                  to={"/sensec/general_announcement/#generalNotice"}
                   className="links"
+                  smooth
                   title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
@@ -404,8 +407,9 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>My Attendance</h4>
                 </div>
                 <HashLink
-                  to={"/sensec/general_announcement"}
+                  to={"/sensec/general_announcement/#generalNotice"}
                   className="links"
+                  smooth
                   title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
@@ -442,7 +446,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
             </div>
           )}
 
-          {!studentInfo &&
+          {/* {!studentInfo &&
             !authStaffInfo &&
             !authTeacherInfo &&
             !authAdminInfo && (
@@ -496,7 +500,7 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   </HashLink>
                 </div>
               </div>
-            )}
+            )} */}
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />
             <DashBoardFooter openSidebar={openSidebar} />

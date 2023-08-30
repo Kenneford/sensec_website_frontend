@@ -13,6 +13,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
@@ -73,39 +74,24 @@ export default function StudentDashBoard({
               />
               <div className="infoText">
                 <span>
-                  {studentInfo.gender === "Male" ? "Bro." : "Sis."}{" "}
-                  {studentInfo.lastName}
+                  {/* {studentInfo.gender === "Male" && "Bro."}
+                  {studentInfo.gender === "Female" && "Sis."}{" "} */}
+                  {studentInfo.fullName}
                 </span>
                 <p>( {studentInfo.program.name} Student )</p>
               </div>
             </div>
-            {/* <div className="adminInfo">
-              <img
-                src={
-                  studentInfo.profilePicture
-                    ? studentInfo.profilePicture
-                    : "/assets/maleAvatar.png"
-                }
-                alt=""
-              />
-              <div className="infoText">
-                <span>
-                  {studentInfo && studentInfo.firstName}{" "}
-                  {studentInfo && studentInfo.lastName}
-                </span>
-                <p>
-                  ( {studentInfo.courseStudy ? studentInfo.courseStudy : ""}{" "}
-                  Student )
-                </p>
-              </div>
-            </div> */}
             <div className="contentLinks">
-              <div className="links" title={openSidebar ? "Dashboard" : ""}>
+              <HashLink
+                className="links"
+                title={openSidebar ? "Dashboard" : ""}
+                to={"/sensec/student/#student"}
+              >
                 <TvIcon />
                 <h4>Dashboard</h4>
-              </div>
+              </HashLink>
               <HashLink
-                to={"/sensec/student/weekly_lectures"}
+                to={`/sensec/student/${studentInfo.program.name}/${studentInfo.currentClassLevel.name}/weekly_lectures`}
                 className="links"
                 title={openSidebar ? "Weekly Lectures" : ""}
               >
@@ -113,12 +99,7 @@ export default function StudentDashBoard({
                 <h4>Weekly Lectures</h4>
               </HashLink>
               <HashLink className="links" title={openSidebar ? "Teachers" : ""}>
-                <div className="teacherIcons">
-                  <PanoramaOutlinedIcon className="tvIcon" />
-                  <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  />
-                </div>
+                <SupervisedUserCircleIcon className="tvIcon" />
                 <h4>Teachers</h4>
               </HashLink>
               <div className="links" title={openSidebar ? "Coursemates" : ""}>

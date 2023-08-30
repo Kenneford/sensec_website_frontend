@@ -176,6 +176,16 @@
                     height: 10rem;
                     object-fit: cover;
                     border-radius: 0.5rem;
+                  }
+                  .noImg {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: #292929cc 1px solid;
+                    width: 10rem;
+                    height: 10rem;
+                    object-fit: cover;
+                    border-radius: 0.5rem;
                     cursor: pointer;
                   }
                 }

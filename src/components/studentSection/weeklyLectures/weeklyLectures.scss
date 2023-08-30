@@ -1,0 +1,109 @@
+.studentTimeTable {
+  width: 100%;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .classTeacher {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    span {
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    // width: 100%;
+  }
+  h1 {
+    width: 94%;
+    margin: auto;
+    margin-bottom: 2rem;
+    margin-top: -2.5rem;
+  }
+  .studentTimeTableWrap {
+    background-color: #fff;
+    padding: 2rem 0;
+    width: 100%;
+    margin-top: 1rem;
+    //   .studentTimeTable {
+    display: flex;
+    justify-content: center;
+    .theTime {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #555;
+    }
+    .theDay {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #555;
+    }
+    .studentTimeTableData {
+      border: 2px solid #ccc;
+      width: 90%;
+      margin-bottom: 3rem;
+      h3 {
+        padding: 0.4rem 0;
+        padding-left: 1rem;
+      }
+    }
+    th {
+      border: none;
+      background-color: #555;
+      color: #fff;
+      padding: 1rem 0;
+      font-weight: 500;
+    }
+    td {
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+      color: #696969;
+      font-weight: 300;
+      img {
+        width: 3rem;
+        height: 3rem;
+        margin: 0.3rem 0.3rem 0;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .alignTextLeft {
+      // text-align: left;
+      padding: 1rem;
+      border: #555 1px solid;
+    }
+    .currentLesson {
+      background-color: green;
+      color: #fff;
+      border: #555 1px solid;
+    }
+    .tableHearder {
+      text-align: center;
+      padding: 0.7rem 1rem;
+    }
+    .days {
+      text-align: left;
+      padding: 0.7rem 1rem;
+    }
+    .currentDay {
+      background-color: yellow;
+      color: #000;
+      text-align: left;
+      padding: 0.7rem 1rem;
+    }
+    .breakTime {
+      border: none;
+    }
+    .currentBreakTime {
+      background-color: rgb(215, 4, 4);
+      color: #fff;
+      border: none;
+    }
+    //   }
+  }
+}

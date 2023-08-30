@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./dashboardContent.scss";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import PersonIcon from "@mui/icons-material/Person";
-import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
@@ -10,6 +8,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import "draft-js/dist/Draft.css";
 import {
   adminPost,
   fetchPosts,
@@ -21,7 +20,7 @@ import {
   getAllStaffs,
   getStaffInfo,
 } from "../../../features/staff/staffSlice";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { convertToHTML } from "draft-convert";
 import DOMPurify from "dompurify";
@@ -32,7 +31,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ReactQuill, { reactQuillRef } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // import "react-quill/dist/quill.bubble.css";
-import { modules } from "../../../options/options";
+import { formats, modules } from "../../../options/options";
 import { getAdminInfo } from "../../../features/admin/adminsSlice";
 import {
   fetchPendingStudents,
@@ -51,9 +50,9 @@ export default function DashboardContent({ toast }) {
   const allPosts = useSelector(getAllPosts);
   const { postStatus, success, error } = useSelector((state) => state.post);
 
-  // const [editorState, setEditorState] = useState(() =>
-  //   EditorState.createEmpty()
-  // );
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
   // const [convertedContent, setConvertedContent] = useState(null);
 
   // useEffect(() => {
@@ -87,12 +86,12 @@ export default function DashboardContent({ toast }) {
   // console.log(name);
   // console.log(text);
 
-  const handleEditorText = () => {
-    const editor = reactQuillRef.getEditor();
-    const unprivilegedEditor = reactQuillRef.makeUnprivilegedEditor(editor);
-    // You may now use the unprivilegedEditor proxy methods
-    const inpText = unprivilegedEditor.getText();
-    console.log("unprivilegedEditor.getText()", unprivilegedEditor.getText());
+  const handleEditorText = (inpText) => {
+    // const editor = reactQuillRef.getEditor();
+    // const unprivilegedEditor = reactQuillRef.makeUnprivilegedEditor(editor);
+    // // You may now use the unprivilegedEditor proxy methods
+    // const inpText = unprivilegedEditor.getText();
+    // console.log("unprivilegedEditor.getText()", unprivilegedEditor.getText());
     setText(inpText);
   };
 
@@ -180,9 +179,9 @@ export default function DashboardContent({ toast }) {
       navigate("/sensec/general_announcement/#generalNotice");
       window.location.reload();
     }
-  }, 5000);
+  }, 3000);
   return (
-    <div>
+    <div id="adminDashBoard">
       <h1>Admins Dashboard</h1>
       <div className="content">
         <div className="dashBoardContent">
@@ -337,14 +336,19 @@ export default function DashboardContent({ toast }) {
                       theme="snow"
                       value={text}
                       onChange={handleEditorText}
+                      placeholder="write your content ...."
                       // onChange={setText}
                       className="textArea"
                       modules={modules}
-                      ref={(el) => {
-                        reactQuillRef = el;
-                      }}
+                      formats={formats}
+                      // handlers={
+                      //  insertImage
+                      // }
+                      // ref={(el) => {
+                      //   reactQuillRef = el;
+                      // }}
                       // readOnly={true}
-                    />
+                    ></ReactQuill>
                   </div>
                   {/* <div dangerouslySetInnerHTML={{ __html: text }} /> */}
                   <button
@@ -366,7 +370,6 @@ export default function DashboardContent({ toast }) {
           </div>
         </div>
       </div>
-      {/* <DashBoardFooter /> */}
     </div>
   );
 }

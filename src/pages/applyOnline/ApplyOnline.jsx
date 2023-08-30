@@ -310,11 +310,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
     }
   };
   return (
-    <div
-      className="registerWrap"
-      id="studentReg"
-      style={{ paddingTop: "10rem" }}
-    >
+    <div className="registerWrap" id="apply" style={{ paddingTop: "10rem" }}>
       <div className="register">
         <h1>STUDENTS ONLINE REGISTRATION FORM</h1>
         <div className="registerCont">

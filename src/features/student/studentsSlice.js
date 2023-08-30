@@ -17,6 +17,7 @@ const initialState = {
   createGuardianStatus: "",
   createParentStatus: "",
   updateStudentStatus: "",
+  updateStudentImageStatus: "",
   fetchingStudentStatus: "",
   fetchingPendingStudentsStatus: "",
   fetchingSingleStudentStatus: "",
@@ -24,7 +25,7 @@ const initialState = {
   deleteStudentStatus: "",
   studentSuccessMessage: "",
   studentError: "",
-  loginStudentStatus: "",
+  studentLoginStatus: "",
   authenticated: false,
 };
 
@@ -103,65 +104,192 @@ export const createStudentGuardian = createAsyncThunk(
 
 export const studentUpdate = createAsyncThunk(
   "Student/studentUpdate",
-  async (student, id, name, { rejectWithValue }) => {
+  async (
+    {
+      id,
+      firstName,
+      lastName,
+      dateOfBirth,
+      placeOfBirth,
+      gender,
+      jhsAttended,
+      shsAttended,
+      nationality,
+      district,
+      address,
+      currentCity,
+      homeTown,
+      region,
+      email,
+      studentId,
+      role,
+      currentClassLevel,
+      program,
+      academicYear,
+      // religion,
+      height,
+      weight,
+      // parents,
+      // guardian,
+      motherTongue,
+      otherTongue,
+      complexion,
+      profilePicture,
+      updatedBy,
+      updatedByAdminId,
+      updatedDate,
+    },
+    { rejectWithValue }
+  ) => {
     try {
       // const {
       //   firstName,
       //   lastName,
       //   dateOfBirth,
       //   placeOfBirth,
-      //   nationality,
-      //   email,
-      //   program,
-      //   updatedBy,
-      //   updatedByAdminId,
-      //   academicYear,
-      //   currentClassLevel,
-      //   role,
       //   gender,
+      //   jhsAttended,
+      //   shsAttended,
+      //   nationality,
+      //   district,
       //   address,
       //   currentCity,
       //   homeTown,
       //   region,
-      //   religion,
+      //   email,
+      //   studentId,
+      //   role,
+      //   currentClassLevel,
+      //   program,
+      //   academicYear,
+      //   studentRegistrar,
+      //   studentRegistrarId,
+      //   // religion,
       //   height,
       //   weight,
+      //   // parents,
+      //   // guardian,
       //   motherTongue,
       //   otherTongue,
       //   complexion,
+      //   updatedBy,
+      //   updatedByAdminId,
       //   updatedDate,
+      //   password,
       // } = student;
+
       const res = await axios.put(
-        `${API_ENDPOINT}/students/update_student/${name}/${id}/admin`,
-        // {
-        //   firstName,
-        //   lastName,
-        //   dateOfBirth,
-        //   placeOfBirth,
-        //   nationality,
-        //   email,
-        //   program,
-        //   updatedBy,
-        //   updatedByAdminId,
-        //   academicYear,
-        //   currentClassLevel,
-        //   role,
-        //   gender,
-        //   address,
-        //   currentCity,
-        //   homeTown,
-        //   region,
-        //   religion,
-        //   height,
-        //   weight,
-        //   motherTongue,
-        //   otherTongue,
-        //   complexion,
-        //   updatedDate,
-        // }
+        `${API_ENDPOINT}/students/update_student/${firstName}_${lastName}/${id}/admin`,
         {
-          student,
+          firstName,
+          lastName,
+          dateOfBirth,
+          placeOfBirth,
+          gender,
+          jhsAttended,
+          shsAttended,
+          nationality,
+          district,
+          address,
+          currentCity,
+          homeTown,
+          region,
+          email,
+          studentId,
+          role,
+          currentClassLevel,
+          program,
+          academicYear,
+          // religion,
+          height,
+          weight,
+          // parents,
+          // guardian,
+          motherTongue,
+          otherTongue,
+          complexion,
+          profilePicture,
+          updatedBy,
+          updatedByAdminId,
+          updatedDate,
         }
+        // {
+        //   student,
+        // }
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const studentUpdateImage = createAsyncThunk(
+  "Student/studentUpdateImage",
+  async (
+    {
+      id,
+      firstName,
+      lastName,
+      profilePicture,
+      updatedBy,
+      updatedByAdminId,
+      updatedDate,
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      // const {
+      //   firstName,
+      //   lastName,
+      //   dateOfBirth,
+      //   placeOfBirth,
+      //   gender,
+      //   jhsAttended,
+      //   shsAttended,
+      //   nationality,
+      //   district,
+      //   address,
+      //   currentCity,
+      //   homeTown,
+      //   region,
+      //   email,
+      //   studentId,
+      //   role,
+      //   currentClassLevel,
+      //   program,
+      //   academicYear,
+      //   studentRegistrar,
+      //   studentRegistrarId,
+      //   // religion,
+      //   height,
+      //   weight,
+      //   // parents,
+      //   // guardian,
+      //   motherTongue,
+      //   otherTongue,
+      //   complexion,
+      //   updatedBy,
+      //   updatedByAdminId,
+      //   updatedDate,
+      //   password,
+      // } = student;
+
+      const res = await axios.put(
+        `${API_ENDPOINT}/students/update_student/${firstName}_${lastName}/${id}/image`,
+        {
+          firstName,
+          lastName,
+          profilePicture,
+          updatedBy,
+          updatedByAdminId,
+          updatedDate,
+        }
+        // {
+        //   student,
+        // }
       );
       console.log(res.data);
       return res.data;
@@ -282,12 +410,83 @@ export const searchOldStudent = createAsyncThunk(
 
 const studentSlice = createSlice({
   name: "Student",
-  initialState,
+  initialState: initialState,
   reducers: {
-    registeredStudents(state, action) {
-      state.allStudents.push(action.payload.student);
+    studentUpdated(state, action) {
+      const {
+        _id,
+        firstName,
+        lastName,
+        dateOfBirth,
+        placeOfBirth,
+        gender,
+        jhsAttended,
+        shsAttended,
+        nationality,
+        district,
+        address,
+        currentCity,
+        homeTown,
+        region,
+        email,
+        studentId,
+        role,
+        currentClassLevel,
+        program,
+        academicYear,
+        studentRegistrar,
+        studentRegistrarId,
+        // religion,
+        height,
+        weight,
+        // parents,
+        // guardian,
+        motherTongue,
+        otherTongue,
+        complexion,
+        updatedBy,
+        updatedByAdminId,
+        updatedDate,
+        password,
+      } = action.payload;
+      const updatedStudent = state.find((user) => user._id === _id);
+      if (updatedStudent) {
+        updatedStudent.firstName = firstName;
+        updatedStudent.lastName = lastName;
+        updatedStudent.dateOfBirth = dateOfBirth;
+        updatedStudent.placeOfBirth = placeOfBirth;
+        updatedStudent.gender = gender;
+        updatedStudent.jhsAttended = jhsAttended;
+        updatedStudent.shsAttended = shsAttended;
+        updatedStudent.nationality = nationality;
+        updatedStudent.district = district;
+        updatedStudent.address = address;
+        updatedStudent.currentCity = currentCity;
+        updatedStudent.homeTown = homeTown;
+        updatedStudent.region = region;
+        updatedStudent.email = email;
+        updatedStudent.studentId = studentId;
+        updatedStudent.role = role;
+        updatedStudent.currentClassLevel = currentClassLevel;
+        updatedStudent.program = program;
+        updatedStudent.academicYear = academicYear;
+        updatedStudent.studentRegistrar = studentRegistrar;
+        updatedStudent.studentRegistrarId = studentRegistrarId;
+        // religion,
+        updatedStudent.height = height;
+        updatedStudent.weight = weight;
+        // parents,
+        // guardian,
+        updatedStudent.motherTongue = motherTongue;
+        updatedStudent.otherTongue = otherTongue;
+        updatedStudent.complexion = complexion;
+        updatedStudent.updatedBy = updatedBy;
+        updatedStudent.updatedByAdminId = updatedByAdminId;
+        updatedStudent.updatedDate = updatedDate;
+        updatedStudent.password = password;
+      }
     },
-    studentLogout(state, action) {
+    studentLogout(state) {
       localStorage.removeItem("studentToken");
       return {
         ...state,
@@ -371,16 +570,18 @@ const studentSlice = createSlice({
     builder.addCase(studentUpdate.fulfilled, (state, action) => {
       if (action.payload) {
         const updatedStudents = state.allStudents.map((student) =>
-          student.studentId === action.payload.updatedStudent.studentId
+          student._id === action.payload.updatedStudent._id
             ? action.payload.updatedStudent
             : student
         );
-        return {
-          ...state,
-          allStudents: updatedStudents,
-          studentSuccessMessage: action.payload.successMessage,
-          updateStudentStatus: "success",
-        };
+        if (updatedStudents) {
+          return {
+            ...state,
+            allStudents: updatedStudents,
+            studentSuccessMessage: action.payload.successMessage,
+            updateStudentStatus: "success",
+          };
+        }
       } else return state;
     });
     builder.addCase(studentUpdate.rejected, (state, action) => {
@@ -391,8 +592,36 @@ const studentSlice = createSlice({
       };
     });
 
+    builder.addCase(studentUpdateImage.pending, (state) => {
+      return { ...state, updateStudentStatus: "pending" };
+    });
+    builder.addCase(studentUpdateImage.fulfilled, (state, action) => {
+      if (action.payload) {
+        const updatedStudents = state.allStudents.map((student) =>
+          student._id === action.payload.updatedStudent._id
+            ? action.payload.updatedStudent
+            : student
+        );
+        if (updatedStudents) {
+          return {
+            ...state,
+            allStudents: updatedStudents,
+            studentSuccessMessage: action.payload.successMessage,
+            updateStudentImageStatus: "success",
+          };
+        }
+      } else return state;
+    });
+    builder.addCase(studentUpdateImage.rejected, (state, action) => {
+      return {
+        ...state,
+        updateStudentImageStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(studentLogin.pending, (state, action) => {
-      return { ...state, loginStudentStatus: "pending" };
+      return { ...state, studentLoginStatus: "pending" };
     });
     builder.addCase(studentLogin.fulfilled, (state, action) => {
       if (action.payload) {
@@ -401,7 +630,7 @@ const studentSlice = createSlice({
           ...state,
           studentInfo: student,
           studentSuccessMessage: action.payload.successMessage,
-          loginStudentStatus: "success",
+          studentLoginStatus: "success",
           authenticated: true,
         };
       } else return state;
@@ -409,7 +638,7 @@ const studentSlice = createSlice({
     builder.addCase(studentLogin.rejected, (state, action) => {
       return {
         ...state,
-        loginStudentStatus: "rejected",
+        studentLoginStatus: "rejected",
         studentError: action.payload,
       };
     });
@@ -620,6 +849,6 @@ export const getAllLevel300Students = (state) =>
 export const getAllGraduates = (state) => state.student.allGraduates;
 export const getStudentInfo = (state) => state.student.studentInfo;
 
-export const { registeredStudents, studentLogout } = studentSlice.actions;
+export const { studentUpdated, studentLogout } = studentSlice.actions;
 
 export default studentSlice.reducer;
