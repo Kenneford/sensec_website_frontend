@@ -35,7 +35,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
   }
 
   const scrollWithOffset = (el) => {
-    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
     const yOffset = -80;
     window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
   };
@@ -71,12 +71,12 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/admin/#admin"} className="links" smooth>
+              <HashLink to={"/sensec/admin#admin"} className="links" smooth>
                 <TvIcon className="icon" />
                 <h4>Dashboard</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/create_data/#admin"}
+                to={"/sensec/admin/create_data#admin"}
                 className="links"
                 smooth
               >
@@ -84,7 +84,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Create</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/all_admins/#admin"}
+                to={"/sensec/admin/all_admins#admin"}
                 className="links"
                 smooth
               >
@@ -92,7 +92,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Admins</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/staff_members/#admin"}
+                to={"/sensec/admin/staff_members#admin"}
                 className="links"
                 smooth
               >
@@ -100,7 +100,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Staff Members</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/all_teachers/#admin"}
+                to={"/sensec/admin/all_teachers#admin"}
                 className="links"
                 smooth
               >
@@ -113,7 +113,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Teachers</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/students/#admin"}
+                to={"/sensec/admin/students#admin"}
                 className="links"
                 smooth
               >
@@ -121,7 +121,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 <h4>Students</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/admin/programs&subjects/#admin"}
+                to={"/sensec/admin/programs&subjects#admin"}
                 className="links"
                 smooth
               >
@@ -129,16 +129,16 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 {/* <HistoryEduIcon /> */}
                 <h4>Programs/Subjects</h4>
               </HashLink>
-              <HashLink
+              {/* <HashLink
                 to={"/sensec/admin/attendance/#admin"}
                 className="links"
                 smooth
               >
                 <ListAltOutlinedIcon />
                 <h4>Attendance</h4>
-              </HashLink>
+              </HashLink> */}
               <HashLink
-                to={"/sensec/general_announcement/#generalNotice"}
+                to={"/sensec/blogs#blogs"}
                 className="links"
                 smooth
                 scroll={scrollWithOffset}

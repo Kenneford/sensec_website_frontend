@@ -58,15 +58,6 @@ export const fetchStaffs = createAsyncThunk("staff/fetchStaffs", async () => {
   return response.data;
 });
 
-export const fetchTeachers = createAsyncThunk(
-  "Staff/fetchTeachers",
-  async () => {
-    const response = await axios.get(`${API_ENDPOINT}/staffs/get_all_teachers`);
-    console.log(response.data);
-    return response.data;
-  }
-);
-
 export const staffLogin = createAsyncThunk(
   "Staff/staffLogin",
   async (data, { rejectWithValue }) => {
@@ -295,27 +286,6 @@ const staffsSlice = createSlice({
       } else return state;
     });
     builder.addCase(fetchStaffs.rejected, (state, action) => {
-      return {
-        ...state,
-        fetchingStatus: "rejected",
-        error: action.payload,
-      };
-    });
-
-    builder.addCase(fetchTeachers.pending, (state) => {
-      return { ...state, fetchingStatus: "pending" };
-    });
-    builder.addCase(fetchTeachers.fulfilled, (state, action) => {
-      if (action.payload) {
-        return {
-          ...state,
-          allTeachers: action.payload.teachers,
-          successMessage: action.payload.successMessage,
-          fetchingStatus: "success",
-        };
-      } else return state;
-    });
-    builder.addCase(fetchTeachers.rejected, (state, action) => {
       return {
         ...state,
         fetchingStatus: "rejected",

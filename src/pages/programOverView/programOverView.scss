@@ -1,263 +1,305 @@
-.prgrmInfo {
-  padding: 2rem 2rem 1rem;
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  .subjectLists {
-    display: flex;
-    gap: 0.5rem;
-    .subjectName {
-      background-color: green;
+.studentProgram {
+  position: relative;
+  h1 {
+    color: #292929;
+    padding-bottom: 2rem;
+  }
+  .studentSearch {
+    position: fixed;
+    top: 13rem;
+    right: 2rem;
+    z-index: 1;
+    padding: 0 2rem 1rem 0;
+    #search {
+      padding: 0.5rem;
+      width: 15rem;
+      border-radius: 0.3rem;
+      background-color: #696969;
       color: #fff;
-      padding: 0.5rem 1.5rem;
-      border-radius: 0.4rem;
+      transition: 0.4s ease;
+      font-size: 1.1rem;
+      border: 1px transparent;
+      &::placeholder {
+        color: #fff;
+        font-size: 1rem;
+      }
+      &:focus {
+        width: 25rem;
+        border: 1px solid #fff;
+      }
     }
-  }
-}
-.totalStudentsWrap {
-  background-color: #383838;
-  font-family: "roboto";
-  .searchDetails {
-    display: flex;
-    justify-content: flex-end;
-    width: 96%;
-    padding-right: 2rem;
-    margin: auto;
-    background-color: #fff;
-    .searchInfo {
-      padding: 0.3rem;
-      padding-left: 2rem;
-      font-size: 1.2rem;
+    .pendingSearch {
+      padding: 1rem 0;
     }
-  }
-  .addTeacherBtn {
-    margin-left: 2rem;
-    margin-bottom: 3rem;
-    button {
-      // width: 50%;
-      display: flex;
-      padding: 10px;
-      border: none;
-      background-color: #05e105;
-      color: white;
-      font-weight: bold;
+    .searchIcon {
+      position: absolute;
+      right: 2.5rem;
+      top: 0.5rem;
+      color: #fff;
       cursor: pointer;
-      transition: 0.5s;
-      font-size: 1.1em;
-      border-radius: 3px;
-      align-items: center;
-      &:hover {
-        background-color: #04bb04;
+    }
+  }
+  .prgrmInfo {
+    padding: 2rem 2rem 1rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    .subjectLists {
+      display: flex;
+      gap: 0.5rem;
+      .subjectName {
+        background-color: green;
+        color: #fff;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.4rem;
       }
     }
   }
-  .totalStudentsCont {
-    width: 96%;
-    // background-color: aqua;
-    margin: auto;
-    padding: 1rem 0;
-    h3 {
-      padding: 1rem 0;
-      color: #ccc;
-    }
-    .batches {
+  .totalStudentsWrap {
+    background-color: #383838;
+    font-family: "roboto";
+    .searchDetails {
       display: flex;
-      gap: 4rem;
-      padding: 1rem 0;
-      span {
-        background-color: #fff;
-        padding: 0.5rem;
-        border-radius: 0.4rem;
+      justify-content: flex-end;
+      width: 96%;
+      padding-right: 2rem;
+      margin: auto;
+      background-color: #fff;
+      .searchInfo {
+        padding: 0.3rem;
+        padding-left: 2rem;
+        font-size: 1.2rem;
+      }
+    }
+    .addTeacherBtn {
+      margin-left: 2rem;
+      margin-bottom: 3rem;
+      button {
+        // width: 50%;
+        display: flex;
+        padding: 10px;
+        border: none;
+        background-color: #05e105;
+        color: white;
+        font-weight: bold;
         cursor: pointer;
-      }
-      .greenBackground {
-        background-color: #05a605;
-        color: #fff;
-      }
-    }
-    .editLink {
-      text-decoration: none;
-      color: grey;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .studentImg {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 0.4rem;
-      object-fit: cover;
-    }
-    .headCells {
-      border: 0.2rem solid green;
-    }
-    .tableClassLevel {
-      .firstYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: #d0065d;
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
+        transition: 0.5s;
+        font-size: 1.1em;
+        border-radius: 3px;
         align-items: center;
-        justify-content: center;
-      }
-      .secondYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: #cdcd06;
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .thirdYearTag {
-        width: 1rem;
-        height: 1rem;
-        background-color: #06cd48;
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .isGraduated {
-        width: 100%;
-      }
-    }
-    .studentWrapper {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      .student {
-        position: relative;
-        display: flex;
-        //   gap: 1rem;
-        align-items: center;
-        background-color: #fff;
-        margin: 0 1rem 1rem 0;
-        cursor: pointer;
-        .editBtn {
-          position: absolute;
-          top: 0.5rem;
-          right: 1rem;
-          cursor: pointer;
-          background-color: #696969;
-          color: #fff;
-          border-radius: 0.4rem;
-          padding: 0.3rem 0.6rem;
-          width: 4rem;
-          font-size: 1rem;
+        &:hover {
+          background-color: #04bb04;
         }
+      }
+    }
+    .totalStudentsCont {
+      width: 96%;
+      // background-color: aqua;
+      margin: auto;
+      padding: 1rem 0;
+      h3 {
+        padding: 1rem 0;
+        color: #ccc;
+      }
+      .batches {
+        display: flex;
+        gap: 4rem;
+        padding: 1rem 0;
+        span {
+          background-color: #fff;
+          padding: 0.5rem;
+          border-radius: 0.4rem;
+          cursor: pointer;
+        }
+        .greenBackground {
+          background-color: #05a605;
+          color: #fff;
+        }
+      }
+      .editLink {
+        text-decoration: none;
+        color: grey;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      .studentImg {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.4rem;
+        object-fit: cover;
+      }
+      .headCells {
+        border: 0.2rem solid green;
+      }
+      .tableClassLevel {
         .firstYearTag {
-          position: absolute;
-          top: 50%;
-          right: 1rem;
           width: 1rem;
           height: 1rem;
-          background-color: rgb(208, 6, 93);
+          background-color: #d0065d;
+          color: #fff;
           border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .secondYearTag {
-          position: absolute;
-          top: 50%;
-          right: 1rem;
           width: 1rem;
           height: 1rem;
-          background-color: rgb(205, 205, 6);
+          background-color: #cdcd06;
+          color: #fff;
           border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .thirdYearTag {
-          position: absolute;
-          top: 50%;
-          right: 1rem;
           width: 1rem;
           height: 1rem;
-          background-color: rgb(6, 205, 72);
+          background-color: #06cd48;
+          color: #fff;
           border-radius: 50%;
-        }
-        img {
-          width: 9rem;
-          height: 9rem;
-          object-fit: cover;
-          margin-left: 0.5rem;
-        }
-        .studentInfo {
-          width: 100%;
           display: flex;
-          gap: 1rem;
-          color: #696969;
-          .info {
-            margin: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            h4 {
-              font-weight: 500;
-              font-size: 1rem;
-              letter-spacing: 0.5px;
-            }
-            p {
-              color: #a3a3a3;
-              font-size: 1rem;
-              display: flex;
-              flex-wrap: wrap;
-            }
-          }
+          align-items: center;
+          justify-content: center;
+        }
+        .isGraduated {
+          width: 100%;
         }
       }
-      .modal {
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 0;
-        left: 0%;
-        bottom: -10%;
-        height: 115vh;
-        width: 100vw;
-        z-index: 1;
-        background-color: #292929cc;
-        .modalContent {
-          background-color: #fff;
-          height: 60vh;
-          width: 50%;
-          margin-top: -3rem;
+      .studentWrapper {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        .student {
+          position: relative;
           display: flex;
-          flex-direction: column;
+          //   gap: 1rem;
           align-items: center;
-          padding: 2rem;
-          color: #696969;
-          border-radius: 0.5rem;
+          background-color: #fff;
+          margin: 0 1rem 1rem 0;
+          cursor: pointer;
+          .editBtn {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            cursor: pointer;
+            background-color: #696969;
+            color: #fff;
+            border-radius: 0.4rem;
+            padding: 0.3rem 0.6rem;
+            width: 4rem;
+            font-size: 1rem;
+          }
+          .firstYearTag {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: rgb(208, 6, 93);
+            border-radius: 50%;
+          }
+          .secondYearTag {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: rgb(205, 205, 6);
+            border-radius: 50%;
+          }
+          .thirdYearTag {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: rgb(6, 205, 72);
+            border-radius: 50%;
+          }
           img {
-            width: 12rem;
-            height: 12rem;
+            width: 9rem;
+            height: 9rem;
             object-fit: cover;
-            border-radius: 0.5rem;
+            margin-left: 0.5rem;
           }
           .studentInfo {
-            display: flex;
-            justify-content: center;
             width: 100%;
-            padding-top: 2rem;
-            // gap: 1rem;
+            display: flex;
+            gap: 1rem;
+            color: #696969;
             .info {
-              margin: 1rem;
+              margin: 0.5rem;
               display: flex;
               flex-direction: column;
-              // gap: 0.3rem;
-              border: 1px solid rgb(44, 42, 39);
-              padding: 0.5rem;
-              border-radius: 0.5rem;
-              width: 15rem;
+              gap: 0.3rem;
               h4 {
                 font-weight: 500;
-                font-size: 1.2rem;
+                font-size: 1rem;
                 letter-spacing: 0.5px;
               }
               p {
                 color: #a3a3a3;
-                font-size: 1.2rem;
+                font-size: 1rem;
+                display: flex;
+                flex-wrap: wrap;
+              }
+            }
+          }
+        }
+        .modal {
+          position: fixed;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: 0;
+          left: 0%;
+          bottom: -10%;
+          height: 115vh;
+          width: 100vw;
+          z-index: 1;
+          background-color: #292929cc;
+          .modalContent {
+            background-color: #fff;
+            height: 60vh;
+            width: 50%;
+            margin-top: -3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: #696969;
+            border-radius: 0.5rem;
+            img {
+              width: 12rem;
+              height: 12rem;
+              object-fit: cover;
+              border-radius: 0.5rem;
+            }
+            .studentInfo {
+              display: flex;
+              justify-content: center;
+              width: 100%;
+              padding-top: 2rem;
+              // gap: 1rem;
+              .info {
+                margin: 1rem;
+                display: flex;
+                flex-direction: column;
+                // gap: 0.3rem;
+                border: 1px solid rgb(44, 42, 39);
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+                width: 15rem;
+                h4 {
+                  font-weight: 500;
+                  font-size: 1.2rem;
+                  letter-spacing: 0.5px;
+                }
+                p {
+                  color: #a3a3a3;
+                  font-size: 1.2rem;
+                }
               }
             }
           }

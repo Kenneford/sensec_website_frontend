@@ -9,6 +9,9 @@
     padding: 2rem 2rem 0rem;
     color: #292929;
   }
+  .atth1 {
+    padding-bottom: 2rem;
+  }
   .content {
     background-color: #fff;
     .dashBoardContent {
@@ -114,7 +117,8 @@
       }
     }
     .noticeBox {
-      padding: 2rem;
+      // width: 60%;
+      // margin: auto;
       .noticeCont {
         border-top: 1px solid #292929;
         .h3Cont {
@@ -122,6 +126,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          padding: 0 2rem;
           h3 {
             position: absolute;
             top: -0.8rem;
@@ -153,7 +158,7 @@
                 width: 32.5rem;
                 height: 17rem;
                 border-radius: 0.4rem;
-                border: 0.2rem solid #292929;
+                border: 0.2rem solid #cccc;
                 .postImgIconWrap {
                   display: flex;
                   flex-direction: column;
@@ -170,50 +175,11 @@
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              .editor {
-                position: relative;
-                width: 50%;
-                margin-top: 2rem;
-                .editorTitle {
-                  position: absolute;
-                  top: -0.5rem;
-                  left: 0.5rem;
-                  background-color: #fff;
-                  padding: 0 0.5rem;
-                  font-weight: 500;
-                }
-                .textArea {
-                  width: 100%;
-                  border: 1px solid #292929;
-                  padding: 1rem;
-                  resize: none;
-                  border-radius: 0.4rem;
-                  font-size: 1.5rem;
-                  font-family: "Montserrat", "roboto", "poppins", "sans-serif";
-                  span {
-                    color: #000;
-                    font-size: 1rem;
-                    font-weight: 600;
-                  }
-                  .ql-toolbar {
-                  }
-                  .ql-editor {
-                    font-size: 1.2rem;
-                    height: 10rem;
-                    // p {
-                    //   display: block;
-                    // }
-                  }
-                }
-                &::placeholder {
-                  font-size: 1.2rem;
-                }
-              }
               .title {
                 position: relative;
                 width: 50%;
                 margin-top: 2rem;
-                span {
+                .titleName {
                   position: absolute;
                   top: -0.5rem;
                   left: 0.5rem;
@@ -222,51 +188,22 @@
                   font-weight: 500;
                 }
                 .titleText {
-                  border: 1px solid #292929;
+                  border: 1px solid #cccc;
                   padding: 0.5rem;
                   width: 100%;
                   border-radius: 0.4rem;
                   font-size: 1.5rem;
                 }
-                .textArea {
-                  width: 100%;
-                  height: 20rem;
-                  border: 1px solid #292929;
-                  padding: 1rem;
-                  resize: none;
-                  border-radius: 0.4rem;
-                  font-size: 1.5rem;
-                  font-family: "Montserrat", "roboto", "poppins", "sans-serif";
-                }
-                .textEditor {
-                  // background-color: #282c34;
-                  // min-height: 5vh;
-                  // display: flex;
-                  // flex-direction: column;
-                  // align-items: center;
-                  // justify-content: center;
-                  // font-size: calc(10px + 2vmin);
-                  // color: white;
-                  // margin-bottom: 5vh;
-                  // text-align: center;
-                  // padding: 12px;
-                  // position: relative;
-                  // width: 100%;
-                  // .wrapper-class {
-                  //   padding: 1rem;
-                  //   border: 1px solid #ccc;
-                  //   height: 20rem;
-                  // }
-                  // .editor-class {
-                  //   // background-color: lightgray;
-                  //   padding: 1rem;
-                  //   border: 1px solid #ccc;
-                  //   color: #292929;
-                  //   font-size: 1.2rem;
-                  // }
-                  // .toolbar-class {
-                  //   // border: 1px solid #ccc;
-                  // }
+              }
+              .editor {
+                // position: relative;
+                width: 50%;
+                margin-top: 2rem;
+                .editorTitle {
+                  background-color: #fff;
+                  padding: 0 0.5rem 1rem;
+                  // margin-bottom: 2rem;
+                  font-weight: 500;
                 }
               }
               .noticeBtn {

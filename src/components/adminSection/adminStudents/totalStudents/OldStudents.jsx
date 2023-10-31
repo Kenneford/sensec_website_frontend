@@ -13,7 +13,10 @@ import {
   searchOldStudent,
 } from "../../../../features/student/studentsSlice";
 import { graduatesColumn } from "../../../../options/options";
-import { getAllClassLevels } from "../../../../features/classLevels/classLevelsSlice";
+import {
+  fetchClassLevels,
+  getAllClassLevels,
+} from "../../../../features/classLevels/classLevelsSlice";
 
 export default function OldStudents({ toast, toastOptions }) {
   const {
@@ -28,6 +31,8 @@ export default function OldStudents({ toast, toastOptions }) {
   const allStudents = useSelector(getAllStudents);
   const allGraduates = useSelector(getAllGraduates);
   const allClassLevels = useSelector(getAllClassLevels);
+
+  const [filteredStudents, setFilteredStudents] = useState(allGraduates);
 
   const navigate = useNavigate();
   console.log(searchStudent);
@@ -85,8 +90,20 @@ export default function OldStudents({ toast, toastOptions }) {
 
   useEffect(() => {
     dispatch(fetchStudents());
+    dispatch(fetchClassLevels());
     dispatch(fetchGraduates());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredStudents(filteredStudents);
+  }, [filteredStudents]);
+
+  useEffect(() => {
+    const studentsFiltered = allGraduates?.filter((graduate) => {
+      return graduate.lastName.toLowerCase().match(searchStudent.toLowerCase());
+    });
+    setFilteredStudents(studentsFiltered);
+  }, [allGraduates, searchStudent]);
 
   useEffect(() => {
     if (fetchingStudentStatus === "rejected") {
@@ -117,6 +134,8 @@ export default function OldStudents({ toast, toastOptions }) {
     toastOptions,
   ]);
 
+  const oldStd = `All Graduates / Total = 
+              ${allGraduates?.length}`;
   return (
     <div className="studentTotal" id="allStudents">
       <h1 style={{ backgroundColor: "#383838" }}>All Enrolled Students</h1>
@@ -189,15 +208,16 @@ export default function OldStudents({ toast, toastOptions }) {
                 onClick={() => navigate(`/sensec/admin/old_students/graduates`)}
                 className={graduates && "greenBackground"}
               >
-                Past Students
+                All Graduates
               </span>
             </div>
           </div>
           <>
-            <h3>All Graduates / Total = {allGraduates?.length}</h3>
+            {/* <h3>All Graduates / Total = {allGraduates?.length}</h3> */}
             <DataTable
+              title={oldStd}
               columns={graduatesColumn}
-              data={allGraduates}
+              data={filteredStudents}
               customStyles={customStyle}
               pagination
             />

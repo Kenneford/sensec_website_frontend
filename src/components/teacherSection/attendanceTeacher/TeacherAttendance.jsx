@@ -12,36 +12,227 @@ import {
   getStudentInfo,
 } from "../../../features/student/studentsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
+import {
+  addAttendance,
+  fetchClassAttendances,
+  getAllClassAttendances,
+} from "../../../features/attedanceSlice/attedanceSlice";
+import { getTeacherInfo } from "../../../features/teacher/teachersSlice";
+import {
+  fetchAllClassLevelSections,
+  getAllClassLevelSections,
+} from "../../../features/classLevels/classLevelSectionSlice";
+import axios from "axios";
+import { API_ENDPOINT } from "../../../apiEndPoint/api";
 
-export default function TeacherAttendance() {
+let today = new Date();
+let a = today.getDate();
+a--;
+today.setDate(a);
+const yesterday = today.toLocaleDateString();
+console.log(yesterday);
+export default function TeacherAttendance({ toast }) {
+  const { addStatus, error, successMessage } = useSelector(
+    (state) => state.attendance
+  );
   const allStudents = useSelector(getAllStudents);
-  const singleStudent = useSelector(getStudentInfo);
+  const allClassLevelSections = useSelector(getAllClassLevelSections);
+  const allClassAttendances = useSelector(getAllClassAttendances);
+  const authTeacherInfo = useSelector(getTeacherInfo);
+  // const singleStudent = useSelector(getStudentInfo);
   const [takeAttendance, setTakeAttendance] = useState(false);
   const [viewAttendance, setViewAttendance] = useState(false);
 
   const [date] = useState(new Date().toDateString());
   const dispatch = useDispatch();
-  const [students, setStudents] = useState(useSelector(getAllStudents));
+  const { teacherId } = useParams();
+  console.log(teacherId);
+  // const [student, setStudent] = useState("");
+  // const [check, setCheck] = useState(false);
+  const [absent, setAbsent] = useState(false);
+  const [studentsPresent, setStudentsPresent] = useState([]);
+  const [studentsAbsent, setStudentsAbsent] = useState([]);
+  const [students, setStudents] = useState([]);
+  // console.log(check);
+  // console.log(students);
+  console.log(allClassAttendances);
+
+  const selectedClassLevelSection = allClassLevelSections.find(
+    (classSection) =>
+      classSection.program.name === authTeacherInfo.program.name &&
+      classSection._id === authTeacherInfo.classLevelHandling
+  );
+
+  // const selectedClassAttendance = allClassAttendances.filter(
+  //   (classAttendance) => classAttendance.date === yesterday
+  // );
   const [studentAttendance, setStudentAttendance] = useState({
-    student: "",
-    status: "",
+    students: selectedClassLevelSection?.students,
+    teacher: `${authTeacherInfo.id}`,
+    classLevelSection: `${selectedClassLevelSection?._id}`,
   });
+  // console.log(selectedClassAttendance);
 
-  console.log(allStudents);
-  console.log(students);
-  console.log(singleStudent);
-  console.log(studentAttendance);
-
-  const handleInputValues = (e) => {
+  useEffect(() => {
+    // keeping students data in state
     setStudentAttendance({
-      ...studentAttendance,
-      [e.target.name]: e.target.value,
+      students: selectedClassLevelSection?.students,
     });
+  }, [selectedClassLevelSection?.students]);
+
+  useEffect(() => {
+    setStudents(selectedClassLevelSection?.students);
+  }, [selectedClassLevelSection?.students]);
+  // const selectedStudent = allStudents.find(
+  //   (stdt) => stdt.studentId === student.studentId
+  // );
+
+  // console.log(student.studentId);
+  console.log(allClassLevelSections);
+  console.log(selectedClassLevelSection);
+  console.log(allStudents);
+  console.log(studentAttendance);
+  console.log(studentAttendance.classLevelSection);
+  console.log(authTeacherInfo.gender);
+  // console.log(selectedStudent);
+
+  const handlePresentValues = (e, studentId) => {
+    console.log(e.target.value);
+    const { checked } = e.target;
+    if (e.target.name === "selectAllPresent") {
+      let selectedStudent = selectedClassLevelSection?.students.map(
+        (student) => {
+          return {
+            ...student,
+            isChecked: checked,
+          };
+        }
+      );
+      setStudents(selectedStudent);
+    } else {
+      if (e.target.name === "present") {
+        let selectedStudent = selectedClassLevelSection?.students.map(
+          (student) =>
+            student.studentId === studentId
+              ? { ...student, isChecked: checked }
+              : student
+        );
+        setStudents(selectedStudent);
+      }
+    }
+    // console.log(selectedStudent.studentId);
+    // if (selectedStudent) {
+    //   setStudentAttendance({
+    //     ...studentAttendance,
+    //     students: studentAttendance.students,
+    //     teacher: `${authTeacherInfo.id}`,
+    //     classLevelSection: selectedClassLevelSection?._id,
+    //   });
+    // }
   };
+  const handleAbsentValues = (e, studentId) => {
+    console.log(e.target.value);
+    const { name, checked } = e.target;
+    if (name === "selectAllAbsent") {
+      let selectedStudent = selectedClassLevelSection?.students.map(
+        (student) => {
+          return { ...student, isChecked: checked };
+        }
+      );
+      setStudents(selectedStudent);
+    } else {
+      let selectedStudent = selectedClassLevelSection?.students.map((student) =>
+        student.studentId === studentId
+          ? { ...student, isChecked: checked }
+          : student
+      );
+      setStudents(selectedStudent);
+    }
+    // console.log(selectedStudent.studentId);
+    // if (selectedStudent) {
+    //   setStudentAttendance({
+    //     ...studentAttendance,
+    //     students: studentAttendance.students,
+    //     teacher: `${authTeacherInfo.id}`,
+    //     classLevelSection: selectedClassLevelSection?._id,
+    //   });
+    // }
+  };
+  const handleHolidayValues = (e, studentId) => {
+    console.log(e.target.value);
+    const { name, checked } = e.target;
+    if (name === "selectAllHoliday") {
+      let selectedStudent = selectedClassLevelSection?.students.map(
+        (student) => {
+          return { ...student, isChecked: checked };
+        }
+      );
+      setStudents(selectedStudent);
+    } else {
+      let selectedStudent = selectedClassLevelSection?.students.map((student) =>
+        student.studentId === studentId
+          ? { ...student, isChecked: checked }
+          : student
+      );
+      setStudents(selectedStudent);
+    }
+    // console.log(selectedStudent.studentId);
+    // if (selectedStudent) {
+    //   setStudentAttendance({
+    //     ...studentAttendance,
+    //     students: studentAttendance.students,
+    //     teacher: `${authTeacherInfo.id}`,
+    //     classLevelSection: selectedClassLevelSection?._id,
+    //   });
+    // }
+  };
+
+  const attendanceStatus = [
+    { value: "Present" },
+    { value: "Absent" },
+    { value: "Holiday" },
+  ];
+
+  const handleAttendance = (e) => {
+    e.preventDefault();
+    console.log(studentAttendance);
+    const formData = new FormData();
+    // formData.append("studentId", studentAttendance.studentId);
+    // formData.append("status", studentAttendance.status);
+    // formData.append("teacher", studentAttendance.teacher);
+    dispatch(addAttendance(studentAttendance));
+    // handleAttendanceValues(e);
+    // addAttendance(studentAttendance);
+  };
+
+  const handleMarkAllPresent = () => {};
+  const handleMarkAllAbsent = () => {};
+  const handleMarkAllHoliday = () => {};
+  useEffect(() => {
+    if (addStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
+        toast.error(err, {
+          position: "top-right",
+          theme: "light",
+          // toastId: successId,
+        })
+      );
+      return;
+    }
+    if (addStatus === "success") {
+      toast.success(successMessage, {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+  }, [error, successMessage, addStatus, toast]);
 
   useEffect(() => {
     dispatch(fetchStudents());
-    dispatch(fetchSingleStudent());
+    dispatch(fetchAllClassLevelSections());
+    dispatch(fetchClassAttendances());
   }, [dispatch]);
 
   return (
@@ -84,22 +275,44 @@ export default function TeacherAttendance() {
             )}
           </div>
         </div>
-        <form>
+        <form onSubmit={handleAttendance}>
           <div className="middleAttendance">
             <div className="manageAttendance">
               <h3>Daily Students Attendance Recordings</h3>
-              <div className="flex3">
-                <div className="classlevel">
+              <div className="flex4">
+                <div className="classlevelInfo">
                   <h4>Class Level:</h4>
-                  <p>100</p>
+                  <p>
+                    {selectedClassLevelSection?.classLevel.name ===
+                      "Level_100" && "Level 100"}
+                  </p>
+                  <p>
+                    {selectedClassLevelSection?.classLevel.name ===
+                      "Level_200" && "Level 200"}
+                  </p>
+                  <p>
+                    {selectedClassLevelSection?.classLevel.name ===
+                      "Level_300" && "Level 300"}
+                  </p>
                 </div>
-                <div className="classSection">
+                <div className="classlevelInfo">
                   <h4>Class Section:</h4>
-                  <p>A</p>
+                  <p>{selectedClassLevelSection?.sectionName}</p>
+                </div>
+                <div className="classlevelInfo">
+                  <h4>Class Teacher:</h4>
+                  <p>
+                    {authTeacherInfo.gender === "Male"
+                      ? "Mr."
+                      : authTeacherInfo.gender === "Female"
+                      ? "Mrs."
+                      : ""}{" "}
+                    {selectedClassLevelSection?.currentTeacher?.fullName}
+                  </p>
                 </div>
                 <div className="attendanceDate">
                   <h4>Date:</h4>
-                  <input type="text" value={date} />
+                  <p>{date}</p>
                 </div>
               </div>
             </div>
@@ -110,87 +323,217 @@ export default function TeacherAttendance() {
           {takeAttendance && (
             <div className="attendanceTable">
               <table>
-                <tr>
-                  <th className="alignTextLeft">Image</th>
-                  <th className="alignTextLeft">First Name</th>
-                  <th className="alignTextLeft">Surname</th>
-                  <th className="alignTextLeft">Student-ID</th>
-                  <th className="alignTextLeft">Program</th>
-                  <th className="alignTextLeft">
-                    <div className="statusWrap">
-                      <p>Status:</p>
-                      <div className="status">
-                        <div className="statusActionBtn">
-                          <CheckIcon className="statusIcons" />
-                          <button>Mark All Present</button>
-                        </div>
-                        <div className="statusActionBtn">
-                          <CloseIcon className="statusIcons" />
-                          <button>Mark All Absent</button>
-                        </div>
-                        <div className="statusActionBtn">
-                          <HolidayVillageIcon className="statusIcons" />
-                          <button>Mark All Holiday</button>
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-                {allStudents.map((student) => (
-                  <tr key={student._id}>
-                    <td>
-                      <img src={student.profilePicture} alt="" />
-                    </td>
-                    <td className="alignTextLeft">{student.firstName}</td>
-                    <td className="alignTextLeft">{student.lastName}</td>
-                    <td className="alignTextLeft">{student.studentId}</td>
-                    <td className="alignTextLeft">{student.program.name}</td>
-                    <td className="alignTextLeft">
-                      <div className="statusValueWrap">
-                        <div className="statusValue">
-                          <input
-                            type="radio"
-                            name="status"
-                            value={"present"}
-                            onChange={(e) => handleInputValues(e, student._id)}
-                            style={{ outline: "none" }}
-                            checked={studentAttendance.status === "present"}
-                          />
-                          <label htmlFor="present">Present</label>
-                        </div>
-                        <div className="statusValue">
-                          <input
-                            type="radio"
-                            name="status"
-                            value={"absent"}
-                            onChange={(e) => handleInputValues(e, student._id)}
-                            style={{ outline: "none" }}
-                            checked={studentAttendance.status === "absent"}
-                          />
-                          <label htmlFor="absent">Absent</label>
-                        </div>
-                        <div className="statusValue">
-                          <input
-                            type="radio"
-                            name="status"
-                            value={"holiday"}
-                            onChange={(e) => handleInputValues(e, student._id)}
-                            style={{ outline: "none" }}
-                            checked={studentAttendance.status === "holiday"}
-                          />
-                          <label htmlFor="holiday">Holiday</label>
+                <thead>
+                  <tr>
+                    <th className="alignHeaderLeft">Image</th>
+                    <th className="alignHeaderLeft">First Name</th>
+                    <th className="alignHeaderLeft">Surname</th>
+                    <th className="alignHeaderLeft">Student-ID</th>
+                    <th className="alignHeaderLeft">Program</th>
+                    <th className="alignHeaderLeft">
+                      <div className="statusWrap">
+                        <p>Status:</p>
+                        <div className="status">
+                          <div className="statusActionBtn">
+                            {/* <CheckIcon className="statusIcons" /> */}
+                            <input
+                              type="checkbox"
+                              // name={"status"}
+                              name={"selectAllPresent"}
+                              // value={"Present"}
+                              onChange={handlePresentValues}
+                              style={{ outline: "none" }}
+                              // checked={studentAttendance.status === "Present"}
+                            />
+                            <label htmlFor="present">Mark All Present</label>
+                            {/* <button onClick={handleMarkAllPresent}>
+                              Mark All Present
+                            </button> */}
+                          </div>
+                          <div className="statusActionBtn">
+                            {/* <CloseIcon className="statusIcons" /> */}
+                            <input
+                              type="checkbox"
+                              // name={"status"}
+                              name={"selectAllAbsent"}
+                              // value={"Present"}
+                              onChange={handleAbsentValues}
+                              style={{ outline: "none" }}
+                              // checked={studentAttendance.status === "Present"}
+                            />
+                            <label htmlFor="absent">Mark All Absent</label>
+                          </div>
+                          <div className="statusActionBtn">
+                            {/* <HolidayVillageIcon className="statusIcons" /> */}
+                            <input
+                              type="checkbox"
+                              // name={"status"}
+                              name={"selectAllHoliday"}
+                              // value={"Present"}
+                              onChange={handleHolidayValues}
+                              style={{ outline: "none" }}
+                              // checked={studentAttendance.status === "Present"}
+                            />
+                            <label htmlFor="holiday">Mark All Holiday</label>
+                          </div>
                         </div>
                       </div>
-                    </td>
+                    </th>
                   </tr>
-                ))}
+                </thead>
+                {students?.map((student) => {
+                  return (
+                    <tbody key={student.studentId}>
+                      <tr>
+                        <td>
+                          <img src={student.profilePicture} alt="" />
+                        </td>
+                        <td className="alignTextLeft">{student.firstName}</td>
+                        <td className="alignTextLeft">{student.lastName}</td>
+                        <td className="alignTextLeft">{student.studentId}</td>
+                        <td className="alignTextLeft">
+                          {student.program?.name}
+                        </td>
+                        {/* <td
+                          className="alignTextLeft statusFlex"
+                          // style={{
+                          //   display: "flex",
+                          //   gap: "1rem",
+                          //   padding: "1rem",
+                          // }}
+                        >
+                          {attendanceStatus.map((status) => (
+                            <div className="statusValueWrap" key={status.value}>
+                              <div className="statusValue">
+                                <input
+                                  type="checkbox"
+                                  name="status"
+                                  value={status.value}
+                                  onChange={ =>
+                                    handleAttendanceValues(e, student.studentId)
+                                  }
+                                  style={{ outline: "none" }}
+                                  checked={
+                                    studentAttendance.status === status.value
+                                  }
+                                />
+                                <label htmlFor="present">{status.value}</label>
+                              </div>
+                            </div>
+                            // <p key={status.value}>{status.value}</p>
+                          ))}
+                        </td> */}
+                        <td className="alignTextLeft">
+                          <div className="statusValueWrap">
+                            <div className="statusValue">
+                              <input
+                                type="checkbox"
+                                // name={"status"}
+                                name={"present"}
+                                value={"Present"}
+                                onChange={(e) =>
+                                  handlePresentValues(e, student.studentId)
+                                }
+                                style={{ outline: "none" }}
+                                checked={student?.isChecked || false}
+                              />
+                              <label htmlFor="present">Present</label>
+                            </div>
+                            <div className="statusValue">
+                              <input
+                                type="checkbox"
+                                // name="status"
+                                name={"absent"}
+                                value={"Absent"}
+                                onChange={(e) =>
+                                  handleAbsentValues(e, student.studentId)
+                                }
+                                style={{ outline: "none" }}
+                                checked={student?.isChecked || false}
+                              />
+                              <label htmlFor="absent">Absent</label>
+                            </div>
+                            <div className="statusValue">
+                              <input
+                                type="checkbox"
+                                // name="status"
+                                name={"holiday"}
+                                value={"Holiday"}
+                                onChange={(e) =>
+                                  handleHolidayValues(e, student.studentId)
+                                }
+                                style={{ outline: "none" }}
+                                checked={student?.isChecked || false}
+                              />
+                              <label htmlFor="holiday">Holiday</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
               </table>
               <div className="saveAttendance">
                 <div className="date">
                   <h4>Attendance Date:</h4>
                   <p> {date}</p>
                 </div>
-                <button>Save Attendance</button>
+                <button type="submit">Save Attendance</button>
+              </div>
+            </div>
+          )}
+          {viewAttendance && (
+            <div className="attendanceTable">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="alignHeaderLeft">Image</th>
+                    <th className="alignHeaderLeft">First Name</th>
+                    <th className="alignHeaderLeft">Surname</th>
+                    <th className="alignHeaderLeft">Student-ID</th>
+                    <th className="alignHeaderLeft">Program</th>
+                    <th className="alignHeaderLeft">
+                      <p>Status:</p>
+                    </th>
+                  </tr>
+                </thead>
+                {allClassAttendances &&
+                  allClassAttendances?.map((att) => {
+                    return (
+                      <tbody key={att.student.studentId}>
+                        <tr>
+                          <td>
+                            <img src={att.student.profilePicture} alt="" />
+                          </td>
+                          <td className="alignTextLeft">
+                            {att.student.firstName}
+                          </td>
+                          <td className="alignTextLeft">
+                            {att.student.lastName}
+                          </td>
+                          <td className="alignTextLeft">
+                            {att.student.studentId}
+                          </td>
+                          <td className="alignTextLeft">
+                            {att.student.program?.name}
+                          </td>
+                          <td className="alignTextLeft">
+                            <div className="statusValueWrap">
+                              <div className="statusValue">{att.status}</div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+              </table>
+              <div className="saveAttendance">
+                <div className="date">
+                  <h4>Attendance Date:</h4>
+                  <p> {date}</p>
+                </div>
+                <button type="submit">Save Attendance</button>
               </div>
             </div>
           )}

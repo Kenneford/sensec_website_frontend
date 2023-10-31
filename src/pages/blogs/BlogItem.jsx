@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MoreVert } from "@mui/icons-material";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -15,12 +15,14 @@ import { API_ENDPOINT } from "../../apiEndPoint/api";
 import axios from "axios";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { getTeacherInfo } from "../../features/teacher/teachersSlice";
+import Parser from "html-react-parser";
 
 export default function BlogItem({
   post,
   // setPostOptions,
   // postOptions,
   openSidebar,
+  toast,
 }) {
   const authStaffInfo = useSelector(getStaffInfo);
   const studentInfo = useSelector(getStudentInfo);
@@ -29,41 +31,127 @@ export default function BlogItem({
   const userInfo =
     authStaffInfo || studentInfo || authAdminInfo || authTeacherInfo;
   const allPosts = useSelector(getAllPosts);
-  const [like, setLike] = useState(post.likes.length);
+  const selectedPost = allPosts.find((pst) => pst._id === post._id);
+  const [like, setLike] = useState(post.likes?.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [love, setLove] = useState(post.likes.length);
+  const [love, setLove] = useState(post.loves?.length);
   const [isLoved, setIsLoved] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
+  console.log(studentInfo);
+  console.log(selectedPost);
 
-  console.log(userInfo);
-
-  const [open, setOpen] = useState(false);
+  const reactions = like + love;
+  console.log(reactions);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  //   console.log(post);
+  // const dispatch = useDispatch();
 
   const handlePostLike = async (id) => {
-    if (userInfo) {
+    if (!userInfo) {
+      toast.error("Please login first to react to this post!", {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+    }
+    if (authAdminInfo && !post.loves.includes(authAdminInfo.id)) {
       try {
         await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
-          userId: userInfo.id,
+          userId: authAdminInfo.id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      setLike(isLiked ? like - 1 : like + 1);
+      setIsLiked(!isLiked);
+    } else if (post.loves.includes(authAdminInfo.id)) {
+      toast.error("Post already loved!", {
+        position: "top-right",
+        theme: "dark",
+      });
+      return;
+    }
+    if (studentInfo.id && !post.loves.includes(studentInfo.id)) {
+      try {
+        await axios.put(`${API_ENDPOINT}/admins/posts/like_post/${post._id}`, {
+          userId: studentInfo.id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      setLike(isLiked ? like - 1 : like + 1);
+      setIsLiked(!isLiked);
+    } else if (post.loves.includes(studentInfo.id)) {
+      toast.error("Post already loved!", {
+        position: "top-right",
+        theme: "dark",
+      });
+      return;
+    }
+  };
+  const handlePostLove = async (id) => {
+    if (!userInfo) {
+      toast.error("Please login first to react to this post!", {
+        position: "top-right",
+        theme: "dark",
+      });
+    }
+    if (authAdminInfo && !post.likes.includes(authAdminInfo.id)) {
+      try {
+        await axios.put(`${API_ENDPOINT}/admins/posts/love_post/${post._id}`, {
+          userId: authAdminInfo.id,
         });
       } catch (error) {
         console.error(error);
       }
       // dispatch(likePost({ userId: userInfo.id, postId: post._id }));
-      setLike(isLiked ? like - 1 : like + 1);
-      setIsLiked(!isLiked);
-    } else {
+      setLove(isLoved ? love - 1 : love + 1);
+      setIsLoved(!isLoved);
+    } else if (post.likes.includes(authAdminInfo.id)) {
+      toast.error("Post already liked!", {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (studentInfo && !post.likes.includes(studentInfo.id)) {
+      try {
+        await axios.put(`${API_ENDPOINT}/admins/posts/love_post/${post._id}`, {
+          userId: studentInfo.id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      setLove(isLoved ? love - 1 : love + 1);
+      setIsLoved(!isLoved);
+    } else if (post.likes.includes(studentInfo.id)) {
+      toast.error("Post already liked!", {
+        position: "top-right",
+        theme: "dark",
+        // toastId: successId,
+      });
       return;
     }
   };
   useEffect(() => {
-    setIsLiked(post.likes.includes(userInfo.id));
-  }, [userInfo.id, post.likes]);
+    setIsLiked(post.likes.includes(authAdminInfo.id || studentInfo.id));
+    setIsLoved(post.loves.includes(authAdminInfo.id || studentInfo.id));
+    document.addEventListener("click", hideOnClickOutside, true);
+  }, [authAdminInfo.id, studentInfo.id, post.likes, post.loves]);
+
+  const outSideClickRef = useRef(null);
+  const hideOnClickOutside = (e) => {
+    // console.log(outSideClickRef.current);
+    if (
+      outSideClickRef.current &&
+      !outSideClickRef.current.contains(e.target)
+    ) {
+      setPostOptions(false);
+    }
+  };
   return (
-    <div className="post" key={post._id}>
+    <div className="post" id="blogs" key={post._id}>
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
@@ -91,15 +179,17 @@ export default function BlogItem({
               >
                 <MoreVert className="moreVert" />
               </div>
-              {postOptions && (
-                <PostOptions
-                  key={post._id}
-                  openSidebar={openSidebar}
-                  postOptions={postOptions}
-                  post={post}
-                  userInfo={userInfo.id}
-                />
-              )}
+              <div ref={outSideClickRef}>
+                {postOptions && (
+                  <PostOptions
+                    key={post._id}
+                    openSidebar={openSidebar}
+                    postOptions={postOptions}
+                    post={post}
+                    userInfo={userInfo.id}
+                  />
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -116,21 +206,87 @@ export default function BlogItem({
           /> */}
           {/* <img className="postImg" src={post.photo} alt="" /> */}
           <img className="postImg" src={post.postImage} alt="" />
-          <p className="postText">{post.text}</p>
+          <p className="postText">{Parser(post.text)}</p>
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
             <button
               className="likeBtn"
-              onClick={() => handlePostLike(userInfo.id)}
+              onClick={() => {
+                authAdminInfo && handlePostLike(authAdminInfo.id);
+                studentInfo && handlePostLike(studentInfo.id);
+              }}
             >
-              {!isLiked ? <ThumbUpOffAltIcon /> : <ThumbUpAltIcon />}
+              {!isLiked ? (
+                <ThumbUpOffAltIcon className="isLiked" />
+              ) : (
+                <ThumbUpAltIcon className="isLiked" />
+              )}
             </button>
-            <button className="likeBtn">
-              {!isLoved ? <FavoriteBorderIcon /> : <FavoriteIcon />}
+            <button
+              className="loveBtn"
+              onClick={() => {
+                authAdminInfo && handlePostLove(authAdminInfo.id);
+                studentInfo && handlePostLove(studentInfo.id);
+              }}
+            >
+              {!isLoved ? (
+                <FavoriteBorderIcon className="isLoved" />
+              ) : (
+                <FavoriteIcon className="isLoved" />
+              )}
             </button>
-            {/* <span className="postLikeCounter">5 people like it</span> */}
-            <span className="postLikeCounter">{like} people like it</span>
+            {authAdminInfo && (
+              <span className="postLikeCounter">
+                {reactions === 1 &&
+                  post.likes.includes(authAdminInfo.id) &&
+                  !post.loves.includes(authAdminInfo.id) &&
+                  "you reacted"}
+                {reactions === 1 &&
+                  post.loves.includes(authAdminInfo.id) &&
+                  !post.likes.includes(authAdminInfo.id) &&
+                  "you reacted"}
+                {reactions === 1 &&
+                  !post.likes.includes(authAdminInfo.id) &&
+                  !post.loves.includes(authAdminInfo.id) &&
+                  `${like + love} person reacted`}
+                {reactions > 1 &&
+                  post.likes.includes(authAdminInfo.id) &&
+                  !post.loves.includes(authAdminInfo.id) &&
+                  `you and ${like + love - 1} other people reacted`}
+                {reactions > 1 &&
+                  post.loves.includes(authAdminInfo.id) &&
+                  !post.likes.includes(authAdminInfo.id) &&
+                  `you and ${like + love - 1} other people reacted`}
+                {reactions > 1 &&
+                  !post.likes.includes(authAdminInfo.id) &&
+                  !post.loves.includes(authAdminInfo.id) &&
+                  `${like + love} people reacted`}
+              </span>
+            )}
+            {studentInfo && (
+              <span className="postLikeCounter">
+                {reactions === 1 &&
+                  post.likes.includes(studentInfo.id) &&
+                  "you reacted"}
+                {reactions === 1 &&
+                  post.loves.includes(studentInfo.id) &&
+                  "you reacted"}
+                {reactions > 1 &&
+                  post.likes.includes(studentInfo.id) &&
+                  `you and ${like + love - 1} other people reacted`}
+                {reactions > 1 &&
+                  post.loves.includes(studentInfo.id) &&
+                  `you and ${like + love - 1} other people reacted`}
+              </span>
+            )}
+            {!userInfo && (
+              <span className="postLikeCounter">
+                {like + love === 1 && `${like + love} person reacted`}
+                {like + love > 1 && `${like + love} people reacted`}
+                {!like && !love && "no reactions"}.
+              </span>
+            )}
           </div>
           <div className="postBottomRight">
             {/* <span className="postCommentText">6 comments</span> */}

@@ -11,6 +11,7 @@ const initialState = {
   allLevel300Students: [],
   allGraduates: [],
   studentInfo: "",
+  fetchSingleStudent: "",
   studentParentInfo: "",
   studentGuardianInfo: "",
   registerStudentStatus: "",
@@ -23,7 +24,9 @@ const initialState = {
   fetchingSingleStudentStatus: "",
   searchStudentStatus: "",
   deleteStudentStatus: "",
+  studentLoginSuccessMessage: "",
   studentSuccessMessage: "",
+  studentLoginError: "",
   studentError: "",
   studentLoginStatus: "",
   authenticated: false,
@@ -389,7 +392,7 @@ export const fetchSingleStudent = createAsyncThunk(
 
 export const studentSearch = createAsyncThunk(
   "Student/studentSearch",
-  async (student_name, { rejectWithValue }) => {
+  async (student_name) => {
     const response = await axios.get(
       `${API_ENDPOINT}/students/search_student?student_name=${student_name}`
     );
@@ -629,9 +632,8 @@ const studentSlice = createSlice({
         return {
           ...state,
           studentInfo: student,
-          studentSuccessMessage: action.payload.successMessage,
+          studentLoginSuccessMessage: action.payload.successMessage,
           studentLoginStatus: "success",
-          authenticated: true,
         };
       } else return state;
     });
@@ -639,7 +641,7 @@ const studentSlice = createSlice({
       return {
         ...state,
         studentLoginStatus: "rejected",
-        studentError: action.payload,
+        studentLoginError: action.payload,
       };
     });
 
@@ -848,6 +850,7 @@ export const getAllLevel300Students = (state) =>
   state.student.allLevel300Students;
 export const getAllGraduates = (state) => state.student.allGraduates;
 export const getStudentInfo = (state) => state.student.studentInfo;
+export const getSingleStudentInfo = (state) => state.student.fetchSingleStudent;
 
 export const { studentUpdated, studentLogout } = studentSlice.actions;
 

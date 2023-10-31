@@ -121,7 +121,7 @@
       position: absolute;
       width: 10rem;
       // min-height: 7rem;
-      top: 2.3rem;
+      top: 2.4rem;
       right: 0%;
       display: flex;
       flex-direction: column;
@@ -192,6 +192,35 @@
     100% {
       transform: rotateZ(0) rotateX(0) scale(1);
       opacity: 1;
+    }
+  }
+  @media screen and (max-width: 460px) {
+    .userActions {
+      .login {
+        margin-right: -2rem;
+      }
+      .loginOptions {
+        margin-right: -1rem;
+        opacity: 0.9;
+        .loginWrap {
+          font-size: 1rem;
+          font-weight: 300;
+          padding: 0.4rem;
+        }
+      }
+    }
+    .userInfo {
+      margin-right: -2rem;
+      .currentUserName {
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      .navLogout {
+        top: 2.4rem;
+        span {
+          font-weight: 300;
+        }
+      }
     }
   }
 }

@@ -11,7 +11,9 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { all } from "axios";
+import axios, { all } from "axios";
+import { API_ENDPOINT } from "../../apiEndPoint/api";
+import { toast } from "react-toastify";
 
 export default function PostOptions({ openSidebar, post, postOptions }) {
   const [open, setOpen] = React.useState(false);
@@ -21,7 +23,6 @@ export default function PostOptions({ openSidebar, post, postOptions }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(post);
-  console.log(allPosts);
 
   const selectedPost = allPosts.find((pst) => pst._id === post._id);
   console.log(selectedPost);
@@ -69,6 +70,34 @@ export default function PostOptions({ openSidebar, post, postOptions }) {
               Are you sure you want to delete this?
             </p>
             <div className="deleteOptions">
+              {/* <span
+                className="yes"
+                onClick={async () => {
+                  try {
+                    const res = await axios.delete(
+                      `${API_ENDPOINT}/admins/posts/delete_post/${post._id}`
+                    );
+                    if (res) {
+                      toast.success(res.data.successMessage, {
+                        position: "top-right",
+                        theme: "dark",
+                        // toastId: successId,
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 5000);
+                    }
+                  } catch (error) {
+                    toast.error(error.res.data.errorMessage.message, {
+                      position: "top-right",
+                      theme: "light",
+                      // toastId: successId,
+                    });
+                  }
+                }}
+              >
+                YES
+              </span> */}
               <span className="yes" onClick={() => handlePostDelete(post._id)}>
                 YES
               </span>

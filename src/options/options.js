@@ -2,7 +2,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { API_ENDPOINT } from "../apiEndPoint/api";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import CoPresentIcon from "@mui/icons-material/CoPresent";
 import EditIcon from "@mui/icons-material/Edit";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 import { ToastContainer, toast } from "react-toastify";
 import { HashLink } from "react-router-hash-link";
 
@@ -70,7 +72,7 @@ export const teachersOptions = [
   { value: "64e2925e28d5de2b84cec12c", label: "Mr. Joana Mensah" },
   { value: "64e2929128d5de2b84cec189", label: "Mr. Stephen Bentum" },
   { value: "64e4a62a0550c6873cc567f8", label: "Mr. Matthias Menk" },
-  { value: "64de03ffe55a91b5a3c64baf", label: "Mrs. Joana Essuman" },
+  { value: "64f477e12cdcaff1ae0e5fad", label: "Mr. Patrick Kenneford Essuman" },
   { value: "64d9cfbee6cafed115a764b9", label: "Mrs. Matilda Asare" },
   { value: "64d9cfe6e6cafed115a764c4", label: "Mrs. Elena Bentum" },
   { value: "64d9d010e6cafed115a764d1", label: "Mr. Patrick Kenneford Annan" },
@@ -174,23 +176,23 @@ const scrollWithOffset = (el) => {
 };
 
 export const studentColumn = [
-  {
-    name: (
-      <>
-        <p>All</p>{" "}
-        <input
-          type="checkbox"
-          style={{ marginLeft: "1rem" }}
-          onSelect={(e) => e.target.value}
-        />
-      </>
-    ),
-    selector: (row) => (
-      <div>
-        <input type="checkbox" />
-      </div>
-    ),
-  },
+  // {
+  //   name: (
+  //     <>
+  //       <p>All</p>{" "}
+  //       <input
+  //         type="checkbox"
+  //         style={{ marginLeft: "1rem" }}
+  //         onSelect={(e) => e.target.value}
+  //       />
+  //     </>
+  //   ),
+  //   selector: (row) => (
+  //     <div>
+  //       <input type="checkbox" />
+  //     </div>
+  //   ),
+  // },
   {
     name: "Image",
     selector: (row) =>
@@ -407,24 +409,25 @@ export const studentColumn = [
     ),
   },
 ];
+
 export const pendingStudentsColumn = [
-  {
-    name: (
-      <>
-        <p>All</p>{" "}
-        <input
-          type="checkbox"
-          style={{ marginLeft: "1rem" }}
-          onSelect={(e) => e.target.value}
-        />
-      </>
-    ),
-    selector: (row) => (
-      <div>
-        <input type="checkbox" />
-      </div>
-    ),
-  },
+  // {
+  //   name: (
+  //     <>
+  //       <p>All</p>{" "}
+  //       <input
+  //         type="checkbox"
+  //         style={{ marginLeft: "1rem" }}
+  //         onSelect={(e) => e.target.value}
+  //       />
+  //     </>
+  //   ),
+  //   selector: (row) => (
+  //     <div>
+  //       <input type="checkbox" />
+  //     </div>
+  //   ),
+  // },
   {
     name: "Image",
     selector: (row) =>
@@ -583,23 +586,23 @@ export const pendingStudentsColumn = [
   },
 ];
 export const classLevelStudentsColumn = [
-  {
-    name: (
-      <>
-        <p>All</p>{" "}
-        <input
-          type="checkbox"
-          style={{ marginLeft: "1rem" }}
-          onSelect={(e) => e.target.value}
-        />
-      </>
-    ),
-    selector: (row) => (
-      <div>
-        <input type="checkbox" />
-      </div>
-    ),
-  },
+  // {
+  //   name: (
+  //     <>
+  //       <p>All</p>{" "}
+  //       <input
+  //         type="checkbox"
+  //         style={{ marginLeft: "1rem" }}
+  //         onSelect={(e) => e.target.value}
+  //       />
+  //     </>
+  //   ),
+  //   selector: (row) => (
+  //     <div>
+  //       <input type="checkbox" />
+  //     </div>
+  //   ),
+  // },
   {
     name: "Image",
     selector: (row) =>
@@ -929,10 +932,6 @@ export const studentProgramColumn = [
     name: "Date Of Birth",
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
-  {
-    name: "Program",
-    selector: (row) => (row.program ? row.program.name : "Unknown"),
-  },
   { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
@@ -969,6 +968,17 @@ export const studentProgramColumn = [
       ),
   },
   {
+    name: "Attendance",
+    selector: (row) => (
+      <HashLink
+        className="editLink"
+        to={`/sensec/admin/${row.studentId}/attendance`}
+      >
+        <CoPresentIcon titleAccess="View Attendance" />
+      </HashLink>
+    ),
+  },
+  {
     name: "Edit",
     selector: (row) => (
       <HashLink
@@ -979,6 +989,87 @@ export const studentProgramColumn = [
       </HashLink>
     ),
   },
+];
+
+export const studentCourseMatesColumn = [
+  {
+    name: "Image",
+    selector: (row) =>
+      row.profilePicture ? (
+        <HashLink
+          scroll={scrollWithOffset}
+          smooth
+          to={`/sensec/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          title="View Student Info"
+        >
+          <img className="studentImg" src={row.profilePicture} alt="" />
+        </HashLink>
+      ) : (
+        <HashLink
+          scroll={scrollWithOffset}
+          smooth
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          title="View Student Info"
+        >
+          {row.gender === "Male" && (
+            <img className="studentImg" src={"/assets/maleAvatar.png"} alt="" />
+          )}
+          {row.gender === "Female" && (
+            <img
+              className="studentImg"
+              src={"/assets/femaleAvatar.png"}
+              alt=""
+            />
+          )}
+          {row.gender === "" && "No Image"}
+        </HashLink>
+      ),
+  },
+  {
+    name: "First Name",
+    selector: (row) => row.firstName,
+    sortable: true,
+  },
+  { name: "Surname", selector: (row) => row.lastName },
+  {
+    name: "Date Of Birth",
+    selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+  },
+  // { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+  { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
+  // {
+  //   name: "Batch",
+  //   selector: (row) =>
+  //     row.academicYear
+  //       ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+  //       : "Unknown",
+  // },
+  // {
+  //   name: "Level",
+  //   selector: (row) =>
+  //     row.currentClassLevel ? (
+  //       <div className="tableClassLevel">
+  //         {row.currentClassLevel.name === "Level_100" && (
+  //           <div className="firstYearTag" title="1st Year">
+  //             1
+  //           </div>
+  //         )}
+  //         {row.currentClassLevel.name === "Level_200" && (
+  //           <div className="secondYearTag" title="2nd Year">
+  //             2
+  //           </div>
+  //         )}
+  //         {row.currentClassLevel.name === "Level_300" && (
+  //           <div className="thirdYearTag" title="3rd Year">
+  //             3
+  //           </div>
+  //         )}
+  //       </div>
+  //     ) : (
+  //       "Unknown"
+  //     ),
+  // },
 ];
 
 export const staffColumn = [

@@ -46,10 +46,10 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
                     ? "Mr."
                     : authTeacherInfo.gender === "Female"
                     ? "Mrs."
-                    : ""}
+                    : ""}{" "}
                   {authTeacherInfo.fullName}
                 </span>
-                <p>( {authTeacherInfo?.program?.name})</p>
+                <p>( {authTeacherInfo.program.name} Lecture)</p>
               </div>
             </div>
             <div className="contentLinks">
@@ -72,7 +72,7 @@ export default function TeacherDashBoard({ openSidebar, toggleSidebar }) {
                 <h4> Course Students</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/teacher/students_attendance"}
+                to={`/sensec/teacher/${authTeacherInfo.teacherId}/take_attendance`}
                 className="links"
               >
                 <ListAltOutlinedIcon />

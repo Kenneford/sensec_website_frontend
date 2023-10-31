@@ -7,12 +7,12 @@ import { HashLink } from "react-router-hash-link";
 
 export default function CoursesSection() {
   const scrollWithOffset = (el) => {
-    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
     const yOffset = -80;
     window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
   };
   const scrollWithOffset1 = (el) => {
-    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
     const yOffset = -160;
     window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
   };

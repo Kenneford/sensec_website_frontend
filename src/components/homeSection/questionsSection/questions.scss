@@ -56,7 +56,6 @@
         line-height: sizes.$line_height;
         a {
           padding-left: 3rem;
-          font-size: 1.2rem;
           margin-top: 1rem;
           line-height: sizes.$line_height;
           .faqBtn {
@@ -66,11 +65,10 @@
             margin-top: 1rem;
             margin-left: -3rem;
             font-weight: 500;
-            font-size: 1rem;
             transition: 0.4s ease;
             color: #6e706f;
             font-size: 1.5rem;
-            border-radius: 5px;
+            border-radius: 0.4rem;
             cursor: pointer;
             margin-bottom: 1.5rem;
             &:hover {
@@ -92,6 +90,57 @@
       display: flex;
       flex-direction: column;
       width: sizes.$container_Width_md;
+    }
+  }
+  @media screen and (max-width: 960px) {
+  }
+  @media screen and (max-width: 460px) {
+    .courseSecHeader {
+      h2 {
+        font-size: 1.3rem;
+        padding: 2.5rem 0;
+      }
+    }
+    .questionsCont {
+      .questions {
+        .active {
+          background-color: #6e706f;
+          padding: 2rem 0;
+          width: 100%;
+          color: #fff;
+        }
+        .questionsIcon {
+          display: flex;
+          align-items: center;
+          gap: 1.4rem;
+          padding: 2rem;
+          h4 {
+            font-size: 1.1rem;
+            line-height: 1.5;
+          }
+        }
+        .questionsAnswer {
+          font-size: 1rem;
+          a {
+            padding-left: 3rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+            line-height: sizes.$line_height;
+            .faqBtn {
+              padding: 0.5rem;
+              font-size: 1rem;
+              &:hover {
+                background-color: #6e706f;
+                color: colors.$primaryTextColor;
+                border: 2px solid #6e706f;
+              }
+            }
+          }
+        }
+      }
+      .questions.open .questionsAnswer {
+        display: block;
+      }
     }
   }
 }

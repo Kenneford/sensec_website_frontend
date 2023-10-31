@@ -72,6 +72,7 @@
       height: 45rem;
       background-color: rgba(0, 0, 0, 0.5);
       h1 {
+        width: 80%;
         font-size: 3.5rem;
         padding-bottom: 0.5rem;
       }
@@ -85,7 +86,7 @@
       }
       a {
         position: absolute;
-        top: 50%;
+        top: 52%;
         left: 25rem;
         transform: translate(0%, -50%);
         color: #fff;
@@ -93,7 +94,7 @@
         .appointmentBtn {
           position: relative;
           background-color: transparent;
-          padding: 10px 15px;
+          padding: 0.7rem;
           font-weight: 500;
           transition: color 0.4s linear;
           color: #fff;
@@ -118,6 +119,105 @@
           }
           &:hover::before {
             transform: scaleX(1);
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    background-color: #9c117e;
+  }
+  @media screen and (max-width: 768px) {
+    background-color: #ff7b00;
+  }
+  @media screen and (max-width: 460px) {
+    background-color: #fff;
+    height: 27rem;
+    .iconLeft {
+      top: 72%;
+      width: 2rem;
+      height: 2rem;
+      left: 1.2rem;
+      // opacity: 0.6;
+    }
+    .iconRight {
+      top: 72%;
+      width: 2rem;
+      height: 2rem;
+      right: 1.2rem;
+      // opacity: 0.6;
+    }
+    .backArrow {
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+    }
+    .forwardArrow {
+      font-size: 1.5rem;
+    }
+    .slideCont {
+      width: 100%;
+      // height: 75rem;
+      padding-top: 0;
+      background-position: center;
+      background-size: contain;
+      .overlay {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0 3.5rem;
+        margin-top: 1rem;
+        height: 35rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        h1 {
+          width: 100%;
+          font-size: 1.5rem;
+          padding-bottom: 0.5rem;
+        }
+        h3 {
+          font-size: 1rem;
+          font-weight: 100;
+          background-color: rgba(0, 0, 0, 0.6);
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border-radius: 0.5rem;
+        }
+        a {
+          position: absolute;
+          top: 34%;
+          left: 3.5rem;
+          transform: translate(0%, -50%);
+          color: #fff;
+          margin-top: -2rem;
+          .appointmentBtn {
+            position: relative;
+            background-color: transparent;
+            padding: 0.5rem;
+            font-weight: 500;
+            transition: color 0.4s linear;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 2px solid #fff;
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: colors.$primaryColor;
+              border-radius: 5px;
+              z-index: -1;
+              transition: transform 0.5s;
+              transform-origin: 0 0;
+              transform: scaleX(0);
+              transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
+            }
+            &:hover::before {
+              transform: scaleX(1);
+            }
           }
         }
       }

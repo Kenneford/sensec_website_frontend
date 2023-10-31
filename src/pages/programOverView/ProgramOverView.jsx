@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./programOverView.scss";
 import { useNavigate, useParams } from "react-router";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   fetchAllProgrammes,
   fetchSingleProgram,
@@ -17,6 +18,11 @@ export default function ProgramOverView() {
   const dispatch = useDispatch();
   const { programName } = useParams();
   console.log(programName);
+
+  const [searchStudent, setSearchStudent] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState(
+    singleProgram.students
+  );
 
   const selectedProgram = allProgrammes.find(
     (prgrm) => prgrm.name === programName
@@ -59,13 +65,37 @@ export default function ProgramOverView() {
   };
 
   useEffect(() => {
+    const studentsFiltered = singleProgram.students?.filter((student) => {
+      return student.lastName.toLowerCase().match(searchStudent.toLowerCase());
+    });
+    setFilteredStudents(studentsFiltered);
+  }, [searchStudent, singleProgram.students]);
+
+  useEffect(() => {
+    setFilteredStudents(filteredStudents);
+  }, [filteredStudents]);
+
+  useEffect(() => {
     // dispatch(fetchAllProgrammes());
     dispatch(fetchSingleProgram(programName));
   }, [dispatch, programName]);
 
   return (
-    <div>
+    <div className="studentProgram">
       <h1>{singleProgram.name}</h1>
+      <form className="studentSearch">
+        <input
+          type="text"
+          value={searchStudent}
+          onChange={(e) => setSearchStudent(e.target.value)}
+          placeholder="Search for a student..."
+          autoComplete="off"
+          id="search"
+        />
+        <button type="submit">
+          <SearchIcon className="searchIcon" />
+        </button>
+      </form>
       <div className="prgrmInfo">
         <p>Total Students = {singleProgram.students?.length}</p>
         <p>Total Subjects = {singleProgram.electiveSubjects?.length}</p>
@@ -81,9 +111,12 @@ export default function ProgramOverView() {
         <div className="totalStudentsCont">
           <DataTable
             columns={studentProgramColumn}
-            data={singleProgram.students}
+            data={filteredStudents}
             customStyles={customStyle}
             pagination
+            selectableRows
+            selectableRowsHighlight
+            highlightOnHover
           />
         </div>
       </div>
