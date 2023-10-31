@@ -15,10 +15,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    #openMenuBtn {
-      display: none;
-      color: #fff;
-    }
     .logoText {
       padding: 1rem 0;
       display: flex;
@@ -52,6 +48,12 @@
     align-items: center;
     background-color: colors.$primaryColor;
     padding: 1rem 0;
+    #openMenuBtn {
+      display: none;
+    }
+    .navMenu1 {
+      display: none;
+    }
     .navMenu {
       display: flex;
       align-items: center;
@@ -84,6 +86,24 @@
       }
     }
   }
+  .navBottomLines {
+    display: flex;
+    justify-content: space-between;
+    .bottomLine {
+      width: 100%;
+      height: 0.1rem;
+      background-color: red;
+      &:nth-child(1) {
+        background-color: #fff;
+      }
+      &:nth-child(2) {
+        background-color: #fff;
+      }
+      &:nth-child(3) {
+        background-color: #fff;
+      }
+    }
+  }
   @keyframes animateNavItems {
     0% {
       transform: rotateY(-90deg) rotateX(90deg) scale(0.1);
@@ -93,11 +113,95 @@
       opacity: 1;
     }
   }
+  @keyframes animateNavMenuItems {
+    100% {
+      transform: rotateY(0) rotateX(0) scale(1);
+      opacity: 1;
+    }
+    0% {
+      transform: rotateY(-90deg) rotateX(90deg) scale(0.1);
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    background-color: #9c117e;
+  }
+  @media screen and (max-width: 768px) {
+    background-color: #ff7b00;
+  }
+  @media screen and (max-width: 460px) {
+    background-color: #fff;
+    .navWrap {
+      justify-content: flex-start;
+      padding: 1rem;
+      #openMenuBtn {
+        display: flex;
+        color: #292929;
+        background-color: #fff;
+      }
+      .navMenu {
+        display: none;
+      }
+      .navMenu1 {
+        position: absolute;
+        width: 10rem;
+        // min-height: 7rem;
+        top: 2.7rem;
+        left: 0%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 1rem 0;
+        margin-left: 1rem;
+        border-radius: 0.4rem;
+        transition: 0.4s ease;
+        opacity: 0.9;
+        li {
+          animation: animateNavMenuItems 400ms linear forwards;
+          transform-origin: top left;
+          padding: 0.5rem 1rem;
+          background-color: #323232;
+          &:nth-child(1) {
+            border-radius: 0.4rem 0.4rem 0 0;
+            border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(2) {
+            border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(3) {
+            border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(4) {
+            border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(5) {
+            border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(6) {
+            // border-radius: 0 0 0.4rem 0.4rem;
+            // border-bottom: 1px solid #ccc;
+          }
+          &:nth-child(7) {
+            border-radius: 0 0 0.4rem 0.4rem;
+            border-top: 1px solid #ccc;
+          }
+        }
+        li a {
+          color: colors.$primaryTextColor;
+          font-size: 1rem;
+          font-weight: 300;
+        }
+        .active {
+          color: yellow;
+        }
+      }
+    }
+  }
 }
 .homeNavCont.active {
   .navWrap {
     background-color: #292929;
-    border-bottom: 2px solid #03ce03;
+    // border-bottom: 2px solid #03ce03;
     .active {
       color: #03ce03;
       border-bottom: 2px solid #03ce03;
@@ -108,6 +212,24 @@
       // font-weight: 600;
     }
   }
+  .navBottomLines {
+    display: flex;
+    justify-content: space-between;
+    .bottomLine {
+      width: 100%;
+      height: 0.2rem;
+      background-color: red;
+      &:nth-child(1) {
+        background-color: yellow;
+      }
+      &:nth-child(2) {
+        background-color: green;
+      }
+      &:nth-child(3) {
+        background-color: yellow;
+      }
+    }
+  }
   @keyframes animateNavItems {
     0% {
       transform: rotateY(-90deg) rotateX(90deg) scale(0.1);
@@ -115,6 +237,20 @@
     100% {
       transform: rotateY(0) rotateX(0) scale(1);
       opacity: 1;
+    }
+  }
+  @media screen and (max-width: 460px) {
+    background-color: #fff;
+    .navWrap {
+      .navMenu1 {
+        li a {
+          color: colors.$primaryTextColor;
+          border-bottom: none;
+        }
+        .active {
+          color: yellow;
+        }
+      }
     }
   }
 }

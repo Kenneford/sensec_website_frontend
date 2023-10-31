@@ -43,6 +43,9 @@ export default function LogoutBtn({ openSidebar }) {
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else if (authAdminInfo) {
       dispatch(adminLogout());
       navigate("/sensec/homepage");
@@ -50,6 +53,9 @@ export default function LogoutBtn({ openSidebar }) {
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else if (authTeacherInfo) {
       dispatch(teacherLogout());
       navigate("/sensec/homepage");
@@ -57,6 +63,9 @@ export default function LogoutBtn({ openSidebar }) {
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else {
       dispatch(staffLogout());
       navigate("/sensec/homepage");
@@ -64,6 +73,9 @@ export default function LogoutBtn({ openSidebar }) {
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     }
   };
 

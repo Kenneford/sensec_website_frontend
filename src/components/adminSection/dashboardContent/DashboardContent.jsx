@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./dashboardContent.scss";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
@@ -8,7 +8,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { CircularProgress } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "draft-js/dist/Draft.css";
+import Parser from "html-react-parser";
 import {
   adminPost,
   fetchPosts,
@@ -16,22 +16,10 @@ import {
 } from "../../../features/posts/postSlice";
 import {
   fetchStaffs,
-  fetchTeachers,
   getAllStaffs,
   getStaffInfo,
 } from "../../../features/staff/staffSlice";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import { convertToHTML } from "draft-convert";
-import DOMPurify from "dompurify";
-
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import draftToHtml from "draft-js-to-html";
-
-import ReactQuill, { reactQuillRef } from "react-quill";
-import "react-quill/dist/quill.snow.css";
-// import "react-quill/dist/quill.bubble.css";
-import { formats, modules } from "../../../options/options";
+// import { formats, modules } from "../../../options/options";
 import { getAdminInfo } from "../../../features/admin/adminsSlice";
 import {
   fetchPendingStudents,
@@ -39,9 +27,14 @@ import {
   getAllPendingStudents,
   getAllStudents,
 } from "../../../features/student/studentsSlice";
-import { getAllTeachers } from "../../../features/teacher/teachersSlice";
+import {
+  fetchTeachers,
+  getAllTeachers,
+} from "../../../features/teacher/teachersSlice";
+import { Editor } from "@tinymce/tinymce-react";
 
 export default function DashboardContent({ toast }) {
+  const tinyMCEKey = process.env.REACT_APP_TINYMCE_KEY;
   const allStudents = useSelector(getAllStudents);
   const allPendingStudents = useSelector(getAllPendingStudents);
   const allStaffs = useSelector(getAllStaffs);
@@ -50,29 +43,13 @@ export default function DashboardContent({ toast }) {
   const allPosts = useSelector(getAllPosts);
   const { postStatus, success, error } = useSelector((state) => state.post);
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  // const [convertedContent, setConvertedContent] = useState(null);
-
-  // useEffect(() => {
-  //   let html = convertToHTML(editorState.getCurrentContent());
-  //   setConvertedContent(html);
-  // }, [editorState]);
-  // console.log(convertedContent);
-
-  // function createMarkup(html) {
-  //   return {
-  //     __html: DOMPurify.sanitize(html),
-  //   };
-  // }
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = `${authAdminInfo.firstName} ${authAdminInfo.lastName}`;
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
   const [post, setPost] = useState({
     adminKey: authAdminInfo.adminSecret,
     senderImage: authAdminInfo.profilePicture,
@@ -82,18 +59,11 @@ export default function DashboardContent({ toast }) {
     text: "",
   });
   const [loadPostImage, setLoadPostImage] = useState("");
+  const [teachers, setTeachers] = useState(allTeachers);
 
+  const editorRef = useRef(null);
   // console.log(name);
   // console.log(text);
-
-  const handleEditorText = (inpText) => {
-    // const editor = reactQuillRef.getEditor();
-    // const unprivilegedEditor = reactQuillRef.makeUnprivilegedEditor(editor);
-    // // You may now use the unprivilegedEditor proxy methods
-    // const inpText = unprivilegedEditor.getText();
-    // console.log("unprivilegedEditor.getText()", unprivilegedEditor.getText());
-    setText(inpText);
-  };
 
   const handleImageFileUpload = (e) => {
     if (e.target.files.length !== 0) {
@@ -125,13 +95,13 @@ export default function DashboardContent({ toast }) {
 
   const handleSendPost = (e) => {
     e.preventDefault();
-    console.log(post);
+    console.log(postBody);
     const formData = new FormData();
     formData.append("adminKey", post.adminKey);
     formData.append("postImage", post.postImage);
     formData.append("senderImage", post.senderImage);
     formData.append("title", title);
-    formData.append("text", text);
+    formData.append("text", postBody);
     formData.append("postedBy", post.postedBy);
     dispatch(adminPost(formData));
     if (text && post && title) {
@@ -140,6 +110,10 @@ export default function DashboardContent({ toast }) {
       setTitle("");
     }
   };
+
+  useEffect(() => {
+    setTeachers(teachers);
+  }, [teachers]);
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -174,12 +148,12 @@ export default function DashboardContent({ toast }) {
     }
   }, [error, success, postStatus, toast]);
 
-  setTimeout(() => {
-    if (postStatus === "success") {
-      navigate("/sensec/general_announcement/#generalNotice");
-      window.location.reload();
-    }
-  }, 3000);
+  // setTimeout(() => {
+  //   if (postStatus === "success") {
+  //     navigate("/sensec/general_announcement/#generalNotice");
+  //     window.location.reload();
+  //   }
+  // }, 3000);
   return (
     <div id="adminDashBoard">
       <h1>Admins Dashboard</h1>
@@ -318,7 +292,7 @@ export default function DashboardContent({ toast }) {
                 </div>
                 <div className="content">
                   <div className="title">
-                    <span>Title</span>
+                    <h5 className="titleName">Title</h5>
                     <input
                       type="text"
                       id="title"
@@ -331,30 +305,67 @@ export default function DashboardContent({ toast }) {
                     />
                   </div>
                   <div className="editor">
-                    <span className="editorTitle">Message</span>
-                    <ReactQuill
-                      theme="snow"
-                      value={text}
-                      onChange={handleEditorText}
-                      placeholder="write your content ...."
-                      // onChange={setText}
-                      className="textArea"
-                      modules={modules}
-                      formats={formats}
-                      // handlers={
-                      //  insertImage
-                      // }
-                      // ref={(el) => {
-                      //   reactQuillRef = el;
-                      // }}
-                      // readOnly={true}
-                    ></ReactQuill>
+                    <h5 className="editorTitle">Messages</h5>
+                    {/* Editor Here */}
+                    <div className="editorBox">
+                      <Editor
+                        apiKey={tinyMCEKey}
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        //   initialValue="<p>Write something here...</p>"
+                        onEditorChange={(newText) => {
+                          setPostBody(newText);
+                        }}
+                        init={{
+                          height: 300,
+                          // width: 500,
+                          menubar: true,
+                          // menu: {
+                          //   favs: {
+                          //     title: "My Favorites",
+                          //     items: "code visualaid | searchreplace | emoticons",
+                          //   },
+                          // },
+                          plugins: [
+                            "advlist",
+                            "autolink",
+                            "link",
+                            "image",
+                            "lists",
+                            "charmap",
+                            "preview",
+                            "anchor",
+                            "pagebreak",
+                            "searchreplace",
+                            "wordcount",
+                            "visualblocks",
+                            "visualchars",
+                            "code",
+                            "fullscreen",
+                            "insertdatetime",
+                            "media",
+                            "table",
+                            "emoticons",
+                            "template",
+                            "help",
+                            "linkchecker",
+                          ],
+                          toolbar:
+                            "undo redo | blocks | " +
+                            "bold italic forecolor | alignleft aligncenter " +
+                            "alignright alignjustify | bullist numlist outdent indent | " +
+                            "removeformat | help",
+                          content_style:
+                            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        }}
+                      />
+                    </div>
                   </div>
-                  {/* <div dangerouslySetInnerHTML={{ __html: text }} /> */}
+                  <div className="viewPost">{Parser(postBody)}</div>
                   <button
                     className="noticeBtn"
                     smooth
                     scroll={scrollWithOffset}
+                    type="submit"
                   >
                     {postStatus === "pending" ? (
                       <CircularProgress

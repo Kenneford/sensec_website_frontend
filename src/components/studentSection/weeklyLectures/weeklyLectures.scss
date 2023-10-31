@@ -33,9 +33,20 @@
     display: flex;
     justify-content: center;
     .theTime {
-      font-size: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
       font-weight: 900;
-      color: #555;
+      color: #fff;
+      border-radius: 0.4rem;
+      margin-bottom: 2rem;
+      padding: 0.3rem 1rem;
+      background-color: #323131;
+      .localTime {
+        font-size: 0.8rem;
+      }
     }
     .theDay {
       font-size: 3rem;
@@ -64,6 +75,11 @@
       padding: 0.5rem 0;
       color: #696969;
       font-weight: 300;
+      .displayColumn {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
       img {
         width: 3rem;
         height: 3rem;
@@ -89,10 +105,13 @@
     .days {
       text-align: left;
       padding: 0.7rem 1rem;
+      &:hover {
+        background-color: #323131;
+      }
     }
     .currentDay {
-      background-color: yellow;
-      color: #000;
+      background-color: #323131;
+      color: #fff;
       text-align: left;
       padding: 0.7rem 1rem;
     }

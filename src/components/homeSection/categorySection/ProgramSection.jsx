@@ -77,7 +77,7 @@ export default function ProgramSection() {
   };
   const animate1 = {
     off: { x: -50, opacity: 0 },
-    on: { x: 0, opacity: 1, transition: { duration: 3 } },
+    on: { x: 0, opacity: 1, transition: { duration: 1 } },
   };
   return (
     <div className="catWrap">
@@ -109,7 +109,8 @@ export default function ProgramSection() {
           // ref={ref}
           initial={"off"}
           whileInView={"on"}
-          transition={{ staggerChildren: 1 }}
+          variants={animate}
+          // transition={{ staggerChildren: 1 }}
           // transition={{ type: "spring", duration: 3, bounce: 0.3 }}
         >
           <motion.div className="catCard" variants={animate}>

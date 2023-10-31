@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./blogs.scss";
+import "./allBlogs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPosts,
@@ -17,7 +17,7 @@ import { getStudentInfo } from "../../features/student/studentsSlice";
 import NoticeItem from "../../components/noticeSection/noticeItem/NoticeItem";
 import BlogItem from "./BlogItem";
 
-export default function Blogs({
+export default function AllBlogs({
   toast,
   openSidebar,
   setPostOptions,
@@ -71,7 +71,7 @@ export default function Blogs({
         theme: "dark",
         // toastId: successId,
       });
-      window.location.reload();
+      // window.location.reload();
     }
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 
@@ -81,6 +81,7 @@ export default function Blogs({
         <BlogItem
           key={post._id}
           post={post}
+          toast={toast}
           openSidebar={openSidebar}
           setPostOptions={setPostOptions}
           postOptions={postOptions}

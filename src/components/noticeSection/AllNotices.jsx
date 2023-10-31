@@ -71,7 +71,7 @@ export default function AllNotices({
         theme: "dark",
         // toastId: successId,
       });
-      window.location.reload();
+      // window.location.reload();
     }
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 

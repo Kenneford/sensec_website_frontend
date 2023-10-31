@@ -65,6 +65,11 @@ export default function StudentDashBoard({
             </span>
             <div className="adminInfo">
               <img
+                onClick={() =>
+                  navigate(
+                    `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                  )
+                }
                 src={
                   studentInfo.profilePicture
                     ? studentInfo.profilePicture
@@ -91,7 +96,7 @@ export default function StudentDashBoard({
                 <h4>Dashboard</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.program.name}/${studentInfo.currentClassLevel.name}/weekly_lectures`}
+                to={`/sensec/student/${studentInfo.program?.name}/${studentInfo.currentClassLevel.name}/weekly_lectures`}
                 className="links"
                 title={openSidebar ? "Weekly Lectures" : ""}
               >
@@ -102,14 +107,22 @@ export default function StudentDashBoard({
                 <SupervisedUserCircleIcon className="tvIcon" />
                 <h4>Teachers</h4>
               </HashLink>
-              <div className="links" title={openSidebar ? "Coursemates" : ""}>
+              <HashLink
+                to={`/sensec/student/${studentInfo.studentId}/coursemates/${studentInfo.program?.name}`}
+                className="links"
+                title={openSidebar ? "Coursemates" : ""}
+              >
                 <SchoolOutlinedIcon />
                 <h4>Coursemates</h4>
-              </div>
-              <div className="links" title={openSidebar ? "My Attendance" : ""}>
+              </HashLink>
+              <HashLink
+                to={`/sensec/student/${studentInfo.studentId}/attendance`}
+                className="links"
+                title={openSidebar ? "My Attendance" : ""}
+              >
                 <ListAltOutlinedIcon />
                 <h4>My Attendance</h4>
-              </div>
+              </HashLink>
               <HashLink
                 to={"/sensec/general_announcement/#notice"}
                 className="links"

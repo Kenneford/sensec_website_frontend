@@ -118,7 +118,8 @@ export default function ImageSlider({ slides }) {
             How To Log Into Your Student Portal
           </motion.h1>
           <motion.h3 initial={"off"} whileInView={"on"} variants={animate2}>
-            Kindly watch this short video on how to log into ITS support system.
+            Kindly watch this short video on how to log into your Student
+            Portal.
           </motion.h3>
           <Link to={"/sensec/student/login"}>
             <motion.button

@@ -24,6 +24,10 @@ export default function WeeklyLectures() {
   const { program, currentClassLevel } = useParams();
 
   const [loader, setLoader] = useState(false);
+  const showLocaleTime = new Date().toLocaleTimeString("en-US", {
+    // timeZone: "Europe/Berlin",
+    hour12: false,
+  });
   const cTime = new Date().toLocaleTimeString();
   const [currentTime, setCurrentTime] = useState(cTime);
   const [currentDayOfWeek, setCurrentDayOfWeek] = useState("");
@@ -32,6 +36,10 @@ export default function WeeklyLectures() {
     setCurrentTime(cTime);
   };
   setInterval(updateTime, 1000);
+
+  // console.log(currentTime);
+  // console.log(cTime);
+
   const studentInfoRef = useRef(null);
   const { onDownload } = useDownloadExcel({
     currentTableRef: studentInfoRef.current,
@@ -70,11 +78,6 @@ export default function WeeklyLectures() {
       pdf.save("Students_Time_Table.pdf");
     });
   };
-  console.log(allTimeTables);
-  console.log(singleTimeTable);
-  console.log(studentInfo);
-  console.log(time);
-  console.log(program, currentClassLevel);
 
   useEffect(() => {
     dispatch(fetchAllTimeTables());
@@ -94,16 +97,15 @@ export default function WeeklyLectures() {
     setCurrentDayOfWeek(currentDayOfWeek);
   }, []);
 
-  const lesson1 = currentTime >= "8:00:00" && !(currentTime > "8:45:00");
-  const lesson2 = currentTime >= "8:45:01" && !(currentTime > "9:30:00");
-  const lesson3 = currentTime >= "9:30:01" && !(currentTime > "10:15:00");
-  const break1 = currentTime >= "10:15:01" && !(currentTime > "10:45:00");
-  const lesson4 = currentTime >= "10:15:01" && !(currentTime > "10:45:00");
-  const lesson5 = currentTime >= "10:45:01" && !(currentTime > "11:30:00");
-  const lesson6 = currentTime >= "11:30:01" && !(currentTime > "12:15:00");
-  const break2 = currentTime >= "12:15:01" && !(currentTime > "12:30:00");
-  const lesson7 = currentTime >= "12:30:01" && !(currentTime > "13:15:00");
-  const lesson8 = currentTime >= "13:15:01" && !(currentTime > "14:00:00");
+  const lesson1 = showLocaleTime >= "07:30:01" && showLocaleTime <= "08:30:00";
+  const break1 = showLocaleTime >= "08:30:01" && showLocaleTime <= "09:00:00";
+  const lesson2 = showLocaleTime >= "09:00:01" && showLocaleTime <= "10:00:00";
+  const lesson3 = showLocaleTime >= "10:00:01" && showLocaleTime <= "11:00:00";
+  const lesson4 = showLocaleTime >= "11:00:01" && showLocaleTime <= "12:00:00";
+  const lesson5 = showLocaleTime >= "12:00:01" && showLocaleTime <= "13:00:00";
+  const break2 = showLocaleTime >= "13:00:01" && showLocaleTime <= "13:30:00";
+  const lesson6 = showLocaleTime >= "13:30:01" && showLocaleTime <= "14:30:00";
+  const lesson7 = showLocaleTime >= "14:30:01" && showLocaleTime <= "15:30:00";
 
   return (
     <div className="studentTimeTable">
@@ -116,7 +118,7 @@ export default function WeeklyLectures() {
             <button
               className="pdfBtn "
               onClick={downloadPDF}
-              disabled={!(loader === false)}
+              disabled={!loader}
             >
               {loader ? (
                 <span>Download in progress</span>
@@ -128,136 +130,153 @@ export default function WeeklyLectures() {
         )}
       </div>
       <div className="studentTimeTableWrap" ref={pdfRef}>
-        <table className="studentTimeTable" ref={studentInfoRef}>
+        <div className="studentTimeTable" ref={studentInfoRef}>
           <h1>Weekly Lectures</h1>
-          <p className="theTime">{currentTime}</p>
-          {/* <p className="theDay">{currentDayOfWeek}</p> */}
+          <p className="theTime">
+            <span>{showLocaleTime}</span>
+            <span className="localTime">{currentTime}</span>
+          </p>
           <table className="studentTimeTableData">
-            {time &&
-              time.map((time) => (
-                <tr key={time._id}>
-                  <th className="tableHearder">{time.dayTime}</th>
-                  <th className="tableHearder">{time.lesson1Time}</th>
-                  <th className="tableHearder">{time.lesson2Time}</th>
-                  <th className="tableHearder">{time.lesson3Time}</th>
-                  <th className="tableHearder">{time.firstBreak}</th>
-                  <th className="tableHearder">{time.lesson4Time}</th>
-                  <th className="tableHearder">{time.lesson5Time}</th>
-                  <th className="tableHearder">{time.lesson6Time}</th>
-                  <th className="tableHearder">{time.secondBreak}</th>
-                  <th className="tableHearder">{time.lesson7Time}</th>
-                  <th className="tableHearder">{time.lesson8Time}</th>
-                </tr>
-              ))}
+            {time && (
+              <>
+                {time?.map((time) => (
+                  <thead key={time._id}>
+                    <tr>
+                      <th className="tableHearder">{time.dayTime}</th>
+                      <th className={lesson1 ? "currentDay" : "tableHearder"}>
+                        {time.lesson1Time}
+                      </th>
+                      <th className={break1 ? "currentDay" : "tableHearder"}>
+                        {time.firstBreak}
+                      </th>
+                      <th className={lesson2 ? "currentDay" : "tableHearder"}>
+                        {time.lesson2Time}
+                      </th>
+                      <th className={lesson3 ? "currentDay" : "tableHearder"}>
+                        {time.lesson3Time}
+                      </th>
+                      <th className={lesson4 ? "currentDay" : "tableHearder"}>
+                        {time.lesson4Time}
+                      </th>
+                      <th className={lesson5 ? "currentDay" : "tableHearder"}>
+                        {time.lesson5Time}
+                      </th>
+                      <th className={break2 ? "currentDay" : "tableHearder"}>
+                        {time.lesson6Time}
+                      </th>
+                      <th className={lesson6 ? "currentDay" : "tableHearder"}>
+                        {time.secondBreak}
+                      </th>
+                      <th className={lesson7 ? "currentDay" : "tableHearder"}>
+                        {time.lesson7Time}
+                      </th>
+                    </tr>
+                  </thead>
+                ))}
+              </>
+            )}
             {allTimeTables && (
               <>
                 {singleTimeTable.allDays?.map((day) => (
-                  <tr key={day._id}>
-                    <th
-                      className={
-                        currentDayOfWeek === day.nameOfDay
-                          ? "currentDay"
-                          : "days"
-                      }
-                    >
-                      {day.nameOfDay}
-                    </th>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson1
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson1}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson2
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson2}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson3
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson3}
-                    </td>
-                    <td className={break1 ? "currentBreakTime" : "breakTime"}>
-                      {day.breakLetter}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson4
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson4}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson5
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson5}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson6
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson6}
-                    </td>
-                    <td className={break2 ? "currentBreakTime" : "breakTime"}>
-                      {day.breakLetter}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson7
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson7}
-                    </td>
-                    <td
-                      className={
-                        currentDayOfWeek === day.nameOfDay && lesson8
-                          ? "currentLesson"
-                          : "alignTextLeft"
-                      }
-                    >
-                      {day.lesson8}
-                    </td>
-                  </tr>
+                  <tbody key={day._id}>
+                    <tr>
+                      <th
+                        className={
+                          currentDayOfWeek === day.nameOfDay
+                            ? "currentDay"
+                            : "days"
+                        }
+                      >
+                        {day.nameOfDay}
+                      </th>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson1
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        <div className="displayColumn">
+                          <span>{day.lesson1}</span>
+                        </div>
+                      </td>
+                      <td className={break1 ? "currentBreakTime" : "breakTime"}>
+                        {day.breakLetter}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson2
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson2}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson3
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson3}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson4
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson4}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson5
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson5}
+                      </td>
+                      <td className={break2 ? "currentBreakTime" : "breakTime"}>
+                        {day.breakLetter}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson6
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson6}
+                      </td>
+                      <td
+                        className={
+                          currentDayOfWeek === day.nameOfDay && lesson7
+                            ? "currentLesson"
+                            : "alignTextLeft"
+                        }
+                      >
+                        {day.lesson7}
+                      </td>
+                    </tr>
+                  </tbody>
                 ))}
               </>
             )}
           </table>
           <div className="classTeacher">
             <span>Class Teacher:</span>
-            <p>
-              {studentInfo &&
-                studentInfo.classTeacher?.gender === "Male" &&
-                "Mr."}
-              {studentInfo &&
-                studentInfo.classTeacher?.gender === "Female" &&
-                "Mrs."}{" "}
-              {studentInfo && studentInfo.classTeacher?.fullName}
-            </p>
+            {studentInfo && (
+              <p>
+                {studentInfo.classTeacher?.gender === "Male" && "Mr."}
+                {studentInfo.classTeacher?.gender === "Female" && "Mrs."}{" "}
+                {studentInfo.classTeacher?.fullName}
+              </p>
+            )}
           </div>
-        </table>
+        </div>
       </div>
     </div>
   );

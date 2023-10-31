@@ -14,17 +14,11 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   const [showpass, setShowPass] = useState(false);
   const [passLengthError, setPassLengthError] = useState("");
   const [idLengthError, setIdLengthError] = useState("");
-  console.log(passLengthError);
 
   const showPassword = () => setShowPass((show) => !show);
 
-  const errorId = "error";
-  const successId = "success";
-
-  const { studentLoginStatus, studentError, studentSuccessMessage } =
+  const { studentLoginStatus, studentLoginError, studentLoginSuccessMessage } =
     useSelector((state) => state.student);
-  console.log(studentError);
-  console.log(studentSuccessMessage);
 
   const [student, setStudent] = useState({
     studentId: "",
@@ -62,7 +56,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
 
   useEffect(() => {
     if (studentLoginStatus === "rejected") {
-      studentError.errorMessage.message.map((err) =>
+      studentLoginError.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -72,23 +66,19 @@ export default function StudentLoginPage({ toastOptions, toast }) {
       return;
     }
     if (studentLoginStatus === "success") {
-      setStudent({
-        studentId: "",
-        password: "",
-      });
       navigate("/sensec/student/#student");
-      toast.success(studentSuccessMessage, {
+      toast.success(studentLoginSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
     }
   }, [
-    studentError,
-    studentSuccessMessage,
+    studentLoginError,
+    studentLoginSuccessMessage,
     studentLoginStatus,
     toast,
-    toastOptions,
+    // toastOptions,
     navigate,
   ]);
 

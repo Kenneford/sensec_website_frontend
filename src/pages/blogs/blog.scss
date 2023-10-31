@@ -1,6 +1,6 @@
-@use "../../../utilities/colors";
-@use "../../../utilities/sizes";
-#student {
+@use "../../../src/utilities/colors";
+@use "../../../src/utilities/sizes";
+#generalNotice {
   .adminsWrap {
     .adminsCont {
       padding-top: sizes.$header_height;
@@ -39,7 +39,6 @@
             height: 5rem;
             object-fit: cover;
             border-radius: 0.4rem;
-            cursor: pointer;
           }
           .infoText {
             display: flex;

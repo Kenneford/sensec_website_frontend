@@ -36,7 +36,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   const { fetchingSingleStatus, error, successMessage } = useSelector(
     (state) => state.classLevel
   );
-  const [searchStudent, setSearchStudent] = useState("");
+
   const dispatch = useDispatch();
   const { class_level } = useParams();
   console.log(class_level);
@@ -45,6 +45,13 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   const allLevel100Students = useSelector(getAllLevel100Students);
   const allClassLevelSections = useSelector(getAllClassLevelSections);
   const singleClassLevel = useSelector(getSingleClassLevel);
+
+  const [searchStudent, setSearchStudent] = useState("");
+  const [notMatch, setNotMatch] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState(
+    singleClassLevel.students
+  );
+  console.log(filteredStudents);
 
   const selectedClassLevel = allClassLevels.map(
     (cLevel) => cLevel.name === class_level
@@ -89,21 +96,34 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
     },
   };
 
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
+  // function useQuery() {
+  //   return new URLSearchParams(useLocation().search);
+  // }
 
-  const query = useQuery();
-  const student_name = query.get("student_name");
-  const location = useLocation();
+  // const query = useQuery();
+  // const student_name = query.get("student_name");
+  // const location = useLocation();
 
-  const handleStudentSearch = (e) => {
-    e.preventDefault();
-    if (searchStudent) {
-      dispatch(studentSearch(searchStudent));
-      navigate(`/sensec/admin/search_student?student_name=${searchStudent}`);
-    }
-  };
+  // const handleStudentSearch = (e) => {
+  //   e.preventDefault();
+  //   if (searchStudent) {
+  //     dispatch(studentSearch(searchStudent));
+  //     navigate(`/sensec/admin/search_student?student_name=${searchStudent}`);
+  //   }
+  // };
+
+  useEffect(() => {
+    setFilteredStudents(filteredStudents);
+  }, [filteredStudents]);
+
+  useEffect(() => {
+    const studentsFiltered = singleClassLevel?.students?.filter((student) => {
+      return student.lastName
+        .toLowerCase()
+        .match(searchStudent.toLocaleLowerCase());
+    });
+    setFilteredStudents(studentsFiltered);
+  }, [searchStudent, singleClassLevel?.students]);
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -151,10 +171,12 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
     toastOptions,
   ]);
 
+  const level100Std = `${singleClassLevel?.name} Students / Total = 
+              ${singleClassLevel?.students?.length}`;
   return (
     <div className="studentTotal" id="classLevelStudents">
       <h1 style={{ backgroundColor: "#383838" }}>All Enrolled Students</h1>
-      <form onSubmit={handleStudentSearch} className="studentSearch">
+      <form className="studentSearch">
         <input
           type="text"
           value={searchStudent}
@@ -173,7 +195,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
             Add New Student +
           </button>
         </div>
-        <div className="searchDetails">
+        {/* <div className="searchDetails">
           {!searchStatus && (
             <p className="searchInfo">
               Total Students = {singleClassLevel?.students?.length}
@@ -189,8 +211,8 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
                 We couldn't find any matches for "{student_name}"
               </p>
             )}
-        </div>
-        {searchStatus && (
+        </div> */}
+        {/* {searchStatus && (
           <button
             className="goBack-btn"
             onClick={() => {
@@ -200,7 +222,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
           >
             Go back
           </button>
-        )}
+        )} */}
         <div className="totalStudentsCont">
           {allStudents && (
             <div className="totalStudentsContWrap">
@@ -228,7 +250,7 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
                   }
                   className=""
                 >
-                  Past Students
+                  All Graduates
                 </span>
               </div>
             </div>
@@ -256,16 +278,20 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
                 </span>
               ))}
             </div>
-            <h3>
+            {/* <h3>
               {singleClassLevel?.name} Students / Total ={" "}
               {singleClassLevel?.students?.length}
-            </h3>
+            </h3> */}
           </div>
           <DataTable
+            title={level100Std}
             columns={classLevelStudentsColumn}
-            data={singleClassLevel.students}
+            data={filteredStudents}
             customStyles={customStyle}
             pagination
+            selectableRows
+            selectableRowsHighlight
+            highlightOnHover
           />
         </div>
       </div>

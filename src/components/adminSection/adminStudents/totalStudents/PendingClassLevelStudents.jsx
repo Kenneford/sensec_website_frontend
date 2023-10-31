@@ -272,6 +272,9 @@ export default function PendingClassLevelStudents({ toast, toastOptions }) {
             data={singlePendingStudentsData.students}
             customStyles={customStyle}
             pagination
+            selectableRows
+            selectableRowsHighlight
+            highlightOnHover
           />
         </div>
       </div>

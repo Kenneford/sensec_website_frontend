@@ -274,6 +274,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
         theme: "dark",
         // toastId: successId,
       });
+      navigate("/");
     }
   }, [
     studentError,
@@ -284,12 +285,12 @@ export default function ApplyOnline({ toastOptions, toast }) {
     navigate,
   ]);
 
-  setTimeout(() => {
-    if (registerStudentStatus === "success") {
-      navigate("/sensec/admin/students/add_parents_guardian");
-      window.location.reload();
-    }
-  }, 5000);
+  // setTimeout(() => {
+  //   if (registerStudentStatus === "success") {
+  //     navigate("/");
+  //     window.location.reload();
+  //   }
+  // }, 5000);
 
   const copyToClipboard = (e) => {
     e.preventDefault();

@@ -33,7 +33,7 @@ export default function NavBar({
 
   const navigate = useNavigate();
 
-  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  //THIS REMOVES THE NavHASHLINK TAG FROM THE URL
   if (window.location.hash) {
     window.history.replaceState("", document.title, window.location.pathname);
   }
@@ -80,11 +80,11 @@ export default function NavBar({
             </p>
           </div>
         </NavHashLink>
+      </div>
+      <div className="navWrap">
         <button id="openMenuBtn" onClick={showMenu}>
           {!menuVisible ? <MenuIcon /> : <CloseIcon />}
         </button>
-      </div>
-      <div className="navWrap">
         <ul className={!menuVisible ? "navMenu" : "navMenu1"}>
           <li>
             <NavHashLink
@@ -103,7 +103,6 @@ export default function NavBar({
             >
               About
             </NavHashLink>
-            {/* <AboutNavBar /> */}
           </li>
           <li>
             <NavHashLink
@@ -113,7 +112,6 @@ export default function NavBar({
             >
               Courses
             </NavHashLink>
-            {/* <CoursesNavBar /> */}
           </li>
           <li>
             <NavHashLink
@@ -123,7 +121,6 @@ export default function NavBar({
             >
               Contact
             </NavHashLink>
-            {/* <ContactNavBar /> */}
           </li>
           <li>
             <NavHashLink
@@ -133,7 +130,6 @@ export default function NavBar({
             >
               Apply
             </NavHashLink>
-            {/* <ContactNavBar /> */}
           </li>
           <li>
             <NavHashLink
@@ -143,26 +139,11 @@ export default function NavBar({
             >
               Blog
             </NavHashLink>
-            {/* <ContactNavBar /> */}
           </li>
-          {/* {!authAdminInfo &&
-            !studentInfo &&
-            !authTeacherInfo &&
-            !authStaffInfo && (
-              <li>
-                <NavHashLink
-                  to={"/sensec/general_announcement#generalNotice"}
-                  smooth
-                  scroll={scrollWithOffset}
-                >
-                  General Notice
-                </NavHashLink>
-              </li>
-            )} */}
           {currentUser.isAdmin && (
             <li>
               <NavHashLink
-                to={"/sensec/admin/#admin"}
+                to={"/sensec/admin#admin"}
                 smooth
                 scroll={scrollWithOffset}
               >
@@ -173,7 +154,7 @@ export default function NavBar({
           {currentUser.isTeacher && (
             <li>
               <NavHashLink
-                to={"/sensec/teacher/#teacher"}
+                to={"/sensec/teacher#teacher"}
                 smooth
                 scroll={scrollWithOffset}
               >
@@ -184,7 +165,7 @@ export default function NavBar({
           {currentUser.role === "Non-Teaching Staff" && (
             <li>
               <NavHashLink
-                to={"/sensec/staff/#staff"}
+                to={"/sensec/staff#staff"}
                 smooth
                 scroll={scrollWithOffset}
               >
@@ -195,7 +176,7 @@ export default function NavBar({
           {currentUser.isStudent && (
             <li>
               <NavHashLink
-                to={"/sensec/student/#student"}
+                to={"/sensec/student#student"}
                 smooth
                 scroll={scrollWithOffset}
               >
@@ -212,6 +193,11 @@ export default function NavBar({
           studentInfo={studentInfo}
           toast={toast}
         />
+      </div>
+      <div className="navBottomLines">
+        <div className="bottomLine"></div>
+        <div className="bottomLine"></div>
+        <div className="bottomLine"></div>
       </div>
     </div>
   );

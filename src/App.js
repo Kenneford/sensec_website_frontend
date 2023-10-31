@@ -66,9 +66,14 @@ import PendingClassLevelStudents from "./components/adminSection/adminStudents/t
 import WeeklyLectures from "./components/studentSection/weeklyLectures/WeeklyLectures";
 import StudentUpdateSelf from "./components/studentSection/studentUpdateSelf/StudentUpdateSelf";
 import AdminStudentInfos from "./components/adminSection/adminStudents/studentInfos/AdminStudentInfos";
-import Blogs from "./pages/blogs/Blogs";
+import Blogs from "./pages/blogs/AllBlogs";
 import BlogItem from "./pages/blogs/BlogItem";
 import SingleBlog from "./pages/blogs/SingleBlog";
+import StudentsAttendance from "./components/studentSection/studentsAttendance/StudentsAttendance";
+import AdminStudentsAttendance from "./components/adminSection/adminStudents/studentsAttendance/AdminStudentsAttendance";
+import CourseMates from "./components/studentSection/courseMates/CourseMates";
+import Blog from "./pages/blogs/Blog";
+import AllBlogs from "./pages/blogs/AllBlogs";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -197,30 +202,45 @@ export default function App() {
           exact
           path="/sensec/blogs"
           element={
-            <Blogs
+            <Blog
               openSidebar={openSidebar}
               toastOptions={toastOptions}
               toast={toast}
               setPostOptions={setPostOptions}
               postOptions={postOptions}
               clearLogOptions={clearLogOptions}
+              toggleSidebar={toggleSidebar}
             />
           }
-        />
-        <Route
-          exact
-          path="/sensec/blogs/blog_overview/:blogId"
-          element={
-            <SingleBlog
-              openSidebar={openSidebar}
-              toastOptions={toastOptions}
-              toast={toast}
-              setPostOptions={setPostOptions}
-              postOptions={postOptions}
-              clearLogOptions={clearLogOptions}
-            />
-          }
-        />
+        >
+          <Route
+            index
+            element={
+              <AllBlogs
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+                setPostOptions={setPostOptions}
+                postOptions={postOptions}
+                clearLogOptions={clearLogOptions}
+              />
+            }
+          />
+          <Route
+            exact
+            path="/sensec/blogs/blog_overview/:blogId"
+            element={
+              <SingleBlog
+                openSidebar={openSidebar}
+                toastOptions={toastOptions}
+                toast={toast}
+                setPostOptions={setPostOptions}
+                postOptions={postOptions}
+                clearLogOptions={clearLogOptions}
+              />
+            }
+          />
+        </Route>
         <Route
           exact
           path="/sensec/contact"
@@ -452,17 +472,26 @@ export default function App() {
             path="/sensec/admin/old_students/search_student"
             element={<OldStudents toastOptions={toastOptions} toast={toast} />}
           />
-          <Route
+          {/* <Route
             path="/sensec/admin/search_student"
             element={
               <TotalStudents toastOptions={toastOptions} toast={toast} />
             }
-          />
+          /> */}
           <Route
             path="/sensec/admin/student_info/:student_name/:studentId"
             element={
-              <AdminStudentInfos toastOptions={toastOptions} toast={toast} />
+              authAdminInfo.isAdmin ? (
+                <AdminStudentInfos toastOptions={toastOptions} toast={toast} />
+              ) : (
+                <Navigate to={"/sensec/admins/login"} />
+              )
             }
+          />
+          <Route
+            exact
+            path="/sensec/admin/:studentId/attendance"
+            element={<AdminStudentsAttendance openSidebar={openSidebar} />}
           />
           <Route
             path="/sensec/admin/general_announcement/update/:postId"
@@ -517,7 +546,7 @@ export default function App() {
             element={<TeacherDashBoardContent openSidebar={openSidebar} />}
           />
           <Route
-            path="/sensec/teacher/students_attendance"
+            path="/sensec/teacher/:teacherId/take_attendance"
             element={
               <TeacherAttendance toastOptions={toastOptions} toast={toast} />
             }
@@ -551,8 +580,18 @@ export default function App() {
           />
           <Route
             exact
+            path="/sensec/student/:studentId/attendance"
+            element={<StudentsAttendance openSidebar={openSidebar} />}
+          />
+          <Route
+            exact
             path="/sensec/student/student_info/:student_name/:studentId"
             element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
+          />
+          <Route
+            exact
+            path="/sensec/student/:studentId/coursemates/:programName"
+            element={<CourseMates toastOptions={toastOptions} toast={toast} />}
           />
           <Route
             exact
@@ -571,7 +610,7 @@ export default function App() {
               <div className="emptyWrap">
                 <h1 className="page404">404</h1>
                 <img src="/assets/sad-dog1.jpg" alt="sad dog" />
-                <h1>Ooops! There is nothing in here...</h1>
+                <h4>Ooops! There is nothing in here...</h4>
                 <button className="empty-page-btn" onClick={() => navigate(-1)}>
                   Go back
                 </button>

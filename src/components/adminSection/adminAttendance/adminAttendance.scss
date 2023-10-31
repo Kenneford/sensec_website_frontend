@@ -40,10 +40,16 @@
       h3 {
         padding: 1rem 2rem 0;
       }
-      .flex3 {
+      .flex4 {
         display: flex;
         justify-content: space-between;
         padding: 2rem;
+        .classlevelInfo,
+        .attendanceDate {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
         h4 {
           padding-bottom: 0.5rem;
         }
@@ -92,10 +98,23 @@
         object-fit: cover;
       }
     }
+    .alignHeaderLeft {
+      text-align: center;
+      // padding: 1rem ;
+      border: #555 1px solid;
+    }
     .alignTextLeft {
       text-align: left;
-      padding-left: 1rem;
+      padding: 0 1rem;
       border: #555 1px solid;
+    }
+    .statusFlex {
+      display: flex;
+      text-align: left;
+      padding: 1.15rem;
+      border: #555 1px solid;
+      height: inherit;
+      gap: 1rem;
     }
     .statusWrap {
       display: flex;

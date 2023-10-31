@@ -46,6 +46,9 @@ export default function CurrentUser({
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else if (authAdminInfo) {
       dispatch(adminLogout());
       navigate("/sensec/homepage");
@@ -53,6 +56,9 @@ export default function CurrentUser({
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else if (authTeacherInfo) {
       dispatch(teacherLogout());
       navigate("/sensec/homepage");
@@ -60,6 +66,9 @@ export default function CurrentUser({
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } else {
       dispatch(staffLogout());
       navigate("/sensec/homepage");
@@ -67,6 +76,9 @@ export default function CurrentUser({
         position: "top-right",
         theme: "dark",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     }
   };
 
@@ -241,7 +253,7 @@ export default function CurrentUser({
                 <img
                   onClick={() => setShowOptions(!showOptions)}
                   src={
-                    studentInfo.isMale
+                    studentInfo.gender === "Male"
                       ? "/assets/maleAvatar.png"
                       : "/assets/femaleAvatar.png"
                   }

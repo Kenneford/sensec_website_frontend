@@ -1,5 +1,5 @@
 import React from "react";
-import "./generalNotice.scss";
+import "./blog.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
@@ -28,13 +28,24 @@ import { getTeacherInfo } from "../../features/teacher/teachersSlice";
 import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 
-export default function GeneralNotice({ openSidebar, toggleSidebar }) {
+export default function Blog({ openSidebar, toggleSidebar }) {
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
   const authAdminInfo = useSelector(getAdminInfo);
 
   const navigate = useNavigate();
+
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
+
+  const scrollWithOffset1 = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
+    const yOffset = -180;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
 
   const owing = false;
   return (
@@ -118,9 +129,10 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement/#generalNotice"}
+                  to={"/sensec/blogs#blogs"}
                   className="links"
                   smooth
+                  scroll={scrollWithOffset1}
                 >
                   <CampaignOutlinedIcon />
                   <h4>Notice</h4>
@@ -420,9 +432,10 @@ export default function GeneralNotice({ openSidebar, toggleSidebar }) {
                   <h4>My Attendance</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/general_announcement/#generalNotice"}
+                  to={"/sensec/blogs#blogs"}
                   className="links"
                   smooth
+                  scroll={scrollWithOffset1}
                   title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
