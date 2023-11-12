@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/sensec_website_frontend/static/css/main.12e1cb2b.css",
+    "main.js": "/sensec_website_frontend/static/js/main.f260876b.js",
+    "static/js/545.eaf3061c.chunk.js": "/sensec_website_frontend/static/js/545.eaf3061c.chunk.js",
+    "static/js/513.324071f3.chunk.js": "/sensec_website_frontend/static/js/513.324071f3.chunk.js",
+    "static/media/html-to-text.cjs": "/sensec_website_frontend/static/media/html-to-text.9fedf21468e44c33f14a.cjs",
+    "index.html": "/sensec_website_frontend/index.html",
+    "main.12e1cb2b.css.map": "/sensec_website_frontend/static/css/main.12e1cb2b.css.map",
+    "main.f260876b.js.map": "/sensec_website_frontend/static/js/main.f260876b.js.map",
+    "545.eaf3061c.chunk.js.map": "/sensec_website_frontend/static/js/545.eaf3061c.chunk.js.map",
+    "513.324071f3.chunk.js.map": "/sensec_website_frontend/static/js/513.324071f3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.12e1cb2b.css",
+    "static/js/main.f260876b.js"
+  ]
+}
