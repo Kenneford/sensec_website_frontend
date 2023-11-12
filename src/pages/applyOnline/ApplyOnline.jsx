@@ -72,12 +72,12 @@ export default function ApplyOnline({ toastOptions, toast }) {
     region: "",
     email: "",
     studentId: `STDSSHS-${num}-${currentYear}`,
-    role: "",
+    // role: "",
     currentClassLevel: "",
     program: "",
     academicYear: "",
-    studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
-    studentRegistrarId: `${authAdminInfo.adminId}`,
+    // studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+    // studentRegistrarId: `${authAdminInfo.adminId}`,
     // religion: "",
     height: "",
     weight: "",
@@ -180,6 +180,38 @@ export default function ApplyOnline({ toastOptions, toast }) {
   const handleRegister = (e) => {
     e.preventDefault();
     console.log(newStudent);
+    if (!newStudent.profilePicture) {
+      toast.error("Please upload your image!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (!newStudent.academicYear) {
+      toast.error("Please select academic year!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (!newStudent.currentClassLevel) {
+      toast.error("Please select class level!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (!newStudent.program) {
+      toast.error("Please select your program!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append("firstName", newStudent.firstName);
     formData.append("lastName", newStudent.lastName);
@@ -237,44 +269,46 @@ export default function ApplyOnline({ toastOptions, toast }) {
       return;
     }
     if (registerStudentStatus === "success") {
-      setNewStudent({
-        firstName: "",
-        lastName: "",
-        dateOfBirth: "",
-        placeOfBirth: "",
-        jhsAttended: "",
-        shsAttended: "",
-        nationality: "",
-        district: "",
-        password: "",
-        confirmPassword: "",
-        email: "",
-        studentId: "",
-        academicYear: "",
-        program: "",
-        role: "",
-        studentRegistrar: "",
-        studentRegistrarId: "",
-        currentClassLevel: "",
-        gender: "",
-        profilePicture: "",
-        address: "",
-        currentCity: "",
-        homeTown: "",
-        region: "",
-        religion: "",
-        height: "",
-        weight: "",
-        motherTongue: "",
-        otherTongue: "",
-        complexion: "",
-      });
       toast.success(studentSuccessMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
-      navigate("/");
+      setTimeout(() => {
+        setNewStudent({
+          firstName: "",
+          lastName: "",
+          dateOfBirth: "",
+          placeOfBirth: "",
+          jhsAttended: "",
+          shsAttended: "",
+          nationality: "",
+          district: "",
+          password: "",
+          confirmPassword: "",
+          email: "",
+          studentId: "",
+          academicYear: "",
+          program: "",
+          role: "",
+          studentRegistrar: "",
+          studentRegistrarId: "",
+          currentClassLevel: "",
+          gender: "",
+          profilePicture: "",
+          address: "",
+          currentCity: "",
+          homeTown: "",
+          region: "",
+          religion: "",
+          height: "",
+          weight: "",
+          motherTongue: "",
+          otherTongue: "",
+          complexion: "",
+        });
+        navigate("/sensec/admin/students/add_parents_guardian");
+      }, 5000);
     }
   }, [
     studentError,
@@ -528,7 +562,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
                       value={newStudent.shsAttended}
                     />
                   </div>
-                  <div className="selector">
+                  {/* <div className="selector">
                     <label htmlFor="role">Role</label>
                     <select
                       className="select"
@@ -549,7 +583,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                   <div className="selector">
                     <label htmlFor="currentClassLevel">Class Level</label>
                     <select
@@ -902,6 +936,8 @@ export default function ApplyOnline({ toastOptions, toast }) {
               >
                 {registerStudentStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
+                ) : registerStudentStatus === "pending" ? (
+                  " Application Sent"
                 ) : (
                   "Add Student"
                 )}

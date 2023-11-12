@@ -59,6 +59,18 @@
         }
         .contentLinks {
           padding: 0 2rem;
+          height: calc(100% - 300px);
+          overflow-y: scroll;
+          overflow-x: hidden;
+          &::-webkit-scrollbar-thumb {
+            background-color: #cccc;
+          }
+          &::-webkit-scrollbar-track {
+            background-color: #292929;
+          }
+          &::-webkit-scrollbar {
+            width: 5px;
+          }
           a {
             color: #fff;
           }

@@ -20,6 +20,7 @@ import ConstructionIcon from "@mui/icons-material/Construction";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
+import Diversity2Icon from "@mui/icons-material/Diversity2";
 import { HashLink } from "react-router-hash-link";
 import LogoutBtn from "../../components/logoutBtn/LogoutBtn";
 import DashBoardFooter from "../../components/footer/DashBoardFooter";
@@ -43,9 +44,13 @@ export default function Blog({ openSidebar, toggleSidebar }) {
 
   const scrollWithOffset1 = (el) => {
     const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
-    const yOffset = -180;
+    const yOffset = -200;
     window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
   };
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
 
   const owing = false;
   return (
@@ -87,58 +92,103 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                 </div>
               </div>
               <div className="contentLinks">
-                <HashLink to={"/sensec/admin"} className="links">
+                <HashLink
+                  to={"/sensec/admin#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Dashboard"}
+                >
                   <TvIcon className="icon" />
                   <h4>Dashboard</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/create_data"} className="links">
+                <HashLink
+                  to={"/sensec/admin/create_data#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Create Data"}
+                >
                   <ConstructionIcon />
                   <h4>Create</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/all_admins"} className="links">
+                <HashLink
+                  to={"/sensec/admin/all_admins#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Admins"}
+                >
                   <AdminPanelSettingsIcon />
                   <h4>Admins</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/staff_members"} className="links">
+                <HashLink
+                  to={"/sensec/admin/staff_members#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Staff Members"}
+                >
                   <Diversity3Icon />
                   <h4>Staff Members</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/all_teachers"} className="links">
+                <HashLink
+                  to={"/sensec/admin/all_teachers#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Teachers"}
+                >
                   <div className="teacherIcons">
                     <SupervisedUserCircleIcon className="tvIcon" />
-                    {/* <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  /> */}
                   </div>
                   <h4>Teachers</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/students"} className="links">
+                <HashLink
+                  to={"/sensec/admin/students#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Students"}
+                >
                   <SchoolOutlinedIcon />
                   <h4>Students</h4>
                 </HashLink>
                 <HashLink
-                  to={"/sensec/admin/programs&subjects"}
+                  to={"/sensec/admin/team#admin"}
                   className="links"
+                  smooth
+                  title={openSidebar && "Team"}
+                >
+                  <Diversity2Icon />
+                  <h4>Team</h4>
+                </HashLink>
+                <HashLink
+                  to={"/sensec/admin/programs&subjects#admin"}
+                  className="links"
+                  smooth
+                  title={openSidebar && "Programs/Subjects"}
                 >
                   <AutoStoriesIcon />
                   {/* <HistoryEduIcon /> */}
                   <h4>Programs/Subjects</h4>
                 </HashLink>
-                <HashLink to={"/sensec/admin/attendance"} className="links">
-                  <ListAltOutlinedIcon />
-                  <h4>Attendance</h4>
-                </HashLink>
+                {/* <HashLink
+                to={"/sensec/admin/attendance/#admin"}
+                className="links"
+                smooth
+              >
+                <ListAltOutlinedIcon />
+                <h4>Attendance</h4>
+              </HashLink> */}
                 <HashLink
                   to={"/sensec/blogs#blogs"}
                   className="links"
                   smooth
                   scroll={scrollWithOffset1}
+                  title={openSidebar && "Notice"}
                 >
                   <CampaignOutlinedIcon />
                   <h4>Notice</h4>
                 </HashLink>
               </div>
-              <LogoutBtn openSidebar={openSidebar} />
+              <div className="sideBarLogoutBtn">
+                <LogoutBtn openSidebar={openSidebar} />
+              </div>
             </div>
           )}
 
