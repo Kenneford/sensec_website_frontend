@@ -1,0 +1,112 @@
+.schoolDataCont {
+  border-top: 1px solid #cccc;
+  .schoolDataWrap {
+    width: 50%;
+    margin: auto;
+    padding: 2rem 0;
+    h2 {
+      padding-bottom: 1rem;
+    }
+    form {
+      .topSchData {
+        display: flex;
+        align-items: center;
+        .topInputs {
+          input {
+            border: 1px solid #fff;
+            outline: 2px solid #cccc;
+            padding: 0.8rem 1rem;
+            width: 60%;
+            margin-bottom: 1rem;
+            transition: 0.6s ease;
+            border-radius: 0.3rem;
+            color: #555;
+            font-size: 1.1rem;
+            &::placeholder {
+              color: #555;
+              font-size: 1rem;
+            }
+            &:focus {
+              // width: 70%;
+              border: 1px solid #fff;
+              outline: 2px solid #3a3939cc;
+            }
+          }
+        }
+        .logoFile {
+          border: 1px solid #cccc;
+          border-radius: 0.4rem;
+          cursor: pointer;
+          padding: 0.3rem;
+          .logoUpload {
+            cursor: pointer;
+            img {
+              border-radius: 0.4rem;
+              width: 8rem;
+              height: 8rem;
+              object-fit: cover;
+              margin-bottom: -0.3rem;
+            }
+          }
+        }
+      }
+    }
+    .anthemEditor,
+    .visionEditor,
+    .historyEditor {
+      //style to hide tinyMCE logo on the editor
+      .tox-statusbar {
+        a,
+        .tox-statusbar__help-text {
+          display: none;
+        }
+        .tox-statusbar__text-container {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      .preview {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 1.5rem 0 0.5rem;
+        h4 {
+        }
+        button {
+          padding: 0.3rem;
+          border-radius: 0.4rem;
+          background-color: #292929;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+      .previewHistoryCont {
+        position: relative;
+        display: none;
+      }
+      .previewHistoryCont.open {
+        display: block;
+        position: "absolute";
+        justify-content: baseline;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        align-items: center;
+        background-color: #292929;
+      }
+    }
+    .schDataBtn {
+      button {
+        padding: 0.5rem;
+        margin-top: 1rem;
+        width: 8rem;
+        background-color: green;
+        color: #fff;
+        font-size: 1.2rem;
+        border-radius: 0.4rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

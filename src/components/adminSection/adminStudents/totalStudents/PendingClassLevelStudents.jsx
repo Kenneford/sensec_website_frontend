@@ -166,7 +166,7 @@ export default function PendingClassLevelStudents({ toast, toastOptions }) {
 
   return (
     <div className="studentTotal" id="allStudents">
-      <h1 style={{ backgroundColor: "#383838" }}>All Enrolled Students</h1>
+      <h1 style={{ backgroundColor: "#383838" }}>Pending Students Data</h1>
       <form onSubmit={handleStudentSearch} className="studentSearch">
         <input
           type="text"

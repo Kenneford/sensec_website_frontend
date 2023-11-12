@@ -107,11 +107,6 @@ export default function CreateElectiveSubject({ toast, toastOptions }) {
     dispatch(fetchClassLevels());
   }, [dispatch]);
 
-  setTimeout(() => {
-    if (createStatus === "success") {
-      window.location.reload();
-    }
-  }, 5000);
   return (
     <div className="formWrap">
       <h3>Elective Subject Form</h3>

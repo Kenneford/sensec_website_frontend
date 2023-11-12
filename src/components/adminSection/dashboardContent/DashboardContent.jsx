@@ -352,15 +352,24 @@ export default function DashboardContent({ toast }) {
                           toolbar:
                             "undo redo | blocks | " +
                             "bold italic forecolor | alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
+                            "alignright alignjustify | bullist numlist outdent indent | link image media | print preview | forecolor backcolor  emoticons " +
                             "removeformat | help",
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                          style_formats: [
+                            {
+                              title: "Blocks",
+                              items: [
+                                { title: "Div", format: "div" },
+                                { title: "Pre", format: "pre" },
+                              ],
+                            },
+                          ],
                         }}
                       />
                     </div>
                   </div>
-                  <div className="viewPost">{Parser(postBody)}</div>
+                  {/* <div className="viewPost">{Parser(postBody)}</div> */}
                   <button
                     className="noticeBtn"
                     smooth

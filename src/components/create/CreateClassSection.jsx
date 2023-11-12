@@ -108,11 +108,6 @@ export default function CreateClassSection({ toast, toastOptions }) {
     dispatch(fetchTeachers());
   }, [dispatch]);
 
-  setTimeout(() => {
-    if (createLevelSectionStatus === "success") {
-      window.location.reload();
-    }
-  }, 5000);
   return (
     <div className="formWrap">
       <h3>Class Section Form</h3>

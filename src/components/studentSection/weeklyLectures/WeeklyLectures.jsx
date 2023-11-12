@@ -162,10 +162,10 @@ export default function WeeklyLectures() {
                         {time.lesson5Time}
                       </th>
                       <th className={break2 ? "currentDay" : "tableHearder"}>
-                        {time.lesson6Time}
+                        {time.secondBreak}
                       </th>
                       <th className={lesson6 ? "currentDay" : "tableHearder"}>
-                        {time.secondBreak}
+                        {time.lesson6Time}
                       </th>
                       <th className={lesson7 ? "currentDay" : "tableHearder"}>
                         {time.lesson7Time}
@@ -193,7 +193,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson1
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         <div className="displayColumn">
@@ -207,7 +207,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson2
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson2}
@@ -216,7 +216,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson3
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson3}
@@ -225,7 +225,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson4
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson4}
@@ -234,7 +234,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson5
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson5}
@@ -246,7 +246,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson6
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson6}
@@ -255,7 +255,7 @@ export default function WeeklyLectures() {
                         className={
                           currentDayOfWeek === day.nameOfDay && lesson7
                             ? "currentLesson"
-                            : "alignTextLeft"
+                            : "lessons"
                         }
                       >
                         {day.lesson7}
