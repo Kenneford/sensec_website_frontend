@@ -186,6 +186,30 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
       });
       return;
     }
+    if (!newStudent.academicYear) {
+      toast.error("Please select student's academic year!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (!newStudent.currentClassLevel) {
+      toast.error("Please select student's class level!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (!newStudent.program) {
+      toast.error("Please select student's program!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append("firstName", newStudent.firstName);
     formData.append("lastName", newStudent.lastName);

@@ -50,7 +50,7 @@ export default function SingleBlog() {
         <img src={singlePost.senderImage} alt="" />
       </div>
       {/* <img src={singlePostpostImage} alt="" /> */}
-      <p className="singlePostText">{Parser(singlePost.text)}</p>
+      <p className="singlePostText">{singlePost && Parser(singlePost.text)}</p>
     </div>
   );
 }
