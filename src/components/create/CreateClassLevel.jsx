@@ -62,11 +62,6 @@ export default function CreateClassLevel({ toast, toastOptions }) {
     }
   }, [error, successMessage, createLevelStatus, toast, toastOptions, navigate]);
 
-  setTimeout(() => {
-    if (createLevelStatus === "success") {
-      window.location.reload();
-    }
-  }, 5000);
   return (
     <div className="formWrap">
       <h3>Class Level Form</h3>

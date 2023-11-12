@@ -66,11 +66,6 @@ export default function CreateProgram({ toast, toastOptions }) {
     }
   }, [error, successMessage, createStatus, toast, toastOptions, navigate]);
 
-  setTimeout(() => {
-    if (createStatus === "success") {
-      window.location.reload();
-    }
-  }, 5000);
   return (
     <div className="formWrap">
       <h3>Program Form</h3>

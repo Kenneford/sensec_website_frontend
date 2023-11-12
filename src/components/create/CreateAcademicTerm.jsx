@@ -71,11 +71,6 @@ export default function CreateAcademicTerm({ toast, toastOptions }) {
     navigate,
   ]);
 
-  setTimeout(() => {
-    if (createTermStatus === "success") {
-      window.location.reload();
-    }
-  }, 2000);
   return (
     <div className="formWrap">
       <h3>Academic Term Form</h3>

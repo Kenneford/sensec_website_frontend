@@ -83,12 +83,6 @@ export default function CreateYearGroup({ toast, toastOptions }) {
     dispatch(fetchAllYears());
   }, [dispatch]);
 
-  setTimeout(() => {
-    if (createStatus === "success") {
-      window.location.reload();
-    }
-  }, 2000);
-
   return (
     <div className="formWrap">
       <h3>Year Group's Form</h3>

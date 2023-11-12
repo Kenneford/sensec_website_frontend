@@ -17,6 +17,7 @@ import academicProgramReducer from "../features/academics/academicProgram/academ
 import electiveSubjectReducer from "../features/academics/createSubjects/electiveSubjectSlice";
 import coreSubjectReducer from "../features/academics/createSubjects/coreSubjectSlice";
 import TimeTableReducer from "../features/timeTable/timeTableSlice";
+import SchoolDataReducer from "../features/school/schoolSlice";
 // import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export const store = configureStore({
@@ -39,6 +40,7 @@ export const store = configureStore({
     yearGroup: yearGroupReducer,
     pendingStudentsData: PendingStudentDataReducer,
     timeTable: TimeTableReducer,
+    schoolData: SchoolDataReducer,
   },
   //   middleware: getDefaultMiddleware({
   //     serializableCheck: false,

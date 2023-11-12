@@ -39,9 +39,10 @@ export default function BlogItem({
   const [postOptions, setPostOptions] = useState(false);
   console.log(studentInfo);
   console.log(selectedPost);
+  console.log(allPosts);
 
   const reactions = like + love;
-  console.log(reactions);
+  // console.log(reactions);
 
   const navigate = useNavigate();
   // const dispatch = useDispatch();

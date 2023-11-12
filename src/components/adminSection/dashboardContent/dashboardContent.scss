@@ -205,6 +205,19 @@
                   // margin-bottom: 2rem;
                   font-weight: 500;
                 }
+                .editorBox {
+                  //style to hide tinyMCE logo on the editor
+                  .tox-statusbar {
+                    a,
+                    .tox-statusbar__help-text {
+                      display: none;
+                    }
+                    .tox-statusbar__text-container {
+                      display: flex;
+                      justify-content: space-between;
+                    }
+                  }
+                }
               }
               .noticeBtn {
                 width: 50%;

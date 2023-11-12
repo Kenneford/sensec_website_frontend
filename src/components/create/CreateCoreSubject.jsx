@@ -89,11 +89,6 @@ export default function CreateCoreSubject({ toast, toastOptions }) {
     dispatch(fetchAllAcademicTerms());
   }, [dispatch]);
 
-  setTimeout(() => {
-    if (createStatus === "success") {
-      window.location.reload();
-    }
-  }, 5000);
   return (
     <div className="formWrap">
       <h3>Core Subject Form</h3>

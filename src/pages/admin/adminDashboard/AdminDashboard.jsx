@@ -15,6 +15,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import TvIcon from "@mui/icons-material/Tv";
+import Diversity2Icon from "@mui/icons-material/Diversity2";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import DashboardContent from "../../../components/adminSection/dashboardContent/DashboardContent";
 import { Outlet } from "react-router-dom";
@@ -49,7 +50,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               openSidebar && authAdminInfo ? "adminLeft side" : "adminLeft"
             }
           >
-            <span
+            <button
               className="span"
               onClick={(e) => toggleSidebar(e)}
               style={{ cursor: "pointer", position: "relative" }}
@@ -59,7 +60,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               ) : (
                 <ArrowForwardIosIcon className="sideBarIcon" />
               )}
-            </span>
+            </button>
             <div className="adminInfo">
               <img src={authAdminInfo.profilePicture} alt="" />
               <div className="infoText">
@@ -71,7 +72,12 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               </div>
             </div>
             <div className="contentLinks">
-              <HashLink to={"/sensec/admin#admin"} className="links" smooth>
+              <HashLink
+                to={"/sensec/admin#admin"}
+                className="links"
+                smooth
+                title={openSidebar && "Dashboard"}
+              >
                 <TvIcon className="icon" />
                 <h4>Dashboard</h4>
               </HashLink>
@@ -79,6 +85,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/admin/create_data#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Create Data"}
               >
                 <ConstructionIcon />
                 <h4>Create</h4>
@@ -87,6 +94,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/admin/all_admins#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Admins"}
               >
                 <AdminPanelSettingsIcon />
                 <h4>Admins</h4>
@@ -95,6 +103,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/admin/staff_members#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Staff Members"}
               >
                 <Diversity3Icon />
                 <h4>Staff Members</h4>
@@ -103,12 +112,10 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/admin/all_teachers#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Teachers"}
               >
                 <div className="teacherIcons">
                   <SupervisedUserCircleIcon className="tvIcon" />
-                  {/* <PersonIcon
-                    style={{ backgroundColor: "#292929", zIndex: 1 }}
-                  /> */}
                 </div>
                 <h4>Teachers</h4>
               </HashLink>
@@ -116,14 +123,25 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/admin/students#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Students"}
               >
                 <SchoolOutlinedIcon />
                 <h4>Students</h4>
               </HashLink>
               <HashLink
+                to={"/sensec/admin/team#admin"}
+                className="links"
+                smooth
+                title={openSidebar && "Team"}
+              >
+                <Diversity2Icon />
+                <h4>Team</h4>
+              </HashLink>
+              <HashLink
                 to={"/sensec/admin/programs&subjects#admin"}
                 className="links"
                 smooth
+                title={openSidebar && "Programs/Subjects"}
               >
                 <AutoStoriesIcon />
                 {/* <HistoryEduIcon /> */}
@@ -142,12 +160,15 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 className="links"
                 smooth
                 scroll={scrollWithOffset}
+                title={openSidebar && "Notice"}
               >
                 <CampaignOutlinedIcon />
                 <h4>Notice</h4>
               </HashLink>
             </div>
-            <LogoutBtn openSidebar={openSidebar} />
+            <div className="sideBarLogoutBtn">
+              <LogoutBtn openSidebar={openSidebar} />
+            </div>
           </div>
           <div className={openSidebar ? "adminRight side" : "adminRight"}>
             <Outlet />

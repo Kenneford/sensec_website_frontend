@@ -72,11 +72,6 @@ export default function CreateAcademicYear({ toast, toastOptions }) {
     navigate,
   ]);
 
-  setTimeout(() => {
-    if (createStatus === "success") {
-      window.location.reload();
-    }
-  }, 2000);
   return (
     <div className="formWrap">
       <h3>Academic Year Form</h3>

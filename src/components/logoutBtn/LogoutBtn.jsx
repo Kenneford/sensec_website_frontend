@@ -82,7 +82,7 @@ export default function LogoutBtn({ openSidebar }) {
   return (
     <button
       //   style={{ color: "red" }}
-      className={!openSidebar ? "lgtBtn" : "lgtBtnClosedSideBar"}
+      className={!openSidebar ? "lgtBtn" : "lgtBtn closed"}
       onClick={handleLogout}
     >
       Logout

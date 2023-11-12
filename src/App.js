@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.scss";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -74,6 +74,16 @@ import AdminStudentsAttendance from "./components/adminSection/adminStudents/stu
 import CourseMates from "./components/studentSection/courseMates/CourseMates";
 import Blog from "./pages/blogs/Blog";
 import AllBlogs from "./pages/blogs/AllBlogs";
+import Timer from "./components/studentSection/weeklyLectures/timer/Timer";
+import CreateSchoolData from "./components/create/schoolData/CreateSchoolData";
+import CreateAcademicYear from "./components/create/CreateAcademicYear";
+import CreateYearGroup from "./components/create/CreateYearGroup";
+import CreateAcademicTerm from "./components/create/CreateAcademicTerm";
+import CreateClassLevel from "./components/create/CreateClassLevel";
+import CreateProgram from "./components/create/CreateProgram";
+import CreateClassSection from "./components/create/CreateClassSection";
+import CreateElectiveSubject from "./components/create/CreateElectiveSubject";
+import CreateCoreSubject from "./components/create/CreateCoreSubject";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -82,6 +92,7 @@ export default function App() {
   const authTeacherInfo = useSelector(getTeacherInfo);
   console.log(authStaffInfo);
   console.log(authAdminInfo);
+
   const [openLogin, setOpenLogin] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -91,11 +102,9 @@ export default function App() {
   const [level200, setLevel200] = useState(false);
   const [level300, setLevel300] = useState(false);
   const [isGraduated, setIsGraduated] = useState(false);
-  const [currentNewStudent] = useState(
-    localStorage.getItem("newStudentRegisteredId")
-  );
+  const currentNewStudent = localStorage.getItem("newStudentRegisteredId");
   console.log(currentNewStudent);
-  const toggleSidebar = (e) => setOpenSidebar(!openSidebar);
+  const toggleSidebar = () => setOpenSidebar(!openSidebar);
 
   const navigate = useNavigate();
 
@@ -198,6 +207,7 @@ export default function App() {
         <Route path="/sensec/email" element={<EmailTemplate />} />
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
+        <Route exact path="/sensec/timer" element={<Timer />} />
         <Route
           exact
           path="/sensec/blogs"
@@ -328,7 +338,7 @@ export default function App() {
                 toast={toast}
               />
             ) : (
-              <Navigate to={"/sensec/admins/login"} />
+              <Navigate to={"/sensec/admin/login"} />
             )
           }
         >
@@ -342,6 +352,7 @@ export default function App() {
               />
             }
           />
+          {/* Admin Creating Datas Routes */}
           <Route
             exact
             path="/sensec/admin/create_data"
@@ -352,7 +363,99 @@ export default function App() {
                 toast={toast}
               />
             }
-          />
+          >
+            {/* <Route index element={<CreateNewData />} /> */}
+            <Route
+              path="/sensec/admin/create_data/academic_year"
+              element={
+                <CreateAcademicYear
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/year_group"
+              element={
+                <CreateYearGroup
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/academic_term"
+              element={
+                <CreateAcademicTerm
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/class_level"
+              element={
+                <CreateClassLevel
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/program"
+              element={
+                <CreateProgram
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/class_section"
+              element={
+                <CreateClassSection
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/elective_subject"
+              element={
+                <CreateElectiveSubject
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/core_subject"
+              element={
+                <CreateCoreSubject
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/create_data/school_data"
+              element={
+                <CreateSchoolData
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+          </Route>
           <Route
             exact
             path="/sensec/admin/all_admins"
