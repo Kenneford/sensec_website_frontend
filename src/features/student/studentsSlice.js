@@ -59,10 +59,7 @@ export const studentRegistory = createAsyncThunk(
         data
       );
       console.log(res.data);
-      localStorage.setItem(
-        "newStudentRegisteredId",
-        res.data.student.studentId
-      );
+      localStorage.setItem("newStudentRegisteredId", res.data.student.uniqueId);
       return res.data;
     } catch (error) {
       console.log(error.response.data);
@@ -124,7 +121,7 @@ export const studentUpdate = createAsyncThunk(
       homeTown,
       region,
       email,
-      studentId,
+      uniqueId,
       role,
       currentClassLevel,
       program,
@@ -198,7 +195,7 @@ export const studentUpdate = createAsyncThunk(
           homeTown,
           region,
           email,
-          studentId,
+          uniqueId,
           role,
           currentClassLevel,
           program,
@@ -381,9 +378,9 @@ export const fetchGraduates = createAsyncThunk(
 );
 export const fetchSingleStudent = createAsyncThunk(
   "Student/fetchSingleStudent",
-  async (studentId) => {
+  async (uniqueId) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/students/get_single_student/${studentId}`
+      `${API_ENDPOINT}/students/get_single_student/${uniqueId}`
     );
     console.log(response.data);
     return response.data;
@@ -432,7 +429,7 @@ const studentSlice = createSlice({
         homeTown,
         region,
         email,
-        studentId,
+        uniqueId,
         role,
         currentClassLevel,
         program,
@@ -468,7 +465,7 @@ const studentSlice = createSlice({
         updatedStudent.homeTown = homeTown;
         updatedStudent.region = region;
         updatedStudent.email = email;
-        updatedStudent.studentId = studentId;
+        updatedStudent.uniqueId = uniqueId;
         updatedStudent.role = role;
         updatedStudent.currentClassLevel = currentClassLevel;
         updatedStudent.program = program;

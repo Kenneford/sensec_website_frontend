@@ -62,9 +62,7 @@ export default function AdminUpdateStudent({
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
-  const selectedStudent = allStudents.find(
-    (std) => std.studentId === studentId
-  );
+  const selectedStudent = allStudents.find((std) => std.uniqueId === studentId);
   console.log(selectedStudent);
   // const [student] = useState(selectedStudent);
   // console.log(student);
@@ -274,9 +272,9 @@ export default function AdminUpdateStudent({
                       className="idInput"
                       type="text"
                       name="studentId"
-                      placeholder={updatedStudent?.studentId}
+                      placeholder={updatedStudent?.uniqueId}
                       onChange={handleInputValues}
-                      value={updatedStudent?.studentId}
+                      value={updatedStudent?.uniqueId}
                       disabled="disabled"
                     />
                   </div>

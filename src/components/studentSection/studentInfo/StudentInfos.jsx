@@ -28,8 +28,8 @@ export default function StudentInfos({ toast }) {
   const parents = studentInfo?.parents;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { studentId } = useParams();
-  console.log(studentId);
+  const { uniqueId } = useParams();
+  console.log(uniqueId);
   console.log(studentInfo);
 
   const [loadProfileImage, setLoadProfileImage] = useState("");
@@ -105,7 +105,7 @@ export default function StudentInfos({ toast }) {
   const handleImageUpdate = () => {
     dispatch(
       studentUpdateImage({
-        id: studentInfo.studentId,
+        id: studentInfo.uniqueId,
         firstName: studentInfo.firstName,
         lastName: studentInfo.lastName,
         profilePicture: loadProfileImage,
@@ -146,8 +146,8 @@ export default function StudentInfos({ toast }) {
   ]);
 
   useEffect(() => {
-    dispatch(fetchSingleStudent(studentId));
-  }, [dispatch, studentId]);
+    dispatch(fetchSingleStudent(uniqueId));
+  }, [dispatch, uniqueId]);
   return (
     <div id="studentInfo">
       <div className="downloadWrap">
@@ -269,14 +269,14 @@ export default function StudentInfos({ toast }) {
             </h1>
             <div className="studentId">
               <h3>ID: </h3>
-              <p>{studentInfo.studentId}</p>
+              <p>{studentInfo.uniqueId}</p>
             </div>
             {authenticated && (
               <button
                 className="studentUpdateBtn"
                 onClick={() =>
                   navigate(
-                    `/sensec/student/update_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                    `/sensec/student/update_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.uniqueId}`
                   )
                 }
               >
@@ -325,7 +325,7 @@ export default function StudentInfos({ toast }) {
                 <th className="tableHearder">Enrolled Date</th>
               </tr>
               <tr>
-                <td className="alignTextLeft">{studentInfo.studentId}</td>
+                <td className="alignTextLeft">{studentInfo.uniqueId}</td>
                 <td className="alignTextLeft">
                   {studentInfo.currentClassLevel?.name === "Level_100" &&
                     "Level 100"}

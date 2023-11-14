@@ -545,20 +545,18 @@ export default function AdminEmployment({ toast, toastOptions }) {
           </div>
         </div>
       </div>
-      <div className="addStudentBtn">
-        <div className="addStudentBtnWrap">
-          <button
-            className="addStudentBtn"
-            type="submit"
-            disabled={!canSave || registerAdminStatus === "pending"}
-          >
-            {registerAdminStatus === "pending" ? (
-              <CircularProgress style={{ color: "white", size: "20px" }} />
-            ) : (
-              "Add Member"
-            )}
-          </button>
-        </div>
+      <div className="addStudentBtnWrap">
+        <button
+          className="addStudentBtn"
+          type="submit"
+          disabled={!canSave || registerAdminStatus === "pending"}
+        >
+          {registerAdminStatus === "pending" ? (
+            <CircularProgress style={{ color: "white", size: "20px" }} />
+          ) : (
+            "Add Member"
+          )}
+        </button>
       </div>
     </form>
   );

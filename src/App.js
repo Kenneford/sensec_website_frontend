@@ -32,7 +32,7 @@ import { getStaffInfo } from "./features/staff/staffSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AllStaffMembers from "./components/adminSection/adminStaff/allStaffMembers/AllStaffMembers";
-import AddStaffMember from "./components/adminSection/adminStaff/addStaffMember/AddStaffMember";
+import AddStaffMember from "./components/adminSection/adminStaff/newRegistration/NewRegistration";
 import UpdateStudent from "./components/adminSection/adminStudents/updateStudent/AdminUpdateStudent";
 import GeneralNotice from "./pages/notice/GeneralNotice";
 import AllNotices from "./components/noticeSection/AllNotices";
@@ -84,6 +84,12 @@ import CreateProgram from "./components/create/CreateProgram";
 import CreateClassSection from "./components/create/CreateClassSection";
 import CreateElectiveSubject from "./components/create/CreateElectiveSubject";
 import CreateCoreSubject from "./components/create/CreateCoreSubject";
+import PublicBlogs from "./pages/blogs/PublicBlogs";
+import AllPublicBlogs from "./pages/blogs/AllPublicBlogs";
+import AdminEmployment from "./components/adminSection/adminEmployment/AdminEmploymentForm";
+import TeacherEmploymentForm from "./components/adminSection/teacherEmploymentForm/TeacherEmploymentForm";
+import NonTeachingEmploymentForm from "./components/adminSection/nonTeachingEmploymentForm/NonTeachingEmploymentForm";
+import NewRegistration from "./components/adminSection/adminStaff/newRegistration/NewRegistration";
 
 export default function App() {
   const studentInfo = useSelector(getStudentInfo);
@@ -92,6 +98,8 @@ export default function App() {
   const authTeacherInfo = useSelector(getTeacherInfo);
   console.log(authStaffInfo);
   console.log(authAdminInfo);
+  const authUser =
+    authAdminInfo || studentInfo || authTeacherInfo || authStaffInfo;
 
   const [openLogin, setOpenLogin] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
@@ -120,58 +128,6 @@ export default function App() {
     }
   };
 
-  const handleFirstYears = () => {
-    setLevel100(
-      !level100,
-      setLevel200(false),
-      setLevel300(false),
-      setIsGraduated(false)
-    );
-    if (!level100) {
-      navigate(`/sensec/admin/students/first_year_students`);
-    } else {
-      navigate(`/sensec/admin/students`);
-    }
-  };
-  const handleSecondYears = () => {
-    setLevel200(
-      !level200,
-      setLevel100(false),
-      setLevel300(false),
-      setIsGraduated(false)
-    );
-    if (!level200) {
-      navigate(`/sensec/admin/students/second_year_students`);
-    } else {
-      navigate(`/sensec/admin/students`);
-    }
-  };
-  const handleThirdYears = () => {
-    setLevel300(
-      !level300,
-      setLevel100(false),
-      setLevel200(false),
-      setIsGraduated(false)
-    );
-    if (!level300) {
-      navigate(`/sensec/admin/students?batch=3rd_Years`);
-    } else {
-      navigate(`/sensec/admin/students`);
-    }
-  };
-  const handleOldStudents = () => {
-    setIsGraduated(
-      !isGraduated,
-      setLevel100(false),
-      setLevel200(false),
-      setLevel300(false)
-    );
-    if (!isGraduated) {
-      navigate(`/sensec/admin/students/old_students`);
-    } else {
-      navigate(`/sensec/admin/students`);
-    }
-  };
   const openChat = () => setOpenChatBox(!openChatBox);
   const toastOptions = {
     position: "bottom-right",
@@ -208,49 +164,54 @@ export default function App() {
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/timer" element={<Timer />} />
-        <Route
-          exact
-          path="/sensec/blogs"
-          element={
-            <Blog
-              openSidebar={openSidebar}
-              toastOptions={toastOptions}
-              toast={toast}
-              setPostOptions={setPostOptions}
-              postOptions={postOptions}
-              clearLogOptions={clearLogOptions}
-              toggleSidebar={toggleSidebar}
-            />
-          }
-        >
-          <Route
-            index
-            element={
-              <AllBlogs
-                openSidebar={openSidebar}
-                toastOptions={toastOptions}
-                toast={toast}
-                setPostOptions={setPostOptions}
-                postOptions={postOptions}
-                clearLogOptions={clearLogOptions}
-              />
-            }
-          />
+        {!authUser && (
+          <Route exact path="/sensec/blogs" element={<AllPublicBlogs />} />
+        )}
+        {authUser && (
           <Route
             exact
-            path="/sensec/blogs/blog_overview/:blogId"
+            path="/sensec/blogs"
             element={
-              <SingleBlog
+              <Blog
                 openSidebar={openSidebar}
                 toastOptions={toastOptions}
                 toast={toast}
                 setPostOptions={setPostOptions}
                 postOptions={postOptions}
                 clearLogOptions={clearLogOptions}
+                toggleSidebar={toggleSidebar}
               />
             }
-          />
-        </Route>
+          >
+            <Route
+              index
+              element={
+                <AllBlogs
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                  setPostOptions={setPostOptions}
+                  postOptions={postOptions}
+                  clearLogOptions={clearLogOptions}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/sensec/blogs/blog_overview/:blogId"
+              element={
+                <SingleBlog
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                  setPostOptions={setPostOptions}
+                  postOptions={postOptions}
+                  clearLogOptions={clearLogOptions}
+                />
+              }
+            />
+          </Route>
+        )}
         <Route
           exact
           path="/sensec/contact"
@@ -469,15 +430,56 @@ export default function App() {
           />
           <Route
             exact
-            path="/sensec/admin/add_staff_member"
+            path="/sensec/admin/register"
             element={
-              <AddStaffMember
+              <NewRegistration
                 openSidebar={openSidebar}
                 toastOptions={toastOptions}
                 toast={toast}
               />
             }
-          />
+          >
+            <Route
+              path="/sensec/admin/register/new_student"
+              element={
+                <AdminStudentAdd
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/register/new_admin"
+              element={
+                <AdminEmployment
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/register/new_teacher"
+              element={
+                <TeacherEmploymentForm
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+            <Route
+              path="/sensec/admin/register/new_non_teacheing_staff"
+              element={
+                <NonTeachingEmploymentForm
+                  openSidebar={openSidebar}
+                  toastOptions={toastOptions}
+                  toast={toast}
+                />
+              }
+            />
+          </Route>
           <Route
             exact
             path="/sensec/admin/staff_members"
@@ -683,22 +685,22 @@ export default function App() {
           />
           <Route
             exact
-            path="/sensec/student/:studentId/attendance"
+            path="/sensec/student/:uniqueId/attendance"
             element={<StudentsAttendance openSidebar={openSidebar} />}
           />
           <Route
             exact
-            path="/sensec/student/student_info/:student_name/:studentId"
+            path="/sensec/student/student_info/:student_name/:uniqueId"
             element={<StudentInfos toastOptions={toastOptions} toast={toast} />}
           />
           <Route
             exact
-            path="/sensec/student/:studentId/coursemates/:programName"
+            path="/sensec/student/:uniqueId/coursemates/:programName"
             element={<CourseMates toastOptions={toastOptions} toast={toast} />}
           />
           <Route
             exact
-            path="/sensec/student/update_info/:student_name/:studentId"
+            path="/sensec/student/update_info/:student_name/:uniqueId"
             element={
               <StudentUpdateSelf toastOptions={toastOptions} toast={toast} />
             }

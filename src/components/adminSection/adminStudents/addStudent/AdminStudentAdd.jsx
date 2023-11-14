@@ -69,7 +69,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     homeTown: "",
     region: "",
     email: "",
-    studentId: `STDSSHS-${num}-${currentYear}`,
+    uniqueId: `STDSSHS-${num}-${currentYear}`,
     role: "",
     currentClassLevel: "",
     program: "",
@@ -225,7 +225,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     formData.append("homeTown", newStudent.homeTown);
     formData.append("region", newStudent.region);
     formData.append("email", newStudent.email);
-    formData.append("studentId", newStudent.studentId);
+    formData.append("uniqueId", newStudent.uniqueId);
     formData.append("role", newStudent.role);
     formData.append("currentClassLevel", newStudent.currentClassLevel);
     formData.append("program", newStudent.program);
@@ -279,7 +279,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
         password: "",
         confirmPassword: "",
         email: "",
-        studentId: "",
+        uniqueId: "",
         academicYear: "",
         program: "",
         role: "",
@@ -323,7 +323,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
 
   const copyToClipboard = (e) => {
     e.preventDefault();
-    let copyText = newStudent.studentId;
+    let copyText = newStudent.uniqueId;
     let isCopy = copy(copyText);
     if (isCopy) {
       toast.success("Copied to Clipboard");
@@ -414,559 +414,468 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
                     {/* <ContentCopyIcon onClick={copyToClipboard} /> */}
                     <h3>Academic Year ID</h3>
                     <div className="academicYear">
-                      <label htmlFor="academicYear">Academic Year</label>
-                      <select
-                        className="select"
-                        value={newStudent.academicYear}
-                        onChange={handleInputValues}
-                        name="academicYear"
-                      >
-                        {academicYearOptions.map((academicYear) => (
-                          <option
-                            key={academicYear.label}
-                            value={academicYear.value}
-                            className="selectOptions"
-                          >
-                            {academicYear.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* <input
-                      className="idInput"
-                      type="text"
-                      name="academicYear"
-                      onChange={handleInputValues}
-                      // value={newStudent.studentId}
-                      value={newStudent.academicYear}
-                    /> */}
-                  </div>
-                </div>
-              </div>
-              <div className="profileDateWrap">
-                <h3>Student's Profile</h3>
-                <div className="date">
-                  <h3>Date:</h3>
-                  <input
-                    className="dateInput"
-                    type="text"
-                    name="dateEnrolled"
-                    onChange={handleInputValues}
-                    value={newStudent.dateEnrolled}
-                  />
-                </div>
-              </div>
-              <div className="studentDetails">
-                <div className="left">
-                  <div className="inputField">
-                    <label htmlFor="firstName">First Name</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="firstName"
-                      value={newStudent.firstName}
+    <form onSubmit={handleRegister}>
+      <div className="studentProfile">
+        <div className="title">
+          <div className="studentImageWrap">
+            <div className="file">
+              <label htmlFor="profilePicture" className="profileImageUpload">
+                <>
+                  {loadProfileImage ? (
+                    <img
+                      className="profileImg"
+                      src={
+                        loadProfileImage
+                          ? loadProfileImage
+                          : "/assets/noAvatar.png"
+                      }
+                      alt=""
                     />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="lastName">Surname</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="lastName"
-                      value={newStudent.lastName}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="dateOfBirth">Date Of Birth</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="dateOfBirth"
-                      value={newStudent.dateOfBirth}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="placeOfBirth">Place Of Birth</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="placeOfBirth"
-                      value={newStudent.placeOfBirth}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="homeTown">Home Town</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="homeTown"
-                      value={newStudent.homeTown}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="district">District</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="district"
-                      value={newStudent.district}
-                    />
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="region">Region</label>
-                    <select
-                      className="select"
-                      value={newStudent.region}
-                      onChange={handleInputValues}
-                      name="region"
-                      id=""
-                    >
-                      {regionOptions.map((region) => (
-                        <option
-                          key={region.label}
-                          value={region.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {region.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* <div className="selector">
-                    <label htmlFor="currentClassLevel">Class Level:</label>
-                    <Select
-                      name="currentClassLevel"
-                      id="selector"
-                      // defaultValue={classLevelOptions[0]}
-                      options={classLevelOptions}
-                      onChange={handleClassLevelInput}
-                      styles={selectorStyles}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        colors: {
-                          ...theme.colors,
-                          primary25: "#696969",
-                          primary: "#696969",
-                        },
-                      })}
-                    />
-                  </div> */}
-                  <div className="inputField">
-                    <label htmlFor="jhsAttended">JHS Attended</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="jhsAttended"
-                      value={newStudent.jhsAttended}
-                    />
-                  </div>
-                  {/* <div className="inputField">
-                    <label htmlFor="classLevel">Form (Class Level)</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="classLevel"
-                      value={newStudent.classLevel}
-                    />
-                  </div> */}
-                  {/* <p>{selectedclassLevel} classLevel</p> */}
-                </div>
-                <div className="middle">
-                  <div className="inputField">
-                    <label htmlFor="shsAttended">SHS Attended</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="shsAttended"
-                      value={newStudent.shsAttended}
-                    />
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="role">Role</label>
-                    <select
-                      className="select"
-                      value={newStudent.role}
-                      onChange={handleInputValues}
-                      name="role"
-                    >
-                      {studentRoleOptions.map((role) => (
-                        <option
-                          key={role.label}
-                          value={role.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {role.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="currentClassLevel">Class Level</label>
-                    <select
-                      className="select"
-                      value={newStudent.currentClassLevel}
-                      onChange={handleInputValues}
-                      name="currentClassLevel"
-                      id=""
-                    >
-                      {classLevelOptions.map((classLevel) => (
-                        <option
-                          key={classLevel.label}
-                          value={classLevel.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {classLevel.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="program">Program</label>
-                    <select
-                      className="select"
-                      value={newStudent.program}
-                      onChange={handleInputValues}
-                      name="program"
-                      id=""
-                    >
-                      {programOptions.map((program) => (
-                        <option
-                          key={program.label}
-                          value={program.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {program.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* <div className="inputField">
-                    <label htmlFor="program">Program</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="program"
-                      value={newStudent.program}
-                    />
-                  </div> */}
-                  <div className="inputField">
-                    <label htmlFor="currentCity">Current City</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="currentCity"
-                      value={newStudent.currentCity}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="nationality">Nationality</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="nationality"
-                      value={newStudent.nationality}
-                    />
-                  </div>
-                  {/* <div className="sexField">
-                    <div className="genderWrap">
-                      <label htmlFor="nationality">Gender:</label>
-                      <div className="genderCont">
-                        <div className="radioGap">
-                          <label
-                            htmlFor="male"
-                            style={{
-                              color: "#696969",
-                              marginRight: "5px",
-                            }}
-                          >
-                            Male
-                          </label>
-                          <input
-                            type="radio"
-                            onChange={handleInputValues}
-                            name="isMale"
-                            value={true}
-                            style={{ outline: "none" }}
-                            checked={newStudent.isMale === "true"}
-                          />
-                        </div>
-                        <div className="radioGap">
-                          <label
-                            htmlFor="female"
-                            style={{
-                              color: "#696969",
-                              outline: "none",
-                              marginRight: "5px",
-                            }}
-                          >
-                            Female
-                          </label>
-                          <input
-                            type="radio"
-                            onChange={handleInputValues}
-                            name="isMale"
-                            value={false}
-                            style={{ outline: "none" }}
-                            checked={newStudent.isMale === "false"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-                  <div className="selector">
-                    <label htmlFor="gender">Gender</label>
-                    <select
-                      className="select"
-                      value={newStudent.gender}
-                      onChange={handleInputValues}
-                      name="gender"
-                      id=""
-                    >
-                      {genderOptions.map((gender) => (
-                        <option
-                          key={gender.label}
-                          value={gender.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {gender.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="address">Residential Address</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="address"
-                      value={newStudent.address}
-                    />
-                  </div>
-                  {/* <div className="selector">
-                    <label htmlFor="religion">Religion</label>
-                    <select
-                      className="select"
-                      value={newStudent.religion}
-                      onChange={handleInputValues}
-                      name="religion"
-                    >
-                      {religionOptions.map((r) => (
-                        <option
-                          key={r.label}
-                          value={r.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {r.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div> */}
-                </div>
-                <div className="right">
-                  <div className="inputField">
-                    <label htmlFor="motherTongue">Mother Tongue</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="motherTongue"
-                      value={newStudent.motherTongue}
-                    />
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="otherTongue">Other Tongues</label>
-                    <select
-                      className="select"
-                      value={newStudent.otherTongue}
-                      onChange={handleInputValues}
-                      name="otherTongue"
-                    >
-                      {otherTongueOptions.map((otherTongue) => (
-                        <option
-                          key={otherTongue.label}
-                          value={otherTongue.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {otherTongue.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* <div className="selector">
-                    <label htmlFor="otherTongue">Other Language(s)</label>
-                    <CreatableSelect
-                      name="otherTongue"
-                      id="selector"
-                      isMulti={true}
-                      options={otherTongueOptions}
-                      onChange={handleotherTongueInput}
-                      styles={selectorStyles}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        colors: {
-                          ...theme.colors,
-                          primary25: "#696969",
-                          primary: "#696969",
-                        },
-                      })}
-                    />
-                  </div> */}
-                  {/* <div className="selector">
-                    <label htmlFor="complexion">Complexion</label>
-                    <Select
-                      name="complexion"
-                      id="selector"
-                      options={complexionOptions}
-                      onChange={handleComplexionInput}
-                      styles={selectorStyles}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        colors: {
-                          ...theme.colors,
-                          primary25: "#696969",
-                          primary: "#696969",
-                        },
-                      })}
-                    />
-                  </div> */}
-                  <div className="selector">
-                    <label htmlFor="complexion">Complexion</label>
-                    <select
-                      className="select"
-                      value={newStudent.complexion}
-                      onChange={handleInputValues}
-                      name="complexion"
-                      id=""
-                    >
-                      {complexionOptions.map((complexion) => (
-                        <option
-                          key={complexion.label}
-                          value={complexion.value}
-                          style={{
-                            backgroundColor: "#292929",
-                            color: "#fff",
-                          }}
-                        >
-                          {complexion.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="height">Height(M)</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="height"
-                      value={newStudent.height}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="weight">Weight(kg)</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="weight"
-                      value={newStudent.weight}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="text"
-                      onChange={handleInputValues}
-                      name="email"
-                      value={newStudent.email}
-                    />
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type={showpass ? "text" : "password"}
-                      onChange={handleInputValues}
-                      name="password"
-                      value={newStudent.password}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        width: "30px",
-                      }}
-                      onClick={showPassword}
-                    >
-                      {showpass ? (
-                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
-                      ) : (
-                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
+                  ) : (
+                    <>
+                      {newStudent.gender === "Male" && (
+                        <img
+                          className="profileImg"
+                          src={"/assets/maleAvatar.png"}
+                          alt=""
+                        />
                       )}
-                    </div>
-                  </div>
-                  <div className="inputField">
-                    <label htmlFor="password">Confirm Password</label>
-                    <input
-                      type={showConfirmpass ? "text" : "password"}
-                      onChange={handleInputValues}
-                      name="confirmPassword"
-                      value={newStudent.confirmPassword}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        width: "30px",
-                      }}
-                      onClick={showConfirmPassword}
-                    >
-                      {showConfirmpass ? (
-                        <VisibilityIcon style={{ color: "#a8a6a6" }} />
-                      ) : (
-                        <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
+                      {newStudent.gender === "Female" && (
+                        <img
+                          className="profileImg"
+                          src={"/assets/femaleAvatar.png"}
+                          alt=""
+                        />
                       )}
-                    </div>
-                  </div>
-                </div>
+                      {!loadProfileImage && !newStudent.gender && (
+                        <img
+                          className="profileImg"
+                          src={"/assets/noAvatar.png"}
+                          alt=""
+                        />
+                      )}
+                    </>
+                  )}
+                </>
+              </label>
+              <input
+                style={{ display: "none" }}
+                type="file"
+                onChange={handleImageFileUpload}
+                name="profilePicture"
+                id="profilePicture"
+                accept=".png,.jpeg,.jpg"
+              />
+            </div>
+            <div className="studentId">
+              <h3>Student ID</h3>
+              <input
+                className="idInput"
+                type="text"
+                name="uniqueId"
+                onChange={handleInputValues}
+                value={newStudent.uniqueId}
+              />
+              {/* <button onClick={copyToClipboard}>Copy</button> */}
+              {/* <ContentCopyIcon onClick={copyToClipboard} /> */}
+              <h3>Academic Year ID</h3>
+              <div className="academicYear">
+                <label htmlFor="academicYear">Academic Year</label>
+                <select
+                  className="select"
+                  value={newStudent.academicYear}
+                  onChange={handleInputValues}
+                  name="academicYear"
+                >
+                  {academicYearOptions.map((academicYear) => (
+                    <option
+                      key={academicYear.label}
+                      value={academicYear.value}
+                      className="selectOptions"
+                    >
+                      {academicYear.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-            <div className="addStudentBtnWrap">
-              <button
-                className="addStudentBtn"
-                type="submit"
-                disabled={!canSave || registerStudentStatus === "pending"}
+          </div>
+        </div>
+        <div className="profileDateWrap">
+          <h3>Student's Profile</h3>
+          <div className="date">
+            <h3>Date:</h3>
+            <input
+              className="dateInput"
+              type="text"
+              name="dateEnrolled"
+              onChange={handleInputValues}
+              value={newStudent.dateEnrolled}
+            />
+          </div>
+        </div>
+        <div className="studentDetails">
+          <div className="left">
+            <div className="inputField">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="firstName"
+                value={newStudent.firstName}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="lastName">Surname</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="lastName"
+                value={newStudent.lastName}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="dateOfBirth">Date Of Birth</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="dateOfBirth"
+                value={newStudent.dateOfBirth}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="placeOfBirth">Place Of Birth</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="placeOfBirth"
+                value={newStudent.placeOfBirth}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="homeTown">Home Town</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="homeTown"
+                value={newStudent.homeTown}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="district">District</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="district"
+                value={newStudent.district}
+              />
+            </div>
+            <div className="selector">
+              <label htmlFor="region">Region</label>
+              <select
+                className="select"
+                value={newStudent.region}
+                onChange={handleInputValues}
+                name="region"
+                id=""
               >
-                {registerStudentStatus === "pending" ? (
-                  <CircularProgress style={{ color: "white", size: "20px" }} />
-                ) : (
-                  "Add Student"
-                )}
-              </button>
+                {regionOptions.map((region) => (
+                  <option
+                    key={region.label}
+                    value={region.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {region.label}
+                  </option>
+                ))}
+              </select>
             </div>
-          </form>
+            <div className="inputField">
+              <label htmlFor="jhsAttended">JHS Attended</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="jhsAttended"
+                value={newStudent.jhsAttended}
+              />
+            </div>
+          </div>
+          <div className="middle">
+            <div className="inputField">
+              <label htmlFor="shsAttended">SHS Attended</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="shsAttended"
+                value={newStudent.shsAttended}
+              />
+            </div>
+            <div className="selector">
+              <label htmlFor="role">Role</label>
+              <select
+                className="select"
+                value={newStudent.role}
+                onChange={handleInputValues}
+                name="role"
+              >
+                {studentRoleOptions.map((role) => (
+                  <option
+                    key={role.label}
+                    value={role.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {role.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="selector">
+              <label htmlFor="currentClassLevel">Class Level</label>
+              <select
+                className="select"
+                value={newStudent.currentClassLevel}
+                onChange={handleInputValues}
+                name="currentClassLevel"
+                id=""
+              >
+                {classLevelOptions.map((classLevel) => (
+                  <option
+                    key={classLevel.label}
+                    value={classLevel.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {classLevel.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="selector">
+              <label htmlFor="program">Program</label>
+              <select
+                className="select"
+                value={newStudent.program}
+                onChange={handleInputValues}
+                name="program"
+                id=""
+              >
+                {programOptions.map((program) => (
+                  <option
+                    key={program.label}
+                    value={program.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {program.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="inputField">
+              <label htmlFor="currentCity">Current City</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="currentCity"
+                value={newStudent.currentCity}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="nationality">Nationality</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="nationality"
+                value={newStudent.nationality}
+              />
+            </div>
+            <div className="selector">
+              <label htmlFor="gender">Gender</label>
+              <select
+                className="select"
+                value={newStudent.gender}
+                onChange={handleInputValues}
+                name="gender"
+                id=""
+              >
+                {genderOptions.map((gender) => (
+                  <option
+                    key={gender.label}
+                    value={gender.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {gender.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="inputField">
+              <label htmlFor="address">Residential Address</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="address"
+                value={newStudent.address}
+              />
+            </div>
+          </div>
+          <div className="right">
+            <div className="inputField">
+              <label htmlFor="motherTongue">Mother Tongue</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="motherTongue"
+                value={newStudent.motherTongue}
+              />
+            </div>
+            <div className="selector">
+              <label htmlFor="otherTongue">Other Tongues</label>
+              <select
+                className="select"
+                value={newStudent.otherTongue}
+                onChange={handleInputValues}
+                name="otherTongue"
+              >
+                {otherTongueOptions.map((otherTongue) => (
+                  <option
+                    key={otherTongue.label}
+                    value={otherTongue.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {otherTongue.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="selector">
+              <label htmlFor="complexion">Complexion</label>
+              <select
+                className="select"
+                value={newStudent.complexion}
+                onChange={handleInputValues}
+                name="complexion"
+                id=""
+              >
+                {complexionOptions.map((complexion) => (
+                  <option
+                    key={complexion.label}
+                    value={complexion.value}
+                    style={{
+                      backgroundColor: "#292929",
+                      color: "#fff",
+                    }}
+                  >
+                    {complexion.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="inputField">
+              <label htmlFor="height">Height(M)</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="height"
+                value={newStudent.height}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="weight">Weight(kg)</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="weight"
+                value={newStudent.weight}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                onChange={handleInputValues}
+                name="email"
+                value={newStudent.email}
+              />
+            </div>
+            <div className="inputField">
+              <label htmlFor="password">Password</label>
+              <input
+                type={showpass ? "text" : "password"}
+                onChange={handleInputValues}
+                name="password"
+                value={newStudent.password}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  right: "1rem",
+                  width: "30px",
+                }}
+                onClick={showPassword}
+              >
+                {showpass ? (
+                  <VisibilityIcon style={{ color: "#a8a6a6" }} />
+                ) : (
+                  <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
+                )}
+              </div>
+            </div>
+            <div className="inputField">
+              <label htmlFor="password">Confirm Password</label>
+              <input
+                type={showConfirmpass ? "text" : "password"}
+                onChange={handleInputValues}
+                name="confirmPassword"
+                value={newStudent.confirmPassword}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  right: "1rem",
+                  width: "30px",
+                }}
+                onClick={showConfirmPassword}
+              >
+                {showConfirmpass ? (
+                  <VisibilityIcon style={{ color: "#a8a6a6" }} />
+                ) : (
+                  <VisibilityOffIcon style={{ color: "#a8a6a6" }} />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="addStudentBtnWrap">
+        <button
+          className="addStudentBtn"
+          type="submit"
+          disabled={!canSave || registerStudentStatus === "pending"}
+        >
+          {registerStudentStatus === "pending" ? (
+            <CircularProgress style={{ color: "white", size: "20px" }} />
+          ) : (
+            "Add Student"
+          )}
+        </button>
+      </div>
+    </form>
   );
 }

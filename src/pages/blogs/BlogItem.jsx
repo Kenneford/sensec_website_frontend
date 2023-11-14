@@ -16,6 +16,7 @@ import axios from "axios";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { getTeacherInfo } from "../../features/teacher/teachersSlice";
 import Parser from "html-react-parser";
+import PropTypes from "prop-types";
 
 export default function BlogItem({
   post,

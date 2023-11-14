@@ -73,9 +73,9 @@ export const fetchClassAttendances = createAsyncThunk(
 );
 export const fetchSingleStudentAttendance = createAsyncThunk(
   "Attendance/fetchSingleStudentAttendance",
-  async (studentId) => {
+  async (uniqueId) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/students/attendance/${studentId}`
+      `${API_ENDPOINT}/students/attendance/${uniqueId}`
     );
     // const students = response.data;
     console.log(response.data);
@@ -85,9 +85,9 @@ export const fetchSingleStudentAttendance = createAsyncThunk(
 
 export const fetchStudentPresentAttendance = createAsyncThunk(
   "Attendance/fetchStudentPresentAttendance",
-  async (studentId) => {
+  async (uniqueId) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/students/attendance/${studentId}/present`
+      `${API_ENDPOINT}/students/attendance/${uniqueId}/present`
     );
     // const students = response.data;
     console.log(response.data);
@@ -97,9 +97,9 @@ export const fetchStudentPresentAttendance = createAsyncThunk(
 
 export const fetchStudentAbsentAttendance = createAsyncThunk(
   "Attendance/fetchStudentAbsentAttendance",
-  async (studentId) => {
+  async (uniqueId) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/students/attendance/${studentId}/absent`
+      `${API_ENDPOINT}/students/attendance/${uniqueId}/absent`
     );
     // const students = response.data;
     console.log(response.data);
@@ -109,9 +109,9 @@ export const fetchStudentAbsentAttendance = createAsyncThunk(
 
 export const fetchStudentHolidayAttendance = createAsyncThunk(
   "Attendance/fetchStudentHolidayAttendance",
-  async (studentId) => {
+  async (uniqueId) => {
     const response = await axios.get(
-      `${API_ENDPOINT}/students/attendance/${studentId}/holiday`
+      `${API_ENDPOINT}/students/attendance/${uniqueId}/holiday`
     );
     // const students = response.data;
     console.log(response.data);

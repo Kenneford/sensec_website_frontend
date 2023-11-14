@@ -42,8 +42,8 @@ export const classSectionLabelOptions = [
 ];
 export const academicYearOptions = [
   { value: "Select", label: "Select" },
-  { value: "64cff5e79e1d6d39b72d6c3d", label: "2023-2026" },
-  // { value: "64bc5b0324b0183b8ede8939", label: "2024-2027" },
+  { value: "65528bac28a52cb317cbdbf2", label: "2023-2026" },
+  { value: "65528c1428a52cb317cbdbfc", label: "2024-2027" },
   // { value: "64bc5b2824b0183b8ede893f", label: "2025-2028" },
   // { value: "64c9341d6109338e6ca76bc2", label: "2026-2029" },
 ];
@@ -56,7 +56,7 @@ export const academicTermOptions = [
 
 export const classLevelOptions = [
   { value: "Select", label: "Select" },
-  { value: "64d808e7f457ed82531d78b0", label: "Level 100" },
+  { value: "65528d7b28a52cb317cbdc04", label: "Level 100" },
   { value: "64d8090bf457ed82531d78b6", label: "Level 200" },
   { value: "64d80926f457ed82531d78bc", label: "Level 300" },
 ];
@@ -68,15 +68,15 @@ export const classLevelNameOptions = [
 ];
 export const teachersOptions = [
   { value: "Select", label: "Select" },
-  { value: "64e2922e28d5de2b84cec123", label: "Mr. Nicholas Afful" },
-  { value: "64e2925e28d5de2b84cec12c", label: "Mr. Joana Mensah" },
-  { value: "64e2929128d5de2b84cec189", label: "Mr. Stephen Bentum" },
-  { value: "64e4a62a0550c6873cc567f8", label: "Mr. Matthias Menk" },
-  { value: "64f477e12cdcaff1ae0e5fad", label: "Mr. Patrick Kenneford Essuman" },
-  { value: "64d9cfbee6cafed115a764b9", label: "Mrs. Matilda Asare" },
-  { value: "64d9cfe6e6cafed115a764c4", label: "Mrs. Elena Bentum" },
-  { value: "64d9d010e6cafed115a764d1", label: "Mr. Patrick Kenneford Annan" },
-  { value: "64dbe883bdfd95a964f4720c", label: "Mr. Maxwell Mensah" },
+  { value: "655290a528a52cb317cbdc15", label: "Mrs. Monica Adjei" },
+  { value: "655291fc28a52cb317cbdc38", label: "Mrs. Joana Mensah" },
+  { value: "6552923a28a52cb317cbdc47", label: "Mr. Stephen Bentum" },
+  // { value: "64e4a62a0550c6873cc567f8", label: "Mr. Matthias Menk" },
+  // { value: "64f477e12cdcaff1ae0e5fad", label: "Mr. Patrick Kenneford Essuman" },
+  // { value: "64d9cfbee6cafed115a764b9", label: "Mrs. Matilda Asare" },
+  // { value: "64d9cfe6e6cafed115a764c4", label: "Mrs. Elena Bentum" },
+  // { value: "64d9d010e6cafed115a764d1", label: "Mr. Patrick Kenneford Annan" },
+  // { value: "64dbe883bdfd95a964f4720c", label: "Mr. Maxwell Mensah" },
 ];
 export const timeOptions = [
   { value: "Select", label: "Select" },
@@ -200,7 +200,7 @@ export const studentColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -209,7 +209,7 @@ export const studentColumn = [
         <HashLink
           scroll={scrollWithOffset}
           className="noImgLink"
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -245,7 +245,7 @@ export const studentColumn = [
     name: "Program",
     selector: (row) => (row.program ? row.program.name : "Unknown"),
   },
-  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
@@ -402,7 +402,7 @@ export const studentColumn = [
     selector: (row) => (
       <Link
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.uniqueId}`}
       >
         <EditIcon />
       </Link>
@@ -435,7 +435,7 @@ export const pendingStudentsColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -444,7 +444,7 @@ export const pendingStudentsColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -475,7 +475,7 @@ export const pendingStudentsColumn = [
     name: "Program",
     selector: (row) => (row.program ? row.program.name : "Unknown"),
   },
-  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
@@ -610,7 +610,7 @@ export const classLevelStudentsColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -620,7 +620,7 @@ export const classLevelStudentsColumn = [
           scroll={scrollWithOffset}
           smooth
           className="noImgLink"
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -656,7 +656,7 @@ export const classLevelStudentsColumn = [
     name: "Program",
     selector: (row) => (row.program ? row.program.name : "Unknown"),
   },
-  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
@@ -811,7 +811,7 @@ export const classLevelStudentsColumn = [
     selector: (row) => (
       <HashLink
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.uniqueId}`}
       >
         <EditIcon />
       </HashLink>
@@ -827,7 +827,7 @@ export const graduatesColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -836,7 +836,7 @@ export const graduatesColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -867,7 +867,7 @@ export const graduatesColumn = [
     name: "Program",
     selector: (row) => (row.program ? row.program.name : "Unknown"),
   },
-  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
@@ -896,7 +896,7 @@ export const studentProgramColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -905,7 +905,7 @@ export const studentProgramColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -932,7 +932,7 @@ export const studentProgramColumn = [
     name: "Date Of Birth",
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
-  { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   {
@@ -972,7 +972,7 @@ export const studentProgramColumn = [
     selector: (row) => (
       <HashLink
         className="editLink"
-        to={`/sensec/admin/${row.studentId}/attendance`}
+        to={`/sensec/admin/${row.uniqueId}/attendance`}
       >
         <CoPresentIcon titleAccess="View Attendance" />
       </HashLink>
@@ -983,7 +983,7 @@ export const studentProgramColumn = [
     selector: (row) => (
       <HashLink
         className="editLink"
-        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.studentId}`}
+        to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row.uniqueId}`}
       >
         <EditIcon />
       </HashLink>
@@ -999,7 +999,7 @@ export const studentCourseMatesColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />
@@ -1008,7 +1008,7 @@ export const studentCourseMatesColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.studentId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           {row.gender === "Male" && (
@@ -1035,7 +1035,7 @@ export const studentCourseMatesColumn = [
     name: "Date Of Birth",
     selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
   },
-  // { name: "Student-ID", selector: (row) => row.studentId, sortable: true },
+  // { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
   { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
   { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
   // {
