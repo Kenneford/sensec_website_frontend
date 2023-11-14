@@ -49,8 +49,8 @@ export default function AdminUpdateStudent({
   const [date] = useState(new Date().toDateString());
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { studentId } = useParams();
-  console.log(studentId);
+  const { uniqueId } = useParams();
+  console.log(uniqueId);
   const { student_name } = useParams();
   console.log(num);
   console.log(date);
@@ -62,9 +62,7 @@ export default function AdminUpdateStudent({
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
-  const selectedStudent = allStudents.find(
-    (std) => std.studentId === studentId
-  );
+  const selectedStudent = allStudents.find((std) => std.uniqueId === uniqueId);
   console.log(selectedStudent);
   // const [student] = useState(selectedStudent);
   // console.log(student);
@@ -110,7 +108,7 @@ export default function AdminUpdateStudent({
     // });
     dispatch(
       studentUpdate({
-        id: updatedStudent.studentId,
+        id: updatedStudent.uniqueId,
         firstName: updatedStudent.firstName,
         lastName: updatedStudent.lastName,
         dateOfBirth: updatedStudent.dateOfBirth,
@@ -183,7 +181,7 @@ export default function AdminUpdateStudent({
 
   useEffect(() => {
     dispatch(fetchStudents());
-    // dispatch(fetchSingleStudent(selectedStudent?.studentId));
+    // dispatch(fetchSingleStudent(selectedStudent?.uniqueId));
   }, [dispatch]);
   return (
     <div className="registerWrap">
@@ -240,10 +238,10 @@ export default function AdminUpdateStudent({
                     <input
                       className="idInput"
                       type="text"
-                      name="studentId"
-                      placeholder={updatedStudent?.studentId}
+                      name="uniqueId"
+                      placeholder={updatedStudent?.uniqueId}
                       onChange={handleInputValues}
-                      value={updatedStudent?.studentId}
+                      value={updatedStudent?.uniqueId}
                       disabled="disabled"
                     />
                   </div>

@@ -1,7 +1,7 @@
 @use "../../../../utilities/sizes";
 @use "../../../../utilities/colors";
 .registerWrap {
-  background-color: #383838;
+  background-color: #fff;
   .selector {
     width: 93.5%;
     background-color: #383838;
@@ -79,7 +79,7 @@
   .register {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 5rem);
+    // height: calc(100vh - 5rem);
     display: flex;
     align-items: center;
     justify-content: center;

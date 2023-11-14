@@ -6,6 +6,7 @@ import PanoramaOutlinedIcon from "@mui/icons-material/PanoramaOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -41,6 +42,11 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
     window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
   };
 
+  const scrollWithOffset1 = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.scrollY;
+    const yOffset = -200;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
   return (
     <div id="admin">
       <div className="adminWrap">
@@ -80,6 +86,15 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
               >
                 <TvIcon className="icon" />
                 <h4>Dashboard</h4>
+              </HashLink>
+              <HashLink
+                to={"/sensec/admin/register#admin"}
+                className="links"
+                smooth
+                title={openSidebar && "Register"}
+              >
+                <AppRegistrationIcon className="icon" />
+                <h4>Register</h4>
               </HashLink>
               <HashLink
                 to={"/sensec/admin/create_data#admin"}
@@ -159,7 +174,7 @@ export default function AdminDashboard({ openSidebar, toggleSidebar }) {
                 to={"/sensec/blogs#blogs"}
                 className="links"
                 smooth
-                scroll={scrollWithOffset}
+                scroll={scrollWithOffset1}
                 title={openSidebar && "Notice"}
               >
                 <CampaignOutlinedIcon />

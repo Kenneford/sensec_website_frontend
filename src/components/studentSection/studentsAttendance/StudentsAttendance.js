@@ -123,7 +123,8 @@ export default function StudentsAttendance() {
   const holidayPercentage =
     (allStudentHolidayAttendance.length / totalAttendances.length) * 100;
 
-  const { studentId } = useParams();
+  const { uniqueId } = useParams();
+  console.log(uniqueId);
   const dispatch = useDispatch();
   const date = new Date().toLocaleDateString();
   const sameWeekData = new Date();
@@ -139,11 +140,11 @@ export default function StudentsAttendance() {
 
   useEffect(() => {
     dispatch(fetchAllClassLevelSections());
-    dispatch(fetchSingleStudentAttendance(studentId));
-    dispatch(fetchStudentAbsentAttendance(studentId));
-    dispatch(fetchStudentPresentAttendance(studentId));
-    dispatch(fetchStudentHolidayAttendance(studentId));
-  }, [dispatch, studentId]);
+    dispatch(fetchSingleStudentAttendance(uniqueId));
+    dispatch(fetchStudentAbsentAttendance(uniqueId));
+    dispatch(fetchStudentPresentAttendance(uniqueId));
+    dispatch(fetchStudentHolidayAttendance(uniqueId));
+  }, [dispatch, uniqueId]);
 
   useEffect(() => {
     setCalendar(format(new Date(), "dd/MM/yyyy"));
@@ -883,7 +884,7 @@ export default function StudentsAttendance() {
                     <td className="alignTextLeft">{att.dayOfTheWeek}</td>
                     <td className="alignTextLeft">{studentInfo.firstName}</td>
                     <td className="alignTextLeft">{studentInfo.lastName}</td>
-                    <td className="alignTextLeft">{studentInfo.studentId}</td>
+                    <td className="alignTextLeft">{studentInfo.uniqueId}</td>
                     <td className="alignTextLeft">
                       {studentInfo.program?.name}
                     </td>
@@ -929,7 +930,7 @@ export default function StudentsAttendance() {
                           {studentInfo.lastName}
                         </td>
                         <td className="alignTextLeft">
-                          {studentInfo.studentId}
+                          {studentInfo.uniqueId}
                         </td>
                         <td className="alignTextLeft">
                           {studentInfo.program?.name}
@@ -975,7 +976,7 @@ export default function StudentsAttendance() {
                       <td className="alignTextLeft">{att.dayOfTheWeek}</td>
                       <td className="alignTextLeft">{studentInfo.firstName}</td>
                       <td className="alignTextLeft">{studentInfo.lastName}</td>
-                      <td className="alignTextLeft">{studentInfo.studentId}</td>
+                      <td className="alignTextLeft">{studentInfo.uniqueId}</td>
                       <td className="alignTextLeft">
                         {studentInfo.program?.name}
                       </td>
@@ -1027,7 +1028,7 @@ export default function StudentsAttendance() {
                           {studentInfo.lastName}
                         </td>
                         <td className="alignTextLeft">
-                          {studentInfo.studentId}
+                          {studentInfo.uniqueId}
                         </td>
                         <td className="alignTextLeft">
                           {studentInfo.program?.name}

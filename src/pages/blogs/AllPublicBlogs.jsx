@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./allBlogs.scss";
+import "./allPublicBlogs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPosts,
@@ -16,8 +16,9 @@ import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getStudentInfo } from "../../features/student/studentsSlice";
 import NoticeItem from "../../components/noticeSection/noticeItem/NoticeItem";
 import BlogItem from "./BlogItem";
+import PublicBlogs from "./PublicBlogs";
 
-export default function AllBlogs({
+export default function AllPublicBlogs({
   toast,
   openSidebar,
   setPostOptions,
@@ -76,18 +77,8 @@ export default function AllBlogs({
   }, [error, success, postFetchingStatus, deletePostStatus, toast]);
 
   return (
-    <div className="blogsGrid">
-      {allPosts.map((post) => (
-        <BlogItem
-          key={post._id}
-          post={post}
-          toast={toast}
-          openSidebar={openSidebar}
-          setPostOptions={setPostOptions}
-          postOptions={postOptions}
-          clearLogOptions={clearLogOptions}
-        />
-      ))}
+    <div className="publicBlogs" id="blogs">
+      <PublicBlogs />
     </div>
   );
 }

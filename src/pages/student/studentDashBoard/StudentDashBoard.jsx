@@ -44,8 +44,8 @@ export default function StudentDashBoard({
   console.log(studentInfo);
 
   useEffect(() => {
-    dispatch(fetchSingleStudent(studentInfo.studentId));
-  }, [dispatch, studentInfo.studentId]);
+    dispatch(fetchSingleStudent(studentInfo.uniqueId));
+  }, [dispatch, studentInfo.uniqueId]);
 
   return (
     <div id="student">
@@ -67,7 +67,7 @@ export default function StudentDashBoard({
               <img
                 onClick={() =>
                   navigate(
-                    `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                    `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.uniqueId}`
                   )
                 }
                 src={
@@ -78,11 +78,7 @@ export default function StudentDashBoard({
                 alt=""
               />
               <div className="infoText">
-                <span>
-                  {/* {studentInfo.gender === "Male" && "Bro."}
-                  {studentInfo.gender === "Female" && "Sis."}{" "} */}
-                  {studentInfo.fullName}
-                </span>
+                <span>{studentInfo.fullName}</span>
                 <p>( {studentInfo.program.name} Student )</p>
               </div>
             </div>
@@ -108,7 +104,7 @@ export default function StudentDashBoard({
                 <h4>Teachers</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.studentId}/coursemates/${studentInfo.program?.name}`}
+                to={`/sensec/student/${studentInfo.uniqueId}/coursemates/${studentInfo.program?.name}`}
                 className="links"
                 title={openSidebar ? "Coursemates" : ""}
               >
@@ -116,7 +112,7 @@ export default function StudentDashBoard({
                 <h4>Coursemates</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.studentId}/attendance`}
+                to={`/sensec/student/${studentInfo.uniqueId}/attendance`}
                 className="links"
                 title={openSidebar ? "My Attendance" : ""}
               >

@@ -1,62 +1,54 @@
 import React, { useState } from "react";
-import "./addStaff.scss";
+import "./newRegistration.scss";
 import AdminEmployment from "../../adminEmployment/AdminEmploymentForm";
 import TeacherEmploymentForm from "../../teacherEmploymentForm/TeacherEmploymentForm";
 import NonTeachingEmploymentForm from "../../nonTeachingEmploymentForm/NonTeachingEmploymentForm";
+import { Outlet, useNavigate } from "react-router-dom";
 
-export default function AddStaffMember({ toast, toastOptions }) {
+export default function NewRegistration({ toast, toastOptions }) {
+  const navigate = useNavigate();
   const [adminReg, setAdminReg] = useState(false);
   const [teacherReg, setTeacherReg] = useState(false);
   const [nonTeachingReg, setNonTeachingReg] = useState(false);
   return (
-    <div className="registerWrap">
+    <div className="registerNewWrap">
       <div className="register">
-        <h1>NEW STAFF MEMBER REGISTRATION</h1>
+        <h1>NEW REGISTRATION</h1>
         <div className="registerCont">
           <div className="staffCategories">
-            <span
-              className="span"
-              onClick={() =>
-                setAdminReg(
-                  !adminReg,
-                  setTeacherReg(false),
-                  setNonTeachingReg(false)
-                )
-              }
+            <button
+              className="button"
+              onClick={() => navigate("/sensec/admin/register/new_student")}
+            >
+              Student
+            </button>
+            <button
+              className="button"
+              onClick={() => navigate("/sensec/admin/register/new_admin")}
             >
               Admin
-            </span>
-            <span
-              className="span"
-              onClick={() =>
-                setTeacherReg(
-                  !teacherReg,
-                  setAdminReg(false),
-                  setNonTeachingReg(false)
-                )
-              }
+            </button>
+            <button
+              className="button"
+              onClick={() => navigate("/sensec/admin/register/new_teacher")}
             >
               Teacher
-            </span>
-            <span
-              className="span"
+            </button>
+            <button
+              className="button"
               onClick={() =>
-                setNonTeachingReg(
-                  !nonTeachingReg,
-                  setAdminReg(false),
-                  setTeacherReg(false)
-                )
+                navigate("/sensec/admin/register/new_non_teacheing_staff")
               }
             >
               Non-Teaching Staff
-            </span>
+            </button>
           </div>
-          {!adminReg && !teacherReg && !nonTeachingReg && (
+          {/* {!adminReg && !teacherReg && !nonTeachingReg && (
             <div className="selectText">
               <p>Select an option to employ a new staff member...</p>
             </div>
-          )}
-          {adminReg && (
+          )} */}
+          {/* {adminReg && (
             <AdminEmployment toast={toast} toastOptions={toastOptions} />
           )}
           {teacherReg && (
@@ -67,9 +59,10 @@ export default function AddStaffMember({ toast, toastOptions }) {
               toast={toast}
               toastOptions={toastOptions}
             />
-          )}
+          )} */}
         </div>
       </div>
+      <Outlet />
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
     useSelector((state) => state.student);
 
   const [student, setStudent] = useState({
-    studentId: "",
+    uniqueId: "",
     password: "",
   });
 
@@ -30,8 +30,8 @@ export default function StudentLoginPage({ toastOptions, toast }) {
   const passCheck = student.password.length < 6;
 
   //STUDENT-ID INPUT CONTROLL
-  const id = student.studentId.length > 0;
-  const idCheck = student.studentId.length < 20;
+  const id = student.uniqueId.length > 0;
+  const idCheck = student.uniqueId.length < 20;
 
   const handleInputValues = (e) => {
     setStudent({
@@ -42,7 +42,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!student.studentId && !student.password) {
+    if (!student.uniqueId && !student.password) {
       toast.error(
         "Authentication failed! Fields cannot be empty!",
         toastOptions
@@ -106,7 +106,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                 type="text"
                 placeholder="Your ID"
                 onChange={handleInputValues}
-                name="studentId"
+                name="uniqueId"
                 value={student.email}
               />
               {id && idCheck && (
