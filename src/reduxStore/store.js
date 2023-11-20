@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import studentReducer from "../features/student/studentsSlice";
+import userReducer from "../features/allUsers/AllUsersSlice";
 import PendingStudentDataReducer from "../features/pendingStudents/pendingStudentsSlice";
 import staffsReducer from "../features/staff/staffSlice";
 import academicsReducer from "../features/academics/academics";
@@ -25,6 +26,7 @@ export const store = configureStore({
     admin: adminsReducer,
     teacher: teachersReducer,
     student: studentReducer,
+    user: userReducer,
     staff: staffsReducer,
     academics: academicsReducer,
     classLevel: classLevelsReducer,

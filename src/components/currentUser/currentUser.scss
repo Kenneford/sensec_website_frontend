@@ -10,35 +10,32 @@
     position: relative;
     display: flex;
     gap: 0.5rem;
-    button {
-      font-size: 1.2rem;
-      background-color: transparent;
-      cursor: pointer;
-      font-weight: 500;
-      padding: 0.2rem 0.5rem;
-      border-radius: 0.5rem;
-      transition: 0.5s ease;
-      &:nth-child(1) {
-        color: #fff;
-        // border: 2px solid #0aca0a;
-        &:hover {
-          // background-color: #0aca0a;
-          // color: #079a07;
-        }
-      }
-      &:nth-child(2) {
-        color: red;
-        background-color: #fff;
-        height: 1.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 0.8rem;
-        padding: 0.2rem 0.5rem;
-        // border: 2px solid red;
-        &:hover {
-          background-color: red;
+    .login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      button {
+        font-size: 1.2rem;
+        background-color: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 0 0.5rem;
+        // border-radius: 0.5rem;
+        transition: 0.5s ease;
+        &:nth-child(1) {
           color: #fff;
+          border-right: 2px solid #fff;
+          &:hover {
+            color: yellow;
+          }
+        }
+        &:nth-child(2) {
+          color: yellow;
+          border-left: 2px solid #fff;
+          // border: 2px solid red;
+          &:hover {
+          }
         }
       }
     }
@@ -146,7 +143,7 @@
         }
         &:nth-child(1) {
           animation-delay: 200ms;
-          border-radius: 0.4rem 0.4rem 0 0;
+          border-radius: 0.2rem 0.2rem 0 0;
           border-bottom: 1px solid #ccc;
         }
         &:nth-child(2) {
@@ -155,6 +152,10 @@
         }
         &:nth-child(3) {
           animation-delay: 400ms;
+          border-bottom: 1px solid #ccc;
+        }
+        &:nth-child(4) {
+          animation-delay: 500ms;
           &:hover {
             background-color: #fc5656;
             border: 0 1px 1px solid #292929;

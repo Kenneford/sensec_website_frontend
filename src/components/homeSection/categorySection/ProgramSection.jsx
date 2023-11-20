@@ -118,42 +118,60 @@ export default function ProgramSection() {
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>Agriculture</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
           <motion.div className="catCard" variants={animate}>
             <span className="catIcon">
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>Visual Art</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
           <motion.div className="catCard" variants={animate}>
             <span className="catIcon">
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>Science</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
           <motion.div className="catCard" variants={animate}>
             <span className="catIcon">
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>Business</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
           <motion.div className="catCard" variants={animate}>
             <span className="catIcon">
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>General Art</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
           <motion.div className="catCard" variants={animate}>
             <span className="catIcon">
               <img src="/assets/sensec-logo1.png" alt="" className="catImg" />
             </span>
             <h5>Home Economics</h5>
-            <p>Lorem Ipsum has been the industry's standard dummy text</p>
+            <p>
+              Lorem Ipsum has been the industry's standard dummy text to make a
+              type specimen book...
+            </p>
           </motion.div>
         </motion.div>
       </motion.div>

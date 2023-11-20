@@ -29,8 +29,8 @@ export default function AdminStudentInfos({ toast }) {
   const parents = studentInfo?.parents;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { studentId } = useParams();
-  console.log(studentId);
+  const { uniqueId } = useParams();
+  console.log(uniqueId);
   console.log(studentInfo);
 
   const [loadProfileImage, setLoadProfileImage] = useState("");
@@ -147,8 +147,8 @@ export default function AdminStudentInfos({ toast }) {
   ]);
 
   useEffect(() => {
-    dispatch(fetchSingleStudent(studentId));
-  }, [dispatch, studentId]);
+    dispatch(fetchSingleStudent(uniqueId));
+  }, [dispatch, uniqueId]);
   return (
     <div id="studentInfo">
       <div className="downloadWrap">
@@ -183,7 +183,7 @@ export default function AdminStudentInfos({ toast }) {
               {!imageUpdating ? "Save Update" : "Updating..."}
             </label>
           )}
-          {!loadProfileImage && (
+          {!loadProfileImage && studentInfo.isStudent && (
             <label className="imgUpdate" htmlFor="profilePicture">
               Change Image
             </label>
@@ -195,49 +195,68 @@ export default function AdminStudentInfos({ toast }) {
             </label>
           )}
           <div className="file">
-            <label className="profileImageUpload" htmlFor="profilePicture">
-              {loadProfileImage || studentInfo.profilePicture ? (
-                <img
-                  className="profileImg"
-                  src={
-                    loadProfileImage
-                      ? loadProfileImage
-                      : studentInfo.profilePicture
-                  }
-                  alt=""
+            {studentInfo.isStudent && (
+              <>
+                <label className="profileImageUpload" htmlFor="profilePicture">
+                  {loadProfileImage || studentInfo.profilePicture ? (
+                    <img
+                      className="profileImg"
+                      src={
+                        loadProfileImage
+                          ? loadProfileImage
+                          : studentInfo.profilePicture
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <>
+                      {studentInfo.gender === "Male" && (
+                        <img
+                          className="profileImg"
+                          src={"/assets/maleAvatar.png"}
+                          alt=""
+                        />
+                      )}
+                      {studentInfo.gender === "Female" && (
+                        <img
+                          className="profileImg"
+                          src={"/assets/femaleAvatar.png"}
+                          alt=""
+                        />
+                      )}
+                      {studentInfo.gender === "" && (
+                        <div className="noImg">
+                          <p>"No Image"</p>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </label>
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  onChange={handleImageFileUpload}
+                  name="profilePicture"
+                  id="profilePicture"
+                  accept=".png,.jpeg,.jpg"
                 />
-              ) : (
-                <>
-                  {studentInfo.gender === "Male" && (
-                    <img
-                      className="profileImg"
-                      src={"/assets/maleAvatar.png"}
-                      alt=""
-                    />
-                  )}
-                  {studentInfo.gender === "Female" && (
-                    <img
-                      className="profileImg"
-                      src={"/assets/femaleAvatar.png"}
-                      alt=""
-                    />
-                  )}
-                  {studentInfo.gender === "" && (
-                    <div className="noImg">
-                      <p>"No Image"</p>
-                    </div>
-                  )}
-                </>
+              </>
+            )}
+            <>
+              {!studentInfo.isStudent && (
+                <label className="profileImageUpload">
+                  <img
+                    className="profileImg"
+                    src={
+                      loadProfileImage
+                        ? loadProfileImage
+                        : studentInfo.profilePicture
+                    }
+                    alt=""
+                  />
+                </label>
               )}
-            </label>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              onChange={handleImageFileUpload}
-              name="profilePicture"
-              id="profilePicture"
-              accept=".png,.jpeg,.jpg"
-            />
+            </>
           </div>
           {/* {studentInfo.profilePicture ? (
             <img src={studentInfo.profilePicture} alt="" />
@@ -270,7 +289,7 @@ export default function AdminStudentInfos({ toast }) {
             </h1>
             <div className="studentId">
               <h3>ID: </h3>
-              <p>{studentInfo.studentId}</p>
+              <p>{studentInfo.uniqueId}</p>
             </div>
             {authenticated && (
               <button
@@ -390,7 +409,7 @@ export default function AdminStudentInfos({ toast }) {
             <table>
               <h3>Student's Data Update Details</h3>
               <tr>
-                <th className="tableHearder">Updated By (Admin)</th>
+                <th className="tableHearder">Updated By (Admin/Student)</th>
                 <th className="tableHearder">Admin ID</th>
                 <th className="tableHearder">Last Updated</th>
               </tr>

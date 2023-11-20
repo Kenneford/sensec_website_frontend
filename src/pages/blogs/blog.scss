@@ -39,6 +39,7 @@
             height: 5rem;
             object-fit: cover;
             border-radius: 0.4rem;
+            cursor: pointer;
           }
           .infoText {
             display: flex;
@@ -51,6 +52,16 @@
               align-items: center;
               font-size: 1rem;
               font-weight: 500;
+            }
+            .nickName {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              // text-align: left;
+              font-style: italic;
+              font-weight: 300;
+              font-size: 1rem;
+              // background-color: #02b202;
             }
             p {
               padding-top: 0.5rem;

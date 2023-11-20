@@ -1,5 +1,6 @@
 import "./totalStudents.scss";
 import SearchIcon from "@mui/icons-material/Search";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -23,6 +24,10 @@ import {
   fetchPendingStudentsDatas,
   getAllPendingStudentsDatas,
 } from "../../../../features/pendingStudents/pendingStudentsSlice";
+import { HashLink } from "react-router-hash-link";
+import { API_ENDPOINT } from "../../../../apiEndPoint/api";
+import axios from "axios";
+import { getAdminInfo } from "../../../../features/admin/adminsSlice";
 
 export default function PendingStudents({ toast, toastOptions }) {
   const {
@@ -35,17 +40,192 @@ export default function PendingStudents({ toast, toastOptions }) {
     useSelector((state) => state.pendingStudentsData);
   const [searchStudent, setSearchStudent] = useState("");
   const dispatch = useDispatch();
+  const authAdminInfo = useSelector(getAdminInfo);
   const allStudents = useSelector(getAllStudents);
   const allClassLevels = useSelector(getAllClassLevels);
   const allPendingStudentsDatas = useSelector(getAllPendingStudentsDatas);
   const allPendingStudents = useSelector(getAllPendingStudents);
 
   const navigate = useNavigate();
+  const { adminUniqueId } = useParams();
+  console.log(adminUniqueId);
   const { class_level } = useParams();
   console.log(searchStudent);
   console.log(allStudents);
   console.log(allClassLevels);
 
+  //THIS REMOVES THE HASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
+
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -150;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
+  const pendingStudentsColumn = [
+    {
+      name: "Image",
+      selector: (row) =>
+        row.profilePicture ? (
+          <HashLink
+            scroll={scrollWithOffset}
+            smooth
+            to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
+            title="View Student Info"
+          >
+            <img className="studentImg" src={row.profilePicture} alt="" />
+          </HashLink>
+        ) : (
+          <HashLink
+            scroll={scrollWithOffset}
+            smooth
+            to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
+            title="View Student Info"
+          >
+            {row.gender === "Male" && (
+              <img
+                className="studentImg"
+                src={"/assets/maleAvatar.png"}
+                alt=""
+              />
+            )}
+            {row.gender === "Female" && (
+              <img
+                className="studentImg"
+                src={"/assets/femaleAvatar.png"}
+                alt=""
+              />
+            )}
+            {row.gender === "" && "No Image"}
+          </HashLink>
+        ),
+    },
+    {
+      name: "First Name",
+      selector: (row) => row.firstName,
+      sortable: true,
+    },
+    { name: "Surname", selector: (row) => row.lastName },
+    {
+      name: "Date Of Birth",
+      selector: (row) => (row.dateOfBirth ? row.dateOfBirth : "Unknown"),
+    },
+    {
+      name: "Program",
+      selector: (row) => (row.program ? row.program.name : "Unknown"),
+    },
+    { name: "Student-ID", selector: (row) => row.uniqueId, sortable: true },
+    { name: "Email", selector: (row) => (row.email ? row.email : "Unknown") },
+    { name: "Enrolled Date", selector: (row) => row.dateEnrolled },
+    {
+      name: "Batch",
+      selector: (row) =>
+        row.academicYear
+          ? `${row.academicYear.fromYear}-${row.academicYear.toYear}`
+          : "Unknown",
+    },
+    {
+      name: "Level",
+      selector: (row) =>
+        row.currentClassLevel && (
+          <div className="tableClassLevel">
+            {row.currentClassLevel.name === "Level_100" && (
+              <div className="firstYearTag" title="1st Year">
+                1
+              </div>
+            )}
+            {row.currentClassLevel.name === "Level_200" && (
+              <div className="secondYearTag" title="2nd Year">
+                2
+              </div>
+            )}
+            {row.currentClassLevel.name === "Level_300" && !row.isGraduated && (
+              <div className="thirdYearTag" title="3rd Year">
+                3
+              </div>
+            )}
+            {row.isGraduated && (
+              <div className="isGraduated" title="Graduated">
+                <SchoolOutlinedIcon />
+              </div>
+            )}
+          </div>
+        ),
+    },
+    {
+      // name: "Promote",
+      selector: (row) =>
+        row.pending && (
+          <HashLink
+            className="approveLink"
+            onClick={async () => {
+              try {
+                const res = await axios.put(
+                  `${API_ENDPOINT}/students/${adminUniqueId}/approve_pending_student/${row._id}`
+                );
+                if (res) {
+                  toast.success(
+                    "Student's application approved successfully...",
+                    {
+                      position: "top-right",
+                      theme: "dark",
+                      // toastId: successId,
+                    }
+                  );
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 5000);
+                }
+              } catch (error) {
+                toast.error("Student approval failed! Try again later", {
+                  position: "top-right",
+                  theme: "light",
+                  // toastId: successId,
+                });
+              }
+            }}
+            // to={`/sensec/admin/edit_student/${row.firstName}_${row.lastName}/${row._id}`}
+          >
+            Approve
+          </HashLink>
+        ),
+    },
+    {
+      // name: "Edit",
+      selector: (row) => (
+        <HashLink
+          className="rejectLink"
+          onClick={async () => {
+            try {
+              const res = await axios.delete(
+                `${API_ENDPOINT}/students/reject_student_application/${row._id}`
+              );
+              if (res) {
+                toast.success("Student disapproved successfully...", {
+                  position: "top-right",
+                  theme: "dark",
+                  // toastId: successId,
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 5000);
+              }
+            } catch (error) {
+              toast.error("Student disapproved failed! Try again later", {
+                position: "top-right",
+                theme: "light",
+                // toastId: successId,
+              });
+            }
+          }}
+        >
+          Reject
+        </HashLink>
+      ),
+    },
+  ];
   const customStyle = {
     headRow: {
       style: {

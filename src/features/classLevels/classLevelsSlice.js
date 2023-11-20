@@ -147,7 +147,7 @@ const classLevelsSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          classLevelInfo: action.payload.classLevel,
+          classLevelInfo: action.payload.classLevelData,
           successMessage: action.payload.successMessage,
           fetchingSingleStatus: "success",
         };

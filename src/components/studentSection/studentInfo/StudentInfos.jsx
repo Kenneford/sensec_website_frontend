@@ -144,10 +144,10 @@ export default function StudentInfos({ toast }) {
     toast,
     navigate,
   ]);
-
   useEffect(() => {
     dispatch(fetchSingleStudent(uniqueId));
   }, [dispatch, uniqueId]);
+
   return (
     <div id="studentInfo">
       <div className="downloadWrap">
@@ -269,9 +269,9 @@ export default function StudentInfos({ toast }) {
             </h1>
             <div className="studentId">
               <h3>ID: </h3>
-              <p>{studentInfo.uniqueId}</p>
+              <p>{studentInfo?.uniqueId}</p>
             </div>
-            {authenticated && (
+            {
               <button
                 className="studentUpdateBtn"
                 onClick={() =>
@@ -282,7 +282,7 @@ export default function StudentInfos({ toast }) {
               >
                 Edit Profile
               </button>
-            )}
+            }
           </div>
         </div>
         <div className="studentInfoContent">
