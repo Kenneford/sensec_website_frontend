@@ -70,38 +70,6 @@ export default function AdminUpdateStudent({
   const [updatedStudent, setUpdatedStudent] = useState(selectedStudent);
   console.log(updatedStudent);
 
-  // const [updatedStudent, setUpdatedStudent] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   dateOfBirth: "",
-  //   placeOfBirth: "",
-  //   gender: "",
-  //   jhsAttended: "",
-  //   shsAttended: "",
-  //   nationality: "",
-  //   district: "",
-  //   address: "",
-  //   currentCity: "",
-  //   homeTown: "",
-  //   region: "",
-  //   email: "",
-  //   role: "",
-  //   currentClassLevel: "",
-  //   program: "",
-  //   academicYear: "",
-  //   // religion: "",
-  //   height: "",
-  //   weight: "",
-  //   motherTongue: "",
-  //   otherTongue: "",
-  //   complexion: "",
-  //   dateEnrolled: date,
-  //   profilePicture: "",
-  //   updatedBy: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
-  //   updatedByAdminId: `${authAdminInfo.adminId}`,
-  //   updatedDate: date,
-  // });
-
   useEffect(() => {
     // keeping student data in state
     setUpdatedStudent(selectedStudent);
@@ -159,7 +127,6 @@ export default function AdminUpdateStudent({
         currentClassLevel: updatedStudent.currentClassLevel,
         program: updatedStudent.program,
         academicYear: updatedStudent.academicYear,
-        // religion: "",
         height: updatedStudent.height,
         weight: updatedStudent.weight,
         motherTongue: updatedStudent.motherTongue,
@@ -219,7 +186,7 @@ export default function AdminUpdateStudent({
   return (
     <div className="registerWrap">
       <div className="register">
-        <h1>EDIT STUDENT</h1>
+        <h1>EDIT STUDENT DATA</h1>
         <div className="registerCont">
           <form onSubmit={handleUpdate}>
             <div className="studentProfile">
@@ -484,25 +451,6 @@ export default function AdminUpdateStudent({
                           className="selectOptions"
                         >
                           {complexion.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="selector">
-                    <label htmlFor="religion">Religion</label>
-                    <select
-                      className="select"
-                      value={updatedStudent?.religion}
-                      onChange={handleInputValues}
-                      name="religion"
-                    >
-                      {religionOptions.map((religion) => (
-                        <option
-                          key={religion.label}
-                          value={religion.value}
-                          className="selectOptions"
-                        >
-                          {religion.label}
                         </option>
                       ))}
                     </select>

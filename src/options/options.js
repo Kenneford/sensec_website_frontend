@@ -200,7 +200,9 @@ export const studentColumn = [
         <HashLink
           scroll={scrollWithOffset}
           smooth
-          to={`/sensec/admin/student_info/${row.firstName}_${row.lastName}/${row.uniqueId}/#studentInfo`}
+          to={`/sensec/admin/student_info/${row.firstName.replace(/ /g, "_")}_${
+            row.lastName
+          }/${row.uniqueId}/#studentInfo`}
           title="View Student Info"
         >
           <img className="studentImg" src={row.profilePicture} alt="" />

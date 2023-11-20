@@ -111,6 +111,7 @@ export default function AdminUpdateStudent({
         id: updatedStudent.uniqueId,
         firstName: updatedStudent.firstName,
         lastName: updatedStudent.lastName,
+        nickName: updatedStudent.nickName,
         dateOfBirth: updatedStudent.dateOfBirth,
         placeOfBirth: updatedStudent.placeOfBirth,
         gender: updatedStudent.gender,
@@ -279,6 +280,15 @@ export default function AdminUpdateStudent({
                       onChange={handleInputValues}
                       name="lastName"
                       value={updatedStudent?.lastName}
+                    />
+                  </div>
+                  <div className="inputField">
+                    <label htmlFor="nickName">Nickname</label>
+                    <input
+                      type="text"
+                      onChange={handleInputValues}
+                      name="nickName"
+                      value={updatedStudent?.nickName}
                     />
                   </div>
                   <div className="inputField">

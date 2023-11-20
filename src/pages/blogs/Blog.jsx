@@ -29,8 +29,13 @@ import { getTeacherInfo } from "../../features/teacher/teachersSlice";
 import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import BlogItem from "./BlogItem";
+import { getAllUsers, getUser } from "../../features/allUsers/AllUsersSlice";
 
 export default function Blog({ openSidebar, toggleSidebar }) {
+  const userInfo = useSelector(getUser);
+  const allUser = useSelector(getAllUsers);
+  const userFound = allUser.find((user) => user.uniqueId === userInfo.uniqueId);
+  console.log(userInfo);
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
@@ -397,7 +402,7 @@ export default function Blog({ openSidebar, toggleSidebar }) {
             </div>
           )}
 
-          {studentInfo && (
+          {userInfo?.isStudent && (
             <div className={openSidebar ? "adminLeft side" : "adminLeft"}>
               <span
                 className="span"
@@ -411,25 +416,25 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                 )}
               </span>
               <div className="adminInfo">
-                {studentInfo.profilePicture ? (
+                {userInfo.profilePicture ? (
                   <img
                     onClick={() =>
                       navigate(
-                        `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                        `/sensec/student/student_info/${userInfo.firstName}_${userInfo.lastName}/${userInfo.studentId}`
                       )
                     }
-                    src={studentInfo.profilePicture}
+                    src={userInfo.profilePicture}
                     alt=""
                   />
                 ) : (
                   <img
                     onClick={() =>
                       navigate(
-                        `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                        `/sensec/student/student_info/${userInfo.firstName}_${userInfo.lastName}/${userInfo.studentId}`
                       )
                     }
                     src={
-                      studentInfo.isMale
+                      userInfo.isMale
                         ? "/assets/maleAvatar.png"
                         : "/assets/femaleAvatar.png"
                     }
@@ -439,22 +444,23 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                 <div className="infoText">
                   <span>
                     {/* {studentInfo.isMale ? "Bro. " : "Sis. "}{" "} */}
-                    {studentInfo.fullName}
+                    {userInfo.fullName}
                   </span>
-                  <p>( {studentInfo.program.name} Student )</p>
+                  <span className="nickName">@{userFound?.userName}</span>
+                  <p>( {userInfo.program?.name} Student )</p>
                 </div>
               </div>
               <div className="contentLinks">
                 <HashLink
-                  to={"/sensec/student"}
                   className="links"
                   title={openSidebar ? "Dashboard" : ""}
+                  to={"/sensec/student/#student"}
                 >
                   <TvIcon />
                   <h4>Dashboard</h4>
                 </HashLink>
                 <HashLink
-                  to={`/sensec/student/${studentInfo.program.name}/${studentInfo.currentClassLevel.name}/weekly_lectures`}
+                  to={`/sensec/student/${userInfo.program?.name}/${userInfo.currentClassLevel?.name}/weekly_lectures`}
                   className="links"
                   title={openSidebar ? "Weekly Lectures" : ""}
                 >
@@ -465,17 +471,19 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                   className="links"
                   title={openSidebar ? "Teachers" : ""}
                 >
-                  <div className="teacherIcons">
-                    <SupervisedUserCircleIcon />
-                  </div>
+                  <SupervisedUserCircleIcon className="tvIcon" />
                   <h4>Teachers</h4>
                 </HashLink>
-                <div className="links" title={openSidebar ? "Coursemates" : ""}>
+                <HashLink
+                  to={`/sensec/student/${userInfo.uniqueId}/coursemates/${userInfo.program?.name}`}
+                  className="links"
+                  title={openSidebar ? "Coursemates" : ""}
+                >
                   <SchoolOutlinedIcon />
                   <h4>Coursemates</h4>
-                </div>
+                </HashLink>
                 <HashLink
-                  to={`/sensec/student/${studentInfo.studentId}/attendance`}
+                  to={`/sensec/student/${userInfo.uniqueId}/attendance`}
                   className="links"
                   title={openSidebar ? "My Attendance" : ""}
                 >
@@ -485,21 +493,18 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                 <HashLink
                   to={"/sensec/blogs#blogs"}
                   className="links"
+                  title={openSidebar ? "Public Notice" : ""}
                   smooth
                   scroll={scrollWithOffset1}
-                  title={openSidebar ? "Notice" : ""}
                 >
                   <CampaignOutlinedIcon />
                   <h4>Notice</h4>
                 </HashLink>
-                <HashLink
-                  className="links"
-                  title={openSidebar ? "Fees Status" : ""}
-                >
+                <div className="links" title={openSidebar ? "Fees Status" : ""}>
                   <MoneyOutlinedIcon />
                   <h4>My Fees</h4>
                   <div className="feesCheck">
-                    {owing ? (
+                    {!owing ? (
                       <QuestionMarkOutlinedIcon
                         titleAccess="Your are owing"
                         style={{
@@ -517,7 +522,7 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                       />
                     )}
                   </div>
-                </HashLink>
+                </div>
               </div>
               <LogoutBtn openSidebar={openSidebar} />
             </div>

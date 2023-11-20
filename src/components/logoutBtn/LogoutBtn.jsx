@@ -23,8 +23,10 @@ import {
   getTeacherInfo,
   teacherLogout,
 } from "../../features/teacher/teachersSlice";
+import { getUser, userLogout } from "../../features/allUsers/AllUsersSlice";
 
 export default function LogoutBtn({ openSidebar }) {
+  const userInfo = useSelector(getUser);
   // const { studentInfo } = useSelector((state) => state.auth);
   // const { staffInfo } = useSelector((state) => state.auth);
   const staffInfo = useSelector(getStaffInfo);
@@ -36,8 +38,8 @@ export default function LogoutBtn({ openSidebar }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    if (studentInfo) {
-      dispatch(studentLogout());
+    if (userInfo.isStudent) {
+      dispatch(userLogout());
       navigate("/sensec/homepage");
       toast.success("You logged out Successfully...", {
         position: "top-right",

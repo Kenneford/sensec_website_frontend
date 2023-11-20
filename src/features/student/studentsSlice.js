@@ -68,6 +68,24 @@ export const studentRegistory = createAsyncThunk(
   }
 );
 
+export const studentOnlineRegistory = createAsyncThunk(
+  "Student/studentOnlineRegistory",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/students/registration/online`,
+        data
+      );
+      console.log(res.data);
+      localStorage.setItem("newStudentRegisteredId", res.data.student.uniqueId);
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createStudentParent = createAsyncThunk(
   "Student/createStudentParent",
   async (data, { rejectWithValue }) => {
@@ -109,6 +127,7 @@ export const studentUpdate = createAsyncThunk(
       id,
       firstName,
       lastName,
+      nickName,
       dateOfBirth,
       placeOfBirth,
       gender,
@@ -126,11 +145,8 @@ export const studentUpdate = createAsyncThunk(
       currentClassLevel,
       program,
       academicYear,
-      // religion,
       height,
       weight,
-      // parents,
-      // guardian,
       motherTongue,
       otherTongue,
       complexion,
@@ -183,6 +199,7 @@ export const studentUpdate = createAsyncThunk(
         {
           firstName,
           lastName,
+          nickName,
           dateOfBirth,
           placeOfBirth,
           gender,
@@ -200,11 +217,8 @@ export const studentUpdate = createAsyncThunk(
           currentClassLevel,
           program,
           academicYear,
-          // religion,
           height,
           weight,
-          // parents,
-          // guardian,
           motherTongue,
           otherTongue,
           complexion,
@@ -213,9 +227,6 @@ export const studentUpdate = createAsyncThunk(
           updatedByAdminId,
           updatedDate,
         }
-        // {
-        //   student,
-        // }
       );
       console.log(res.data);
       return res.data;
@@ -522,6 +533,30 @@ const studentSlice = createSlice({
         studentError: action.payload,
       };
     });
+
+    builder.addCase(studentOnlineRegistory.pending, (state) => {
+      return { ...state, registerStudentStatus: "pending" };
+    });
+    builder.addCase(studentOnlineRegistory.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          studentInfo: action.payload.student,
+          allStudents: [...state.allStudents, action.payload.student],
+          studentSuccessMessage: action.payload.successMessage,
+          registerStudentStatus: "success",
+          authenticated: false,
+        };
+      } else return state;
+    });
+    builder.addCase(studentOnlineRegistory.rejected, (state, action) => {
+      return {
+        ...state,
+        registerStudentStatus: "rejected",
+        studentError: action.payload,
+      };
+    });
+
     builder.addCase(createStudentParent.pending, (state) => {
       return { ...state, createParentStatus: "pending" };
     });
@@ -808,7 +843,7 @@ const studentSlice = createSlice({
       return {
         ...state,
         searchStudentStatus: "rejected",
-        studentError: action.payload.errorMessage,
+        studentError: action.payload,
       };
     });
 

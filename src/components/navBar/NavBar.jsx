@@ -10,6 +10,7 @@ import { getStudentInfo } from "../../features/student/studentsSlice";
 import { getStaffInfo } from "../../features/staff/staffSlice";
 import { getAdminInfo } from "../../features/admin/adminsSlice";
 import { getTeacherInfo } from "../../features/teacher/teachersSlice";
+import { getUser } from "../../features/allUsers/AllUsersSlice";
 
 export default function NavBar({
   setOpenLogin,
@@ -22,10 +23,12 @@ export default function NavBar({
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
+  const userInfo = useSelector(getUser);
+  // console.log(userInfo);
   // const [showOptions, setShowOptions] = useState(false);
 
   const currentUser =
-    authAdminInfo || authStaffInfo || authTeacherInfo || studentInfo;
+    authAdminInfo || authStaffInfo || authTeacherInfo || userInfo;
 
   console.log(authTeacherInfo);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -173,7 +176,7 @@ export default function NavBar({
               </NavHashLink>
             </li>
           )}
-          {currentUser.isStudent && (
+          {userInfo.isStudent && (
             <li>
               <NavHashLink
                 to={"/sensec/student#student"}

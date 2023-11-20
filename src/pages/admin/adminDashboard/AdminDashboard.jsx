@@ -19,7 +19,7 @@ import TvIcon from "@mui/icons-material/Tv";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import DashboardContent from "../../../components/adminSection/dashboardContent/DashboardContent";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import DashBoardFooter from "../../../components/footer/DashBoardFooter";
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 import { getStaffInfo } from "../../../features/staff/staffSlice";

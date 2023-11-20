@@ -32,7 +32,10 @@ export default function WeeklyLectures() {
   const [currentTime, setCurrentTime] = useState(cTime);
   const [currentDayOfWeek, setCurrentDayOfWeek] = useState("");
   const updateTime = () => {
-    const cTime = new Date().toLocaleTimeString();
+    const cTime = new Date().toLocaleTimeString("en-US", {
+      // timeZone: "Europe/Berlin",
+      hour12: true,
+    });
     setCurrentTime(cTime);
   };
   setInterval(updateTime, 1000);
@@ -143,7 +146,7 @@ export default function WeeklyLectures() {
                   <thead key={time._id}>
                     <tr>
                       <th className="tableHearder">{time.dayTime}</th>
-                      <th className={lesson1 ? "currentDay" : "tableHearder"}>
+                      <th className={lesson1 ? "currentDay" : "tableHearders"}>
                         {time.lesson1Time}
                       </th>
                       <th className={break1 ? "currentDay" : "tableHearder"}>

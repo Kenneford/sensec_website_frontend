@@ -1,0 +1,53 @@
+.verifiedCont {
+  height: calc(100vh - 9rem);
+  margin-top: 9rem;
+  background-color: rgb(229, 250, 243);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .verifiedWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // padding-top: 2rem;
+    margin-top: 4rem;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    border-radius: 0.4rem;
+    height: 15rem;
+    width: 25rem;
+    .verifiedContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+      padding: 0 2rem 1rem;
+      .verifyFlex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        h1 {
+          font-size: 3rem;
+          letter-spacing: 1.5px;
+          // padding-bottom: 1rem;
+          color: #555;
+        }
+        .checkIcon {
+          font-size: 3rem;
+          color: green;
+        }
+      }
+      p {
+        font-size: 1.3rem;
+        font-style: italic;
+        line-height: 1.5rem;
+        padding-bottom: 0.5rem;
+        color: #696969;
+      }
+    }
+  }
+}

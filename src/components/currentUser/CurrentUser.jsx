@@ -16,6 +16,7 @@ import {
 } from "../../features/student/studentsSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getUser, userLogout } from "../../features/allUsers/AllUsersSlice";
 
 export default function CurrentUser({
   openLogin,
@@ -24,6 +25,7 @@ export default function CurrentUser({
   setShowOptions,
   // toast,
 }) {
+  const userInfo = useSelector(getUser);
   const authStaffInfo = useSelector(getStaffInfo);
   const authAdminInfo = useSelector(getAdminInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
@@ -32,15 +34,15 @@ export default function CurrentUser({
   // const [showOptions, setShowOptions] = useState(false);
 
   const currentUser =
-    authAdminInfo || authStaffInfo || authTeacherInfo || studentInfo;
+    authAdminInfo || authStaffInfo || authTeacherInfo || userInfo;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    if (studentInfo) {
-      dispatch(studentLogout());
+    if (userInfo.isStudent) {
+      dispatch(userLogout());
       navigate("/sensec/homepage");
       toast.success("You logged out Successfully...", {
         position: "top-right",
@@ -88,6 +90,7 @@ export default function CurrentUser({
         {!currentUser && (
           <div className="login">
             <button onClick={() => setOpenLogin(!openLogin)}>Login</button>
+            <button onClick={() => navigate("sensec/sign_up")}>Sign-Up</button>
             {openLogin && (
               <div className="loginOptions">
                 <div
@@ -239,21 +242,21 @@ export default function CurrentUser({
           </div>
         )}
 
-        {currentUser.isStudent && (
+        {userInfo.isStudent && (
           <div className="userInfo">
-            <p className="currentUserName">Welcome, {studentInfo.firstName}</p>
+            <p className="currentUserName">Welcome, {userInfo.firstName}</p>
             <div className="icon">
-              {studentInfo.profilePicture ? (
+              {userInfo.profilePicture ? (
                 <img
                   onClick={() => setShowOptions(!showOptions)}
-                  src={studentInfo.profilePicture}
+                  src={userInfo.profilePicture}
                   alt=""
                 />
               ) : (
                 <img
                   onClick={() => setShowOptions(!showOptions)}
                   src={
-                    studentInfo.gender === "Male"
+                    userInfo.gender === "Male"
                       ? "/assets/maleAvatar.png"
                       : "/assets/femaleAvatar.png"
                   }
@@ -267,13 +270,14 @@ export default function CurrentUser({
                   className="profileView"
                   onClick={() =>
                     navigate(
-                      `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.studentId}`
+                      `/sensec/student/student_info/${userInfo.firstName}_${userInfo.lastName}/${userInfo.uniqueId}`
                     )
                   }
                 >
                   View Pofile
                 </span>
                 <span className="adminConer">Students Coner</span>
+                <span className="adminConer">Settings</span>
                 <span className="logUserOutWrap">
                   <p className="logUserOut" onClick={handleLogout}>
                     Logout

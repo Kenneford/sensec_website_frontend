@@ -6,7 +6,7 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { CircularProgress } from "@mui/material";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Parser from "html-react-parser";
 import {
@@ -45,6 +45,7 @@ export default function DashboardContent({ toast }) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { adminUniqueId } = useParams();
 
   const name = `${authAdminInfo.firstName} ${authAdminInfo.lastName}`;
   const [text, setText] = useState("");
@@ -201,7 +202,9 @@ export default function DashboardContent({ toast }) {
             <div
               className="pending"
               onClick={() => {
-                navigate("/sensec/admin/all_pending_students");
+                navigate(
+                  `/sensec/admin/${authAdminInfo.adminId}/all_pending_students`
+                );
               }}
             >
               <h4>Pending Student(s)</h4>

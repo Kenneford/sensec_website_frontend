@@ -155,4 +155,66 @@
       }
     }
   }
+  @media screen and (max-width: 374px) {
+    margin-bottom: -7rem;
+    .courseSecHeader {
+      h2 {
+        font-size: 1.5rem;
+        padding: 3rem 0;
+      }
+    }
+    .courseCont {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      width: sizes.$container_Width_md;
+      .courseCard {
+        background-color: transparent;
+        //   background-color: #dbdb13;
+        text-align: center;
+        border: 2px solid #292929;
+        padding-bottom: 2rem;
+        border-radius: 1rem;
+        color: #292929;
+        transition: 0.4s ease-in;
+        .courseImgWrap {
+          .courseImg {
+            width: 100%;
+            height: 15rem;
+            object-fit: cover;
+            border-radius: 1rem 1rem 0 0;
+          }
+        }
+        .courseInfo {
+          padding: 0.5rem 1rem 0;
+          h4 {
+            font-size: 1.2rem;
+          }
+          p {
+            margin: 1.2rem;
+            font-size: 1rem;
+            line-height: sizes.$line_height;
+          }
+        }
+        .courseBtn {
+          background-color: #0fc80f;
+          padding: 0.5rem;
+          font-weight: 500;
+          font-size: 1rem;
+          transition: 0.4s ease;
+          color: #fff;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        .courseBtn:hover {
+          background-color: colors.$primaryColor;
+        }
+        &:hover {
+          background-color: #292929;
+          border-color: #292929;
+          color: #fff;
+        }
+      }
+    }
+  }
 }

@@ -29,23 +29,43 @@ import {
   getStudentInfo,
 } from "../../../features/student/studentsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAllUsers,
+  getAllUsers,
+  getUser,
+} from "../../../features/allUsers/AllUsersSlice";
 
 export default function StudentDashBoard({
   openSidebar,
   toggleSidebar,
-  // studentInfo,
+  // StudentInfo,
 }) {
   const studentInfo = useSelector(getStudentInfo);
+  const userInfo = useSelector(getUser);
+  const allUser = useSelector(getAllUsers);
+  const userFound = allUser.find((user) => user.uniqueId === userInfo.uniqueId);
   // const singleStudent = useSelector(getSingleStudent);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const studentInfo = true;
+  // const userInfo = true;
   const owing = false;
-  console.log(studentInfo);
+  console.log(userFound);
+
+  //THIS REMOVES THE NavHASHLINK TAG FROM THE URL
+  if (window.location.hash) {
+    window.history.replaceState("", document.title, window.location.pathname);
+  }
+
+  const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -200;
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+  };
 
   useEffect(() => {
-    dispatch(fetchSingleStudent(studentInfo.uniqueId));
-  }, [dispatch, studentInfo.uniqueId]);
+    dispatch(fetchSingleStudent(userInfo.uniqueId));
+    dispatch(fetchAllUsers());
+  }, [dispatch, userInfo.uniqueId]);
 
   return (
     <div id="student">
@@ -67,19 +87,20 @@ export default function StudentDashBoard({
               <img
                 onClick={() =>
                   navigate(
-                    `/sensec/student/student_info/${studentInfo.firstName}_${studentInfo.lastName}/${studentInfo.uniqueId}`
+                    `/sensec/student/student_info/${userInfo.firstName}_${userInfo.lastName}/${userInfo.uniqueId}`
                   )
                 }
                 src={
-                  studentInfo.profilePicture
-                    ? studentInfo.profilePicture
+                  userInfo.profilePicture
+                    ? userInfo?.profilePicture
                     : "/assets/maleAvatar.png"
                 }
                 alt=""
               />
               <div className="infoText">
-                <span>{studentInfo.fullName}</span>
-                <p>( {studentInfo.program.name} Student )</p>
+                <span>{userInfo?.fullName}</span>
+                <span className="nickName">@{userFound?.userName}</span>
+                <p>( {userInfo?.program?.name} Student )</p>
               </div>
             </div>
             <div className="contentLinks">
@@ -92,7 +113,7 @@ export default function StudentDashBoard({
                 <h4>Dashboard</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.program?.name}/${studentInfo.currentClassLevel.name}/weekly_lectures`}
+                to={`/sensec/student/${userInfo.program?.name}/${userInfo?.currentClassLevel?.name}/weekly_lectures`}
                 className="links"
                 title={openSidebar ? "Weekly Lectures" : ""}
               >
@@ -104,7 +125,7 @@ export default function StudentDashBoard({
                 <h4>Teachers</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.uniqueId}/coursemates/${studentInfo.program?.name}`}
+                to={`/sensec/student/${userInfo.uniqueId}/coursemates/${userInfo.program?.name}`}
                 className="links"
                 title={openSidebar ? "Coursemates" : ""}
               >
@@ -112,7 +133,7 @@ export default function StudentDashBoard({
                 <h4>Coursemates</h4>
               </HashLink>
               <HashLink
-                to={`/sensec/student/${studentInfo.uniqueId}/attendance`}
+                to={`/sensec/student/${userInfo.uniqueId}/attendance`}
                 className="links"
                 title={openSidebar ? "My Attendance" : ""}
               >
@@ -120,9 +141,11 @@ export default function StudentDashBoard({
                 <h4>My Attendance</h4>
               </HashLink>
               <HashLink
-                to={"/sensec/general_announcement/#notice"}
+                to={"/sensec/blogs#blogs"}
                 className="links"
                 title={openSidebar ? "Public Notice" : ""}
+                smooth
+                scroll={scrollWithOffset}
               >
                 <CampaignOutlinedIcon />
                 <h4>Notice</h4>

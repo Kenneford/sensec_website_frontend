@@ -6,19 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { studentLogin } from "../../../features/student/studentsSlice";
+import { getUser, userLogin } from "../../../features/allUsers/AllUsersSlice";
 
 export default function StudentLoginPage({ toastOptions, toast }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const userInfo = useSelector(getUser);
   const [showpass, setShowPass] = useState(false);
   const [passLengthError, setPassLengthError] = useState("");
   const [idLengthError, setIdLengthError] = useState("");
 
   const showPassword = () => setShowPass((show) => !show);
 
-  const { studentLoginStatus, studentLoginError, studentLoginSuccessMessage } =
-    useSelector((state) => state.student);
+  const { loginUserStatus, error, successMessage } = useSelector(
+    (state) => state.user
+  );
 
   const [student, setStudent] = useState({
     uniqueId: "",
@@ -49,14 +52,20 @@ export default function StudentLoginPage({ toastOptions, toast }) {
       );
       return;
     } else {
-      dispatch(studentLogin(student));
+      dispatch(userLogin(student));
       // console.log(student);
     }
   };
 
   useEffect(() => {
-    if (studentLoginStatus === "rejected") {
-      studentLoginError.errorMessage.message.map((err) =>
+    if (userInfo && userInfo.isStudent) {
+      navigate("/sensec/student");
+    }
+  }, [navigate, userInfo]);
+
+  useEffect(() => {
+    if (loginUserStatus === "rejected") {
+      error.errorMessage.message.map((err) =>
         toast.error(err, {
           position: "top-right",
           theme: "light",
@@ -65,18 +74,18 @@ export default function StudentLoginPage({ toastOptions, toast }) {
       );
       return;
     }
-    if (studentLoginStatus === "success") {
+    if (loginUserStatus === "success") {
       navigate("/sensec/student/#student");
-      toast.success(studentLoginSuccessMessage, {
+      toast.success(successMessage, {
         position: "top-right",
         theme: "dark",
         // toastId: successId,
       });
     }
   }, [
-    studentLoginError,
-    studentLoginSuccessMessage,
-    studentLoginStatus,
+    loginUserStatus,
+    error,
+    successMessage,
     toast,
     // toastOptions,
     navigate,
@@ -162,7 +171,7 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                 </p>
               )}
               <button type="submit">
-                {studentLoginStatus === "pending" ? (
+                {loginUserStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />
                 ) : (
                   "Login"

@@ -90,14 +90,17 @@ import AdminEmployment from "./components/adminSection/adminEmployment/AdminEmpl
 import TeacherEmploymentForm from "./components/adminSection/teacherEmploymentForm/TeacherEmploymentForm";
 import NonTeachingEmploymentForm from "./components/adminSection/nonTeachingEmploymentForm/NonTeachingEmploymentForm";
 import NewRegistration from "./components/adminSection/adminStaff/newRegistration/NewRegistration";
+import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
+import SignUp from "./pages/signUp/SignUp";
+import { getUser } from "./features/allUsers/AllUsersSlice";
+import SignUpSuccessPage from "./components/signUpSuccessPage/SignUpSuccessPage";
 
 export default function App() {
+  const userInfo = useSelector(getUser);
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
   const authAdminInfo = useSelector(getAdminInfo);
   const authTeacherInfo = useSelector(getTeacherInfo);
-  console.log(authStaffInfo);
-  console.log(authAdminInfo);
   const authUser =
     authAdminInfo || studentInfo || authTeacherInfo || authStaffInfo;
 
@@ -106,12 +109,8 @@ export default function App() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
-  const [level100, setLevel100] = useState(false);
-  const [level200, setLevel200] = useState(false);
-  const [level300, setLevel300] = useState(false);
-  const [isGraduated, setIsGraduated] = useState(false);
   const currentNewStudent = localStorage.getItem("newStudentRegisteredId");
-  console.log(currentNewStudent);
+  // console.log(currentNewStudent);
   const toggleSidebar = () => setOpenSidebar(!openSidebar);
 
   const navigate = useNavigate();
@@ -164,6 +163,17 @@ export default function App() {
         <Route exact path="/sensec/about" element={<About />} />
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/timer" element={<Timer />} />
+        <Route exact path="/sensec/sign_up" element={<SignUp />} />
+        <Route
+          exact
+          path="/sensec/sign_up/successful"
+          element={<SignUpSuccessPage />}
+        />
+        <Route
+          exact
+          path="/sensec/email_verification/:emailToken"
+          element={<VerifyEmail />}
+        />
         {!authUser && (
           <Route exact path="/sensec/blogs" element={<AllPublicBlogs />} />
         )}
@@ -226,6 +236,12 @@ export default function App() {
           element={<ApplyOnline toastOptions={toastOptions} toast={toast} />}
         />
         <Route
+          path="/sensec/student_enrollment/online_application/add_parents_guardian"
+          element={
+            <StudentParentGuardian toastOptions={toastOptions} toast={toast} />
+          }
+        />
+        <Route
           path="/sensec/facilities_overview/:name"
           element={<FacilityOverview />}
         />
@@ -251,7 +267,7 @@ export default function App() {
           }
         />
         {/* ANNOUNCEMENT ROUTES */}
-        <Route
+        {/* <Route
           exact
           path="/sensec/general_announcement"
           element={
@@ -285,7 +301,7 @@ export default function App() {
               />
             }
           />
-        </Route>
+        </Route> */}
         {/* ADMIN ROUTES */}
         <Route
           exact
@@ -549,7 +565,7 @@ export default function App() {
             }
           />
           <Route
-            path="/sensec/admin/all_pending_students"
+            path="/sensec/admin/:adminUniqueId/all_pending_students"
             element={
               <PendingStudents toastOptions={toastOptions} toast={toast} />
             }
@@ -584,7 +600,7 @@ export default function App() {
             }
           /> */}
           <Route
-            path="/sensec/admin/student_info/:student_name/:studentId"
+            path="/sensec/admin/student_info/:student_name/:uniqueId"
             element={
               authAdminInfo.isAdmin ? (
                 <AdminStudentInfos toastOptions={toastOptions} toast={toast} />
@@ -661,13 +677,14 @@ export default function App() {
         <Route
           path="/sensec/student"
           element={
-            studentInfo.isStudent ? (
+            userInfo.isStudent ? (
               <StudentDashBoard
                 toggleSidebar={toggleSidebar}
                 openSidebar={openSidebar}
                 studentInfo={studentInfo}
                 toastOptions={toastOptions}
                 toast={toast}
+                userInfo={userInfo}
               />
             ) : (
               <Navigate to={"/sensec/student/login"} />

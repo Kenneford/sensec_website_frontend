@@ -85,10 +85,6 @@
     justify-content: center;
     width: sizes.$container_Width_lg;
     margin: auto;
-    h1 {
-      color: #fff;
-      padding-bottom: 1.5rem;
-    }
     .registerCont {
       width: 95%;
       height: 85%;
@@ -154,7 +150,6 @@
       form {
         .studentProfile {
           padding: 1rem;
-          padding-top: 3rem;
           h3 {
             padding-left: 2rem;
           }

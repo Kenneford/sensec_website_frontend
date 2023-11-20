@@ -188,4 +188,90 @@
       }
     }
   }
+  @media screen and (max-width: 376px) {
+    .banner {
+      // width: 100%;
+      background-size: cover;
+      // background-position: center;
+      background-attachment: fixed;
+      .overlay {
+        height: 15rem;
+        h2 {
+          font-size: 1.7rem;
+        }
+      }
+    }
+    .kadetCont {
+      width: sizes.$container_Width_lg;
+      margin: auto;
+      height: 55vh;
+      .trainer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          position: absolute;
+          top: -3rem;
+          width: 6rem;
+          height: 6rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .trainerInfo {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding-top: 4rem;
+          color: #000;
+          .name {
+            font-size: 1.1rem;
+            font-weight: 600;
+          }
+          .title {
+            font-size: 0.8rem;
+          }
+        }
+      }
+      .message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        padding-top: 1rem;
+        color: #000;
+        h3 {
+          font-size: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+        }
+        p {
+          font-size: 1rem;
+          line-height: sizes.$line_height;
+          padding: 1.5rem 0 1rem;
+          // font-style: italic;
+        }
+        a {
+          color: #fff;
+          .kadetBtn {
+            background-color: #0fc80f;
+            padding: 0.5rem;
+            font-weight: 500;
+            transition: 0.4s ease;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+          }
+          .kadetBtn:hover {
+            background-color: colors.$primaryColor;
+          }
+        }
+      }
+    }
+  }
 }

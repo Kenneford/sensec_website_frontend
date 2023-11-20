@@ -10,6 +10,7 @@ import {
   getAllStudents,
   fetchGraduates,
   getAllLevel100Students,
+  getAllLevel300Students,
 } from "../../../../features/student/studentsSlice";
 import { classLevelStudentsColumn } from "../../../../options/options";
 import {
@@ -43,13 +44,15 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   const allStudents = useSelector(getAllStudents);
   const allClassLevels = useSelector(getAllClassLevels);
   const allLevel100Students = useSelector(getAllLevel100Students);
+  const allLevel300Students = useSelector(getAllLevel300Students);
   const allClassLevelSections = useSelector(getAllClassLevelSections);
   const singleClassLevel = useSelector(getSingleClassLevel);
+  console.log(singleClassLevel);
 
   const [searchStudent, setSearchStudent] = useState("");
   const [notMatch, setNotMatch] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(
-    singleClassLevel.students
+    singleClassLevel?.sortedStudents
   );
   console.log(filteredStudents);
 
@@ -117,13 +120,15 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
   }, [filteredStudents]);
 
   useEffect(() => {
-    const studentsFiltered = singleClassLevel?.students?.filter((student) => {
-      return student.lastName
-        .toLowerCase()
-        .match(searchStudent.toLocaleLowerCase());
-    });
+    const studentsFiltered =
+      singleClassLevel &&
+      singleClassLevel.sortedStudents.filter((student) => {
+        return student.lastName
+          .toLowerCase()
+          .match(searchStudent.toLocaleLowerCase());
+      });
     setFilteredStudents(studentsFiltered);
-  }, [searchStudent, singleClassLevel?.students]);
+  }, [searchStudent, singleClassLevel]);
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -171,8 +176,8 @@ export default function ClassLevelStudents({ toast, toastOptions }) {
     toastOptions,
   ]);
 
-  const level100Std = `${singleClassLevel?.name} Students / Total = 
-              ${singleClassLevel?.students?.length}`;
+  const level100Std = `${singleClassLevel.classLevel?.name} Students / Total = 
+              ${singleClassLevel.sortedStudents?.length}`;
   return (
     <div className="studentTotal" id="classLevelStudents">
       <h1 style={{ backgroundColor: "#383838" }}>All Enrolled Students</h1>

@@ -59,32 +59,32 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     lastName: "",
     dateOfBirth: "",
     placeOfBirth: "",
-    gender: "",
+    homeTown: "",
+    district: "",
+    region: "",
     jhsAttended: "",
     shsAttended: "",
-    nationality: "",
-    district: "",
-    address: "",
-    currentCity: "",
-    homeTown: "",
-    region: "",
-    email: "",
-    uniqueId: `STDSSHS-${num}-${currentYear}`,
     role: "",
     currentClassLevel: "",
     program: "",
-    academicYear: "",
-    studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
-    studentRegistrarId: `${authAdminInfo.adminId}`,
-    // religion: "",
-    height: "",
-    weight: "",
+    currentCity: "",
+    nationality: "",
+    gender: "",
+    address: "",
     motherTongue: "",
     otherTongue: "",
     complexion: "",
-    dateEnrolled: date,
-    profilePicture: "",
+    height: "",
+    weight: "",
+    // religion: "",
+    email: "",
     password: `${currentYear}-${num}`,
+    profilePicture: "",
+    uniqueId: `STDSSHS-${num}-${currentYear}`,
+    academicYear: "",
+    studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+    studentRegistrarId: `${authAdminInfo.adminId}`,
+    dateEnrolled: date,
     confirmPassword: `${currentYear}-${num}`,
   });
   const showPassword = () => setShowPass(!showpass);
@@ -245,7 +245,7 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     dispatch(studentRegistory(formData));
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
-  console.log(canSave);
+  // console.log(canSave);
 
   useEffect(() => {
     dispatch(fetchAllProgrammes());

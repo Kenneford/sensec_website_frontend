@@ -18,7 +18,10 @@ import {
   fetchAllYears,
   getAllAcademicYears,
 } from "../../features/academics/academicYear/academicYearSlice";
-import { studentRegistory } from "../../features/student/studentsSlice";
+import {
+  studentOnlineRegistory,
+  studentRegistory,
+} from "../../features/student/studentsSlice";
 import {
   academicYearOptions,
   classLevelOptions,
@@ -27,20 +30,13 @@ import {
   otherTongueOptions,
   programOptions,
   religionOptions,
-  studentRoleOptions,
 } from "../../options/options";
 import Footer from "../../components/footer/Footer";
-
-const Programmes = () => {
-  return <div>Programmes</div>;
-};
 
 export default function ApplyOnline({ toastOptions, toast }) {
   const { registerStudentStatus, studentError, studentSuccessMessage } =
     useSelector((state) => state.student);
   const authAdminInfo = useSelector(getAdminInfo);
-  const allProgrammes = useSelector(getAllProgrammes);
-  const allYears = useSelector(getAllAcademicYears);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,103 +57,36 @@ export default function ApplyOnline({ toastOptions, toast }) {
     lastName: "",
     dateOfBirth: "",
     placeOfBirth: "",
-    gender: "",
+    homeTown: "",
+    district: "",
+    region: "",
     jhsAttended: "",
     shsAttended: "",
-    nationality: "",
-    district: "",
-    address: "",
-    currentCity: "",
-    homeTown: "",
-    region: "",
-    email: "",
-    studentId: `STDSSHS-${num}-${currentYear}`,
-    // role: "",
+    role: "",
     currentClassLevel: "",
     program: "",
-    academicYear: "",
-    // studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
-    // studentRegistrarId: `${authAdminInfo.adminId}`,
-    // religion: "",
-    height: "",
-    weight: "",
+    currentCity: "",
+    nationality: "",
+    gender: "",
+    address: "",
     motherTongue: "",
     otherTongue: "",
     complexion: "",
-    dateEnrolled: date,
-    profilePicture: "",
+    height: "",
+    weight: "",
+    // religion: "",
+    email: "",
     password: `${currentYear}-${num}`,
+    profilePicture: "",
+    uniqueId: `STDSSHS-${num}-${currentYear}`,
+    academicYear: "",
+    studentRegistrar: `${authAdminInfo.firstName} ${authAdminInfo.lastName}`,
+    studentRegistrarId: `${authAdminInfo.adminId}`,
+    dateEnrolled: date,
     confirmPassword: `${currentYear}-${num}`,
   });
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
-
-  const handleRegionInput = (regionSelected) => {
-    const region = regionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      region: region,
-    });
-  };
-  const handleStudentroleInput = (roleSelected) => {
-    const role = roleSelected.value;
-    setNewStudent({
-      ...newStudent,
-      role: role,
-    });
-  };
-  const handleClassLevelInput = (classLevelSelected) => {
-    const currentClassLevel = classLevelSelected.value;
-    setNewStudent({
-      ...newStudent,
-      currentClassLevel: currentClassLevel,
-    });
-  };
-  const handleReligionInput = (religionSelected) => {
-    const religion = religionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      religion: religion,
-    });
-  };
-  const handleComplexionInput = (complexionSelected) => {
-    const complexion = complexionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      complexion: complexion,
-    });
-  };
-  const handleotherTongueInput = (otherTongueSelected) => {
-    console.log(otherTongueSelected);
-    const otherTongue = otherTongueSelected.map((lang) => {
-      return lang.value;
-    });
-    setNewStudent({
-      ...newStudent,
-      otherTongue: otherTongue,
-    });
-  };
-
-  const selectorStyles = {
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      borderColor: state.isFocused ? "grey" : "transparent",
-      borderRadius: "none",
-      padding: ".4rem",
-    }),
-    options: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      console.log(data, isDisabled, isFocused, isSelected);
-    },
-    menu: (baseStyles, state) => ({
-      ...baseStyles,
-      backgroundColor: "#292929",
-      color: " white",
-      ":hover": {
-        backgroundColor: "#292929",
-        color: "white",
-      },
-    }),
-  };
 
   const handleInputValues = (e) => {
     setNewStudent({
@@ -227,7 +156,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
     formData.append("homeTown", newStudent.homeTown);
     formData.append("region", newStudent.region);
     formData.append("email", newStudent.email);
-    formData.append("studentId", newStudent.studentId);
+    formData.append("uniqueId", newStudent.uniqueId);
     formData.append("role", newStudent.role);
     formData.append("currentClassLevel", newStudent.currentClassLevel);
     formData.append("program", newStudent.program);
@@ -244,7 +173,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
     formData.append("profilePicture", newStudent.profilePicture);
     formData.append("password", newStudent.password);
     formData.append("confirmPassword", newStudent.confirmPassword);
-    dispatch(studentRegistory(formData));
+    dispatch(studentOnlineRegistory(formData));
   };
   const canSave = Boolean(newStudent.firstName) && Boolean(newStudent.lastName);
   console.log(canSave);
@@ -274,40 +203,42 @@ export default function ApplyOnline({ toastOptions, toast }) {
         theme: "dark",
         // toastId: successId,
       });
+      setNewStudent({
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        placeOfBirth: "",
+        homeTown: "",
+        district: "",
+        region: "",
+        jhsAttended: "",
+        shsAttended: "",
+        role: "",
+        currentClassLevel: "",
+        program: "",
+        currentCity: "",
+        nationality: "",
+        gender: "",
+        address: "",
+        motherTongue: "",
+        otherTongue: "",
+        complexion: "",
+        height: "",
+        weight: "",
+        email: "",
+        password: "",
+        profilePicture: "",
+        uniqueId: "",
+        academicYear: "",
+        studentRegistrar: "",
+        studentRegistrarId: "",
+        dateEnrolled: "",
+        confirmPassword: "",
+      });
       setTimeout(() => {
-        setNewStudent({
-          firstName: "",
-          lastName: "",
-          dateOfBirth: "",
-          placeOfBirth: "",
-          jhsAttended: "",
-          shsAttended: "",
-          nationality: "",
-          district: "",
-          password: "",
-          confirmPassword: "",
-          email: "",
-          studentId: "",
-          academicYear: "",
-          program: "",
-          role: "",
-          studentRegistrar: "",
-          studentRegistrarId: "",
-          currentClassLevel: "",
-          gender: "",
-          profilePicture: "",
-          address: "",
-          currentCity: "",
-          homeTown: "",
-          region: "",
-          religion: "",
-          height: "",
-          weight: "",
-          motherTongue: "",
-          otherTongue: "",
-          complexion: "",
-        });
-        navigate("/sensec/admin/students/add_parents_guardian");
+        navigate(
+          "/sensec/student_enrollment/online_application/add_parents_guardian"
+        );
       }, 5000);
     }
   }, [
@@ -385,7 +316,7 @@ export default function ApplyOnline({ toastOptions, toast }) {
                       name="studentId"
                       onChange={handleInputValues}
                       // value={newStudent.studentId}
-                      value={newStudent.studentId}
+                      value={newStudent.uniqueId}
                     />
                     {/* <button onClick={copyToClipboard}>Copy</button> */}
                     {/* <ContentCopyIcon onClick={copyToClipboard} /> */}
