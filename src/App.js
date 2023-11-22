@@ -91,11 +91,15 @@ import TeacherEmploymentForm from "./components/adminSection/teacherEmploymentFo
 import NonTeachingEmploymentForm from "./components/adminSection/nonTeachingEmploymentForm/NonTeachingEmploymentForm";
 import NewRegistration from "./components/adminSection/adminStaff/newRegistration/NewRegistration";
 import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
+import VerifiedEmail from "./pages/verifyEmail/VerifiedEmail";
 import SignUp from "./pages/signUp/SignUp";
 import { getUser } from "./features/allUsers/AllUsersSlice";
 import SignUpSuccessPage from "./components/signUpSuccessPage/SignUpSuccessPage";
+import ForgotPassword from "./pages/forgotPassword/ForgotPassword";
+import ResetPassword from "./pages/forgotPassword/ResetPassword";
 
 export default function App() {
+  const verifiedUser = localStorage.getItem("verifiedUser");
   const userInfo = useSelector(getUser);
   const studentInfo = useSelector(getStudentInfo);
   const authStaffInfo = useSelector(getStaffInfo);
@@ -164,6 +168,31 @@ export default function App() {
         <Route exact path="/sensec/courses" element={<Courses />} />
         <Route exact path="/sensec/timer" element={<Timer />} />
         <Route exact path="/sensec/sign_up" element={<SignUp />} />
+        <Route
+          exact
+          path="/sensec/forgot_password"
+          element={
+            !userInfo ? (
+              <ForgotPassword />
+            ) : userInfo.isStudent ? (
+              <Navigate to={"/sensec/student"} />
+            ) : userInfo.admin ? (
+              <Navigate to={"/sensec/admin"} />
+            ) : userInfo.teacher ? (
+              <Navigate to={"/sensec/admin"} />
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
+        />
+
+        {verifiedUser && (
+          <Route
+            exact
+            path="/sensec/reset_password/:uniqueId/:id/:token"
+            element={<ResetPassword />}
+          />
+        )}
         <Route
           exact
           path="/sensec/sign_up/successful"

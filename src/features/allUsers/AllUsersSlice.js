@@ -13,6 +13,12 @@ const initialState = {
   userEmailVerificationStatus: "",
   fetchingSingleUserStatus: "",
   fetchingUsersStatus: "",
+  forgotPasswordStatus: "",
+  forgotPasswordSuccessMessage: "",
+  forgotPasswordError: "",
+  resetPasswordStatus: "",
+  resetPasswordSuccessMessage: "",
+  resetPasswordError: "",
   error: "",
   signUpError: "",
   successMessage: "",
@@ -60,6 +66,50 @@ export const userLogin = createAsyncThunk(
       localStorage.setItem("userToken", res.data.token);
       return res.data;
     } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  "User/forgotPassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/authusers/forgot_password`,
+        data
+      );
+      console.log("User", res.data);
+      if (res.data.token !== "" && res.data.secret !== "") {
+        localStorage.setItem("verifiedUser", "change_your_password");
+        return res.data;
+      }
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "User/resetPassword",
+  async ({ id, token, uniqueId, password }, { rejectWithValue }) => {
+    console.log(password);
+    try {
+      const res = await axios.post(
+        `${API_ENDPOINT}/authusers/reset_password/${id}/${token}`,
+        { password }
+      );
+      console.log("User", res.data);
+      if (res.data.user.uniqueId === uniqueId) {
+        localStorage.setItem("userToken", res.data.token);
+        return res.data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
       console.log(error.response);
       return rejectWithValue(error.response.data);
     }
@@ -232,6 +282,50 @@ const userSlice = createSlice({
         error: action.payload,
       };
     });
+
+    builder.addCase(forgotPassword.pending, (state, action) => {
+      return { ...state, forgotPasswordStatus: "pending" };
+    });
+    builder.addCase(forgotPassword.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          // userInfo: action.payload.token,
+          forgotPasswordSuccessMessage: action.payload.successMessage,
+          forgotPasswordStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(forgotPassword.rejected, (state, action) => {
+      return {
+        ...state,
+        forgotPasswordStatus: "rejected",
+        forgotPasswordError: action.payload,
+      };
+    });
+
+    builder.addCase(resetPassword.pending, (state, action) => {
+      return { ...state, resetPasswordStatus: "pending" };
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      if (action.payload) {
+        const user = tokenDecoded(action.payload.token);
+        return {
+          ...state,
+          userInfo: user,
+          resetPasswordSuccessMessage: action.payload.successMessage,
+          resetPasswordStatus: "success",
+        };
+      } else return state;
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      return {
+        ...state,
+        resetPasswordStatus: "rejected",
+        resetPasswordError: action.payload,
+      };
+    });
+
     builder.addCase(userEmailVerification.pending, (state, action) => {
       return { ...state, loginUserStatus: "pending" };
     });

@@ -14,12 +14,14 @@ import { useParams } from "react-router";
 import { useDownloadExcel } from "react-export-table-to-excel";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { getUser } from "../../../features/allUsers/AllUsersSlice";
 
 export default function WeeklyLectures() {
+  const userInfo = useSelector(getUser);
   const allTimeTables = useSelector(getAllTimeTables);
   const singleTimeTable = useSelector(getSingleTimeTable);
   const time = useSelector(getTime);
-  const studentInfo = useSelector(getStudentInfo);
+  // const studentInfo = useSelector(getStudentInfo);
   const dispatch = useDispatch();
   const { program, currentClassLevel } = useParams();
 
@@ -113,7 +115,7 @@ export default function WeeklyLectures() {
   return (
     <div className="studentTimeTable">
       <div className="downloadWrap">
-        {studentInfo.isStudent && (
+        {userInfo && userInfo.isStudent && (
           <div className="excelExport">
             <button className="excelBtn" onClick={onDownload}>
               Export to Excel
@@ -271,11 +273,11 @@ export default function WeeklyLectures() {
           </table>
           <div className="classTeacher">
             <span>Class Teacher:</span>
-            {studentInfo && (
+            {userInfo && (
               <p>
-                {studentInfo.classTeacher?.gender === "Male" && "Mr."}
-                {studentInfo.classTeacher?.gender === "Female" && "Mrs."}{" "}
-                {studentInfo.classTeacher?.fullName}
+                {userInfo.classTeacher?.gender === "Male" && "Mr."}
+                {userInfo.classTeacher?.gender === "Female" && "Mrs."}{" "}
+                {userInfo.classTeacher?.fullName}
               </p>
             )}
           </div>
