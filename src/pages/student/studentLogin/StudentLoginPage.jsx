@@ -170,6 +170,12 @@ export default function StudentLoginPage({ toastOptions, toast }) {
                   {passLengthError}
                 </p>
               )}
+              <span
+                className="forgotPassword"
+                onClick={() => navigate("/sensec/forgot_password")}
+              >
+                Forgot Password
+              </span>
               <button type="submit">
                 {loginUserStatus === "pending" ? (
                   <CircularProgress style={{ color: "white", size: "20px" }} />

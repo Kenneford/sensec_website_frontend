@@ -99,7 +99,7 @@ export default function StudentDashBoard({
               />
               <div className="infoText">
                 <span>{userInfo?.fullName}</span>
-                <span className="nickName">@{userFound?.userName}</span>
+                <span className="nickName">@_{userFound?.userName}</span>
                 <p>( {userInfo?.program?.name} Student )</p>
               </div>
             </div>

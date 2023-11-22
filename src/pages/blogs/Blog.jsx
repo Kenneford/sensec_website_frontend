@@ -446,7 +446,7 @@ export default function Blog({ openSidebar, toggleSidebar }) {
                     {/* {studentInfo.isMale ? "Bro. " : "Sis. "}{" "} */}
                     {userInfo.fullName}
                   </span>
-                  <span className="nickName">@{userFound?.userName}</span>
+                  <span className="nickName">@_{userFound?.userName}</span>
                   <p>( {userInfo.program?.name} Student )</p>
                 </div>
               </div>

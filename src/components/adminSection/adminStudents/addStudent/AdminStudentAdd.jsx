@@ -90,73 +90,6 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
   const showPassword = () => setShowPass(!showpass);
   const showConfirmPassword = () => setShowConfirmPass(!showConfirmpass);
 
-  const handleRegionInput = (regionSelected) => {
-    const region = regionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      region: region,
-    });
-  };
-  const handleStudentroleInput = (roleSelected) => {
-    const role = roleSelected.value;
-    setNewStudent({
-      ...newStudent,
-      role: role,
-    });
-  };
-  const handleClassLevelInput = (classLevelSelected) => {
-    const currentClassLevel = classLevelSelected.value;
-    setNewStudent({
-      ...newStudent,
-      currentClassLevel: currentClassLevel,
-    });
-  };
-  const handleReligionInput = (religionSelected) => {
-    const religion = religionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      religion: religion,
-    });
-  };
-  const handleComplexionInput = (complexionSelected) => {
-    const complexion = complexionSelected.value;
-    setNewStudent({
-      ...newStudent,
-      complexion: complexion,
-    });
-  };
-  const handleotherTongueInput = (otherTongueSelected) => {
-    console.log(otherTongueSelected);
-    const otherTongue = otherTongueSelected.map((lang) => {
-      return lang.value;
-    });
-    setNewStudent({
-      ...newStudent,
-      otherTongue: otherTongue,
-    });
-  };
-
-  const selectorStyles = {
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      borderColor: state.isFocused ? "grey" : "transparent",
-      borderRadius: "none",
-      padding: ".4rem",
-    }),
-    options: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      console.log(data, isDisabled, isFocused, isSelected);
-    },
-    menu: (baseStyles, state) => ({
-      ...baseStyles,
-      backgroundColor: "#292929",
-      color: " white",
-      ":hover": {
-        backgroundColor: "#292929",
-        color: "white",
-      },
-    }),
-  };
-
   const handleInputValues = (e) => {
     setNewStudent({
       ...newStudent,
@@ -204,6 +137,14 @@ export default function AdminStudentAdd({ toastOptions, toast }) {
     }
     if (!newStudent.program) {
       toast.error("Please select student's program!", {
+        position: "top-right",
+        theme: "light",
+        // toastId: successId,
+      });
+      return;
+    }
+    if (newStudent.password !== newStudent.confirmPassword) {
+      toast.error("Password and confirm password doesn't match!", {
         position: "top-right",
         theme: "light",
         // toastId: successId,
