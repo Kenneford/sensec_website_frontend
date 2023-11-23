@@ -189,7 +189,7 @@ export default function App() {
         {verifiedUser && (
           <Route
             exact
-            path="/sensec/reset_password/:uniqueId/:id/:token"
+            path="https://sensec-official-website.onrender.com/sensec/reset_password/:uniqueId/:id/:token"
             element={<ResetPassword />}
           />
         )}
